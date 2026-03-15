@@ -1,0 +1,51 @@
+{
+  "messages": {
+    "cityNotFound": "City not found",
+    "defaultCityNotFound": "Default city not found",
+    "cityNotFoundMessage": "Sorry, city not found. Please try again.",
+    "fetchError": "Failed to load weather data",
+    "networkError": "Network error occurred",
+    "timeoutError": "Request timed out",
+    "apiError": "API request failed",
+    "rateLimitError": "Too many requests. Please try again later",
+    "invalidCoordinates": "Invalid coordinates provided",
+    "weatherDataError": "Failed to fetch weather data",
+    "geocodingError": "Error finding city coordinates",
+    "parsingError": "Error parsing response data",
+    "unknownError": "An unknown error occurred",
+    "fetchFailed": "Failed to load weather data",
+    "refreshFailed": "Failed to refresh weather data",
+    "offlineUnavailable": "You're offline and no cached weather data is available yet.",
+    "optimisticUpdateFailed": "Failed to update weather data",
+    "optimisticUIFailed": "Failed to update interface",
+    "batchUpdateFailed": "Failed to update multiple weather data items",
+    "offline": "You are currently offline",
+    "offlineStorageFailed": "Failed to save data for offline use"
+  },
+  "boundary": {
+    "title": "Oops! Something went wrong",
+    "message": "We are sorry, but something unexpected happened. Our team has been notified.",
+    "errorType": "Error Type",
+    "errorMessage": "Error Message",
+    "retry": "Try Again"
+  },
+  "display": {
+    "title": "Error",
+    "retry": "Retry",
+    "dismiss": "Dismiss",
+    "showDetails": "Show Details",
+    "hideDetails": "Hide Details",
+    "type": "Type",
+    "category": "Category",
+    "severity": "Severity",
+    "timestamp": "Time",
+    "retryable": "Retryable",
+    "context": "Context"
+  },
+  "list": {
+    "title": "Errors ({{count}})",
+    "more": "+ {{count}} more errors"
+  },
+  "retry": { "button": "Retry" },
+  "common": { "yes": "Yes", "no": "No" }
+}

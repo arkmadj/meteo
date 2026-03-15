@@ -1,0 +1,458 @@
+{
+  "app": {
+    "title": "Application Météo React",
+    "loading": "Chargement...",
+    "error": "Erreur"
+  },
+  "title": "Application Météo React",
+  "subtitle": "Obtenez les dernières informations météo pour n'importe quelle ville",
+  "footer": "© 2024 Application Météo React. Tous droits réservés.",
+  "search": {
+    "placeholder": "Entrez le nom de la ville",
+    "button": "Rechercher",
+    "clear": "Effacer",
+    "useCurrentLocation": "Utiliser la position actuelle",
+    "useCurrentLocationTooltip": "Détectez votre position actuelle et mettez à jour la vue météo",
+    "toggle": "Basculer la recherche",
+    "searching": "Recherche de lieux...",
+    "smartMatch": "Correspondance Intelligente",
+    "bestMatch": "Meilleure Correspondance",
+    "resultsFound": "{{count}} résultat{{plural}} trouvé",
+    "resultsFound_plural": "{{count}} résultats trouvés",
+    "smartSearch": "Recherche intelligente",
+    "poweredByAI": "Alimenté par l'IA"
+  },
+  "navigation": {
+    "language": "Langue",
+    "settings": "Paramètres",
+    "selectLanguage": "Sélectionner la Langue",
+    "currentLanguage": "Langue Actuelle",
+    "languageHelper": "Choisissez votre langue préférée",
+    "menu": "Menu"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "auto": "Automatique",
+    "current": "Thème actuel",
+    "switchTo": "Passer à",
+    "toggle": "Basculer le thème"
+  },
+  "status": {
+    "searching": "Recherche...",
+    "loading": "Chargement des données météo...",
+    "retry": "Réessayer",
+    "refresh": "Actualiser",
+    "offline": "Mode hors ligne : affichage des données en cache",
+    "offlineBannerTitle": "Vous êtes hors ligne",
+    "offlineBannerMessage": "Nous continuons d'afficher la dernière prévision trouvée.",
+    "offlineBannerCachedAt": "Dernière mise à jour le {{date}} à {{time}}{{location}}",
+    "offlineBannerCachedExpired": "(les données en cache peuvent être obsolètes)"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configurez les préférences de votre application météo",
+    "save": "Enregistrer les Paramètres",
+    "navigation": {
+      "label": "Navigation des paramètres",
+      "title": "Sur Cette Page",
+      "goTo": "Aller à",
+      "backToTop": "Faire défiler vers le haut de la page",
+      "backToTopLabel": "Retour en Haut"
+    },
+    "sections": {
+      "localization": {
+        "title": "Localisation et Langue",
+        "description": "Langue, formats régionaux et préférences de mesure"
+      },
+      "appearance": {
+        "title": "Apparence",
+        "description": "Personnalisez l'apparence"
+      },
+      "weather": {
+        "title": "Météo",
+        "description": "Préférences d'affichage de la météo"
+      },
+      "accessibility": {
+        "title": "Accessibilité",
+        "description": "Préférences d'accessibilité et de mouvement"
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Optimiser les performances de l'application"
+      }
+    },
+    "options": {
+      "theme": {
+        "label": "Thème",
+        "auto": "Automatique (Système)",
+        "light": "Clair",
+        "dark": "Sombre"
+      },
+      "accentColor": {
+        "label": "Couleur d'Accent",
+        "description": "Choisissez une couleur d'accent personnalisée pour personnaliser l'apparence de l'application"
+      },
+      "language": {
+        "label": "Langue",
+        "description": "Choisissez votre langue préférée pour l'interface",
+        "en": "English",
+        "es": "Español",
+        "fr": "Français",
+        "de": "Deutsch"
+      },
+      "units": {
+        "label": "Unités de Température",
+        "description": "Sélectionnez votre système de mesure de température préféré",
+        "metric": "Celsius (°C)",
+        "imperial": "Fahrenheit (°F)",
+        "kelvin": "Kelvin (K)"
+      },
+      "windSpeedUnits": {
+        "label": "Unités de Vitesse du Vent",
+        "description": "Choisissez votre système de mesure de vitesse du vent préféré",
+        "ms": "m/s (mètres par seconde)",
+        "kmh": "km/h (kilomètres par heure)",
+        "mph": "mph (milles par heure)",
+        "knots": "nœuds"
+      },
+      "visibilityUnits": {
+        "label": "Unités de Visibilité",
+        "description": "Choisissez votre système de mesure de visibilité préféré",
+        "m": "m (mètres)",
+        "km": "km (kilomètres)",
+        "mi": "mi (milles)",
+        "nm": "nm (milles nautiques)"
+      },
+      "dateFormat": {
+        "label": "Format de Date",
+        "description": "Choisissez comment les dates sont affichées dans l'application",
+        "default": "Automatique (Selon la Langue)",
+        "us": "Format US (MM/JJ/AAAA)",
+        "eu": "Format Européen (JJ/MM/AAAA)",
+        "iso": "Format ISO (AAAA-MM-JJ)"
+      },
+      "timeFormat": {
+        "label": "Format d'Heure",
+        "description": "Sélectionnez l'affichage 12 heures ou 24 heures",
+        "12h": "12 heures (AM/PM)",
+        "24h": "24 heures"
+      },
+      "firstDayOfWeek": {
+        "label": "Premier Jour de la Semaine",
+        "description": "Choisissez quel jour commence votre semaine dans les calendriers",
+        "sunday": "Dimanche",
+        "monday": "Lundi",
+        "saturday": "Samedi"
+      },
+      "highContrast": {
+        "label": "Contraste Élevé",
+        "description": "Améliorer la visibilité avec un contraste plus élevé"
+      },
+      "autoLocation": {
+        "label": "Localisation Automatique",
+        "description": "Détecter automatiquement votre position"
+      },
+      "updateFrequency": {
+        "label": "Fréquence de Mise à Jour",
+        "description": "Choisissez la fréquence de mise à jour des données météo",
+        "helperText": "Choisissez la fréquence de mise à jour des données météo. Les mises à jour fréquentes utilisent plus de batterie et de données.",
+        "off": {
+          "label": "Désactivé",
+          "description": "Pas d'actualisation automatique - actualisation manuelle uniquement"
+        },
+        "low": {
+          "label": "Faible (30 min)",
+          "description": "Actualisation toutes les 30 minutes - économise la batterie et les données"
+        },
+        "medium": {
+          "label": "Moyen (10 min)",
+          "description": "Actualisation toutes les 10 minutes - approche équilibrée"
+        },
+        "high": {
+          "label": "Élevé (5 min)",
+          "description": "Actualisation toutes les 5 minutes - mises à jour plus fréquentes"
+        },
+        "realtime": {
+          "label": "Temps réel (1 min)",
+          "description": "Actualisation chaque minute - données les plus récentes, utilisation plus élevée"
+        },
+        "current": {
+          "off": "Pas d'actualisation automatique",
+          "interval": "Actualise chaque {{count}} minute",
+          "interval_plural": "Actualise chaque {{count}} minutes"
+        }
+      },
+      "notifications": {
+        "label": "Notifications",
+        "description": "Alertes et mises à jour météo"
+      },
+      "reducedMotion": {
+        "label": "Mouvement Réduit",
+        "description": "Minimiser les animations et transitions"
+      },
+      "fontSize": {
+        "label": "Taille de Police",
+        "description": "Ajuster la taille du texte dans toute l'application",
+        "xs": "Très Petit",
+        "sm": "Petit",
+        "md": "Moyen",
+        "lg": "Grand",
+        "xl": "Très Grand",
+        "xsDescription": "Taille de texte très petite pour les écrans compacts",
+        "smDescription": "Taille de texte petite pour mieux utiliser l'écran",
+        "mdDescription": "Taille de texte moyenne - paramètre par défaut",
+        "lgDescription": "Taille de texte grande pour une meilleure lisibilité",
+        "xlDescription": "Taille de texte très grande pour une lisibilité maximale",
+        "currentSelection": "(Actuel)"
+      },
+      "lazyLoading": {
+        "label": "Chargement Différé",
+        "description": "Charger les composants à la demande"
+      },
+      "performanceMode": {
+        "label": "Mode Performance",
+        "description": "Réduire les effets visuels pour de meilleures performances"
+      }
+    },
+    "quickActions": {
+      "weather": "Météo",
+      "about": "À propos",
+      "home": "Accueil"
+    }
+  },
+  "accessibility": {
+    "speedDial": {
+      "tooltip": "Contrôles d'Accessibilité",
+      "ariaLabel": "Contrôles de superposition d'accessibilité",
+      "actions": {
+        "modals": {
+          "label": "Basculer les Modales",
+          "description": "Afficher/masquer les démonstrations de modales"
+        },
+        "dropdowns": {
+          "label": "Basculer les Menus Déroulants",
+          "description": "Afficher/masquer les démonstrations de menus déroulants"
+        },
+        "snackbars": {
+          "label": "Basculer les Snackbars",
+          "description": "Afficher/masquer les démonstrations de snackbars"
+        },
+        "announcements": {
+          "label": "Basculer les Annonces",
+          "description": "Afficher/masquer le gestionnaire d'annonces"
+        },
+        "highContrast": {
+          "label": "Basculer le Contraste Élevé",
+          "description": "Afficher/masquer la démo de contraste élevé"
+        },
+        "motion": {
+          "label": "Basculer la Démo de Mouvement",
+          "description": "Afficher/masquer la démo d'accessibilité de mouvement"
+        },
+        "cvd": {
+          "label": "Basculer la Démo CVD",
+          "description": "Afficher/masquer la démo de déficience de vision des couleurs"
+        },
+        "clearAll": {
+          "label": "Masquer Toutes les Superpositions",
+          "description": "Masquer toutes les démonstrations de superposition"
+        },
+        "showAll": {
+          "label": "Afficher Toutes les Superpositions",
+          "description": "Afficher toutes les démonstrations de superposition"
+        }
+      }
+    }
+  },
+  "mapDemo": {
+    "title": "Cartes Météorologiques Interactives",
+    "subtitle": "Explorez notre solution de cartographie complète",
+    "heroDescription": "Explorez notre solution de cartographie complète avec détection de localisation utilisateur, intégration de données météorologiques et fonctionnalités d'accessibilité.",
+    "demos": {
+      "base": {
+        "title": "Carte Météorologique de Base",
+        "description": "Carte interactive avec détection de localisation utilisateur et stations météorologiques"
+      },
+      "search": {
+        "title": "Carte de Recherche de Localisation",
+        "description": "Carte avec recherche de localisation intégrée et correspondance floue"
+      },
+      "integration": {
+        "title": "Intégration Complète",
+        "description": "Carte météorologique complète avec toutes les fonctionnalités combinées"
+      }
+    },
+    "searchDemo": {
+      "title": "Carte de Recherche de Localisation",
+      "features": "Fonctionnalités de Recherche",
+      "fuzzyMatching": "Correspondance Floue",
+      "fuzzyMatchingItems": [
+        "Recherche intelligente avec tolérance aux fautes de frappe",
+        "Correspondance de noms partiels",
+        "Notation de pertinence",
+        "Support des pays et régions"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Entrée de recherche avec rebond",
+        "Filtrage efficace des résultats",
+        "Navigation au clavier",
+        "Fermeture au clic extérieur"
+      ],
+      "userExperience": "Expérience Utilisateur",
+      "userExperienceItems": [
+        "Indicateurs visuels de recherche",
+        "Fonctionnalité de recherche claire",
+        "Mise en évidence des résultats",
+        "Menu déroulant réactif"
+      ]
+    },
+    "integrationDemo": {
+      "title": "Intégration Complète de la Carte Météorologique",
+      "locationInfo": "Informations de Localisation",
+      "name": "Nom",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "unknown": "Inconnu",
+      "getWeatherForecast": "Obtenir la Prévision Météorologique",
+      "searchOrClick": "Recherchez une localisation ou cliquez sur la carte pour voir les détails.",
+      "controls": "Contrôles",
+      "showDebugPanel": "Afficher le Panneau de Débogage",
+      "hideDebugPanel": "Masquer le Panneau de Débogage",
+      "features": "Fonctionnalités",
+      "featuresList": [
+        "Détection de localisation utilisateur",
+        "Recherche de localisation avec correspondance floue",
+        "Contrôles de carte interactifs",
+        "Support d'accessibilité",
+        "Sensibilisation aux préférences utilisateur",
+        "Gestion des erreurs et solutions de secours"
+      ]
+    },
+    "technical": {
+      "title": "Implémentation Technique",
+      "dependencies": "Dépendances",
+      "keyFeatures": "Fonctionnalités Clés",
+      "keyFeaturesList": [
+        "Support TypeScript",
+        "Compatibilité React 18",
+        "Conception réactive",
+        "Optimisé pour les performances",
+        "Conformité d'accessibilité"
+      ],
+      "usageExample": "Exemple d'Utilisation"
+    },
+    "accessibility": {
+      "title": "Accessibilité et Performance",
+      "userPreferences": "Préférences Utilisateur",
+      "userPreferencesItems": [
+        "Respecte prefers-reduced-motion",
+        "Chargement de tuiles conscient de save-data",
+        "Support du contraste élevé",
+        "Contrôles tactiles conviviaux"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Chargement différé des tuiles de carte",
+        "Entrée de recherche avec rebond",
+        "Rendu efficace des marqueurs",
+        "Prévention des fuites mémoire"
+      ],
+      "errorHandling": "Gestion des Erreurs",
+      "errorHandlingItems": [
+        "Gestion des autorisations de géolocalisation",
+        "Récupération des erreurs réseau",
+        "Support de localisation de secours",
+        "Messages d'erreur conviviaux"
+      ]
+    },
+    "baseDemo": {
+      "title": "Démonstration Interactive de Carte Météorologique",
+      "description": "Explorez le composant BaseWeatherMap avec détection de localisation utilisateur, stations météorologiques et fonctionnalités interactives.",
+      "controls": "Contrôles de Carte",
+      "mapHeight": "Hauteur de la Carte",
+      "mapHeightSmall": "Petit (300px)",
+      "mapHeightMedium": "Moyen (500px)",
+      "mapHeightLarge": "Grand (700px)",
+      "showWeatherStations": "Afficher les Stations Météorologiques",
+      "showRadarOverlay": "Afficher la Superposition Radar",
+      "showWindPatterns": "Afficher les Motifs de Vent",
+      "quickLocations": "Localisations Rapides",
+      "interactiveMap": "Carte Interactive",
+      "weatherStation": "Station Météorologique",
+      "temperature": "Température",
+      "humidity": "Humidité",
+      "conditions": "Conditions",
+      "windSpeed": "Vitesse du Vent",
+      "mph": "mph",
+      "clickToViewForecast": "Cliquez pour voir la prévision détaillée",
+      "selectedLocation": "Localisation Sélectionnée",
+      "locationDetails": "Détails de Localisation",
+      "name": "Nom",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "unknown": "Inconnu",
+      "actions": "Actions",
+      "getWeatherForecast": "Obtenir la Prévision Météorologique",
+      "saveLocation": "Enregistrer la Localisation",
+      "nearbyStations": "Stations Proches",
+      "stationsFound": "{{count}} stations météorologiques trouvées dans un rayon de 10km",
+      "featuresOverview": "Fonctionnalités Démontrées",
+      "featuresOverviewDescription": "Explorez les puissantes fonctionnalités de notre système de cartographie météorologique",
+      "locationDetection": "Détection de Localisation",
+      "locationDetectionItems": [
+        "Détection automatique de localisation utilisateur",
+        "Secours à la dernière localisation recherchée",
+        "Secours final à Lagos, Nigeria",
+        "Sélection manuelle de localisation par clic"
+      ],
+      "weatherIntegration": "Intégration Météorologique",
+      "weatherIntegrationItems": [
+        "Marqueurs de stations météorologiques",
+        "Codage couleur basé sur la température",
+        "Fenêtres contextuelles interactives avec données",
+        "Support de superposition radar"
+      ],
+      "userPreferences": "Préférences Utilisateur",
+      "userPreferencesItems": [
+        "Respecte prefers-reduced-motion",
+        "Chargement de tuiles conscient de save-data",
+        "Support du contraste élevé",
+        "Contrôles tactiles conviviaux"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Chargement différé des tuiles de carte",
+        "Entrée de recherche avec rebond",
+        "Rendu efficace des marqueurs",
+        "Prévention des fuites mémoire"
+      ],
+      "errorHandling": "Gestion des Erreurs",
+      "errorHandlingItems": [
+        "Gestion des autorisations de géolocalisation",
+        "Récupération des erreurs réseau",
+        "Support de localisation de secours",
+        "Messages d'erreur conviviaux"
+      ]
+    }
+  },
+  "notifications": {
+    "bell": "Notifications",
+    "title": "Notifications",
+    "panel": "Panneau des notifications",
+    "empty": "Aucune notification pour le moment",
+    "unreadCount": "{{count}} non lu(s)",
+    "count": "{{count}} notification(s)",
+    "showingOf": "Affichage de {{shown}} sur {{total}}",
+    "markRead": "Marquer comme lu",
+    "markAllRead": "Tout marquer comme lu",
+    "dismiss": "Ignorer",
+    "clearAll": "Tout effacer",
+    "justNow": "À l'instant",
+    "minutesAgo": "il y a {{count}}m",
+    "hoursAgo": "il y a {{count}}h",
+    "daysAgo": "il y a {{count}}j"
+  },
+  "language": "fr"
+}

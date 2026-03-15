@@ -1,0 +1,61 @@
+{
+  "name": "meteo-with-custom-rules",
+  "version": "1.0.0",
+  "description": "Meteo with custom ESLint rules",
+  "scripts": {
+    "// LINTING WITH CUSTOM RULES": "",
+    "lint": "eslint --config eslint.config.with-custom-rules.js .",
+    "lint:fix": "eslint --config eslint.config.with-custom-rules.js --fix .",
+    "lint:date-only": "eslint --config eslint.config.with-custom-rules.js --rule 'custom-rules/no-direct-date: error' .",
+
+    "// TESTING CUSTOM RULES": "",
+    "test:rules": "node eslint-rules/__tests__/no-direct-date.test.js",
+    "test:rules:watch": "nodemon --watch eslint-rules --exec 'npm run test:rules'",
+
+    "// DEVELOPMENT": "",
+    "dev": "vite",
+    "build": "npm run lint && vite build",
+    "preview": "vite preview",
+
+    "// UTILITIES": "",
+    "check-date-usage": "grep -r 'new Date\\|Date\\.' src/ --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' || echo 'No direct Date usage found'",
+    "migrate-dates": "npm run lint:fix && echo 'Date usage migrated to DateUtils'",
+
+    "// ANALYSIS": "",
+    "analyze:dates": "eslint --config eslint.config.with-custom-rules.js --format json --output-file date-violations.json . || true",
+    "report:dates": "node -e \"const data = require('./date-violations.json'); console.log('Date violations:', data.filter(f => f.messages.some(m => m.ruleId === 'custom-rules/no-direct-date')).length);\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "nodemon": "^3.0.0"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "eslintConfig": {
+    "extends": ["./eslint.config.with-custom-rules.js"]
+  },
+  "files": [
+    "eslint-rules/",
+    "utils/DateUtils.ts",
+    "eslint.config.with-custom-rules.js"
+  ],
+  "keywords": ["eslint", "custom-rules", "date-utils", "typescript", "react"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/meteo.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

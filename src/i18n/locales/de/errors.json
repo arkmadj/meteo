@@ -1,0 +1,51 @@
+{
+  "messages": {
+    "cityNotFound": "Stadt nicht gefunden",
+    "defaultCityNotFound": "Standardstadt nicht gefunden",
+    "cityNotFoundMessage": "Entschuldigung, Stadt nicht gefunden. Bitte versuchen Sie es erneut.",
+    "fetchError": "Wetterdaten konnten nicht geladen werden",
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung",
+    "timeoutError": "Zeitüberschreitung",
+    "apiError": "API-Anfrage fehlgeschlagen",
+    "rateLimitError": "Zu viele Anfragen. Bitte versuchen Sie es später erneut",
+    "invalidCoordinates": "Ungültige Koordinaten",
+    "weatherDataError": "Fehler beim Abrufen der Wetterdaten",
+    "geocodingError": "Fehler beim Finden der Stadtkoordinaten",
+    "parsingError": "Fehler beim Verarbeiten der Antwortdaten",
+    "unknownError": "Ein unbekannter Fehler ist aufgetreten",
+    "fetchFailed": "Fehler beim Laden der Wetterdaten",
+    "refreshFailed": "Fehler beim Aktualisieren der Wetterdaten",
+    "offlineUnavailable": "Sie sind offline und es sind noch keine zwischengespeicherten Wetterdaten verfügbar.",
+    "optimisticUpdateFailed": "Fehler beim Aktualisieren der Wetterdaten",
+    "optimisticUIFailed": "Fehler beim Aktualisieren der Benutzeroberfläche",
+    "batchUpdateFailed": "Fehler beim Aktualisieren mehrerer Wetterdatenelemente",
+    "offline": "Sie sind derzeit offline",
+    "offlineStorageFailed": "Fehler beim Speichern von Daten für die Offline-Nutzung"
+  },
+  "boundary": {
+    "title": "Ups! Etwas ist schief gelaufen",
+    "message": "Es tut uns leid, aber etwas Unerwartetes ist passiert. Unser Team wurde benachrichtigt.",
+    "errorType": "Fehlertyp",
+    "errorMessage": "Fehlernachricht",
+    "retry": "Erneut Versuchen"
+  },
+  "display": {
+    "title": "Fehler",
+    "retry": "Wiederholen",
+    "dismiss": "Verwerfen",
+    "showDetails": "Details anzeigen",
+    "hideDetails": "Details ausblenden",
+    "type": "Typ",
+    "category": "Kategorie",
+    "severity": "Schweregrad",
+    "timestamp": "Zeit",
+    "retryable": "Wiederholbar",
+    "context": "Kontext"
+  },
+  "list": {
+    "title": "Fehler ({{count}})",
+    "more": "+ {{count}} weitere Fehler"
+  },
+  "retry": { "button": "Wiederholen" },
+  "common": { "yes": "Ja", "no": "Nein" }
+}

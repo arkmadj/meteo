@@ -1,0 +1,29 @@
+/**
+ * Leaflet Z-index Fix
+ * Ensures Leaflet controls don't overlap the navigation header
+ */
+
+/* Override default Leaflet control z-index values */
+.leaflet-control {
+  z-index: 40 !important;
+}
+
+/* Override default Leaflet popup z-index values */
+.leaflet-popup {
+  z-index: 41 !important;
+}
+
+/* Override default Leaflet marker z-index values */
+.leaflet-marker-pane {
+  z-index: 42 !important;
+}
+
+/* Override default Leaflet tooltip z-index values */
+.leaflet-tooltip-pane {
+  z-index: 43 !important;
+}
+
+/* Ensure map container itself doesn't interfere with header */
+.leaflet-container {
+  z-index: 1 !important;
+}

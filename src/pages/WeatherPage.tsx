@@ -1,0 +1,59 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import Forecast from '@/components/weather/Forecast';
+import MainHeader from '@/components/headers/MainHeader';
+import { Button } from '@/components/ui/atoms';
+import { Container } from '@/components/ui/layout';
+
+/**
+ * Weather page component - focused weather interface
+ */
+const WeatherPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <MainHeader
+        title="Weather App"
+        subtitle="Current weather and forecast"
+        navigationButtons={[
+          { label: 'Home', to: '/', variant: 'secondary' },
+          { label: 'Dashboard', to: '/weather/dashboard', variant: 'primary' },
+        ]}
+      />
+
+      {/* Main Content */}
+      <main className="py-6">
+        <Container size="xl">
+          <Forecast />
+        </Container>
+      </main>
+
+      {/* Quick Actions */}
+      <div className="fixed bottom-6 right-6">
+        <div className="flex flex-col space-y-2">
+          <Button
+            onClick={() => navigate('/weather/dashboard')}
+            variant="primary"
+            size="sm"
+            className="shadow-lg"
+          >
+            📊 Dashboard
+          </Button>
+          <Button
+            onClick={() => navigate('/settings')}
+            variant="secondary"
+            size="sm"
+            className="shadow-lg"
+          >
+            ⚙️ Settings
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WeatherPage;

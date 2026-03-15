@@ -1,0 +1,559 @@
+{
+  "app": {
+    "title": "Meteo",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "title": "Meteo",
+  "subtitle": "Get the latest weather information for any city",
+  "footer": "© 2024 Meteo. All rights reserved.",
+  "search": {
+    "placeholder": "Enter city name",
+    "button": "Search",
+    "clear": "Clear",
+    "useCurrentLocation": "Use current location",
+    "useCurrentLocationTooltip": "Detect your current location and update the weather view",
+    "toggle": "Toggle search",
+    "searching": "Searching locations...",
+    "smartMatch": "Smart Match",
+    "bestMatch": "Best Match",
+    "resultsFound": "{{count}} result{{plural}} found",
+    "resultsFound_plural": "{{count}} results found",
+    "smartSearch": "Smart search",
+    "poweredByAI": "Powered by AI"
+  },
+  "navigation": {
+    "language": "Language",
+    "settings": "Settings",
+    "home": "Home",
+    "weather": "Weather",
+    "maps": "Maps",
+    "selectLanguage": "Select Language",
+    "currentLanguage": "Current Language",
+    "languageHelper": "Choose your preferred language",
+    "menu": "Menu"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto",
+    "current": "Current theme",
+    "switchTo": "Switch to",
+    "toggle": "Toggle theme"
+  },
+  "status": {
+    "searching": "Searching...",
+    "loading": "Loading weather data...",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "offline": "Offline mode: showing cached data",
+    "offlineBannerTitle": "You're offline",
+    "offlineBannerMessage": "We will keep showing the last forecast we found.",
+    "offlineBannerCachedAt": "Last updated {{date}} at {{time}}{{location}}",
+    "offlineBannerCachedExpired": "(cached data may be stale)"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Configure your weather app preferences",
+    "save": "Save Settings",
+    "navigation": {
+      "label": "Settings navigation",
+      "title": "On This Page",
+      "goTo": "Go to",
+      "backToTop": "Scroll to top of page",
+      "backToTopLabel": "Back to Top"
+    },
+    "sections": {
+      "localization": {
+        "title": "Localization & Language",
+        "description": "Language, regional formats, and measurement preferences"
+      },
+      "appearance": {
+        "title": "Appearance",
+        "description": "Customize the look and feel"
+      },
+      "weather": {
+        "title": "Weather",
+        "description": "Weather display preferences"
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "Accessibility and motion preferences"
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Optimize app performance"
+      }
+    },
+    "options": {
+      "theme": {
+        "label": "Theme",
+        "auto": "Auto (System)",
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "accentColor": {
+        "label": "Accent Color",
+        "description": "Choose a custom accent color to personalize the app appearance"
+      },
+      "language": {
+        "label": "Language",
+        "description": "Choose your preferred language for the interface",
+        "en": "English",
+        "es": "Español",
+        "fr": "Français",
+        "de": "Deutsch"
+      },
+      "units": {
+        "label": "Temperature Units",
+        "description": "Select your preferred temperature measurement system",
+        "metric": "Celsius (°C)",
+        "imperial": "Fahrenheit (°F)",
+        "kelvin": "Kelvin (K)"
+      },
+      "windSpeedUnits": {
+        "label": "Wind Speed Units",
+        "description": "Choose your preferred wind speed measurement system",
+        "ms": "m/s (meters per second)",
+        "kmh": "km/h (kilometers per hour)",
+        "mph": "mph (miles per hour)",
+        "knots": "knots"
+      },
+      "visibilityUnits": {
+        "label": "Visibility Units",
+        "description": "Choose your preferred visibility measurement system",
+        "m": "m (meters)",
+        "km": "km (kilometers)",
+        "mi": "mi (miles)",
+        "nm": "nm (nautical miles)"
+      },
+      "dateFormat": {
+        "label": "Date Format",
+        "description": "Choose how dates are displayed throughout the app",
+        "default": "Auto (Based on Language)",
+        "us": "US Format (MM/DD/YYYY)",
+        "eu": "European Format (DD/MM/YYYY)",
+        "iso": "ISO Format (YYYY-MM-DD)"
+      },
+      "timeFormat": {
+        "label": "Time Format",
+        "description": "Select 12-hour or 24-hour time display",
+        "12h": "12-hour (AM/PM)",
+        "24h": "24-hour"
+      },
+      "firstDayOfWeek": {
+        "label": "First Day of Week",
+        "description": "Choose which day starts your week in calendars",
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "saturday": "Saturday"
+      },
+      "highContrast": {
+        "label": "High Contrast",
+        "description": "Improve visibility with higher contrast"
+      },
+      "autoLocation": {
+        "label": "Auto Location",
+        "description": "Automatically detect your location"
+      },
+      "updateFrequency": {
+        "label": "Data Update Frequency",
+        "description": "Choose how often weather data should be updated",
+        "helperText": "Choose how often weather data should be updated. More frequent updates use more battery and data.",
+        "off": {
+          "label": "Off",
+          "description": "No automatic refresh - refresh manually only"
+        },
+        "low": {
+          "label": "Low (30 min)",
+          "description": "Refresh every 30 minutes - saves battery and data"
+        },
+        "medium": {
+          "label": "Medium (10 min)",
+          "description": "Refresh every 10 minutes - balanced approach"
+        },
+        "high": {
+          "label": "High (5 min)",
+          "description": "Refresh every 5 minutes - more frequent updates"
+        },
+        "realtime": {
+          "label": "Real-time (1 min)",
+          "description": "Refresh every minute - latest data, higher usage"
+        },
+        "current": {
+          "off": "No automatic refresh",
+          "interval": "Refreshes every {{count}} minute",
+          "interval_plural": "Refreshes every {{count}} minutes"
+        }
+      },
+      "notifications": {
+        "label": "Notifications",
+        "description": "Weather alerts and updates"
+      },
+      "reducedMotion": {
+        "label": "Reduced Motion",
+        "description": "Minimize animations and transitions"
+      },
+      "fontSize": {
+        "label": "Font Size",
+        "description": "Adjust the text size throughout the app",
+        "xs": "Extra Small",
+        "sm": "Small",
+        "md": "Medium",
+        "lg": "Large",
+        "xl": "Extra Large",
+        "xsDescription": "Smallest text size for compact displays",
+        "smDescription": "Small text size for better screen real estate",
+        "mdDescription": "Medium text size - default setting",
+        "lgDescription": "Large text size for better readability",
+        "xlDescription": "Extra large text size for maximum readability",
+        "currentSelection": "(Current)"
+      },
+      "lazyLoading": {
+        "label": "Lazy Loading",
+        "description": "Load components on demand"
+      },
+      "performanceMode": {
+        "label": "Performance Mode",
+        "description": "Reduce visual effects for better performance"
+      }
+    },
+    "quickActions": {
+      "weather": "Weather",
+      "about": "About",
+      "home": "Home"
+    }
+  },
+  "accessibility": {
+    "speedDial": {
+      "tooltip": "Accessibility Controls",
+      "ariaLabel": "Accessibility overlay controls",
+      "actions": {
+        "modals": {
+          "label": "Toggle Modals",
+          "description": "Show/hide modal demonstrations"
+        },
+        "dropdowns": {
+          "label": "Toggle Dropdowns",
+          "description": "Show/hide dropdown demonstrations"
+        },
+        "snackbars": {
+          "label": "Toggle Snackbars",
+          "description": "Show/hide snackbar demonstrations"
+        },
+        "announcements": {
+          "label": "Toggle Announcements",
+          "description": "Show/hide announcement manager"
+        },
+        "highContrast": {
+          "label": "Toggle High Contrast",
+          "description": "Show/hide high contrast demo"
+        },
+        "motion": {
+          "label": "Toggle Motion Demo",
+          "description": "Show/hide motion accessibility demo"
+        },
+        "cvd": {
+          "label": "Toggle CVD Demo",
+          "description": "Show/hide color vision deficiency demo"
+        },
+        "clearAll": {
+          "label": "Hide All Overlays",
+          "description": "Hide all overlay demonstrations"
+        },
+        "showAll": {
+          "label": "Show All Overlays",
+          "description": "Show all overlay demonstrations"
+        }
+      }
+    }
+  },
+  "mapDemo": {
+    "title": "Interactive Weather Maps",
+    "subtitle": "Explore our comprehensive mapping solution",
+    "heroDescription": "Explore our comprehensive mapping solution with user location detection, weather data integration, and accessibility features.",
+    "demos": {
+      "base": {
+        "title": "Base Weather Map",
+        "description": "Interactive map with user location detection and weather stations"
+      },
+      "search": {
+        "title": "Location Search Map",
+        "description": "Map with integrated location search and fuzzy matching"
+      },
+      "integration": {
+        "title": "Full Integration",
+        "description": "Complete weather map with all features combined"
+      }
+    },
+    "searchDemo": {
+      "title": "Location Search Map",
+      "features": "Search Features",
+      "fuzzyMatching": "Fuzzy Matching",
+      "fuzzyMatchingItems": [
+        "Intelligent search with typo tolerance",
+        "Partial name matching",
+        "Relevance scoring",
+        "Country and region support"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Debounced search input",
+        "Efficient result filtering",
+        "Keyboard navigation",
+        "Click-outside to close"
+      ],
+      "userExperience": "User Experience",
+      "userExperienceItems": [
+        "Visual search indicators",
+        "Clear search functionality",
+        "Result highlighting",
+        "Responsive dropdown"
+      ]
+    },
+    "integrationDemo": {
+      "title": "Complete Weather Map Integration",
+      "locationInfo": "Location Info",
+      "name": "Name",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "unknown": "Unknown",
+      "getWeatherForecast": "Get Weather Forecast",
+      "searchOrClick": "Search for a location or click on the map to see details.",
+      "controls": "Controls",
+      "showDebugPanel": "Show Debug Panel",
+      "hideDebugPanel": "Hide Debug Panel",
+      "features": "Features",
+      "featuresList": [
+        "User location detection",
+        "Location search with fuzzy matching",
+        "Interactive map controls",
+        "Accessibility support",
+        "User preference awareness",
+        "Error handling & fallbacks"
+      ]
+    },
+    "technical": {
+      "title": "Technical Implementation",
+      "dependencies": "Dependencies",
+      "keyFeatures": "Key Features",
+      "keyFeaturesList": [
+        "TypeScript support",
+        "React 18 compatibility",
+        "Responsive design",
+        "Performance optimized",
+        "Accessibility compliant"
+      ],
+      "usageExample": "Usage Example"
+    },
+    "accessibility": {
+      "title": "Accessibility & Performance",
+      "userPreferences": "User Preferences",
+      "userPreferencesItems": [
+        "Respects prefers-reduced-motion",
+        "Save-data aware tile loading",
+        "High contrast support",
+        "Touch-friendly controls"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Lazy loading of map tiles",
+        "Debounced search input",
+        "Efficient marker rendering",
+        "Memory leak prevention"
+      ],
+      "errorHandling": "Error Handling",
+      "errorHandlingItems": [
+        "Geolocation permission handling",
+        "Network error recovery",
+        "Fallback location support",
+        "User-friendly error messages"
+      ]
+    },
+    "baseDemo": {
+      "title": "Interactive Weather Map Demo",
+      "description": "Explore the BaseWeatherMap component with user location detection, weather stations, and interactive features.",
+      "controls": "Map Controls",
+      "mapHeight": "Map Height",
+      "mapHeightSmall": "Small (300px)",
+      "mapHeightMedium": "Medium (500px)",
+      "mapHeightLarge": "Large (700px)",
+      "showWeatherStations": "Show Weather Stations",
+      "showRadarOverlay": "Show Radar Overlay",
+      "showWindPatterns": "Show Wind Patterns",
+      "quickLocations": "Quick Locations",
+      "interactiveMap": "Interactive Map",
+      "weatherStation": "Weather Station",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "conditions": "Conditions",
+      "windSpeed": "Wind Speed",
+      "mph": "mph",
+      "clickToViewForecast": "Click to view detailed forecast",
+      "selectedLocation": "Selected Location",
+      "locationDetails": "Location Details",
+      "name": "Name",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "unknown": "Unknown",
+      "actions": "Actions",
+      "getWeatherForecast": "Get Weather Forecast",
+      "saveLocation": "Save Location",
+      "nearbyStations": "Nearby Stations",
+      "stationsFound": "{{count}} weather stations found within 10km",
+      "featuresOverview": "Features Demonstrated",
+      "featuresOverviewDescription": "Explore the powerful features of our weather mapping system",
+      "locationDetection": "Location Detection",
+      "locationDetectionItems": [
+        "Automatic user location detection",
+        "Fallback to last searched location",
+        "Ultimate fallback to Lagos, Nigeria",
+        "Manual location selection by clicking"
+      ],
+      "weatherIntegration": "Weather Integration",
+      "weatherIntegrationItems": [
+        "Weather station markers",
+        "Temperature-based color coding",
+        "Interactive popups with data",
+        "Radar overlay support"
+      ],
+      "userPreferences": "User Preferences",
+      "userPreferencesItems": [
+        "Respects prefers-reduced-motion",
+        "Save-data aware tile loading",
+        "High contrast support",
+        "Touch-friendly controls"
+      ],
+      "performance": "Performance",
+      "performanceItems": [
+        "Lazy loading of map tiles",
+        "Debounced search input",
+        "Efficient marker rendering",
+        "Memory leak prevention"
+      ],
+      "errorHandling": "Error Handling",
+      "errorHandlingItems": [
+        "Geolocation permission handling",
+        "Network error recovery",
+        "Fallback location support",
+        "User-friendly error messages"
+      ]
+    }
+  },
+  "notifications": {
+    "bell": "Notifications",
+    "title": "Notifications",
+    "panel": "Notifications panel",
+    "empty": "No notifications yet",
+    "unreadCount": "{{count}} unread",
+    "count": "{{count}} notification(s)",
+    "showingOf": "Showing {{shown}} of {{total}}",
+    "markRead": "Mark read",
+    "markAllRead": "Mark all read",
+    "dismiss": "Dismiss",
+    "clearAll": "Clear all",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago",
+    "history": {
+      "title": "Notification History",
+      "search": "Search",
+      "searchPlaceholder": "Search notifications...",
+      "refresh": "Refresh",
+      "markAllRead": "Mark all as read",
+      "markRead": "Mark as read",
+      "dismiss": "Dismiss",
+      "showMore": "Show more",
+      "showLess": "Show less",
+      "selectNotification": "Select notification",
+      "unread": "Unread",
+      "failed": "Failed",
+      "justNow": "Just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "daysAgo": "{{count}}d ago",
+      "showing": "Showing {{start}}-{{end}} of {{total}}",
+      "perPage": "Per page:",
+      "firstPage": "First page",
+      "prevPage": "Previous page",
+      "nextPage": "Next page",
+      "lastPage": "Last page",
+      "selected": "{{count}} selected",
+      "markSelectedRead": "Mark as read",
+      "dismissSelected": "Dismiss",
+      "clearSelection": "Clear selection",
+      "selectAll": "Select all",
+      "deselectAll": "Deselect all",
+      "sortBy": "Sort by:",
+      "sortAsc": "Sort ascending",
+      "sortDesc": "Sort descending",
+      "noResults": "No notifications match your filters",
+      "empty": "No notifications yet",
+      "clearFilters": "Clear filters",
+      "clearAll": "Clear all notifications",
+      "hideFilters": "Hide filters",
+      "showFilters": "Show filters",
+      "resetFilters": "Reset filters",
+      "category": "Category",
+      "status": "Status",
+      "priority": "Priority",
+      "channel": "Channel",
+      "sortOptions": {
+        "date": "Date",
+        "title": "Title",
+        "priority": "Priority",
+        "category": "Category"
+      },
+      "stats": {
+        "total": "Total",
+        "today": "Today",
+        "clicked": "Clicked",
+        "unread": "Unread"
+      },
+      "readStatus": {
+        "all": "All",
+        "read": "Read",
+        "unread": "Unread"
+      },
+      "categories": {
+        "all": "All Categories",
+        "weather-alert": "Weather Alerts",
+        "weather-update": "Weather Updates",
+        "forecast": "Forecasts",
+        "system": "System",
+        "reminder": "Reminders",
+        "promotional": "Promotional"
+      },
+      "statuses": {
+        "all": "All Statuses",
+        "delivered": "Delivered",
+        "clicked": "Clicked",
+        "dismissed": "Dismissed",
+        "pending": "Pending",
+        "failed": "Failed"
+      },
+      "priorities": {
+        "all": "All Priorities",
+        "urgent": "Urgent",
+        "high": "High",
+        "normal": "Normal",
+        "low": "Low"
+      },
+      "channels": {
+        "all": "All Channels",
+        "push": "Push",
+        "in-app": "In-App",
+        "email": "Email",
+        "sms": "SMS"
+      },
+      "priority": {
+        "urgent": "Urgent",
+        "high": "High",
+        "normal": "Normal",
+        "low": "Low"
+      }
+    }
+  },
+  "language": "en"
+}

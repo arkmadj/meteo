@@ -1,0 +1,374 @@
+/**
+ * Preference-aware animations that respect user settings
+ */
+
+/* Base animations - only applied when motion is not reduced */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation classes that respect user preferences */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-slideLeft {
+  animation: slideLeft 0.3s ease-out;
+}
+
+.animate-slideRight {
+  animation: slideRight 0.3s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Reduced motion preferences - System preference OR manual toggle */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations */
+  .animate-fadeIn,
+  .animate-slideUp,
+  .animate-slideDown,
+  .animate-slideLeft,
+  .animate-slideRight,
+  .animate-scaleIn,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    animation: none;
+  }
+
+  /* Provide instant transitions instead */
+  .animate-fadeIn,
+  .animate-slideUp,
+  .animate-slideDown,
+  .animate-slideLeft,
+  .animate-slideRight,
+  .animate-scaleIn {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Keep essential loading indicators but make them static */
+  .animate-spin {
+    animation: none;
+    transform: rotate(45deg); /* Static indicator */
+  }
+
+  /* Disable all transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Manual reduced motion toggle via Settings (applied via .reduce-motion class on html) */
+html.reduce-motion,
+html.reduce-motion * {
+  /* Disable all animations */
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.reduce-motion .animate-fadeIn,
+html.reduce-motion .animate-slideUp,
+html.reduce-motion .animate-slideDown,
+html.reduce-motion .animate-slideLeft,
+html.reduce-motion .animate-slideRight,
+html.reduce-motion .animate-scaleIn,
+html.reduce-motion .animate-pulse,
+html.reduce-motion .animate-bounce,
+html.reduce-motion .animate-spin {
+  animation: none !important;
+}
+
+html.reduce-motion .animate-fadeIn,
+html.reduce-motion .animate-slideUp,
+html.reduce-motion .animate-slideDown,
+html.reduce-motion .animate-slideLeft,
+html.reduce-motion .animate-slideRight,
+html.reduce-motion .animate-scaleIn {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html.reduce-motion .animate-spin {
+  animation: none !important;
+  transform: rotate(45deg) !important;
+}
+
+/* Save data preferences - use simpler animations */
+@media (prefers-reduced-data: reduce) {
+  .animate-fadeIn,
+  .animate-slideUp,
+  .animate-slideDown,
+  .animate-slideLeft,
+  .animate-slideRight,
+  .animate-scaleIn {
+    animation-duration: 0.15s; /* Faster animations */
+  }
+
+  .animate-pulse,
+  .animate-bounce {
+    animation: none; /* Remove decorative animations */
+  }
+}
+
+/* High contrast preferences */
+@media (prefers-contrast: high) {
+  /* Ensure animations don't interfere with contrast */
+  .animate-fadeIn,
+  .animate-slideUp,
+  .animate-slideDown,
+  .animate-slideLeft,
+  .animate-slideRight,
+  .animate-scaleIn {
+    animation-timing-function: linear; /* More predictable timing */
+  }
+}
+
+/* Utility classes for preference-aware styling */
+.preference-aware-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-transition {
+    transition: none;
+  }
+}
+
+html.reduce-motion .preference-aware-transition {
+  transition: none !important;
+}
+
+.preference-aware-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.preference-aware-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-hover {
+    transition: none;
+  }
+
+  .preference-aware-hover:hover {
+    transform: none;
+  }
+}
+
+html.reduce-motion .preference-aware-hover {
+  transition: none !important;
+}
+
+html.reduce-motion .preference-aware-hover:hover {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-hover {
+    transition: none;
+  }
+
+  .preference-aware-hover:hover {
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Focus styles that respect preferences */
+.preference-aware-focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 0.15s ease-in-out;
+}
+
+.preference-aware-focus:focus {
+  outline-color: #3b82f6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-focus {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .preference-aware-focus:focus {
+    outline-color: currentColor;
+    outline-width: 3px;
+  }
+}
+
+/* Loading states that respect preferences */
+.preference-aware-loading {
+  opacity: 0.6;
+  transition: opacity 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-loading {
+    transition: none;
+    opacity: 0.8; /* Less dramatic change */
+  }
+}
+
+/* Skeleton loading that respects preferences */
+.preference-aware-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preference-aware-skeleton {
+    animation: none;
+    background: #e0e0e0; /* Static background */
+  }
+}
+
+@media (prefers-reduced-data: reduce) {
+  .preference-aware-skeleton {
+    animation: none;
+    background: #e0e0e0; /* Static background to save resources */
+  }
+}

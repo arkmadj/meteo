@@ -1,0 +1,135 @@
+/**
+ * Translation resources configuration
+ */
+
+export const translationResources = {
+  en: {
+    translation: {
+      common: {
+        app: {
+          title: 'Meteo',
+          loading: 'Loading...',
+          error: 'Error',
+        },
+        search: {
+          placeholder: 'Enter city name',
+          button: 'Search',
+          clear: 'Clear',
+        },
+        navigation: {
+          language: 'Language',
+          settings: 'Settings',
+        },
+        status: {
+          searching: 'Searching...',
+          loading: 'Loading weather data...',
+          retry: 'Retry',
+          refresh: 'Refresh',
+        },
+      },
+      weather: {
+        conditions: {
+          '0': 'Clear sky',
+          '1': 'Mainly clear',
+          '2': 'Partly cloudy',
+          '3': 'Overcast',
+          '45': 'Fog',
+          '48': 'Depositing rime fog',
+          '51': 'Light drizzle',
+          '53': 'Moderate drizzle',
+          '55': 'Dense drizzle',
+          '56': 'Light freezing drizzle',
+          '57': 'Dense freezing drizzle',
+          '61': 'Light rain',
+          '63': 'Moderate rain',
+          '65': 'Heavy rain',
+          '66': 'Light freezing rain',
+          '67': 'Heavy freezing rain',
+          '71': 'Light snow',
+          '73': 'Moderate snow',
+          '75': 'Heavy snow',
+          '77': 'Snow grains',
+          '80': 'Light showers',
+          '81': 'Moderate showers',
+          '82': 'Violent showers',
+          '85': 'Light snow showers',
+          '86': 'Heavy snow showers',
+          '95': 'Thunderstorm',
+          '96': 'Thunderstorm with light hail',
+          '99': 'Thunderstorm with heavy hail',
+        },
+        units: {
+          temperature: {
+            celsius: '°C',
+            fahrenheit: '°F',
+          },
+          wind: {
+            metric: 'm/s',
+            imperial: 'mph',
+          },
+          humidity: '%',
+          pressure: 'hPa',
+        },
+        labels: {
+          windSpeed: 'Wind speed',
+          humidity: 'Humidity',
+          pressure: 'Pressure',
+          feelsLike: 'Feels like',
+          visibility: 'Visibility',
+          uvIndex: 'UV Index',
+          sunrise: 'Sunrise',
+          sunset: 'Sunset',
+        },
+        forecast: {
+          title: '5-Day Forecast',
+          today: 'Today',
+          tomorrow: 'Tomorrow',
+          night: 'Night',
+          day: 'Day',
+        },
+      },
+      errors: {
+        messages: {
+          cityNotFound: 'City not found',
+          cityNotFoundMessage: 'Sorry, city not found. Please try again.',
+          defaultCityNotFound: 'Default city not found',
+          networkError: 'Network error occurred',
+          unknownError: 'An unknown error occurred',
+          loadingError: 'Failed to load weather data',
+        },
+        status: {
+          searching: 'Searching...',
+          loading: 'Loading weather data...',
+          retry: 'Retry',
+          refresh: 'Refresh',
+        },
+      },
+      dates: {
+        formats: {
+          short: 'MM/DD/YYYY',
+          long: 'MMMM DD, YYYY',
+          time: 'HH:mm',
+          weekdayShort: 'ddd',
+          weekdayLong: 'dddd',
+          monthShort: 'MMM',
+          monthLong: 'MMMM',
+        },
+        months: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ],
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      },
+    },
+  },
+};

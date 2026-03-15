@@ -1,0 +1,752 @@
+/**
+ * Responsive Map Controls CSS
+ * Mobile-first design for map overlays, buttons, and interactive controls
+ */
+
+/* ============================================================================
+   BASE MAP CONTROL STYLES
+   ============================================================================ */
+
+.map-control {
+  position: absolute;
+  z-index: 40;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.map-control-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme='dark'] .map-control-panel {
+  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================================
+   TOUCH-FRIENDLY BUTTONS
+   ============================================================================ */
+
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.map-button:focus-visible {
+  outline: 2px solid var(--theme-primary, #3b82f6);
+  outline-offset: 2px;
+}
+
+.map-button:active {
+  transform: scale(0.95);
+}
+
+.map-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mobile: Larger touch targets (44x44px minimum) */
+@media (max-width: 640px) {
+  .map-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .map-button-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Tablet: Medium touch targets */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .map-button {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .map-button-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Desktop: Standard button sizes */
+@media (min-width: 1024px) {
+  .map-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .map-button-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ============================================================================
+   MAP LEGEND RESPONSIVE STYLES
+   ============================================================================ */
+
+.map-legend {
+  max-width: 90vw;
+}
+
+/* Mobile: Full-width, bottom-positioned */
+@media (max-width: 640px) {
+  .map-legend {
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+    bottom: 0.5rem !important;
+    top: auto !important;
+    width: calc(100% - 1rem);
+    max-width: none;
+  }
+
+  .map-legend-compact {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .map-legend-title {
+    font-size: 0.875rem;
+  }
+
+  .map-legend-item {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .map-legend-color-box {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Tablet: Positioned with max-width */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .map-legend {
+    max-width: 280px;
+  }
+
+  .map-legend-compact {
+    padding: 0.875rem;
+  }
+
+  .map-legend-title {
+    font-size: 0.9375rem;
+  }
+
+  .map-legend-item {
+    padding: 0.625rem;
+    font-size: 0.8125rem;
+  }
+
+  .map-legend-color-box {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Desktop: Standard sizing */
+@media (min-width: 1024px) {
+  .map-legend {
+    max-width: 320px;
+  }
+
+  .map-legend-compact {
+    padding: 1rem;
+  }
+
+  .map-legend-title {
+    font-size: 1rem;
+  }
+
+  .map-legend-item {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .map-legend-color-box {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ============================================================================
+   MAP OVERLAY INDICATOR RESPONSIVE STYLES
+   ============================================================================ */
+
+.map-overlay-indicator {
+  max-width: 90vw;
+}
+
+/* Mobile: Simplified layout */
+@media (max-width: 640px) {
+  .map-overlay-indicator {
+    left: 0.5rem !important;
+    right: auto !important;
+    top: 0.5rem !important;
+    min-width: auto;
+  }
+
+  .map-overlay-indicator-compact {
+    padding: 0.5rem;
+  }
+
+  .map-overlay-item {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .map-overlay-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Tablet: Medium sizing */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .map-overlay-indicator {
+    max-width: 200px;
+  }
+
+  .map-overlay-indicator-compact {
+    padding: 0.625rem;
+  }
+
+  .map-overlay-item {
+    padding: 0.625rem;
+    font-size: 0.8125rem;
+  }
+
+  .map-overlay-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Desktop: Standard sizing */
+@media (min-width: 1024px) {
+  .map-overlay-indicator {
+    max-width: 240px;
+  }
+
+  .map-overlay-indicator-compact {
+    padding: 0.75rem;
+  }
+
+  .map-overlay-item {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .map-overlay-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ============================================================================
+   RADAR PLAYBACK CONTROLS RESPONSIVE STYLES
+   ============================================================================ */
+
+.radar-controls {
+  max-width: 95vw;
+}
+
+/* Mobile: Stacked layout, larger controls */
+@media (max-width: 640px) {
+  .radar-controls {
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+    bottom: 0.5rem !important;
+    width: calc(100% - 1rem);
+    min-width: auto !important;
+    max-width: none;
+  }
+
+  .radar-controls-compact {
+    padding: 0.75rem;
+  }
+
+  .radar-controls-buttons {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .radar-play-button {
+    min-width: 56px;
+    min-height: 56px;
+    padding: 1rem;
+  }
+
+  .radar-nav-button {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0.875rem;
+  }
+
+  .radar-speed-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  .radar-timeline {
+    height: 48px;
+    margin: 0.75rem 0;
+  }
+
+  .radar-timeline-slider {
+    height: 8px;
+  }
+
+  .radar-timeline-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .radar-timeline-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Tablet: Horizontal layout */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .radar-controls {
+    min-width: 400px;
+    max-width: 500px;
+  }
+
+  .radar-controls-compact {
+    padding: 0.875rem;
+  }
+
+  .radar-play-button {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0.875rem;
+  }
+
+  .radar-nav-button {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0.75rem;
+  }
+
+  .radar-speed-button {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .radar-timeline {
+    height: 40px;
+    margin: 0.625rem 0;
+  }
+
+  .radar-timeline-slider {
+    height: 6px;
+  }
+
+  .radar-timeline-slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .radar-timeline-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Desktop: Compact horizontal layout */
+@media (min-width: 1024px) {
+  .radar-controls {
+    min-width: 400px;
+    max-width: 600px;
+  }
+
+  .radar-controls-compact {
+    padding: 1rem;
+  }
+
+  .radar-play-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.75rem;
+  }
+
+  .radar-nav-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0.625rem;
+  }
+
+  .radar-speed-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  .radar-timeline {
+    height: 36px;
+    margin: 0.5rem 0;
+  }
+
+  .radar-timeline-slider {
+    height: 4px;
+  }
+
+  .radar-timeline-slider::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+  }
+
+  .radar-timeline-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ============================================================================
+   LOCATION SEARCH RESPONSIVE STYLES
+   ============================================================================ */
+
+.map-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.map-search-input {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.map-search-input:focus {
+  border-color: var(--theme-primary, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+[data-theme='dark'] .map-search-input {
+  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Mobile: Larger input, full-width dropdown */
+@media (max-width: 640px) {
+  .map-search-input {
+    padding: 0.875rem 2.75rem;
+    font-size: 1rem; /* Prevent zoom on iOS */
+  }
+
+  .map-search-icon {
+    width: 20px;
+    height: 20px;
+    left: 0.875rem;
+  }
+
+  .map-search-clear {
+    min-width: 44px;
+    min-height: 44px;
+    right: 0;
+  }
+
+  .map-search-dropdown {
+    max-height: 60vh;
+    border-radius: 0.5rem;
+  }
+
+  .map-search-result {
+    padding: 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .map-search-result-title {
+    font-size: 1rem;
+  }
+
+  .map-search-result-subtitle {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet: Medium sizing */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .map-search-input {
+    padding: 0.75rem 2.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .map-search-icon {
+    width: 18px;
+    height: 18px;
+    left: 0.75rem;
+  }
+
+  .map-search-clear {
+    min-width: 40px;
+    min-height: 40px;
+    right: 0;
+  }
+
+  .map-search-dropdown {
+    max-height: 320px;
+  }
+
+  .map-search-result {
+    padding: 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .map-search-result-title {
+    font-size: 0.9375rem;
+  }
+
+  .map-search-result-subtitle {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Desktop: Standard sizing */
+@media (min-width: 1024px) {
+  .map-search-input {
+    padding: 0.75rem 2.5rem;
+    font-size: 0.875rem;
+  }
+
+  .map-search-icon {
+    width: 16px;
+    height: 16px;
+    left: 0.75rem;
+  }
+
+  .map-search-clear {
+    min-width: 36px;
+    min-height: 36px;
+    right: 0;
+  }
+
+  .map-search-dropdown {
+    max-height: 256px;
+  }
+
+  .map-search-result {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .map-search-result-title {
+    font-size: 0.875rem;
+  }
+
+  .map-search-result-subtitle {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================================================
+   MAP LOADING OVERLAY RESPONSIVE STYLES
+   ============================================================================ */
+
+.map-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 45;
+}
+
+.map-loading-content {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+[data-theme='dark'] .map-loading-content {
+  background: rgba(31, 41, 55, 0.95);
+  color: white;
+}
+
+/* Mobile: Larger loading indicator */
+@media (max-width: 640px) {
+  .map-loading-content {
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .map-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+}
+
+/* Tablet: Medium loading indicator */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .map-loading-content {
+    padding: 1rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .map-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border-width: 3px;
+  }
+}
+
+/* Desktop: Standard loading indicator */
+@media (min-width: 1024px) {
+  .map-loading-content {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .map-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+  }
+}
+
+/* ============================================================================
+   TOUCH GESTURE SUPPORT
+   ============================================================================ */
+
+/* Prevent text selection during map interactions */
+.map-container {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-x pan-y;
+}
+
+/* Smooth scrolling for mobile */
+@media (max-width: 640px) {
+  .map-container {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY & REDUCED MOTION
+   ============================================================================ */
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .map-control,
+  .map-button,
+  .map-search-input,
+  .radar-timeline-slider {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .map-button:active {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .map-control-panel {
+    border-width: 3px;
+    border-color: currentColor;
+  }
+
+  .map-button {
+    border: 2px solid currentColor;
+  }
+
+  .map-search-input {
+    border-width: 2px;
+  }
+}
+
+/* ============================================================================
+   SAFE AREA INSETS (for notched devices)
+   ============================================================================ */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 640px) {
+    .map-legend,
+    .radar-controls {
+      bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+    }
+
+    .map-overlay-indicator {
+      top: calc(0.5rem + env(safe-area-inset-top)) !important;
+    }
+  }
+}
+
+/* ============================================================================
+   LANDSCAPE ORIENTATION ADJUSTMENTS
+   ============================================================================ */
+
+@media (max-width: 640px) and (orientation: landscape) {
+  .map-legend,
+  .radar-controls {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .map-search-dropdown {
+    max-height: 40vh;
+  }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+  .map-control,
+  .map-loading-overlay,
+  .map-search-container {
+    display: none !important;
+  }
+}

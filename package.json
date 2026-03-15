@@ -1,0 +1,123 @@
+{
+  "name": "meteo",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/vite": "^4.1.13",
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-query-devtools": "^5.87.4",
+    "@types/leaflet": "^1.9.21",
+    "@types/react-grid-layout": "^1.3.5",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "1.4.0",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-class-names": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "embla-carousel-wheel-gestures": "^8.1.0",
+    "i18next": "^25.5.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "leaflet": "^1.9.4",
+    "react": "18.2.0",
+    "react-animated-weather": "^4.0.1",
+    "react-dom": "18.2.0",
+    "react-grid-layout": "^1.5.2",
+    "react-i18next": "^15.7.3",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^7.9.4"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/i18next": "^12.1.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^24.3.1",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "@vitejs/plugin-react": "^5.0.2",
+    "babel-jest": "^30.1.2",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "husky": "^9.1.7",
+    "jest": "^29.5.0",
+    "jest-axe": "^10.0.0",
+    "jsdom": "^22.0.0",
+    "lint-staged": "^16.1.6",
+    "onchange": "^7.1.0",
+    "postcss": "^8.5.8",
+    "prettier": "^3.6.2",
+    "rollup-plugin-visualizer": "^6.0.4",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:analyze": "ANALYZE=true vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "type-check": "tsc --noEmit --skipLibCheck",
+    "type-check:ci": "tsc --noEmit --incremental false",
+    "lint": "ESLINT_LOCAL=true eslint . --cache --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "ESLINT_LOCAL=true eslint . --cache --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:ci": "CI=true eslint . --cache --cache-strategy metadata --ext .js,.jsx,.ts,.tsx --max-warnings 0 --format json --output-file eslint-report.json",
+    "lint:ci:text": "CI=true eslint . --cache --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "lint:changed": "ESLINT_LOCAL=true eslint --cache $(git diff --name-only --diff-filter=ACMR HEAD^ HEAD | grep -E '\\.(js|jsx|ts|tsx)$' | xargs)",
+    "lint:staged": "ESLINT_LOCAL=true eslint --cache --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:ci": "prettier --check . --log-level error",
+    "format:watch": "onchange '**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}' -- prettier --write {{changed}}",
+    "quality:local": "npm run lint && npm run format:check && npm run type-check",
+    "quality:ci": "npm run lint:ci:text && npm run format:ci && npm run type-check:ci",
+    "prepare": "husky install",
+    "validate": "npm run type-check && npm run lint && npm run format:check && npm run test",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "analyze:bundle": "npm run build:analyze",
+    "analyze:source-map": "npm run build && npx source-map-explorer 'dist/assets/*.js'",
+    "analyze:deps": "npx depcheck",
+    "analyze:unused": "npx unimported",
+    "size-limit": "npx size-limit"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.css": [
+      "prettier --write"
+    ]
+  }
+}

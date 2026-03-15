@@ -1,0 +1,33 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // CI-specific optimizations
+    "incremental": false,
+    "tsBuildInfoFile": null,
+    
+    // Stricter checking in CI
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    
+    // Performance optimizations for CI
+    "skipLibCheck": false,
+    "skipDefaultLibCheck": false
+  },
+  "include": [
+    "src/**/*",
+    "types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "coverage",
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
+  ]
+}

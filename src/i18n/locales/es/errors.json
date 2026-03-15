@@ -1,0 +1,51 @@
+{
+  "messages": {
+    "cityNotFound": "Ciudad no encontrada",
+    "defaultCityNotFound": "Ciudad predeterminada no encontrada",
+    "cityNotFoundMessage": "Por favor, intenta con otra ciudad",
+    "fetchError": "Error al obtener datos del clima",
+    "networkError": "Error de red. Por favor, revisa tu conexión",
+    "timeoutError": "Tiempo de espera agotado",
+    "apiError": "Error en la solicitud API",
+    "rateLimitError": "Demasiadas solicitudes. Por favor, intenta más tarde",
+    "invalidCoordinates": "Coordenadas inválidas",
+    "weatherDataError": "Error al obtener datos del clima",
+    "geocodingError": "Error al encontrar coordenadas de la ciudad",
+    "parsingError": "Error al analizar datos de respuesta",
+    "unknownError": "Ocurrió un error desconocido",
+    "fetchFailed": "Error al cargar datos del clima",
+    "refreshFailed": "Error al actualizar datos del clima",
+    "offlineUnavailable": "Est\u00E1s sin conexi\u00F3n y a\u00FAn no hay datos meteorol\u00F3gicos en cach\u00E9 disponibles.",
+    "optimisticUpdateFailed": "Error al actualizar datos del clima",
+    "optimisticUIFailed": "Error al actualizar la interfaz",
+    "batchUpdateFailed": "Error al actualizar múltiples elementos de datos del clima",
+    "offline": "Actualmente estás sin conexión",
+    "offlineStorageFailed": "Error al guardar datos para uso sin conexión"
+  },
+  "boundary": {
+    "title": "¡Ups! Algo salió mal",
+    "message": "Lo sentimos, pero algo inesperado sucedió. Nuestro equipo ha sido notificado.",
+    "errorType": "Tipo de Error",
+    "errorMessage": "Mensaje de Error",
+    "retry": "Intentar de Nuevo"
+  },
+  "display": {
+    "title": "Error",
+    "retry": "Reintentar",
+    "dismiss": "Descartar",
+    "showDetails": "Mostrar Detalles",
+    "hideDetails": "Ocultar Detalles",
+    "type": "Tipo",
+    "category": "Categoría",
+    "severity": "Gravedad",
+    "timestamp": "Hora",
+    "retryable": "Reintentable",
+    "context": "Contexto"
+  },
+  "list": {
+    "title": "Errores ({{count}})",
+    "more": "+ {{count}} errores más"
+  },
+  "retry": { "button": "Reintentar" },
+  "common": { "yes": "Sí", "no": "No" }
+}

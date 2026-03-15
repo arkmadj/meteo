@@ -1,0 +1,370 @@
+/**
+ * Side Drawer Styles
+ * Reusable side drawer component with smooth transitions and theme support
+ */
+
+/* Base drawer styles */
+.side-drawer {
+  /* Smooth scrolling */
+  -webkit-overflow-scrolling: touch;
+  
+  /* Hardware acceleration */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Drawer content scrollbar */
+.side-drawer-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.side-drawer-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.side-drawer-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .side-drawer-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.side-drawer-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .side-drawer-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Backdrop styles */
+.side-drawer-backdrop {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Close button hover effects */
+.side-drawer-close-button {
+  transition: all 0.2s ease;
+}
+
+.side-drawer-close-button:hover {
+  transform: scale(1.1);
+}
+
+.side-drawer-close-button:active {
+  transform: scale(0.95);
+}
+
+.side-drawer-close-button:focus-visible {
+  outline: 2px solid var(--theme-primary, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Drawer variants */
+
+/* Overlay variant (default) - drawer overlays content */
+.side-drawer-overlay {
+  /* Default styles already applied */
+}
+
+/* Push variant - drawer pushes content */
+.side-drawer-push {
+  /* This would require additional JavaScript to push content */
+  /* For now, behaves like overlay */
+}
+
+/* Persistent variant - drawer stays visible */
+.side-drawer-persistent {
+  /* This would require additional layout management */
+  /* For now, behaves like overlay */
+}
+
+/* Position-specific styles */
+
+/* Left drawer */
+.side-drawer-left {
+  border-right: 1px solid var(--theme-border, #e5e7eb);
+}
+
+[data-theme='dark'] .side-drawer-left {
+  border-right-color: #374151;
+}
+
+/* Right drawer */
+.side-drawer-right {
+  border-left: 1px solid var(--theme-border, #e5e7eb);
+}
+
+[data-theme='dark'] .side-drawer-right {
+  border-left-color: #374151;
+}
+
+/* Top drawer */
+.side-drawer-top {
+  border-bottom: 1px solid var(--theme-border, #e5e7eb);
+}
+
+[data-theme='dark'] .side-drawer-top {
+  border-bottom-color: #374151;
+}
+
+/* Bottom drawer */
+.side-drawer-bottom {
+  border-top: 1px solid var(--theme-border, #e5e7eb);
+}
+
+[data-theme='dark'] .side-drawer-bottom {
+  border-top-color: #374151;
+}
+
+/* Header styles */
+.side-drawer-header {
+  background: var(--theme-surface, #f9fafb);
+}
+
+[data-theme='dark'] .side-drawer-header {
+  background: #1f2937;
+}
+
+/* Footer styles */
+.side-drawer-footer {
+  background: var(--theme-surface, #f9fafb);
+}
+
+[data-theme='dark'] .side-drawer-footer {
+  background: #1f2937;
+}
+
+/* Content styles */
+.side-drawer-content {
+  color: var(--theme-text, #111827);
+}
+
+[data-theme='dark'] .side-drawer-content {
+  color: #f9fafb;
+}
+
+/* Animations */
+
+/* Fade in animation for backdrop */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade out animation for backdrop */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Slide out to left */
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Slide out to right */
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Slide in from top */
+@keyframes slideInTop {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Slide out to top */
+@keyframes slideOutTop {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+/* Slide in from bottom */
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Slide out to bottom */
+@keyframes slideOutBottom {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* Responsive styles */
+
+/* Mobile devices */
+@media (max-width: 640px) {
+  .side-drawer-left,
+  .side-drawer-right {
+    width: 100vw !important;
+    max-width: 100vw;
+  }
+  
+  .side-drawer-top,
+  .side-drawer-bottom {
+    height: 80vh !important;
+    max-height: 80vh;
+  }
+}
+
+/* Tablet devices */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .side-drawer-left,
+  .side-drawer-right {
+    max-width: 80vw;
+  }
+}
+
+/* Accessibility */
+
+/* Focus visible styles */
+.side-drawer *:focus-visible {
+  outline: 2px solid var(--theme-primary, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .side-drawer,
+  .side-drawer-backdrop,
+  .side-drawer-close-button {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .side-drawer {
+    border: 2px solid currentColor;
+  }
+  
+  .side-drawer-header,
+  .side-drawer-footer {
+    border-width: 2px;
+  }
+  
+  .side-drawer-close-button {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Print styles */
+@media print {
+  .side-drawer,
+  .side-drawer-backdrop {
+    display: none !important;
+  }
+}
+
+/* Loading state */
+.side-drawer-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.side-drawer-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme='dark'] .side-drawer-loading::after {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Error state */
+.side-drawer-error {
+  border: 2px solid #ef4444;
+}
+
+.side-drawer-error .side-drawer-header {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+[data-theme='dark'] .side-drawer-error .side-drawer-header {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+/* Success state */
+.side-drawer-success {
+  border: 2px solid #10b981;
+}
+
+.side-drawer-success .side-drawer-header {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+[data-theme='dark'] .side-drawer-success .side-drawer-header {
+  background: #064e3b;
+  color: #a7f3d0;
+}
+

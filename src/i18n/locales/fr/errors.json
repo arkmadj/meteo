@@ -1,0 +1,51 @@
+{
+  "messages": {
+    "cityNotFound": "Ville non trouvée",
+    "defaultCityNotFound": "Ville par défaut non trouvée",
+    "cityNotFoundMessage": "Désolé, ville non trouvée. Veuillez réessayer.",
+    "fetchError": "Échec du chargement des données météo",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion",
+    "timeoutError": "Délai d attente dépassé",
+    "apiError": "Échec de la requête API",
+    "rateLimitError": "Trop de requêtes. Veuillez réessayer plus tard",
+    "invalidCoordinates": "Coordonnées invalides",
+    "weatherDataError": "Échec de la récupération des données météo",
+    "geocodingError": "Erreur lors de la recherche des coordonnées de la ville",
+    "parsingError": "Erreur lors de l analyse des données de réponse",
+    "unknownError": "Une erreur inconnue s est produite",
+    "fetchFailed": "Échec du chargement des données météo",
+    "refreshFailed": "Échec de l actualisation des données météo",
+    "offlineUnavailable": "Vous \u00EAtes hors ligne et aucune donn\u00E9e m\u00E9t\u00E9o mise en cache n'est encore disponible.",
+    "optimisticUpdateFailed": "Échec de la mise à jour des données météo",
+    "optimisticUIFailed": "Échec de la mise à jour de l'interface",
+    "batchUpdateFailed": "Échec de la mise à jour de plusieurs éléments de données météo",
+    "offline": "Vous êtes actuellement hors ligne",
+    "offlineStorageFailed": "Échec de l'enregistrement des données pour une utilisation hors ligne"
+  },
+  "boundary": {
+    "title": "Oups! Quelque chose s est mal passé",
+    "message": "Nous sommes désolés, mais quelque chose d inattendu s est produit. Notre équipe a été notifiée.",
+    "errorType": "Type d Erreur",
+    "errorMessage": "Message d Erreur",
+    "retry": "Réessayer"
+  },
+  "display": {
+    "title": "Erreur",
+    "retry": "Réessayer",
+    "dismiss": "Ignorer",
+    "showDetails": "Afficher les Détails",
+    "hideDetails": "Masquer les Détails",
+    "type": "Type",
+    "category": "Catégorie",
+    "severity": "Gravité",
+    "timestamp": "Heure",
+    "retryable": "Réessayable",
+    "context": "Contexte"
+  },
+  "list": {
+    "title": "Erreurs ({{count}})",
+    "more": "+ {{count}} erreurs supplémentaires"
+  },
+  "retry": { "button": "Réessayer" },
+  "common": { "yes": "Oui", "no": "Non" }
+}

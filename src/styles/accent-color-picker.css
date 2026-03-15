@@ -1,0 +1,237 @@
+/* Accent Color Picker Styles */
+.accent-color-picker-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 4px);
+}
+
+.accent-color-picker-label {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: 500;
+  color: var(--theme-text, #111827);
+  margin-bottom: 2px;
+}
+
+.accent-color-picker-trigger {
+  position: relative;
+}
+
+.accent-color-picker-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 8px);
+  padding: var(--spacing-sm, 8px) var(--spacing-md, 12px);
+  border: 1px solid var(--theme-border, #e5e7eb);
+  border-radius: var(--border-radius-sm, 8px);
+  background: var(--theme-surface, #f3f4f6);
+  color: var(--theme-text, #111827);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.accent-color-picker-button:hover:not(:disabled) {
+  border-color: var(--theme-primary, #3b82f6);
+  background: var(--theme-hover, #f3f4f6);
+}
+
+.accent-color-picker-button:focus-visible {
+  outline: 2px solid var(--theme-focus, #3b82f6);
+  outline-offset: 2px;
+}
+
+.accent-color-picker-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.accent-color-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--theme-border, #e5e7eb);
+  flex-shrink: 0;
+}
+
+.accent-color-value {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--font-size-sm, 14px);
+  flex: 1;
+  text-align: left;
+}
+
+.accent-color-dropdown-arrow {
+  font-size: 10px;
+  color: var(--theme-text-secondary, #6b7280);
+  transition: transform 0.2s ease;
+}
+
+.accent-color-picker-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: 4px;
+  background: var(--theme-surface, #f3f4f6);
+  border: 1px solid var(--theme-border, #e5e7eb);
+  border-radius: var(--border-radius-sm, 8px);
+  box-shadow: var(--theme-shadow, rgba(0, 0, 0, 0.1));
+  padding: var(--spacing-md, 12px);
+}
+
+.accent-color-presets {
+  margin-bottom: var(--spacing-md, 12px);
+}
+
+.accent-color-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+  gap: var(--spacing-xs, 4px);
+}
+
+.color-swatch {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--theme-border, #e5e7eb);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-swatch:hover:not(:disabled) {
+  transform: scale(1.1);
+  border-color: var(--theme-primary, #3b82f6);
+}
+
+.color-swatch:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.color-swatch-selected {
+  border-color: var(--theme-primary, #3b82f6);
+  border-width: 3px;
+}
+
+.color-swatch-check {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.accent-color-input-section {
+  display: flex;
+  gap: var(--spacing-sm, 8px);
+  align-items: center;
+}
+
+.accent-color-input {
+  flex: 1;
+  padding: var(--spacing-sm, 8px);
+  border: 1px solid var(--theme-border, #e5e7eb);
+  border-radius: var(--border-radius-xs, 4px);
+  background: var(--theme-background, #ffffff);
+  color: var(--theme-text, #111827);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--font-size-sm, 14px);
+}
+
+.accent-color-input:focus {
+  outline: none;
+  border-color: var(--theme-primary, #3b82f6);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.accent-color-native-input {
+  width: 40px;
+  height: 36px;
+  border: 1px solid var(--theme-border, #e5e7eb);
+  border-radius: var(--border-radius-xs, 4px);
+  cursor: pointer;
+  background: var(--theme-background, #ffffff);
+}
+
+.accent-color-picker-helper {
+  font-size: var(--font-size-xs, 12px);
+  color: var(--theme-text-secondary, #6b7280);
+  margin-top: 2px;
+}
+
+.accent-color-picker-error .accent-color-picker-button {
+  border-color: var(--theme-error-text, #dc2626);
+}
+
+.accent-color-picker-error-message {
+  font-size: var(--font-size-xs, 12px);
+  color: var(--theme-error-text, #dc2626);
+  margin-top: 2px;
+}
+
+.accent-color-picker-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Size variants */
+.accent-color-picker-xs .accent-color-preview {
+  width: 20px;
+  height: 20px;
+}
+
+.accent-color-picker-xs .accent-color-picker-button {
+  padding: 4px 8px;
+  font-size: var(--font-size-xs, 12px);
+}
+
+.accent-color-picker-sm .accent-color-preview {
+  width: 22px;
+  height: 22px;
+}
+
+.accent-color-picker-sm .accent-color-picker-button {
+  padding: 6px 10px;
+  font-size: var(--font-size-sm, 14px);
+}
+
+.accent-color-picker-lg .accent-color-preview {
+  width: 28px;
+  height: 28px;
+}
+
+.accent-color-picker-lg .accent-color-picker-button {
+  padding: 10px 14px;
+  font-size: var(--font-size-lg, 18px);
+}
+
+.accent-color-picker-xl .accent-color-preview {
+  width: 32px;
+  height: 32px;
+}
+
+.accent-color-picker-xl .accent-color-picker-button {
+  padding: 12px 16px;
+  font-size: var(--font-size-xl, 20px);
+}
+
+/* Dark theme support */
+[data-theme='dark'] .accent-color-picker-button {
+  background: var(--theme-surface, #1f2937);
+  border-color: var(--theme-border, #374151);
+}
+
+[data-theme='dark'] .accent-color-input {
+  background: var(--theme-surface, #1f2937);
+  border-color: var(--theme-border, #374151);
+}
+
+[data-theme='dark'] .accent-color-picker-panel {
+  background: var(--theme-surface, #1f2937);
+  border-color: var(--theme-border, #374151);
+}

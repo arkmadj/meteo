@@ -1,0 +1,26 @@
+{
+  "formats": {
+    "short": "DD/MM/YYYY",
+    "long": "DD de MMMM de YYYY",
+    "time": "HH:mm",
+    "weekdayShort": "ddd",
+    "weekdayLong": "dddd",
+    "monthShort": "MMM",
+    "monthLong": "MMMM"
+  },
+  "months": [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ],
+  "days": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+}

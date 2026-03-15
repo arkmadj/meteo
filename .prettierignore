@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Cache
+.cache/
+.temp/
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
+
+# Husky
+.husky/
+
+# Package manager files
+pnpm-lock.yaml
+
+# TypeScript declaration files
+*.d.ts
+
+# Generated files
+*.generated.*
+*.min.*
+
+# Documentation
+docs/
+
+# Storybook
+storybook-static/
+
+# Bundle analyzer
+stats.html
