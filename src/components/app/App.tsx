@@ -2,7 +2,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useLanguage } from '@/i18n/hooks/useLanguage';
 import AppHeader from '@/components/headers/AppHeader';
 import LanguageSelector from '@/components/language/LanguageSelector';
 import { LoadingWithSkeleton, WeatherLiveRegion } from '@/components/ui';
@@ -14,6 +13,7 @@ import Forecast from '@/components/weather/Forecast';
 import { DashboardLayoutProvider } from '@/contexts/DashboardLayoutContext';
 import { useErrors } from '@/contexts/ErrorContext';
 import '@/i18n/config';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 import '@/styles/embla-carousel.css';
 
 import { BORDER_RADIUS, SHADOWS, SPACING } from '@/design-system/tokens';
@@ -136,7 +136,7 @@ const App = () => {
 
                   {/* Weather Content */}
                   <div className="w-[min(100%,72rem)]">
-                    {memoizedLoading && !memoizedError && (
+                    {memoizedLoading && !memoizedError && true && (
                       <LoadingWithSkeleton
                         message={t('common:loading')}
                         showSkeleton={true}

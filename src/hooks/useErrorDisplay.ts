@@ -17,7 +17,7 @@ import {
   recommendDisplayMedium,
   type ErrorDisplayOptions,
 } from '@/utils/errorDisplayHelper';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * Hook return type

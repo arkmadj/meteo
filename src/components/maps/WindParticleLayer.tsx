@@ -6,7 +6,11 @@
  * Respects user preferences for reduced motion.
  */
 
+import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
+import { useTheme } from '@/design-system/theme';
 import L from 'leaflet';
+import { useCallback, useEffect, useRef } from 'react';
+import { useMap } from 'react-leaflet';
 
 export interface WindDataPoint {
   lat: number;
