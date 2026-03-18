@@ -321,18 +321,165 @@ export const CurrentWeatherDetailsSkeleton: React.FC<CurrentWeatherDetailsSkelet
 };
 
 /**
+ * Skeleton loader for HistoricalWeatherComparison component
+ * Matches the HistoricalWeatherComparison card structure
+ */
+export interface HistoricalWeatherComparisonSkeletonProps {
+  /** Additional CSS classes */
+  className?: string;
+}
+
+export const HistoricalWeatherComparisonSkeleton: React.FC<
+  HistoricalWeatherComparisonSkeletonProps
+> = ({ className = '' }) => {
+  const { theme } = useTheme();
+
+  return (
+    <div
+      className={`historical-weather-skeleton rounded-xl border overflow-hidden ${className}`}
+      style={{
+        backgroundColor: theme.surfaceColor,
+        borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      {/* Header */}
+      <div
+        className="p-4 sm:p-6 border-b"
+        style={{ borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }}
+      >
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <SkeletonText width="2rem" height="2rem" />
+            <SkeletonText width="12rem" height="1.5rem" />
+          </div>
+          <div className="flex gap-2">
+            <SkeletonText width="5rem" height="2rem" className="rounded-md" />
+            <SkeletonText width="5rem" height="2rem" className="rounded-md" />
+          </div>
+        </div>
+      </div>
+
+      {/* Body - Comparison metrics */}
+      <div className="p-4 sm:p-6 space-y-4">
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className="flex items-center justify-between py-3">
+            <SkeletonText width="6rem" height="1rem" />
+            <div className="flex gap-4">
+              <SkeletonText width="4rem" height="1.5rem" />
+              <SkeletonText width="4rem" height="1.5rem" />
+              <SkeletonText width="4rem" height="1.5rem" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Skeleton loader for HourlyForecastTimeline component
+ * Matches the HourlyForecastTimeline card structure with horizontal scrolling items
+ */
+export interface HourlyForecastTimelineSkeletonProps {
+  /** Number of hourly items to show */
+  hoursToShow?: number;
+  /** Additional CSS classes */
+  className?: string;
+}
+
+export const HourlyForecastTimelineSkeleton: React.FC<HourlyForecastTimelineSkeletonProps> = ({
+  hoursToShow = 24,
+  className = '',
+}) => {
+  const { theme } = useTheme();
+
+  return (
+    <div
+      className={`hourly-forecast-skeleton rounded-xl border overflow-hidden ${className}`}
+      style={{
+        backgroundColor: theme.surfaceColor,
+        borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      {/* Header */}
+      <div
+        className="p-4 sm:p-6 border-b"
+        style={{ borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }}
+      >
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-3">
+            <SkeletonText width="2rem" height="2rem" />
+            <SkeletonText width="10rem" height="1.5rem" />
+            <SkeletonText width="4rem" height="1.5rem" className="rounded-full" />
+          </div>
+          <div className="flex items-center gap-2">
+            <SkeletonText width="3rem" height="1rem" />
+            <SkeletonText width="1rem" height="1rem" />
+            <SkeletonText width="3rem" height="1rem" />
+          </div>
+        </div>
+      </div>
+
+      {/* Body - Scrollable timeline */}
+      <div className="p-4">
+        <div className="flex gap-3 overflow-x-auto py-4">
+          {Array.from({ length: Math.min(hoursToShow, 12) }).map((_, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 rounded-xl border p-3 min-w-[90px]"
+              style={{
+                backgroundColor: theme.surfaceColor,
+                borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <div className="flex flex-col items-center space-y-2">
+                <SkeletonText width="3rem" height="0.875rem" className="mx-auto" />
+                <SkeletonCircle width="40px" height="40px" />
+                <SkeletonText width="2.5rem" height="1.125rem" className="mx-auto" />
+                <SkeletonText width="2rem" height="0.75rem" className="mx-auto" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Selected hour details panel */}
+      <div
+        className="p-4 border-t"
+        style={{ borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }}
+      >
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="flex flex-col items-center space-y-2">
+              <SkeletonText width="3rem" height="0.75rem" className="mx-auto" />
+              <SkeletonText width="4rem" height="1.25rem" className="mx-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
  * Complete weather content skeleton - mirrors Forecast component structure
- * Layout: Stack with WeatherCard + Dashboard Toggle + CurrentWeatherDetails + EnhancedForecast
+ * Layout: Stack with WeatherCard + Dashboard Toggle + CurrentWeatherDetails + HistoricalWeatherComparison + HourlyForecastTimeline + EnhancedForecast
  */
 export interface WeatherContentSkeletonProps {
   /** Show current weather card (WeatherCard skeleton) */
   showCurrentWeather?: boolean;
   /** Show weather details (CurrentWeatherDetails skeleton) */
   showWeatherDetails?: boolean;
+  /** Show historical comparison (HistoricalWeatherComparison skeleton) */
+  showHistoricalComparison?: boolean;
+  /** Show hourly forecast (HourlyForecastTimeline skeleton) */
+  showHourlyForecast?: boolean;
   /** Show forecast section (EnhancedForecast skeleton) */
   showForecast?: boolean;
   /** Number of forecast days */
   forecastDays?: number;
+  /** Number of hourly forecast items */
+  hoursToShow?: number;
   /** WeatherCard variant */
   cardVariant?: 'default' | 'compact' | 'detailed';
   /** Additional CSS classes */
@@ -342,8 +489,11 @@ export interface WeatherContentSkeletonProps {
 export const WeatherContentSkeleton: React.FC<WeatherContentSkeletonProps> = ({
   showCurrentWeather = true,
   showWeatherDetails = true,
+  showHistoricalComparison = true,
+  showHourlyForecast = true,
   showForecast = true,
   forecastDays = 7,
+  hoursToShow = 24,
   cardVariant = 'detailed',
   className = '',
 }) => {
@@ -364,7 +514,7 @@ export const WeatherContentSkeleton: React.FC<WeatherContentSkeletonProps> = ({
         <div className="w-full mt-6">
           <div className="flex justify-between items-center mb-4 px-4">
             <SkeletonText width="8rem" height="1.125rem" />
-            <SkeletonText width="7rem" height="2rem" className="rounded-md" />
+            <SkeletonText width="9rem" height="2rem" className="rounded-md" />
           </div>
         </div>
       )}
@@ -373,6 +523,20 @@ export const WeatherContentSkeleton: React.FC<WeatherContentSkeletonProps> = ({
       {showWeatherDetails && (
         <div className="w-full mt-6">
           <CurrentWeatherDetailsSkeleton />
+        </div>
+      )}
+
+      {/* HistoricalWeatherComparison Skeleton */}
+      {showHistoricalComparison && (
+        <div className="w-full mt-6 px-4">
+          <HistoricalWeatherComparisonSkeleton />
+        </div>
+      )}
+
+      {/* HourlyForecastTimeline Skeleton */}
+      {showHourlyForecast && (
+        <div className="w-full mt-6 px-4">
+          <HourlyForecastTimelineSkeleton hoursToShow={hoursToShow} />
         </div>
       )}
 
@@ -445,8 +609,8 @@ export const LoadingWithSkeleton: React.FC<LoadingWithSkeletonProps> = ({
 
       {/* Skeleton */}
       {showSkeleton && (
-        <div style={{ width: '100%', maxWidth: '800px' }}>
-          {variant === 'weather' && <WeatherCardSkeleton />}
+        <div style={{ width: '100%' }}>
+          {variant === 'weather' && <WeatherContentSkeleton />}
           {variant === 'forecast' && <ForecastSkeleton days={5} />}
           {variant === 'details' && <CurrentWeatherDetailsSkeleton />}
         </div>
