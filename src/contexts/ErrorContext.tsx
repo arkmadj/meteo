@@ -60,7 +60,7 @@ const errorReducer = (state: ErrorState, action: ErrorAction): ErrorState => {
 };
 
 // Error context interface
-interface ErrorContextType {
+export interface ErrorContextType {
   errorState: ErrorState;
   addError: (error: AppError) => void;
   removeError: (errorId: string) => void;

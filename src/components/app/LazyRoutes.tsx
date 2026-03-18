@@ -58,16 +58,22 @@ export const AppWithQuery = createRouteLazyComponent(
 // DASHBOARD ROUTES
 // ============================================================================
 
-// Weather Dashboard - removed (was in examples directory)
-// export const WeatherDashboard = createRouteLazyComponent(
-//   () => import('@/components/examples/WeatherDashboard'),
-//   'Weather Dashboard'
-// );
+// Weather Dashboard (using DashboardPage)
+export const WeatherDashboard = createRouteLazyComponent(
+  () => import('@/pages/DashboardPage'),
+  'Weather Dashboard'
+);
 
 // Weather Dashboard with Cards (heavy component)
 export const WeatherDashboardWithCards = createRouteLazyComponent(
   () => import('@/components/weather/WeatherDashboardWithCards'),
   'Weather Dashboard with Cards'
+);
+
+// Showcase Route (using AboutPage as showcase)
+export const ShowcaseRoute = createRouteLazyComponent(
+  () => import('@/pages/AboutPage'),
+  'Showcase'
 );
 
 // ============================================================================
@@ -224,3 +230,15 @@ export const lazyRouteConfig = {
 } as const;
 
 export type LazyRouteKey = keyof typeof lazyRouteConfig;
+
+// Default export for compatibility
+export default {
+  MainApp,
+  AppWithQuery,
+  WeatherDashboard,
+  WeatherDashboardWithCards,
+  ShowcaseRoute,
+  LazyRouteWrapper,
+  lazyRouteConfig,
+  preloadRoutes,
+};

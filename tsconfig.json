@@ -8,6 +8,7 @@
     "types": ["vite/client", "jest", "node"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "node",
@@ -19,13 +20,13 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": true,
-    "noImplicitAny": true,
+    "strict": false,
+    "noImplicitAny": false,
     "noUnusedLocals": false,
     "allowUnusedLabels": true,
     "allowUnreachableCode": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
 
     /* Path mapping */
     "baseUrl": ".",

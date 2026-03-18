@@ -244,4 +244,5 @@ export const ErrorList: React.FC<ErrorListProps> = ({
   );
 };
 
+export { ErrorDisplay };
 export default ErrorDisplay;

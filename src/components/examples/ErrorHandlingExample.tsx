@@ -8,11 +8,11 @@
  * - ErrorBoundary for component errors
  */
 
-import { ErrorBoundary } from '@/components/utilities/ErrorBoundary';
-import { ErrorDisplay } from '@/components/utilities/ErrorDisplay';
 import { Alert } from '@/components/ui';
 import { Button } from '@/components/ui/atoms';
-import { useError } from '@/contexts/ErrorContext';
+import { ErrorBoundary } from '@/components/utilities/ErrorBoundary';
+import { ErrorDisplay } from '@/components/utilities/ErrorDisplay';
+import { useError, useErrors } from '@/contexts/ErrorContext';
 import { CityNotFoundError } from '@/errors/domainErrors';
 import { useErrorDisplay } from '@/hooks/useErrorDisplay';
 import type { AppError } from '@/types/error';
@@ -79,13 +79,13 @@ export const SimpleErrorHandlingExample: React.FC = () => {
         <Button onClick={handleInfo} variant="secondary">
           Show Info
         </Button>
-        <Button onClick={handleSimpleError} variant="danger">
+        <Button onClick={handleSimpleError} variant="error">
           Simple Error
         </Button>
-        <Button onClick={handleNetworkError} variant="danger">
+        <Button onClick={handleNetworkError} variant="error">
           Network Error
         </Button>
-        <Button onClick={handleCriticalError} variant="danger">
+        <Button onClick={handleCriticalError} variant="error">
           Critical Error
         </Button>
       </div>
@@ -176,7 +176,8 @@ export const ManualErrorHandlingExample: React.FC = () => {
  * Example 3: Error handling with ErrorDisplay component
  */
 export const ErrorDisplayExample: React.FC = () => {
-  const { handleError, errors, removeError } = useError();
+  const { handleError, removeError } = useError();
+  const errors = useErrors();
   const [isLoading, setIsLoading] = useState(false);
 
   const simulateRetryableError = async () => {
@@ -211,7 +212,7 @@ export const ErrorDisplayExample: React.FC = () => {
         ErrorDisplay Component (for retryable errors)
       </h2>
 
-      <Button onClick={simulateRetryableError} disabled={isLoading} variant="danger">
+      <Button onClick={simulateRetryableError} disabled={isLoading} variant="error">
         {isLoading ? 'Loading...' : 'Simulate Network Error'}
       </Button>
 
@@ -262,7 +263,7 @@ export const ErrorBoundaryExample: React.FC = () => {
       </h2>
 
       <div className="flex gap-2">
-        <Button onClick={() => setShouldThrow(true)} variant="danger">
+        <Button onClick={() => setShouldThrow(true)} variant="error">
           Trigger Component Error
         </Button>
         <Button onClick={handleReset} variant="secondary">
