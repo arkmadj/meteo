@@ -220,7 +220,7 @@ export const createShowcaseLazyComponent = <T extends ComponentType<unknown>>(
         </div>
       </div>
     ),
-    errorFallback: ({ _error, retry }) => (
+    errorFallback: ({ error: _error, retry }) => (
       <div className="flex flex-col items-center justify-center p-6 border-2 border-red-200 rounded-lg bg-red-50">
         <div className="text-red-500 mb-2">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -82,7 +82,8 @@ export {
   type TaskStage,
 } from './cancellablePipeline';
 
-export * from './retry';
+// Export retry functions (excluding retryWithBackoff which is also in errorHandler)
+export { retryApi, retryNetwork, safeRetry, safeRetryWithResult } from './retry';
 
 export {
   collectTreeResults,
@@ -117,7 +118,7 @@ export {
   usePreloadChunks,
   type ChunkLoadingStrategy,
 } from './chunkOptimizedLazyLoad';
-export * from './devicePerformance';
+// Export devicePerformance and performance (note: PerformanceMetrics is in both, using the one from performance)
 export * from './performance';
 
 // UI utilities
@@ -129,7 +130,6 @@ export {
   getContrastRatio as getWCAGContrastRatio,
   meetsContrastRequirement as meetsWCAGContrastRequirement,
   type ContrastCheckResult,
-  type ContrastIssue,
   type TextSize,
   type WCAGLevel,
 } from './contrastVerification';
