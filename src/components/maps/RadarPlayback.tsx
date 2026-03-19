@@ -149,6 +149,7 @@ const RadarPlayback: React.FC<RadarPlaybackProps> = React.memo(
 
       // Cleanup
       return () => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const tileLayers = tileLayersRef.current;
         tileLayers.forEach(layer => {
           if (map.hasLayer(layer)) {

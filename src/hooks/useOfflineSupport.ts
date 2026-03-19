@@ -102,7 +102,7 @@ export const useOfflineSupport = () => {
           } as unknown);
         }
       },
-      [key, addError, t]
+      [key]
     );
 
     const clearOfflineData = React.useCallback(() => {

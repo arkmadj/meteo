@@ -3,9 +3,9 @@
  * Allows users to share and revisit exact map views
  */
 
-import { useEffect, useCallback, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import type L from 'leaflet';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export interface MapBounds {
   north: number;
@@ -202,7 +202,10 @@ export const useMapUrlSync = (options: UseMapUrlSyncOptions = {}): UseMapUrlSync
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
 
-  const paramNames = { ...DEFAULT_PARAM_NAMES, ...customParamNames };
+  const paramNames = useMemo(
+    () => ({ ...DEFAULT_PARAM_NAMES, ...customParamNames }),
+    [customParamNames]
+  );
 
   // Check if URL has map parameters
   const hasMapParams =

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * Hook to monitor conditional loading performance metrics
@@ -107,32 +107,35 @@ export const useConditionalLoadingMetrics = (): ConditionalLoadingMetricsHook =>
   }, []);
 
   // Calculate aggregated metrics
-  const metrics: LoadingMetrics = {
-    totalComponents: loadingMetrics.length,
-    loadedComponents: loadingMetrics.filter(m => m.loadEndTime).length,
-    averageLoadTime:
-      loadingMetrics
-        .filter(m => m.loadDuration)
-        .reduce((sum, m) => sum + (m.loadDuration || 0), 0) /
-      Math.max(1, loadingMetrics.filter(m => m.loadDuration).length),
-    totalBundleSize: loadingMetrics
-      .filter(m => m.bundleSize)
-      .reduce((sum, m) => sum + (m.bundleSize || 0), 0),
-    loadingStrategies: loadingMetrics.reduce(
-      (acc, m) => {
-        acc[m.loadingStrategy] = (acc[m.loadingStrategy] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>
-    ),
-    successRate:
-      loadingMetrics.length > 0
-        ? loadingMetrics.filter(m => m.loadEndTime && !m.error).length / loadingMetrics.length
-        : 0,
-    userInitiatedLoads: loadingMetrics.filter(m => m.userInitiated).length,
-    automaticLoads: loadingMetrics.filter(m => !m.userInitiated).length,
-    metrics: loadingMetrics,
-  };
+  const metrics: LoadingMetrics = useMemo(
+    () => ({
+      totalComponents: loadingMetrics.length,
+      loadedComponents: loadingMetrics.filter(m => m.loadEndTime).length,
+      averageLoadTime:
+        loadingMetrics
+          .filter(m => m.loadDuration)
+          .reduce((sum, m) => sum + (m.loadDuration || 0), 0) /
+        Math.max(1, loadingMetrics.filter(m => m.loadDuration).length),
+      totalBundleSize: loadingMetrics
+        .filter(m => m.bundleSize)
+        .reduce((sum, m) => sum + (m.bundleSize || 0), 0),
+      loadingStrategies: loadingMetrics.reduce(
+        (acc, m) => {
+          acc[m.loadingStrategy] = (acc[m.loadingStrategy] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
+      successRate:
+        loadingMetrics.length > 0
+          ? loadingMetrics.filter(m => m.loadEndTime && !m.error).length / loadingMetrics.length
+          : 0,
+      userInitiatedLoads: loadingMetrics.filter(m => m.userInitiated).length,
+      automaticLoads: loadingMetrics.filter(m => !m.userInitiated).length,
+      metrics: loadingMetrics,
+    }),
+    [loadingMetrics]
+  );
 
   // Generate metrics summary
   const getMetricsSummary = useCallback(() => {
@@ -253,7 +256,7 @@ export const withLoadingMetrics = <P extends object>(
         const _endTime = performance.now();
         metrics.recordLoadEnd(componentName, true);
       };
-    }, [metrics, componentName, loadingStrategy]);
+    }, [metrics]);
 
     return React.createElement(WrappedComponent, props);
   };

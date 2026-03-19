@@ -339,7 +339,7 @@ export const withQueryErrorHandling = (Component: React.ComponentType<unknown>) 
         unsubscribe();
         unsubscribeMutations();
       };
-    }, [handleQueryError, handleMutationError]);
+    }, [queryClient, handleQueryError, handleMutationError]);
 
     return React.createElement(Component as React.ComponentType<unknown>, props as unknown);
   };

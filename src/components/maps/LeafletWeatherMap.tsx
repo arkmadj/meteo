@@ -70,6 +70,7 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
 
     return () => {
       // Cleanup map instance
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const mapInstance = mapInstanceRef.current;
       if (mapInstance) {
         // mapInstance.remove();

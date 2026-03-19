@@ -4,7 +4,7 @@
  * Ensures accessibility by preventing focus from escaping the container
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * Selectors for focusable elements
@@ -219,6 +219,9 @@ export function useFocusTrap({
     // Store previously focused element
     previouslyFocusedElement.current = document.activeElement as HTMLElement;
 
+    // Capture the final focus ref value at the start of the effect
+    const finalFocus = finalFocusRef?.current;
+
     // Focus initial element
     const focusInitial = () => {
       if (initialFocusRef?.current) {
@@ -256,7 +259,7 @@ export function useFocusTrap({
       }
 
       // Restore focus
-      const elementToFocus = finalFocusRef?.current || previouslyFocusedElement.current;
+      const elementToFocus = finalFocus || previouslyFocusedElement.current;
 
       if (elementToFocus && document.body.contains(elementToFocus)) {
         // Small delay to ensure modal is removed from DOM

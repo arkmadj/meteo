@@ -194,7 +194,7 @@ export const useCurrentPosition = (options: UseGeolocationOptions = {}) => {
     if (options.watch !== false) {
       geolocation.getCurrentPosition();
     }
-  }, []);
+  }, [geolocation, options.watch]);
 
   return geolocation;
 };

@@ -79,6 +79,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
     initializeMap();
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const map = mapRef.current;
       if (map) {
         // map.remove();

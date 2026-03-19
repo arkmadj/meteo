@@ -5,7 +5,7 @@
 
 import type { PerformanceTier } from '@/utils/devicePerformance';
 import type L from 'leaflet';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 
 export interface ThrottledMapInteractionsProps {
@@ -224,44 +224,44 @@ export function useThrottledMapInteractions(
   const map = useMap();
   const effectiveDelay = throttleDelay || getThrottleDelay(performanceTier);
 
-  const throttledSetView = useCallback(
-     
-    throttle((center: L.LatLngExpression, zoom?: number) => {
-      map.setView(center, zoom);
-    }, effectiveDelay),
+  const throttledSetView = useMemo(
+    () =>
+      throttle((center: L.LatLngExpression, zoom?: number) => {
+        map.setView(center, zoom);
+      }, effectiveDelay),
     [map, effectiveDelay]
   );
 
-  const throttledFlyTo = useCallback(
-     
-    throttle((latlng: L.LatLngExpression, zoom?: number) => {
-      if (performanceTier === 'low') {
-        // Use instant setView for low-end devices
-        map.setView(latlng, zoom);
-      } else {
-        map.flyTo(latlng, zoom);
-      }
-    }, effectiveDelay),
+  const throttledFlyTo = useMemo(
+    () =>
+      throttle((latlng: L.LatLngExpression, zoom?: number) => {
+        if (performanceTier === 'low') {
+          // Use instant setView for low-end devices
+          map.setView(latlng, zoom);
+        } else {
+          map.flyTo(latlng, zoom);
+        }
+      }, effectiveDelay),
     [map, effectiveDelay, performanceTier]
   );
 
-  const throttledPanTo = useCallback(
-     
-    throttle((latlng: L.LatLngExpression) => {
-      if (performanceTier === 'low') {
-        map.setView(latlng, map.getZoom());
-      } else {
-        map.panTo(latlng);
-      }
-    }, effectiveDelay),
+  const throttledPanTo = useMemo(
+    () =>
+      throttle((latlng: L.LatLngExpression) => {
+        if (performanceTier === 'low') {
+          map.setView(latlng, map.getZoom());
+        } else {
+          map.panTo(latlng);
+        }
+      }, effectiveDelay),
     [map, effectiveDelay, performanceTier]
   );
 
-  const throttledSetZoom = useCallback(
-     
-    throttle((zoom: number) => {
-      map.setZoom(zoom);
-    }, effectiveDelay),
+  const throttledSetZoom = useMemo(
+    () =>
+      throttle((zoom: number) => {
+        map.setZoom(zoom);
+      }, effectiveDelay),
     [map, effectiveDelay]
   );
 
