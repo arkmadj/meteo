@@ -191,4 +191,3 @@ export const runSubscriptionMigration = async (): Promise<MigrationResult> => {
     return result;
   }
 };
-

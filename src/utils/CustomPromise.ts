@@ -1,6 +1,6 @@
 /**
  * Custom Promise implementation compliant with Promises/A+ specification
- * 
+ *
  * This implementation follows the Promises/A+ specification:
  * https://promisesaplus.com/
  */
@@ -9,19 +9,23 @@ export type PromiseState = 'pending' | 'fulfilled' | 'rejected';
 
 export type ResolveFunction<T> = (value: T | PromiseLike<T>) => void;
 export type RejectFunction = (reason?: any) => void;
-export type OnFulfilledCallback<T, TResult> = ((value: T) => TResult | PromiseLike<TResult>) | null | undefined;
-export type OnRejectedCallback<TResult> = ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined;
+export type OnFulfilledCallback<T, TResult> =
+  | ((value: T) => TResult | PromiseLike<TResult>)
+  | null
+  | undefined;
+export type OnRejectedCallback<TResult> =
+  | ((reason: any) => TResult | PromiseLike<TResult>)
+  | null
+  | undefined;
 
 export interface ICustomPromise<T> {
   then<TResult1 = T, TResult2 = never>(
     onFulfilled?: OnFulfilledCallback<T, TResult1>,
     onRejected?: OnRejectedCallback<TResult2>
   ): ICustomPromise<TResult1 | TResult2>;
-  
-  catch<TResult = never>(
-    onRejected?: OnRejectedCallback<TResult>
-  ): ICustomPromise<T | TResult>;
-  
+
+  catch<TResult = never>(onRejected?: OnRejectedCallback<TResult>): ICustomPromise<T | TResult>;
+
   finally(onFinally?: () => void): ICustomPromise<T>;
 }
 
@@ -32,13 +36,11 @@ export class CustomPromise<T> implements ICustomPromise<T> {
   private onFulfilledCallbacks: Array<(value: T) => void> = [];
   private onRejectedCallbacks: Array<(reason: any) => void> = [];
 
-  constructor(
-    executor: (resolve: ResolveFunction<T>, reject: RejectFunction) => void
-  ) {
+  constructor(executor: (resolve: ResolveFunction<T>, reject: RejectFunction) => void) {
     try {
       executor(
-        (value) => this.resolve(value),
-        (reason) => this.reject(reason)
+        value => this.resolve(value),
+        reason => this.reject(reason)
       );
     } catch (error) {
       this.reject(error);
@@ -73,8 +75,8 @@ export class CustomPromise<T> implements ICustomPromise<T> {
       if (typeof then === 'function') {
         then.call(
           promise,
-          (value) => this.resolve(value),
-          (reason) => this.reject(reason)
+          value => this.resolve(value),
+          reason => this.reject(reason)
         );
       } else {
         this.resolve(promise as T);
@@ -155,9 +157,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
     return promise2;
   }
 
-  catch<TResult = never>(
-    onRejected?: OnRejectedCallback<TResult>
-  ): ICustomPromise<T | TResult> {
+  catch<TResult = never>(onRejected?: OnRejectedCallback<TResult>): ICustomPromise<T | TResult> {
     return this.then(undefined, onRejected);
   }
 
@@ -194,7 +194,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
     if (value instanceof CustomPromise) {
       return value;
     }
-    return new CustomPromise<T>((resolve) => resolve(value));
+    return new CustomPromise<T>(resolve => resolve(value));
   }
 
   static reject<T = never>(reason?: any): CustomPromise<T> {
@@ -221,14 +221,14 @@ export class CustomPromise<T> implements ICustomPromise<T> {
 
       promises.forEach((promise, index) => {
         CustomPromise.resolve(promise).then(
-          (value) => {
+          value => {
             results[index] = value;
             completed++;
             if (completed === total) {
               resolve(results as { -readonly [P in keyof T]: Awaited<T[P]> });
             }
           },
-          (reason) => {
+          reason => {
             reject(reason);
           }
         );
@@ -243,10 +243,10 @@ export class CustomPromise<T> implements ICustomPromise<T> {
         return;
       }
 
-      promises.forEach((promise) => {
+      promises.forEach(promise => {
         CustomPromise.resolve(promise).then(
-          (value) => resolve(value),
-          (reason) => reject(reason)
+          value => resolve(value),
+          reason => reject(reason)
         );
       });
     });

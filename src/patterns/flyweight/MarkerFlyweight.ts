@@ -1,14 +1,14 @@
 /**
  * Flyweight Pattern Implementation for Map Markers
- * 
+ *
  * The Flyweight pattern is a structural design pattern that minimizes memory usage
  * by sharing common data (intrinsic state) among multiple objects, while keeping
  * unique data (extrinsic state) separate.
- * 
+ *
  * For map markers, this means:
  * - Intrinsic state: Shared marker appearance (icon, color, size, style)
  * - Extrinsic state: Unique marker data (position, label, metadata)
- * 
+ *
  * Benefits:
  * - Reduces memory footprint when rendering 1000+ markers
  * - Improves rendering performance by reusing DOM elements
@@ -142,4 +142,3 @@ export class MarkerFlyweight {
     return `${intrinsicState.type}-${intrinsicState.color}-${intrinsicState.size}`;
   }
 }
-

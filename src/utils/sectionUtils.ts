@@ -204,4 +204,3 @@ export const createScrollTracker = (callback: () => void): (() => void) => {
     window.removeEventListener('scroll', scrollListener);
   };
 };
-

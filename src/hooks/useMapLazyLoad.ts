@@ -78,9 +78,7 @@ export interface UseMapLazyLoadReturn {
 /**
  * Hook for managing map lazy loading
  */
-export const useMapLazyLoad = (
-  options: UseMapLazyLoadOptions = {}
-): UseMapLazyLoadReturn => {
+export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyLoadReturn => {
   const {
     strategy = 'visible',
     delay = 1000,
@@ -178,8 +176,8 @@ export const useMapLazyLoad = (
   // Handle visible strategy (Intersection Observer)
   useEffect(() => {
     if (strategy === 'visible' && containerRef.current) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting && !hasTriggeredRef.current) {
             loadLibraries();
             observer.disconnect();
@@ -297,13 +295,13 @@ export const useProgressiveMapLoad = (
     setStage(1);
     onStageComplete?.(1);
 
-    await new Promise((resolve) => setTimeout(resolve, stageDelay));
+    await new Promise(resolve => setTimeout(resolve, stageDelay));
 
     // Stage 2: Load core libraries
     setStage(2);
     onStageComplete?.(2);
 
-    await new Promise((resolve) => setTimeout(resolve, stageDelay));
+    await new Promise(resolve => setTimeout(resolve, stageDelay));
 
     // Stage 3: Load map components
     setStage(3);
@@ -312,7 +310,7 @@ export const useProgressiveMapLoad = (
     try {
       await preloadMapLibraries();
 
-      await new Promise((resolve) => setTimeout(resolve, stageDelay));
+      await new Promise(resolve => setTimeout(resolve, stageDelay));
 
       // Stage 4: Fully loaded
       setStage(4);
@@ -330,4 +328,3 @@ export const useProgressiveMapLoad = (
 };
 
 export default useMapLazyLoad;
-

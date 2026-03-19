@@ -9,4 +9,3 @@ export { default as ShareableWeatherCard } from './ShareableWeatherCard';
 export type { ShareButtonProps, ShareButtonSize, ShareButtonVariant } from './ShareButton';
 export type { ShareWeatherModalProps } from './ShareWeatherModal';
 export type { ShareableWeatherCardProps } from './ShareableWeatherCard';
-

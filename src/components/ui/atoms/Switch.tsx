@@ -40,7 +40,8 @@ export type SwitchVariant = 'default' | 'filled' | 'outlined';
 // ============================================================================
 
 export interface SwitchProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   /** Switch size */
   size?: SwitchSize;

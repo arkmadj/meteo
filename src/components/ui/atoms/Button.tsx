@@ -20,7 +20,8 @@ export type ButtonSize = ComponentSize;
 // ============================================================================
 
 export interface ButtonProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
   /** Button variant */
   variant?: ButtonVariant;

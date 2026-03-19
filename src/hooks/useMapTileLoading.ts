@@ -169,9 +169,12 @@ export const useMapTileLoading = (
 
       // Schedule retry with delay
       if (retryTimeoutRef.current) clearTimeout(retryTimeoutRef.current);
-      retryTimeoutRef.current = setTimeout(() => {
-        startLoading();
-      }, retryDelay * (prev.retryCount + 1)); // Exponential backoff
+      retryTimeoutRef.current = setTimeout(
+        () => {
+          startLoading();
+        },
+        retryDelay * (prev.retryCount + 1)
+      ); // Exponential backoff
 
       return {
         ...prev,
@@ -218,4 +221,3 @@ export const useMapTileLoading = (
 };
 
 export default useMapTileLoading;
-

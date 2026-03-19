@@ -1,9 +1,9 @@
 /**
  * Accessible Modal Component
- * 
+ *
  * A fully accessible modal dialog component with TypeScript types that follows
  * ARIA best practices for dialog patterns.
- * 
+ *
  * Features:
  * - ARIA dialog pattern implementation
  * - Focus management and restoration
@@ -15,13 +15,7 @@
  * - Customizable sizes and animations
  */
 
-import React, {
-  useEffect,
-  useRef,
-  useCallback,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
+import React, { useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { createPortal } from 'react-dom';
 
 // ============================================================================
@@ -105,10 +99,7 @@ export interface ModalRef {
 // FOCUS TRAP HOOK
 // ============================================================================
 
-const useFocusTrap = (
-  isActive: boolean,
-  containerRef: React.RefObject<HTMLElement>
-) => {
+const useFocusTrap = (isActive: boolean, containerRef: React.RefObject<HTMLElement>) => {
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
   const getFocusableElements = useCallback((container: HTMLElement) => {
@@ -125,31 +116,34 @@ const useFocusTrap = (
     return Array.from(container.querySelectorAll(focusableSelectors)) as HTMLElement[];
   }, []);
 
-  const handleTabKey = useCallback((event: KeyboardEvent) => {
-    if (!isActive || !containerRef.current) return;
+  const handleTabKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (!isActive || !containerRef.current) return;
 
-    const focusableElements = getFocusableElements(containerRef.current);
-    if (focusableElements.length === 0) return;
+      const focusableElements = getFocusableElements(containerRef.current);
+      if (focusableElements.length === 0) return;
 
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
 
-    if (event.key === 'Tab') {
-      if (event.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === firstElement) {
-          event.preventDefault();
-          lastElement.focus();
-        }
-      } else {
-        // Tab
-        if (document.activeElement === lastElement) {
-          event.preventDefault();
-          firstElement.focus();
+      if (event.key === 'Tab') {
+        if (event.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+          }
         }
       }
-    }
-  }, [isActive, containerRef, getFocusableElements]);
+    },
+    [isActive, containerRef, getFocusableElements]
+  );
 
   useEffect(() => {
     if (isActive) {
@@ -191,37 +185,40 @@ const useFocusTrap = (
 // ============================================================================
 
 export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
-  ({
-    isOpen,
-    onClose,
-    title,
-    hideTitle = false,
-    children,
-    size = 'md',
-    variant = 'default',
-    closeOnBackdropClick = true,
-    closeOnEscape = true,
-    showCloseButton = true,
-    closeButtonContent,
-    preventBodyScroll = true,
-    initialFocus,
-    returnFocus,
-    portalContainer,
-    className = '',
-    backdropClassName = '',
-    contentClassName = '',
-    id,
-    ariaLabel,
-    ariaDescribedBy,
-    ariaLabelledBy,
-    role = 'dialog',
-    onOpen,
-    onAfterClose,
-    loading = false,
-    loadingMessage = 'Loading...',
-    animationDuration = 300,
-    disableAnimation = false,
-  }, ref) => {
+  (
+    {
+      isOpen,
+      onClose,
+      title,
+      hideTitle = false,
+      children,
+      size = 'md',
+      variant = 'default',
+      closeOnBackdropClick = true,
+      closeOnEscape = true,
+      showCloseButton = true,
+      closeButtonContent,
+      preventBodyScroll = true,
+      initialFocus,
+      returnFocus,
+      portalContainer,
+      className = '',
+      backdropClassName = '',
+      contentClassName = '',
+      id,
+      ariaLabel,
+      ariaDescribedBy,
+      ariaLabelledBy,
+      role = 'dialog',
+      onOpen,
+      onAfterClose,
+      loading = false,
+      loadingMessage = 'Loading...',
+      animationDuration = 300,
+      disableAnimation = false,
+    },
+    ref
+  ) => {
     // ========================================================================
     // REFS & STATE
     // ========================================================================
@@ -275,28 +272,37 @@ export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
 
     const handleClose = useCallback(() => {
       onClose();
-      
+
       // Handle return focus
-      setTimeout(() => {
-        if (returnFocus?.current) {
-          returnFocus.current.focus();
-        }
-        onAfterClose?.();
-      }, disableAnimation ? 0 : animationDuration);
+      setTimeout(
+        () => {
+          if (returnFocus?.current) {
+            returnFocus.current.focus();
+          }
+          onAfterClose?.();
+        },
+        disableAnimation ? 0 : animationDuration
+      );
     }, [onClose, returnFocus, onAfterClose, disableAnimation, animationDuration]);
 
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-      if (event.key === 'Escape' && closeOnEscape) {
-        event.preventDefault();
-        handleClose();
-      }
-    }, [closeOnEscape, handleClose]);
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
+        if (event.key === 'Escape' && closeOnEscape) {
+          event.preventDefault();
+          handleClose();
+        }
+      },
+      [closeOnEscape, handleClose]
+    );
 
-    const handleBackdropClick = useCallback((event: React.MouseEvent) => {
-      if (closeOnBackdropClick && event.target === backdropRef.current) {
-        handleClose();
-      }
-    }, [closeOnBackdropClick, handleClose]);
+    const handleBackdropClick = useCallback(
+      (event: React.MouseEvent) => {
+        if (closeOnBackdropClick && event.target === backdropRef.current) {
+          handleClose();
+        }
+      },
+      [closeOnBackdropClick, handleClose]
+    );
 
     // ========================================================================
     // EFFECTS
@@ -309,7 +315,7 @@ export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
       if (isOpen) {
         const originalOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
-        
+
         return () => {
           document.body.style.overflow = originalOverflow;
         };
@@ -329,11 +335,15 @@ export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
     // IMPERATIVE HANDLE
     // ========================================================================
 
-    useImperativeHandle(ref, () => ({
-      focus: () => modalRef.current?.focus(),
-      close: handleClose,
-      getElement: () => modalRef.current,
-    }), [handleClose]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        focus: () => modalRef.current?.focus(),
+        close: handleClose,
+        getElement: () => modalRef.current,
+      }),
+      [handleClose]
+    );
 
     // ========================================================================
     // RENDER
@@ -375,7 +385,7 @@ export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
               >
                 {title}
               </h2>
-              
+
               {showCloseButton && (
                 <button
                   ref={closeButtonRef}
@@ -384,9 +394,7 @@ export const AccessibleModal = forwardRef<ModalRef, ModalProps>(
                   onClick={handleClose}
                   aria-label="Close modal"
                 >
-                  {closeButtonContent || (
-                    <span aria-hidden="true">&times;</span>
-                  )}
+                  {closeButtonContent || <span aria-hidden="true">&times;</span>}
                 </button>
               )}
             </div>
@@ -501,7 +509,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     >
       <div className="confirmation-modal-content">
         <p className="confirmation-message">{message}</p>
-        
+
         <div className="confirmation-actions">
           <button
             type="button"
@@ -511,7 +519,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           >
             {cancelText}
           </button>
-          
+
           <button
             type="button"
             className={`modal-confirm-button ${confirmVariant}`}
@@ -572,15 +580,11 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           {alertType === 'success' && '✅'}
           {alertType === 'info' && 'ℹ️'}
         </div>
-        
+
         <p className="alert-message">{message}</p>
-        
+
         <div className="alert-actions">
-          <button
-            type="button"
-            className="modal-acknowledge-button"
-            onClick={handleAcknowledge}
-          >
+          <button type="button" className="modal-acknowledge-button" onClick={handleAcknowledge}>
             {acknowledgeText}
           </button>
         </div>

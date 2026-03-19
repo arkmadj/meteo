@@ -19,11 +19,11 @@ export interface PreferenceAwareRequestConfig extends RequestConfig {
   // Image optimization
   imageQuality?: 'low' | 'medium' | 'high' | 'auto';
   imageFormat?: 'webp' | 'jpeg' | 'png' | 'auto';
-  
+
   // Data optimization
   compression?: boolean;
   minifyResponse?: boolean;
-  
+
   // Connection optimization
   maxParallelRequests?: number;
   adaptiveTimeout?: boolean;
@@ -104,7 +104,7 @@ class RequestQueue {
     if (!requestFn) return;
 
     this.activeRequests++;
-    
+
     try {
       await requestFn();
     } finally {
@@ -124,7 +124,7 @@ export class PreferenceAwareHttpClient {
   constructor() {
     this.connectionInfo = getUserConnectionInfo();
     this.requestQueue = new RequestQueue(this.getOptimalMaxRequests());
-    
+
     // Listen for connection changes
     if ('connection' in navigator) {
       (navigator as any).connection?.addEventListener('change', () => {
@@ -136,19 +136,24 @@ export class PreferenceAwareHttpClient {
 
   private getOptimalMaxRequests(): number {
     if (this.connectionInfo.saveData) return 2;
-    
+
     switch (this.connectionInfo.effectiveType) {
-      case 'slow-2g': return 1;
-      case '2g': return 2;
-      case '3g': return 4;
-      case '4g': return 6;
-      default: return 6;
+      case 'slow-2g':
+        return 1;
+      case '2g':
+        return 2;
+      case '3g':
+        return 4;
+      case '4g':
+        return 6;
+      default:
+        return 6;
     }
   }
 
   private getOptimalTimeout(baseTimeout: number = 10000): number {
     if (!this.connectionInfo.rtt) return baseTimeout;
-    
+
     // Adjust timeout based on RTT
     const rttMultiplier = Math.max(1, this.connectionInfo.rtt / 100);
     return Math.min(baseTimeout * rttMultiplier, 30000);
@@ -167,7 +172,7 @@ export class PreferenceAwareHttpClient {
 
       // Reduce timeout for faster failure
       optimized.timeout = Math.min(optimized.timeout || 10000, 5000);
-      
+
       // Reduce retries
       optimized.retries = Math.min(optimized.retries || 3, 1);
     }
@@ -197,9 +202,7 @@ export class PreferenceAwareHttpClient {
 
   private async makeRequest(config: RequestConfig): Promise<Response> {
     const controller = new AbortController();
-    const timeoutId = config.timeout 
-      ? setTimeout(() => controller.abort(), config.timeout)
-      : null;
+    const timeoutId = config.timeout ? setTimeout(() => controller.abort(), config.timeout) : null;
 
     try {
       const response = await fetch(config.url, {
@@ -227,7 +230,7 @@ export class PreferenceAwareHttpClient {
       for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
           const response = await this.makeRequest(optimizedConfig);
-          
+
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
@@ -236,11 +239,10 @@ export class PreferenceAwareHttpClient {
           return data;
         } catch (error) {
           lastError = error as Error;
-          
+
           // Don't retry on certain errors
           if (error instanceof Error) {
-            if (error.name === 'AbortError' || 
-                error.message.includes('HTTP 4')) {
+            if (error.name === 'AbortError' || error.message.includes('HTTP 4')) {
               break;
             }
           }
@@ -261,15 +263,26 @@ export class PreferenceAwareHttpClient {
     return this.request<T>({ ...config, url, method: 'GET' });
   }
 
-  async post<T = any>(url: string, body: any, config: Partial<PreferenceAwareRequestConfig> = {}): Promise<T> {
+  async post<T = any>(
+    url: string,
+    body: any,
+    config: Partial<PreferenceAwareRequestConfig> = {}
+  ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'POST', body });
   }
 
-  async put<T = any>(url: string, body: any, config: Partial<PreferenceAwareRequestConfig> = {}): Promise<T> {
+  async put<T = any>(
+    url: string,
+    body: any,
+    config: Partial<PreferenceAwareRequestConfig> = {}
+  ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'PUT', body });
   }
 
-  async delete<T = any>(url: string, config: Partial<PreferenceAwareRequestConfig> = {}): Promise<T> {
+  async delete<T = any>(
+    url: string,
+    config: Partial<PreferenceAwareRequestConfig> = {}
+  ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'DELETE' });
   }
 
@@ -284,7 +297,7 @@ export class PreferenceAwareHttpClient {
 
   getRecommendedImageQuality(): 'low' | 'medium' | 'high' {
     if (this.connectionInfo.saveData) return 'low';
-    
+
     switch (this.connectionInfo.effectiveType) {
       case 'slow-2g':
       case '2g':
@@ -299,7 +312,7 @@ export class PreferenceAwareHttpClient {
 
   getRecommendedRequestPriority(): 'low' | 'normal' | 'high' {
     if (this.connectionInfo.saveData) return 'low';
-    
+
     switch (this.connectionInfo.effectiveType) {
       case 'slow-2g':
       case '2g':

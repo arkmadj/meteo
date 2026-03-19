@@ -4,7 +4,14 @@
  * Integrates with UserPreferencesContext for comprehensive motion control
  */
 
-import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 
 const STORAGE_KEY = 'motion-preferences';
 
@@ -14,13 +21,13 @@ const STORAGE_KEY = 'motion-preferences';
 export interface MotionPreferences {
   // Manual toggle from Settings (overrides system preference)
   manualReducedMotion: boolean | null; // null = use system preference
-  
+
   // System preference (from prefers-reduced-motion media query)
   systemReducedMotion: boolean;
-  
+
   // Computed effective state (manual override OR system preference)
   effectiveReducedMotion: boolean;
-  
+
   // Individual motion effect toggles
   disableTransitions: boolean;
   disableParallax: boolean;
@@ -32,13 +39,13 @@ export interface MotionPreferences {
  */
 interface MotionPreferencesContextValue {
   preferences: MotionPreferences;
-  
+
   // Actions
   setManualReducedMotion: (enabled: boolean | null) => void;
   enableReducedMotion: () => void;
   disableReducedMotion: () => void;
   resetToSystemPreference: () => void;
-  
+
   // Utility functions
   shouldReduceMotion: () => boolean;
   shouldDisableTransitions: () => boolean;
@@ -88,10 +95,7 @@ function savePreferencesToStorage(manualReducedMotion: boolean | null): void {
   if (typeof window === 'undefined') return;
 
   try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ manualReducedMotion })
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ manualReducedMotion }));
   } catch (error) {
     console.warn('Failed to save motion preferences to storage:', error);
   }
@@ -120,7 +124,7 @@ export const MotionPreferencesProvider: React.FC<MotionPreferencesProviderProps>
     if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
+
     const handleChange = (event: MediaQueryListEvent) => {
       setSystemReducedMotion(event.matches);
     };
@@ -133,9 +137,8 @@ export const MotionPreferencesProvider: React.FC<MotionPreferencesProviderProps>
   }, []);
 
   // Compute effective reduced motion state
-  const effectiveReducedMotion = manualReducedMotion !== null 
-    ? manualReducedMotion 
-    : systemReducedMotion;
+  const effectiveReducedMotion =
+    manualReducedMotion !== null ? manualReducedMotion : systemReducedMotion;
 
   // Build preferences object
   const preferences: MotionPreferences = {
@@ -151,7 +154,7 @@ export const MotionPreferencesProvider: React.FC<MotionPreferencesProviderProps>
   const setManualReducedMotion = useCallback((enabled: boolean | null) => {
     setManualReducedMotionState(enabled);
     savePreferencesToStorage(enabled);
-    
+
     // Apply CSS class to document root for global CSS control
     if (typeof document !== 'undefined') {
       if (enabled === true) {
@@ -226,11 +229,11 @@ export const MotionPreferencesProvider: React.FC<MotionPreferencesProviderProps>
  */
 export const useMotionPreferences = (): MotionPreferencesContextValue => {
   const context = useContext(MotionPreferencesContext);
-  
+
   if (!context) {
     throw new Error('useMotionPreferences must be used within a MotionPreferencesProvider');
   }
-  
+
   return context;
 };
 
@@ -243,4 +246,3 @@ export const useReducedMotion = (): boolean => {
 };
 
 export default MotionPreferencesContext;
-

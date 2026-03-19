@@ -43,11 +43,11 @@ export type EventListener<T extends Event = Event> = (event: T) => void;
 
 /**
  * Add event listener to window with automatic cleanup
- * 
+ *
  * @param eventName - Name of the event to listen for
  * @param handler - Event handler function
  * @param options - Event listener options
- * 
+ *
  * @example
  * ```tsx
  * useWindowEventListener('resize', (event) => {
@@ -61,7 +61,7 @@ export function useWindowEventListener<K extends keyof WindowEventMap>(
   options: EventListenerOptions = {}
 ): void {
   const { capture = false, passive = false, once = false, enabled = true } = options;
-  
+
   // Use ref to store the handler to avoid re-running effect when handler changes
   const handlerRef = useRef(handler);
   handlerRef.current = handler;
@@ -93,11 +93,11 @@ export function useWindowEventListener<K extends keyof WindowEventMap>(
 
 /**
  * Add event listener to document with automatic cleanup
- * 
+ *
  * @param eventName - Name of the event to listen for
  * @param handler - Event handler function
  * @param options - Event listener options
- * 
+ *
  * @example
  * ```tsx
  * useDocumentEventListener('visibilitychange', () => {
@@ -111,7 +111,7 @@ export function useDocumentEventListener<K extends keyof DocumentEventMap>(
   options: EventListenerOptions = {}
 ): void {
   const { capture = false, passive = false, once = false, enabled = true } = options;
-  
+
   const handlerRef = useRef(handler);
   handlerRef.current = handler;
 
@@ -138,16 +138,16 @@ export function useDocumentEventListener<K extends keyof DocumentEventMap>(
 
 /**
  * Add event listener to any element with automatic cleanup
- * 
+ *
  * @param element - Target element (or ref to element)
  * @param eventName - Name of the event to listen for
  * @param handler - Event handler function
  * @param options - Event listener options
- * 
+ *
  * @example
  * ```tsx
  * const buttonRef = useRef<HTMLButtonElement>(null);
- * 
+ *
  * useElementEventListener(
  *   buttonRef,
  *   'click',
@@ -158,7 +158,7 @@ export function useDocumentEventListener<K extends keyof DocumentEventMap>(
  */
 export function useElementEventListener<
   T extends HTMLElement = HTMLElement,
-  K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
+  K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap,
 >(
   element: T | React.RefObject<T> | null,
   eventName: K,
@@ -166,7 +166,7 @@ export function useElementEventListener<
   options: EventListenerOptions = {}
 ): void {
   const { capture = false, passive = false, once = false, enabled = true } = options;
-  
+
   const handlerRef = useRef(handler);
   handlerRef.current = handler;
 
@@ -175,7 +175,7 @@ export function useElementEventListener<
 
     // Get the actual element
     const targetElement = element && 'current' in element ? element.current : element;
-    
+
     if (!targetElement) return;
 
     const eventListener = (event: HTMLElementEventMap[K]) => {
@@ -198,36 +198,33 @@ export function useElementEventListener<
 
 /**
  * Generic event listener hook for any event target
- * 
+ *
  * @param target - Event target (window, document, element, or ref)
  * @param eventName - Name of the event to listen for
  * @param handler - Event handler function
  * @param options - Event listener options
- * 
+ *
  * @example
  * ```tsx
  * // Listen to window events
  * useEventListener(window, 'resize', handleResize);
- * 
+ *
  * // Listen to document events
  * useEventListener(document, 'click', handleDocumentClick);
- * 
+ *
  * // Listen to element events
  * const ref = useRef<HTMLDivElement>(null);
  * useEventListener(ref, 'scroll', handleScroll);
  * ```
  */
-export function useEventListener<
-  T extends EventTarget,
-  K extends string
->(
+export function useEventListener<T extends EventTarget, K extends string>(
   target: T | React.RefObject<T> | null,
   eventName: K,
   handler: EventListener,
   options: EventListenerOptions = {}
 ): void {
   const { capture = false, passive = false, once = false, enabled = true } = options;
-  
+
   const handlerRef = useRef(handler);
   handlerRef.current = handler;
 
@@ -236,13 +233,13 @@ export function useEventListener<
 
     // Get the actual target
     let targetElement: EventTarget | null = null;
-    
+
     if (target && 'current' in target) {
       targetElement = target.current;
     } else {
       targetElement = target;
     }
-    
+
     if (!targetElement) return;
 
     const eventListener = (event: Event) => {
@@ -269,7 +266,7 @@ export function useEventListener<
 
 /**
  * Hook for handling keyboard events with type safety
- * 
+ *
  * @example
  * ```tsx
  * useKeyboardEvent('Escape', () => {
@@ -296,11 +293,11 @@ export function useKeyboardEvent(
 
 /**
  * Hook for handling click outside events
- * 
+ *
  * @example
  * ```tsx
  * const modalRef = useRef<HTMLDivElement>(null);
- * 
+ *
  * useClickOutside(modalRef, () => {
  *   closeModal();
  * });

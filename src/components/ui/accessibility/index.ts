@@ -7,4 +7,3 @@ export { default as PreferenceAwareComponents } from './PreferenceAwareComponent
 export { default as WeatherLiveRegion } from './WeatherLiveRegion';
 
 export type { WeatherLiveRegionProps } from './WeatherLiveRegion';
-

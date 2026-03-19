@@ -12,4 +12,3 @@ export type { AppHeaderProps } from './AppHeader';
 export type { MainHeaderProps } from './MainHeader';
 export type { NavigationHeaderProps } from './NavigationHeader';
 export type { SimpleHeaderProps } from './SimpleHeader';
-

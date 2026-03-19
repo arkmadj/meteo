@@ -23,7 +23,8 @@ export type CardShadow = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 // ============================================================================
 
 export interface CardProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'> {
   /** Card size */
   size?: CardSize;

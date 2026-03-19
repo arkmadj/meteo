@@ -7,7 +7,13 @@
 export type AQIStandard = 'european' | 'us';
 
 // European AQI Levels (0-100+)
-export type EuropeanAQILevel = 'good' | 'fair' | 'moderate' | 'poor' | 'very_poor' | 'extremely_poor';
+export type EuropeanAQILevel =
+  | 'good'
+  | 'fair'
+  | 'moderate'
+  | 'poor'
+  | 'very_poor'
+  | 'extremely_poor';
 
 // US AQI Levels (0-500)
 export type USAQILevel =
@@ -304,4 +310,3 @@ export const US_AQI_LEVELS: AQILevelConfig[] = [
     },
   },
 ];
-

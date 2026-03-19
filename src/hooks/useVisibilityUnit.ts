@@ -32,38 +32,42 @@ export const useVisibilityUnit = () => {
    * Format visibility with the current unit
    */
   const formatVisibility = useCallback(
-    (visibilityInMeters: number, options?: {
-      unit?: VisibilityUnit;
-      decimals?: number;
-      showUnit?: boolean;
-    }): string => {
+    (
+      visibilityInMeters: number,
+      options?: {
+        unit?: VisibilityUnit;
+        decimals?: number;
+        showUnit?: boolean;
+      }
+    ): string => {
       const unit = options?.unit || preferences.visibilityUnit;
       const decimals = options?.decimals ?? 1;
       const showUnit = options?.showUnit ?? true;
-      
+
       const convertedVisibility = convertVisibility(visibilityInMeters, unit);
-      
+
       // Special formatting for different units
       let formattedValue: string;
       if (unit === 'm') {
         // For meters, show whole numbers for large values
-        formattedValue = convertedVisibility >= 1000 
-          ? Math.round(convertedVisibility).toString()
-          : convertedVisibility.toFixed(0);
+        formattedValue =
+          convertedVisibility >= 1000
+            ? Math.round(convertedVisibility).toString()
+            : convertedVisibility.toFixed(0);
       } else {
         // For other units, use decimal places
         formattedValue = convertedVisibility.toFixed(decimals);
       }
-      
+
       if (!showUnit) return formattedValue;
-      
+
       const unitSymbols: Record<VisibilityUnit, string> = {
         m: 'm',
         km: 'km',
         mi: 'mi',
         nm: 'nm',
       };
-      
+
       return `${formattedValue} ${unitSymbols[unit]}`;
     },
     [convertVisibility, preferences.visibilityUnit]

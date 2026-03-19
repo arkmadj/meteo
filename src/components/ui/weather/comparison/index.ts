@@ -6,4 +6,3 @@ export { default as HistoricalWeatherComparison } from './HistoricalWeatherCompa
 export { default as PressureHistoryComparison } from './PressureHistoryComparison';
 
 export type { HistoricalWeatherComparisonProps } from './HistoricalWeatherComparison';
-

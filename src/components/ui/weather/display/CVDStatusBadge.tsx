@@ -189,4 +189,3 @@ const CVDStatusBadge: React.FC<CVDStatusBadgeProps> = ({
 };
 
 export default CVDStatusBadge;
-

@@ -63,7 +63,7 @@ export function Injectable(options: { lifetime?: ServiceLifetime; token?: Servic
 
     // Collect dependencies from @Inject decorators
     const injectMetadata = getMetadataValue(INJECT_METADATA, target) ?? [];
-    metadata.dependencies = injectMetadata.map((meta) => meta.token);
+    metadata.dependencies = injectMetadata.map(meta => meta.token);
 
     setMetadataValue(INJECTABLE_METADATA, metadata, target);
 
@@ -174,4 +174,3 @@ export const registerInjectable = <T>(
     dependencies: metadata.dependencies,
   });
 };
-

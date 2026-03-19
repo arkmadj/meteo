@@ -304,4 +304,3 @@ const AdaptiveWeatherMap: React.FC<AdaptiveWeatherMapProps> = ({
 };
 
 export default AdaptiveWeatherMap;
-

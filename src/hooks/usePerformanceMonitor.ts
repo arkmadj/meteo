@@ -45,7 +45,7 @@ export interface PerformanceMonitorResult {
  */
 function calculateFPS(frameTimes: number[]): number {
   if (frameTimes.length === 0) return 60;
-  
+
   const avgFrameTime = frameTimes.reduce((sum, time) => sum + time, 0) / frameTimes.length;
   return Math.round(1000 / avgFrameTime);
 }
@@ -55,7 +55,7 @@ function calculateFPS(frameTimes: number[]): number {
  */
 function calculateAvgFrameTime(frameTimes: number[]): number {
   if (frameTimes.length === 0) return 16.67; // 60 FPS
-  
+
   return frameTimes.reduce((sum, time) => sum + time, 0) / frameTimes.length;
 }
 
@@ -76,14 +76,15 @@ function getMemoryUsage(): number | undefined {
  */
 function estimateCPUUsage(frameTimes: number[]): number | undefined {
   if (frameTimes.length < 10) return undefined;
-  
+
   const avgFrameTime = calculateAvgFrameTime(frameTimes);
-  const variance = frameTimes.reduce((sum, time) => {
-    return sum + Math.pow(time - avgFrameTime, 2);
-  }, 0) / frameTimes.length;
-  
+  const variance =
+    frameTimes.reduce((sum, time) => {
+      return sum + Math.pow(time - avgFrameTime, 2);
+    }, 0) / frameTimes.length;
+
   const stdDev = Math.sqrt(variance);
-  
+
   // High variance indicates high CPU usage
   // Normalize to 0-1 range (assuming max stdDev of 50ms)
   return Math.min(stdDev / 50, 1);
@@ -94,7 +95,7 @@ function estimateCPUUsage(frameTimes: number[]): number | undefined {
  */
 function determineQualityTier(fps: number, targetFPS: number): PerformanceTier {
   const ratio = fps / targetFPS;
-  
+
   if (ratio >= 0.9) return 'high'; // 90%+ of target
   if (ratio >= 0.5) return 'medium'; // 50-90% of target
   return 'low'; // <50% of target
@@ -261,18 +262,18 @@ export function usePerformanceSettings(qualityTier: PerformanceTier) {
     // Animation settings
     enableAnimations: qualityTier !== 'low',
     animationDuration: qualityTier === 'high' ? 300 : qualityTier === 'medium' ? 200 : 0,
-    
+
     // Map settings
     tileSize: qualityTier === 'high' ? 512 : 256,
     maxMarkers: qualityTier === 'high' ? 100 : qualityTier === 'medium' ? 50 : 25,
     updateThrottle: qualityTier === 'high' ? 100 : qualityTier === 'medium' ? 200 : 300,
-    
+
     // Rendering settings
     useCanvas: qualityTier === 'low',
     enableShadows: qualityTier === 'high',
     enableBlur: qualityTier !== 'low',
     imageQuality: qualityTier,
-    
+
     // Interaction settings
     enableInertia: qualityTier !== 'low',
     wheelDebounce: qualityTier === 'high' ? 40 : qualityTier === 'medium' ? 60 : 100,
@@ -312,4 +313,3 @@ export function usePerformanceThrottle(
     [callback, throttleMs]
   );
 }
-

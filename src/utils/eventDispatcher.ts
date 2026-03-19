@@ -14,8 +14,7 @@
  */
 
 const queueMicrotaskFn: ((cb: () => void) => void) | undefined =
-  typeof globalThis !== 'undefined' &&
-  typeof (globalThis as any).queueMicrotask === 'function'
+  typeof globalThis !== 'undefined' && typeof (globalThis as any).queueMicrotask === 'function'
     ? (globalThis as any).queueMicrotask.bind(globalThis)
     : undefined;
 

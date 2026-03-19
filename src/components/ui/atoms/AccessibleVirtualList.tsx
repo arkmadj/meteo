@@ -1,9 +1,9 @@
 /**
  * AccessibleVirtualList Component
- * 
+ *
  * A high-performance virtual scrolling list that maintains full accessibility.
  * Balances performance with focus management for large interactive lists.
- * 
+ *
  * Features:
  * - Virtual scrolling for performance (DOM recycling)
  * - Focus restoration after DOM recycling
@@ -11,7 +11,7 @@
  * - Aria-live announcements for scroll position
  * - Keyboard shortcuts (arrows, Home, End, Page Up/Down)
  * - Screen reader support
- * 
+ *
  * @example
  * ```tsx
  * <AccessibleVirtualList
@@ -33,37 +33,37 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 export interface AccessibleVirtualListProps<T> {
   /** Array of items to render */
   items: T[];
-  
+
   /** Height of each item in pixels */
   itemHeight: number;
-  
+
   /** Height of the visible container in pixels */
   height: number;
-  
+
   /** Width of the container (default: '100%') */
   width?: string | number;
-  
+
   /** Function to render each item */
   renderItem: (item: T, index: number, isFocused: boolean) => React.ReactNode;
-  
+
   /** Callback when an item is clicked or activated */
   onItemClick?: (item: T, index: number) => void;
-  
+
   /** Aria label for the list */
   ariaLabel?: string;
-  
+
   /** Whether to announce scroll position to screen readers */
   announceScroll?: boolean;
-  
+
   /** Custom scroll announcement message */
   scrollAnnouncementMessage?: (firstIndex: number, lastIndex: number, total: number) => string;
-  
+
   /** Loading state */
   loading?: boolean;
-  
+
   /** Loading message */
   loadingMessage?: string;
-  
+
   /** Class name for the container */
   className?: string;
 }
@@ -128,18 +128,16 @@ export const AccessibleVirtualList = <T extends { id: string }>({
 
   const restoreFocus = useCallback(() => {
     const { itemId, itemIndex } = focusStateRef.current;
-    
+
     requestAnimationFrame(() => {
       // Try to find by ID first
-      let element = itemId 
-        ? document.querySelector(`[data-item-id="${itemId}"]`)
-        : null;
-      
+      let element = itemId ? document.querySelector(`[data-item-id="${itemId}"]`) : null;
+
       // Fallback to index
       if (!element && itemIndex >= 0) {
         element = document.querySelector(`[data-item-index="${itemIndex}"]`);
       }
-      
+
       if (element instanceof HTMLElement) {
         element.focus();
       }
@@ -150,103 +148,117 @@ export const AccessibleVirtualList = <T extends { id: string }>({
   // KEYBOARD NAVIGATION
   // ============================================================================
 
-  const scrollToIndex = useCallback((index: number) => {
-    if (!containerRef.current) return;
-    
-    const targetScrollTop = index * itemHeight;
-    const maxScrollTop = totalHeight - height;
-    const clampedScrollTop = Math.max(0, Math.min(targetScrollTop, maxScrollTop));
-    
-    containerRef.current.scrollTop = clampedScrollTop;
-  }, [itemHeight, totalHeight, height]);
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      if (!containerRef.current) return;
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent, index: number) => {
-    let newIndex = index;
+      const targetScrollTop = index * itemHeight;
+      const maxScrollTop = totalHeight - height;
+      const clampedScrollTop = Math.max(0, Math.min(targetScrollTop, maxScrollTop));
 
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        newIndex = Math.min(index + 1, items.length - 1);
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        newIndex = Math.max(index - 1, 0);
-        break;
-      case 'PageDown':
-        e.preventDefault();
-        newIndex = Math.min(index + visibleCount, items.length - 1);
-        break;
-      case 'PageUp':
-        e.preventDefault();
-        newIndex = Math.max(index - visibleCount, 0);
-        break;
-      case 'Home':
-        e.preventDefault();
-        newIndex = 0;
-        break;
-      case 'End':
-        e.preventDefault();
-        newIndex = items.length - 1;
-        break;
-      case 'Enter':
-      case ' ':
-        e.preventDefault();
-        onItemClick?.(items[index], index);
-        return;
-      default:
-        return;
-    }
+      containerRef.current.scrollTop = clampedScrollTop;
+    },
+    [itemHeight, totalHeight, height]
+  );
 
-    if (newIndex !== index) {
-      setFocusedIndex(newIndex);
-      scrollToIndex(newIndex);
-      
-      // Announce navigation
-      if (announceScroll) {
-        const message = `Item ${newIndex + 1} of ${items.length}`;
-        setAnnouncement(message);
-        setTimeout(() => setAnnouncement(''), 1000);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, index: number) => {
+      let newIndex = index;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          newIndex = Math.min(index + 1, items.length - 1);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          newIndex = Math.max(index - 1, 0);
+          break;
+        case 'PageDown':
+          e.preventDefault();
+          newIndex = Math.min(index + visibleCount, items.length - 1);
+          break;
+        case 'PageUp':
+          e.preventDefault();
+          newIndex = Math.max(index - visibleCount, 0);
+          break;
+        case 'Home':
+          e.preventDefault();
+          newIndex = 0;
+          break;
+        case 'End':
+          e.preventDefault();
+          newIndex = items.length - 1;
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          onItemClick?.(items[index], index);
+          return;
+        default:
+          return;
       }
-    }
-  }, [items, onItemClick, visibleCount, scrollToIndex, announceScroll]);
+
+      if (newIndex !== index) {
+        setFocusedIndex(newIndex);
+        scrollToIndex(newIndex);
+
+        // Announce navigation
+        if (announceScroll) {
+          const message = `Item ${newIndex + 1} of ${items.length}`;
+          setAnnouncement(message);
+          setTimeout(() => setAnnouncement(''), 1000);
+        }
+      }
+    },
+    [items, onItemClick, visibleCount, scrollToIndex, announceScroll]
+  );
 
   // ============================================================================
   // SCROLL HANDLING
   // ============================================================================
 
-  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    const newScrollTop = e.currentTarget.scrollTop;
-    setScrollTop(newScrollTop);
-    
-    saveFocus();
-    
-    if (!announceScroll) return;
-    
-    // Clear previous timeout
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    
-    // Debounce scroll announcements (500ms)
-    scrollTimeoutRef.current = setTimeout(() => {
-      const firstVisibleIndex = Math.floor(newScrollTop / itemHeight);
-      const lastVisibleIndex = Math.min(
-        firstVisibleIndex + visibleCount - 1,
-        items.length - 1
-      );
-      
-      const message = scrollAnnouncementMessage
-        ? scrollAnnouncementMessage(firstVisibleIndex + 1, lastVisibleIndex + 1, items.length)
-        : `Showing items ${firstVisibleIndex + 1} to ${lastVisibleIndex + 1} of ${items.length}`;
-      
-      setAnnouncement(message);
-      
-      setTimeout(() => {
-        setAnnouncement('');
-        restoreFocus();
-      }, 1000);
-    }, 500);
-  }, [items.length, itemHeight, visibleCount, announceScroll, scrollAnnouncementMessage, saveFocus, restoreFocus]);
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const newScrollTop = e.currentTarget.scrollTop;
+      setScrollTop(newScrollTop);
+
+      saveFocus();
+
+      if (!announceScroll) return;
+
+      // Clear previous timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      // Debounce scroll announcements (500ms)
+      scrollTimeoutRef.current = setTimeout(() => {
+        const firstVisibleIndex = Math.floor(newScrollTop / itemHeight);
+        const lastVisibleIndex = Math.min(firstVisibleIndex + visibleCount - 1, items.length - 1);
+
+        const message = scrollAnnouncementMessage
+          ? scrollAnnouncementMessage(firstVisibleIndex + 1, lastVisibleIndex + 1, items.length)
+          : `Showing items ${firstVisibleIndex + 1} to ${lastVisibleIndex + 1} of ${items.length}`;
+
+        setAnnouncement(message);
+
+        setTimeout(() => {
+          setAnnouncement('');
+          restoreFocus();
+        }, 1000);
+      }, 500);
+    },
+    [
+      items.length,
+      itemHeight,
+      visibleCount,
+      announceScroll,
+      scrollAnnouncementMessage,
+      saveFocus,
+      restoreFocus,
+    ]
+  );
 
   // ============================================================================
   // CLEANUP
@@ -336,7 +348,7 @@ export const AccessibleVirtualList = <T extends { id: string }>({
                 data-item-id={item.id}
                 data-item-index={actualIndex}
                 tabIndex={isFocused ? 0 : -1}
-                onKeyDown={(e) => handleKeyDown(e, actualIndex)}
+                onKeyDown={e => handleKeyDown(e, actualIndex)}
                 onFocus={() => setFocusedIndex(actualIndex)}
                 onClick={() => onItemClick?.(item, actualIndex)}
                 style={{
@@ -358,4 +370,3 @@ export const AccessibleVirtualList = <T extends { id: string }>({
 };
 
 export default AccessibleVirtualList;
-

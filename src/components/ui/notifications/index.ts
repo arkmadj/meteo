@@ -14,4 +14,3 @@ export type { NotificationBellProps } from './NotificationBell';
 export type { NotificationHistoryFiltersProps } from './NotificationHistoryFilters';
 export type { NotificationHistoryItemProps } from './NotificationHistoryItem';
 export type { NotificationHistoryPanelProps } from './NotificationHistoryPanel';
-

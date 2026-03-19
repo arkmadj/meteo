@@ -19,4 +19,3 @@ const MapPage: React.FC = () => {
 };
 
 export default MapPage;
-

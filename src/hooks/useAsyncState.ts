@@ -55,12 +55,12 @@ export type AsyncStateReturn<T> = AsyncState<T> & AsyncStateActions<T>;
 
 /**
  * Custom hook for managing async operations with type safety
- * 
+ *
  * @param asyncFunction - The async function to execute
  * @param dependencies - Dependencies that trigger re-execution
  * @param options - Configuration options
  * @returns Object with state and actions
- * 
+ *
  * @example
  * ```tsx
  * const { data, loading, error, execute } = useAsyncState(
@@ -126,11 +126,11 @@ export function useAsyncState<T>(
 
     try {
       const result = await lastAsyncFunctionRef.current();
-      
+
       // Check if component is still mounted and operation wasn't cancelled
       if (!cancelRef.current) {
         const now = new Date();
-        
+
         // Update cache
         if (cacheDuration) {
           cacheRef.current = { data: result, timestamp: now.getTime() };
@@ -150,7 +150,7 @@ export function useAsyncState<T>(
     } catch (error) {
       if (!cancelRef.current) {
         const errorObj = error instanceof Error ? error : new Error(String(error));
-        
+
         setState(prev => ({
           ...prev,
           loading: false,
@@ -172,7 +172,7 @@ export function useAsyncState<T>(
 
     retryCountRef.current += 1;
     const delay = retryConfig.delay * Math.pow(2, retryCountRef.current - 1);
-    
+
     await new Promise(resolve => setTimeout(resolve, delay));
     return execute();
   }, [execute, retryConfig]);

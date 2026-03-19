@@ -1,6 +1,6 @@
 /**
  * TemperatureDetailModal Component
- * 
+ *
  * A detailed modal view for temperature information with comprehensive breakdown
  * including current temperature, feels like, min/max, comfort level, and temperature scale.
  */
@@ -90,7 +90,10 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
         level: t('weather:temperature.extreme', 'Extreme'),
         color: 'text-red-600',
         bgColor: 'bg-red-500',
-        description: t('weather:temperature.extremeDescription', 'Extremely hot - take precautions'),
+        description: t(
+          'weather:temperature.extremeDescription',
+          'Extremely hot - take precautions'
+        ),
       };
     }
   };
@@ -166,7 +169,8 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
             </h4>
             <div className="space-y-1">
               <p className="text-2xl font-bold text-[var(--theme-text)]">
-                {getLocalizedTemperature(temperature.current).replace(/[°CF]/g, '')}°{temperatureUnit}
+                {getLocalizedTemperature(temperature.current).replace(/[°CF]/g, '')}°
+                {temperatureUnit}
               </p>
               <p className="text-sm text-[var(--theme-text-secondary)]">
                 {Math.round(currentInOtherUnit)}°{otherUnit}
@@ -249,7 +253,8 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
               </span>
             </div>
             <p className="text-xs text-[var(--theme-text-secondary)] mt-2 text-center">
-              {t('weather:labels.temperatureVariation', 'Variation')}: {Math.round(temperature.max - temperature.min)}°{temperatureUnit}
+              {t('weather:labels.temperatureVariation', 'Variation')}:{' '}
+              {Math.round(temperature.max - temperature.min)}°{temperatureUnit}
             </p>
           </div>
         )}
@@ -257,7 +262,11 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
         {/* Info Note */}
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
           <p className="text-xs text-blue-800 dark:text-blue-300 text-center">
-            💡 {t('weather:temperature.modalInfo', 'Temperature values are displayed in both Celsius and Fahrenheit for your convenience.')}
+            💡{' '}
+            {t(
+              'weather:temperature.modalInfo',
+              'Temperature values are displayed in both Celsius and Fahrenheit for your convenience.'
+            )}
           </p>
         </div>
       </div>
@@ -266,4 +275,3 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
 };
 
 export default TemperatureDetailModal;
-

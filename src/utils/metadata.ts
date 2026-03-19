@@ -42,12 +42,14 @@ export const getRequiredMetadataValue = <TValue, TTarget extends object>(
 ): TValue => {
   const value = getMetadataValue(token, target, propertyKey);
   if (typeof value === 'undefined') {
-    throw errorFactory?.() ??
+    throw (
+      errorFactory?.() ??
       new MetadataUnavailableError(
         `Metadata '${token.description}' is not available on the provided target${
           typeof propertyKey === 'undefined' ? '' : ` (property: ${String(propertyKey)})`
         }.`
-      );
+      )
+    );
   }
   return value;
 };
@@ -63,4 +65,3 @@ export const deleteMetadataValue = <TValue, TTarget extends object>(
   target: TTarget,
   propertyKey?: PropertyKeyLike
 ): boolean => deleteMetadata(token.key, target, propertyKey);
-

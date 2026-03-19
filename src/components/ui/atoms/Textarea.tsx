@@ -22,8 +22,7 @@ export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
 // ============================================================================
 
 export interface TextareaProps
-  extends Omit<BaseComponentProps, 'variant'>,
-    React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  extends Omit<BaseComponentProps, 'variant'>, React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   /** Textarea variant */
   variant?: TextareaVariant;
   /** Textarea size */

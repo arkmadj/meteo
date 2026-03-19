@@ -1,11 +1,18 @@
 /**
  * Abstract Factory Pattern - Mobile Factory
- * 
+ *
  * Concrete factory for creating Mobile platform UI components.
  */
 
 import { BaseUIFactory } from './UIFactory';
-import type { IButton, IButtonProps, ICheckbox, ICheckboxProps, IInput, IInputProps } from './UIComponent';
+import type {
+  IButton,
+  IButtonProps,
+  ICheckbox,
+  ICheckboxProps,
+  IInput,
+  IInputProps,
+} from './UIComponent';
 import { MobileButton, MobileCheckbox, MobileInput } from './MobileComponents';
 
 // ============================================================================
@@ -14,7 +21,7 @@ import { MobileButton, MobileCheckbox, MobileInput } from './MobileComponents';
 
 /**
  * Concrete factory for creating Mobile platform components
- * 
+ *
  * Creates components optimized for mobile devices with:
  * - Touch-optimized targets (minimum 44x44 points)
  * - Haptic feedback support
@@ -89,4 +96,3 @@ export class MobileFactory extends BaseUIFactory {
     };
   }
 }
-

@@ -1,11 +1,18 @@
 /**
  * Abstract Factory Pattern - Web Factory
- * 
+ *
  * Concrete factory for creating Web platform UI components.
  */
 
 import { BaseUIFactory } from './UIFactory';
-import type { IButton, IButtonProps, ICheckbox, ICheckboxProps, IInput, IInputProps } from './UIComponent';
+import type {
+  IButton,
+  IButtonProps,
+  ICheckbox,
+  ICheckboxProps,
+  IInput,
+  IInputProps,
+} from './UIComponent';
 import { WebButton, WebCheckbox, WebInput } from './WebComponents';
 
 // ============================================================================
@@ -14,7 +21,7 @@ import { WebButton, WebCheckbox, WebInput } from './WebComponents';
 
 /**
  * Concrete factory for creating Web platform components
- * 
+ *
  * Creates components optimized for web browsers with:
  * - Standard HTML elements
  * - CSS classes for styling
@@ -72,4 +79,3 @@ export class WebFactory extends BaseUIFactory {
     };
   }
 }
-

@@ -48,7 +48,7 @@ export interface UseWeatherLayerLoadingReturn<T> {
   clearCache: () => void;
 }
 
-const createInitialState = <T,>(): WeatherLayerState<T> => ({
+const createInitialState = <T>(): WeatherLayerState<T> => ({
   isLoading: false,
   hasError: false,
   errorMessage: null,
@@ -61,7 +61,7 @@ const createInitialState = <T,>(): WeatherLayerState<T> => ({
 /**
  * Hook for managing weather layer loading
  */
-export const useWeatherLayerLoading = <T = any,>(
+export const useWeatherLayerLoading = <T = any>(
   options: UseWeatherLayerLoadingOptions<T>
 ): UseWeatherLayerLoadingReturn<T> => {
   const {
@@ -188,7 +188,7 @@ export const useWeatherLayerLoading = <T = any,>(
       // Schedule retry with exponential backoff
       if (retryTimeoutRef.current) clearTimeout(retryTimeoutRef.current);
       const delay = retryDelay * Math.pow(2, prev.retryCount);
-      
+
       retryTimeoutRef.current = setTimeout(() => {
         fetch();
       }, delay);
@@ -239,4 +239,3 @@ export const useWeatherLayerLoading = <T = any,>(
 };
 
 export default useWeatherLayerLoading;
-

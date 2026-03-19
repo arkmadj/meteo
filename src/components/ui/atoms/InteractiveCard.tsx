@@ -1,7 +1,7 @@
 /**
  * InteractiveCard Component
  * Demonstrates multi-modal interaction design (touch, keyboard, switch devices)
- * 
+ *
  * Features:
  * - Touch: Tap to activate, swipe to dismiss
  * - Keyboard: Enter/Space to activate, Escape to dismiss
@@ -290,4 +290,3 @@ export const InteractiveCard: React.FC<InteractiveCardProps> = ({
 InteractiveCard.displayName = 'InteractiveCard';
 
 export default InteractiveCard;
-

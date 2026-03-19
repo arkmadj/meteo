@@ -1,6 +1,6 @@
 /**
  * Abstract Factory Pattern - UI Component Interfaces
- * 
+ *
  * Defines the abstract interfaces for UI components that can be created
  * by different platform-specific factories.
  */
@@ -144,4 +144,3 @@ export interface ICheckbox extends IUIComponent {
    */
   setDisabled(disabled: boolean): void;
 }
-

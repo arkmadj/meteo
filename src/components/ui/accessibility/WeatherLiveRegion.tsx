@@ -154,4 +154,3 @@ export const WeatherLiveRegion: React.FC<WeatherLiveRegionProps> = ({
 WeatherLiveRegion.displayName = 'WeatherLiveRegion';
 
 export default WeatherLiveRegion;
-

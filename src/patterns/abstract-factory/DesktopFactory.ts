@@ -1,11 +1,18 @@
 /**
  * Abstract Factory Pattern - Desktop Factory
- * 
+ *
  * Concrete factory for creating Desktop platform UI components.
  */
 
 import { BaseUIFactory } from './UIFactory';
-import type { IButton, IButtonProps, ICheckbox, ICheckboxProps, IInput, IInputProps } from './UIComponent';
+import type {
+  IButton,
+  IButtonProps,
+  ICheckbox,
+  ICheckboxProps,
+  IInput,
+  IInputProps,
+} from './UIComponent';
 import { DesktopButton, DesktopCheckbox, DesktopInput } from './DesktopComponents';
 
 // ============================================================================
@@ -14,7 +21,7 @@ import { DesktopButton, DesktopCheckbox, DesktopInput } from './DesktopComponent
 
 /**
  * Concrete factory for creating Desktop platform components
- * 
+ *
  * Creates components optimized for desktop applications with:
  * - Full keyboard navigation support
  * - Keyboard shortcuts
@@ -58,7 +65,8 @@ export class DesktopFactory extends BaseUIFactory {
     return {
       ...super.initializeTheme(),
       platform: 'desktop',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontFamily:
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       fontSize: {
         small: '12px',
         medium: '14px',
@@ -95,4 +103,3 @@ export class DesktopFactory extends BaseUIFactory {
     };
   }
 }
-

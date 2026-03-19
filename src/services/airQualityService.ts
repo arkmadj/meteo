@@ -35,11 +35,7 @@ export const getAQILevelConfig = (
 /**
  * Get pollutant level description
  */
-const getPollutantLevel = (
-  pollutantName: string,
-  value: number,
-  standard: AQIStandard
-): string => {
+const getPollutantLevel = (pollutantName: string, value: number, standard: AQIStandard): string => {
   // Simplified pollutant level determination
   // In a real app, you'd use specific thresholds for each pollutant
   if (standard === 'european') {
@@ -216,4 +212,3 @@ export const getAQICategory = (aqi: number, standard: AQIStandard = 'european'):
 export const formatPollutantValue = (pollutant: Pollutant): string => {
   return `${pollutant.value.toFixed(1)} ${pollutant.unit}`;
 };
-

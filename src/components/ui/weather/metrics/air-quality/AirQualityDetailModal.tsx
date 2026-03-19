@@ -44,15 +44,9 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
   const isEuropeanStandard = standard === 'european';
   const pollutantEntries = Object.entries(pollutants);
 
-  const cardBackground = theme.isDark
-    ? 'rgba(15, 23, 42, 0.9)'
-    : 'rgba(255, 255, 255, 0.96)';
-  const highlightBorder = theme.isDark
-    ? 'rgba(59, 130, 246, 0.7)'
-    : 'rgba(37, 99, 235, 0.85)';
-  const subtleBorder = theme.isDark
-    ? 'rgba(51, 65, 85, 0.9)'
-    : 'rgba(226, 232, 240, 0.9)';
+  const cardBackground = theme.isDark ? 'rgba(15, 23, 42, 0.9)' : 'rgba(255, 255, 255, 0.96)';
+  const highlightBorder = theme.isDark ? 'rgba(59, 130, 246, 0.7)' : 'rgba(37, 99, 235, 0.85)';
+  const subtleBorder = theme.isDark ? 'rgba(51, 65, 85, 0.9)' : 'rgba(226, 232, 240, 0.9)';
 
   return (
     <AccessibleModal
@@ -103,11 +97,7 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
           {dominantPollutant && (
             <p className="mt-2 text-xs text-[var(--theme-text-secondary)]">
               <span className="font-medium text-[var(--theme-text)]">
-                {t(
-                  'weather:airQuality.dominantPollutantLabel',
-                  'Dominant pollutant'
-                )}
-                :
+                {t('weather:airQuality.dominantPollutantLabel', 'Dominant pollutant')}:
               </span>{' '}
               {dominantPollutant}
             </p>
@@ -116,10 +106,7 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
           <p className="mt-2 text-xs text-[var(--theme-text-secondary)]">
             <span className="font-medium">
               {isEuropeanStandard
-                ? t(
-                    'weather:airQuality.standardEuropean',
-                    'European AQI standard'
-                  )
+                ? t('weather:airQuality.standardEuropean', 'European AQI standard')
                 : t('weather:airQuality.standardUS', 'US AQI standard')}
             </span>
             {lastUpdated && (
@@ -137,9 +124,7 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
         <div className="space-y-3">
           <h3 className="flex items-center gap-2 text-lg font-semibold text-[var(--theme-text)]">
             <span>💡</span>
-            <span>
-              {t('weather:airQuality.healthAdviceHeading', 'Health guidance')}
-            </span>
+            <span>{t('weather:airQuality.healthAdviceHeading', 'Health guidance')}</span>
           </h3>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             <div
@@ -152,15 +137,9 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
               }}
             >
               <div className="mb-1 font-semibold text-[var(--theme-text)]">
-                👥{' '}
-                {t(
-                  'weather:airQuality.generalPopulation',
-                  'General population'
-                )}
+                👥 {t('weather:airQuality.generalPopulation', 'General population')}
               </div>
-              <p className="text-[var(--theme-text-secondary)]">
-                {healthAdvice.general}
-              </p>
+              <p className="text-[var(--theme-text-secondary)]">{healthAdvice.general}</p>
             </div>
 
             <div
@@ -173,12 +152,9 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
               }}
             >
               <div className="mb-1 font-semibold text-[var(--theme-text)]">
-                ⚠️{' '}
-                {t('weather:airQuality.sensitiveGroups', 'Sensitive groups')}
+                ⚠️ {t('weather:airQuality.sensitiveGroups', 'Sensitive groups')}
               </div>
-              <p className="text-[var(--theme-text-secondary)]">
-                {healthAdvice.sensitive}
-              </p>
+              <p className="text-[var(--theme-text-secondary)]">{healthAdvice.sensitive}</p>
             </div>
 
             <div
@@ -191,15 +167,9 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
               }}
             >
               <div className="mb-1 font-semibold text-[var(--theme-text)]">
-                🏃{' '}
-                {t(
-                  'weather:airQuality.outdoorActivities',
-                  'Outdoor activities'
-                )}
+                🏃 {t('weather:airQuality.outdoorActivities', 'Outdoor activities')}
               </div>
-              <p className="text-[var(--theme-text-secondary)]">
-                {healthAdvice.outdoor}
-              </p>
+              <p className="text-[var(--theme-text-secondary)]">{healthAdvice.outdoor}</p>
             </div>
           </div>
         </div>
@@ -210,10 +180,7 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
             <h3 className="flex items-center gap-2 text-lg font-semibold text-[var(--theme-text)]">
               <span>🫧</span>
               <span>
-                {t(
-                  'weather:airQuality.pollutantBreakdownHeading',
-                  'Pollutant breakdown'
-                )}
+                {t('weather:airQuality.pollutantBreakdownHeading', 'Pollutant breakdown')}
               </span>
             </h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -227,20 +194,14 @@ const AirQualityDetailModal: React.FC<AirQualityDetailModalProps> = ({
                   }}
                 >
                   <div className="mb-1 flex items-center justify-between">
-                    <div className="font-semibold text-[var(--theme-text)]">
-                      {pollutant.name}
-                    </div>
+                    <div className="font-semibold text-[var(--theme-text)]">{pollutant.name}</div>
                     <div className="text-sm font-semibold text-[var(--theme-text)]">
                       {formatPollutantValue(pollutant)}
                     </div>
                   </div>
-                  <p className="mb-2 text-[var(--theme-text-secondary)]">
-                    {pollutant.description}
-                  </p>
+                  <p className="mb-2 text-[var(--theme-text-secondary)]">{pollutant.description}</p>
                   <div className="flex items-center justify-between text-[var(--theme-text-secondary)]">
-                    <span className="text-xs">
-                      {t('weather:airQuality.levelLabel', 'Level')}
-                    </span>
+                    <span className="text-xs">{t('weather:airQuality.levelLabel', 'Level')}</span>
                     <span
                       className="text-xs font-semibold"
                       style={{

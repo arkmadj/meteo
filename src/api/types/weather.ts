@@ -1,6 +1,6 @@
 /**
  * Weather API Types
- * 
+ *
  * Comprehensive TypeScript definitions for weather API responses,
  * demonstrating best practices for API type safety.
  */
@@ -271,6 +271,6 @@ export const ALERT_URGENCY = {
   FUTURE: 'future',
 } as const;
 
-export type WeatherUnits = typeof WEATHER_UNITS[keyof typeof WEATHER_UNITS];
-export type AlertSeverity = typeof ALERT_SEVERITY[keyof typeof ALERT_SEVERITY];
-export type AlertUrgency = typeof ALERT_URGENCY[keyof typeof ALERT_URGENCY];
+export type WeatherUnits = (typeof WEATHER_UNITS)[keyof typeof WEATHER_UNITS];
+export type AlertSeverity = (typeof ALERT_SEVERITY)[keyof typeof ALERT_SEVERITY];
+export type AlertUrgency = (typeof ALERT_URGENCY)[keyof typeof ALERT_URGENCY];

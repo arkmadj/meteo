@@ -19,7 +19,7 @@ const baseRules = {
   '@typescript-eslint/no-explicit-any': 'warn',
   'prefer-const': 'error',
   'no-var': 'error',
-  
+
   // React rules
   'react/prop-types': 'off',
   'react/react-in-jsx-scope': 'off',

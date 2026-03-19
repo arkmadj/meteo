@@ -51,22 +51,15 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
   const pendingTilesRef = useRef(new Set<string>());
   const totalTilesRef = useRef(0);
 
-  const {
-    state,
-    startLoading,
-    completeLoading,
-    reportError,
-    retry,
-    reset,
-    updateProgress,
-  } = useMapTileLoading({
-    maxRetries: 3,
-    retryDelay: 2000,
-    timeout: 30000,
-    onLoadStart,
-    onLoadComplete,
-    onError,
-  });
+  const { state, startLoading, completeLoading, reportError, retry, reset, updateProgress } =
+    useMapTileLoading({
+      maxRetries: 3,
+      retryDelay: 2000,
+      timeout: 30000,
+      onLoadStart,
+      onLoadComplete,
+      onError,
+    });
 
   useEffect(() => {
     if (!map) return;
@@ -76,7 +69,7 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
      */
     const handleTileLoadStart = (event: L.TileEvent) => {
       const tileKey = `${event.coords.x}-${event.coords.y}-${event.coords.z}`;
-      
+
       if (!pendingTilesRef.current.has(tileKey)) {
         pendingTilesRef.current.add(tileKey);
         totalTilesRef.current++;
@@ -85,10 +78,7 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
           startLoading();
         }
 
-        updateProgress(
-          totalTilesRef.current - pendingTilesRef.current.size,
-          totalTilesRef.current
-        );
+        updateProgress(totalTilesRef.current - pendingTilesRef.current.size, totalTilesRef.current);
       }
     };
 
@@ -99,10 +89,7 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
       const tileKey = `${event.coords.x}-${event.coords.y}-${event.coords.z}`;
       pendingTilesRef.current.delete(tileKey);
 
-      updateProgress(
-        totalTilesRef.current - pendingTilesRef.current.size,
-        totalTilesRef.current
-      );
+      updateProgress(totalTilesRef.current - pendingTilesRef.current.size, totalTilesRef.current);
 
       if (pendingTilesRef.current.size === 0) {
         completeLoading();
@@ -121,15 +108,13 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
       pendingTilesRef.current.delete(tileKey);
 
       // Report error if too many tiles fail
-      const failureRate = 1 - (totalTilesRef.current - pendingTilesRef.current.size) / totalTilesRef.current;
+      const failureRate =
+        1 - (totalTilesRef.current - pendingTilesRef.current.size) / totalTilesRef.current;
       if (failureRate > 0.3) {
         reportError(new Error('Too many tiles failed to load'));
       }
 
-      updateProgress(
-        totalTilesRef.current - pendingTilesRef.current.size,
-        totalTilesRef.current
-      );
+      updateProgress(totalTilesRef.current - pendingTilesRef.current.size, totalTilesRef.current);
 
       if (pendingTilesRef.current.size === 0) {
         completeLoading();
@@ -215,4 +200,3 @@ const TileLoadingTracker: React.FC<TileLoadingTrackerProps> = ({
 };
 
 export default TileLoadingTracker;
-

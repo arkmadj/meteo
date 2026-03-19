@@ -49,7 +49,7 @@ export function withAnalytics<P extends object>(
       if (trackingId && eventName) {
         // Simulate analytics tracking
         console.log(`Analytics: ${eventName} tracked with ID: ${trackingId}`);
-        
+
         // In real app, you'd call your analytics service
         // analytics.track(eventName, { trackingId, ...metadata });
       }
@@ -59,7 +59,7 @@ export function withAnalytics<P extends object>(
   };
 
   WithAnalyticsComponent.displayName = `withAnalytics(${Component.displayName || Component.name})`;
-  
+
   return WithAnalyticsComponent;
 }
 
@@ -76,16 +76,14 @@ interface LoadingProps {
  * HOC for adding loading states to existing components
  * Good use case: Enhancing third-party or existing components
  */
-export function withLoading<P extends object>(
-  Component: ComponentType<P>
-) {
+export function withLoading<P extends object>(Component: ComponentType<P>) {
   type Props = P & LoadingProps;
 
   const WithLoadingComponent = (props: Props) => {
-    const { 
-      isLoading = false, 
-      loadingComponent = <div>Loading...</div>, 
-      ...componentProps 
+    const {
+      isLoading = false,
+      loadingComponent = <div>Loading...</div>,
+      ...componentProps
     } = props;
 
     if (isLoading) {
@@ -96,7 +94,7 @@ export function withLoading<P extends object>(
   };
 
   WithLoadingComponent.displayName = `withLoading(${Component.displayName || Component.name})`;
-  
+
   return WithLoadingComponent;
 }
 
@@ -159,7 +157,7 @@ export function withErrorBoundary<P extends object>(
   }
 
   WithErrorBoundaryComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-  
+
   return WithErrorBoundaryComponent;
 }
 
@@ -185,9 +183,7 @@ interface PermissionProps {
  * HOC for adding permission checks to components
  * Good use case: Authorization logic that needs to be applied to many components
  */
-export function withPermissions<P extends object>(
-  Component: ComponentType<P>
-) {
+export function withPermissions<P extends object>(Component: ComponentType<P>) {
   type Props = P & PermissionProps;
 
   const WithPermissionsComponent = (props: Props) => {
@@ -219,7 +215,7 @@ export function withPermissions<P extends object>(
   };
 
   WithPermissionsComponent.displayName = `withPermissions(${Component.displayName || Component.name})`;
-  
+
   return WithPermissionsComponent;
 }
 
@@ -263,9 +259,7 @@ const defaultTheme: Theme = {
  * HOC for injecting theme props into components
  * Good use case: Styling system that needs to be applied consistently
  */
-export function withTheme<P extends object>(
-  Component: ComponentType<P & ThemeProps>
-) {
+export function withTheme<P extends object>(Component: ComponentType<P & ThemeProps>) {
   const WithThemeComponent = (props: P & Partial<ThemeProps>) => {
     const { theme = defaultTheme, ...componentProps } = props;
 
@@ -273,7 +267,7 @@ export function withTheme<P extends object>(
   };
 
   WithThemeComponent.displayName = `withTheme(${Component.displayName || Component.name})`;
-  
+
   return WithThemeComponent;
 }
 
@@ -309,12 +303,7 @@ const Button: React.FC<ButtonProps> = ({ children, onClick, disabled }) => (
 );
 
 // Enhanced button with multiple HOCs
-const EnhancedButton = compose(
-  withAnalytics,
-  withLoading,
-  withErrorBoundary,
-  withTheme
-)(Button);
+const EnhancedButton = compose(withAnalytics, withLoading, withErrorBoundary, withTheme)(Button);
 
 // Usage with type safety
 export function HOCExample() {
@@ -334,7 +323,7 @@ export function HOCExample() {
   return (
     <div>
       <h2>HOC Examples</h2>
-      
+
       {/* Basic enhanced button */}
       <EnhancedButton
         onClick={handleClick}
@@ -384,7 +373,7 @@ export function HOCExample() {
  * 3. Runtime component enhancement based on conditions
  * 4. Working with class components that can't use hooks
  * 5. Need to modify component behavior without changing its API
- * 
+ *
  * Prefer Composition when:
  * 1. Building new components from scratch
  * 2. Need explicit control over rendering

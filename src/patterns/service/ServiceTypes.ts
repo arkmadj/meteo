@@ -143,4 +143,3 @@ export interface IServiceContainerOptions {
   /** Event listener for container events */
   onEvent?: ServiceContainerEventListener;
 }
-

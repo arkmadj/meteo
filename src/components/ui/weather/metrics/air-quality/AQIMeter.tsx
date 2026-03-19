@@ -71,11 +71,7 @@ const AQIMeter: React.FC<AQIMeterProps> = ({
       {showGauge && (
         <div className="relative" style={{ width: config.gauge, height: config.gauge }}>
           {/* Background circle */}
-          <svg
-            className="transform -rotate-90"
-            height={config.gauge}
-            width={config.gauge}
-          >
+          <svg className="transform -rotate-90" height={config.gauge} width={config.gauge}>
             {/* Background track */}
             <circle
               className="stroke-gray-200 dark:stroke-gray-700"
@@ -108,7 +104,9 @@ const AQIMeter: React.FC<AQIMeterProps> = ({
               </div>
             )}
             {showCategory && (
-              <div className={`font-medium ${config.categorySize} text-gray-600 dark:text-gray-400 text-center px-2`}>
+              <div
+                className={`font-medium ${config.categorySize} text-gray-600 dark:text-gray-400 text-center px-2`}
+              >
                 {currentLevel.category}
               </div>
             )}
@@ -136,7 +134,10 @@ const AQIMeter: React.FC<AQIMeterProps> = ({
             <span className="font-medium" style={{ color: currentLevel.color }}>
               {Math.round(aqi)}
             </span>
-            <span>{maxAQI}{standard === 'european' ? '+' : ''}</span>
+            <span>
+              {maxAQI}
+              {standard === 'european' ? '+' : ''}
+            </span>
           </div>
 
           {/* Color scale legend */}
@@ -160,4 +161,3 @@ const AQIMeter: React.FC<AQIMeterProps> = ({
 };
 
 export default AQIMeter;
-

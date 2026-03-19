@@ -216,4 +216,3 @@ export const clearWeatherBuffer = (key?: WeatherBufferKey): void => {
 };
 
 export const getWeatherBufferKey = (key: WeatherBufferKey): string => createBufferKey(key);
-

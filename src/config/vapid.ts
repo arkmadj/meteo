@@ -1,11 +1,11 @@
 /**
  * VAPID Key Configuration
  * Configuration for Web Push VAPID (Voluntary Application Server Identification) keys
- * 
+ *
  * VAPID keys are used to identify your application server to the push service.
  * The public key is shared with the browser for subscription, while the private
  * key is used server-side to sign push messages.
- * 
+ *
  * @see https://datatracker.ietf.org/doc/html/rfc8292
  */
 
@@ -42,12 +42,12 @@ function getVapidPublicKey(): string {
   if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_VAPID_PUBLIC_KEY) {
     return import.meta.env.VITE_VAPID_PUBLIC_KEY;
   }
-  
+
   // Fallback for Node.js/testing environments
   if (typeof process !== 'undefined' && process.env?.VITE_VAPID_PUBLIC_KEY) {
     return process.env.VITE_VAPID_PUBLIC_KEY;
   }
-  
+
   return '';
 }
 
@@ -58,11 +58,11 @@ function getVapidSubject(): string {
   if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_VAPID_SUBJECT) {
     return import.meta.env.VITE_VAPID_SUBJECT;
   }
-  
+
   if (typeof process !== 'undefined' && process.env?.VITE_VAPID_SUBJECT) {
     return process.env.VITE_VAPID_SUBJECT;
   }
-  
+
   return '';
 }
 
@@ -71,21 +71,21 @@ function getVapidSubject(): string {
  */
 export function validateVapidPublicKey(key: string): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
-  
+
   if (!key || key.trim() === '') {
     errors.push('VAPID public key is not configured');
     return { isValid: false, errors };
   }
-  
+
   if (key.length < MIN_VAPID_KEY_LENGTH) {
     errors.push(`VAPID public key is too short (minimum ${MIN_VAPID_KEY_LENGTH} characters)`);
   }
-  
+
   // Check for common placeholder values
   if (key.includes('your_') || key.includes('YOUR_') || key === 'replace_with_your_key') {
     errors.push('VAPID public key contains placeholder value');
   }
-  
+
   // Validate base64url format (standard VAPID keys are 87 chars)
   if (key.length >= MIN_VAPID_KEY_LENGTH && !VAPID_PUBLIC_KEY_REGEX.test(key)) {
     // Allow slightly different lengths but warn about format
@@ -94,7 +94,7 @@ export function validateVapidPublicKey(key: string): { isValid: boolean; errors:
       errors.push('VAPID public key contains invalid characters (must be base64url encoded)');
     }
   }
-  
+
   return { isValid: errors.length === 0, errors };
 }
 
@@ -103,17 +103,17 @@ export function validateVapidPublicKey(key: string): { isValid: boolean; errors:
  */
 export function validateVapidSubject(subject: string): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
-  
+
   if (!subject || subject.trim() === '') {
     // Subject is optional but recommended
     return { isValid: true, errors };
   }
-  
+
   // Subject should be a mailto: or https: URL
   if (!subject.startsWith('mailto:') && !subject.startsWith('https://')) {
     errors.push('VAPID subject must be a mailto: or https: URL');
   }
-  
+
   return { isValid: errors.length === 0, errors };
 }
 
@@ -123,12 +123,12 @@ export function validateVapidSubject(subject: string): { isValid: boolean; error
 export function getVapidConfig(): VapidConfig {
   const publicKey = getVapidPublicKey();
   const subject = getVapidSubject();
-  
+
   const keyValidation = validateVapidPublicKey(publicKey);
   const subjectValidation = validateVapidSubject(subject);
-  
+
   const validationErrors = [...keyValidation.errors, ...subjectValidation.errors];
-  
+
   return {
     publicKey,
     subject: subject || undefined,
@@ -159,7 +159,7 @@ export function getVapidPublicKeyForSubscription(): string | undefined {
  */
 export function logVapidConfigStatus(): void {
   const config = getVapidConfig();
-  
+
   if (config.isConfigured) {
     console.log('[VAPID] Configuration valid');
     console.log('[VAPID] Public key:', config.publicKey.substring(0, 20) + '...');
@@ -171,4 +171,3 @@ export function logVapidConfigStatus(): void {
     config.validationErrors.forEach(error => console.warn('[VAPID]  -', error));
   }
 }
-

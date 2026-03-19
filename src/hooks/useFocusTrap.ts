@@ -24,8 +24,8 @@ const FOCUSABLE_SELECTORS = [
  */
 function getFocusableElements(container: HTMLElement): HTMLElement[] {
   const elements = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS);
-  
-  return Array.from(elements).filter((el) => {
+
+  return Array.from(elements).filter(el => {
     // Filter out disabled and hidden elements
     return (
       !el.hasAttribute('disabled') &&
@@ -41,7 +41,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
  */
 function focusFirstElement(container: HTMLElement): void {
   const focusableElements = getFocusableElements(container);
-  
+
   if (focusableElements.length > 0) {
     focusableElements[0].focus();
   } else {
@@ -56,22 +56,22 @@ function focusFirstElement(container: HTMLElement): void {
  */
 function hideBackgroundContent(modalId: string): HTMLElement[] {
   const topLevelElements = Array.from(document.body.children).filter(
-    (el) => el.id !== modalId && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE'
+    el => el.id !== modalId && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE'
   ) as HTMLElement[];
-  
-  topLevelElements.forEach((el) => {
+
+  topLevelElements.forEach(el => {
     // Skip if already hidden
     if (el.getAttribute('aria-hidden') === 'true') return;
-    
+
     el.setAttribute('aria-hidden', 'true');
     el.setAttribute('data-focus-trap-hidden', 'true');
-    
+
     // Use inert attribute for modern browsers
     if ('inert' in el) {
       el.inert = true;
     }
   });
-  
+
   return topLevelElements;
 }
 
@@ -80,11 +80,11 @@ function hideBackgroundContent(modalId: string): HTMLElement[] {
  */
 function showBackgroundContent(): void {
   const hiddenElements = document.querySelectorAll<HTMLElement>('[data-focus-trap-hidden="true"]');
-  
-  hiddenElements.forEach((el) => {
+
+  hiddenElements.forEach(el => {
     el.removeAttribute('aria-hidden');
     el.removeAttribute('data-focus-trap-hidden');
-    
+
     if ('inert' in el) {
       el.inert = false;
     }
@@ -100,10 +100,10 @@ function preventBodyScroll(): { overflow: string; paddingRight: string } {
     overflow: document.body.style.overflow,
     paddingRight: document.body.style.paddingRight,
   };
-  
+
   document.body.style.overflow = 'hidden';
   document.body.style.paddingRight = `${scrollbarWidth}px`;
-  
+
   return originalStyles;
 }
 
@@ -137,7 +137,7 @@ export interface UseFocusTrapOptions {
 
 /**
  * Hook for managing focus trap in modal dialogs
- * 
+ *
  * @example
  * ```tsx
  * function Modal({ isOpen, onClose }) {
@@ -147,9 +147,9 @@ export interface UseFocusTrapOptions {
  *     preventScroll: true,
  *     hideBackground: true,
  *   });
- * 
+ *
  *   if (!isOpen) return null;
- * 
+ *
  *   return (
  *     <div ref={modalRef} role="dialog" aria-modal="true">
  *       <h2>Modal Title</h2>
@@ -177,14 +177,14 @@ export function useFocusTrap({
    */
   const handleTabKey = useCallback((event: KeyboardEvent) => {
     if (!containerRef.current) return;
-    
+
     const focusableElements = getFocusableElements(containerRef.current);
-    
+
     if (focusableElements.length === 0) return;
-    
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-    
+
     // Shift + Tab on first element -> focus last
     if (event.shiftKey && document.activeElement === firstElement) {
       event.preventDefault();
@@ -257,7 +257,7 @@ export function useFocusTrap({
 
       // Restore focus
       const elementToFocus = finalFocusRef?.current || previouslyFocusedElement.current;
-      
+
       if (elementToFocus && document.body.contains(elementToFocus)) {
         // Small delay to ensure modal is removed from DOM
         setTimeout(() => {
@@ -302,4 +302,3 @@ export const focusTrapUtils = {
   preventBodyScroll,
   restoreBodyScroll,
 };
-

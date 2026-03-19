@@ -52,9 +52,9 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
     const initializeMap = async () => {
       try {
         console.log('Initializing Mapbox GL JS map...');
-        
+
         // mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
-        // 
+        //
         // const map = new mapboxgl.Map({
         //   container: mapContainerRef.current,
         //   style: `mapbox://styles/mapbox/${style}-v11`,
@@ -62,13 +62,13 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
         //   zoom: zoom,
         //   antialias: true
         // });
-        // 
+        //
         // map.on('load', () => {
         //   setMapLoaded(true);
         // });
-        // 
+        //
         // mapRef.current = map;
-        
+
         setIsLoaded(true);
         setTimeout(() => setMapLoaded(true), 1000); // Simulate loading
       } catch (error) {
@@ -159,7 +159,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
     //       'circle-stroke-color': '#ffffff'
     //     }
     //   });
-    // 
+    //
     //   // Add click handler
     //   mapRef.current.on('click', 'weather-markers', (e) => {
     //     const properties = e.features[0].properties;
@@ -217,7 +217,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
       //     }
       //   });
       // }
-      
+
       console.log('Added temperature heatmap');
     } else {
       // Remove heatmap layer
@@ -243,7 +243,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
   return (
     <div className="relative w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
       <div ref={mapContainerRef} className="w-full h-full" />
-      
+
       {/* Loading overlay */}
       {!mapLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
@@ -257,7 +257,9 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
       {/* Map controls */}
       <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-2 space-y-2">
         <button
-          onClick={() => {/* Toggle heatmap */}}
+          onClick={() => {
+            /* Toggle heatmap */
+          }}
           className={`block w-full px-3 py-1 text-sm rounded ${
             showHeatmap ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
@@ -265,7 +267,9 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
           Heatmap
         </button>
         <button
-          onClick={() => {/* Toggle clusters */}}
+          onClick={() => {
+            /* Toggle clusters */
+          }}
           className={`block w-full px-3 py-1 text-sm rounded ${
             showClusters ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
@@ -293,7 +297,7 @@ export const MapboxWeatherMapExample: React.FC = () => {
   const [weatherData] = useState<WeatherData[]>([
     {
       id: '1',
-      coordinates: [-74.0060, 40.7128],
+      coordinates: [-74.006, 40.7128],
       temperature: 72,
       humidity: 65,
       pressure: 1013,
@@ -330,10 +334,8 @@ export const MapboxWeatherMapExample: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          🗺️ Mapbox GL JS Weather Map
-        </h2>
-        
+        <h2 className="text-xl font-bold text-gray-900 mb-4">🗺️ Mapbox GL JS Weather Map</h2>
+
         <div className="mb-4">
           <h3 className="font-semibold text-gray-700 mb-2">Key Features:</h3>
           <ul className="text-sm text-gray-600 space-y-1">
@@ -346,7 +348,7 @@ export const MapboxWeatherMapExample: React.FC = () => {
         </div>
 
         <MapboxWeatherMap
-          center={[-74.0060, 40.7128]}
+          center={[-74.006, 40.7128]}
           zoom={10}
           weatherData={weatherData}
           showHeatmap={false}

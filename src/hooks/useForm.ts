@@ -77,7 +77,9 @@ export interface FormActions<T> {
   /** Validate specific field */
   validateField: <K extends keyof T>(field: K) => string | null;
   /** Get field props for input binding */
-  getFieldProps: <K extends keyof T>(field: K) => {
+  getFieldProps: <K extends keyof T>(
+    field: K
+  ) => {
     value: T[K];
     onChange: (value: T[K]) => void;
     onBlur: () => void;
@@ -92,10 +94,7 @@ export type FormReturn<T> = FormState<T> & FormActions<T>;
 // VALIDATION UTILITIES
 // ============================================================================
 
-function validateField<T>(
-  value: T,
-  rules: ValidationRule<T> = {}
-): string | null {
+function validateField<T>(value: T, rules: ValidationRule<T> = {}): string | null {
   const { required, minLength, maxLength, pattern, custom } = rules;
 
   // Required validation
@@ -135,17 +134,17 @@ function validateField<T>(
 
 /**
  * Custom hook for type-safe form management
- * 
+ *
  * @param options - Form configuration options
  * @returns Object with form state and actions
- * 
+ *
  * @example
  * ```tsx
  * interface LoginForm {
  *   email: string;
  *   password: string;
  * }
- * 
+ *
  * const form = useForm<LoginForm>({
  *   initialValues: { email: '', password: '' },
  *   validationRules: {
@@ -158,9 +157,7 @@ function validateField<T>(
  * });
  * ```
  */
-export function useForm<T extends Record<string, any>>(
-  options: FormOptions<T>
-): FormReturn<T> {
+export function useForm<T extends Record<string, any>>(options: FormOptions<T>): FormReturn<T> {
   const {
     initialValues,
     validationRules = {},
@@ -192,17 +189,20 @@ export function useForm<T extends Record<string, any>>(
   }, [values]);
 
   // Validation functions
-  const validateField = useCallback(<K extends keyof T>(field: K): string | null => {
-    const value = values[field];
-    const rules = validationRules[field];
-    return validateField(value, rules);
-  }, [values, validationRules]);
+  const validateField = useCallback(
+    <K extends keyof T>(field: K): string | null => {
+      const value = values[field];
+      const rules = validationRules[field];
+      return validateField(value, rules);
+    },
+    [values, validationRules]
+  );
 
   const validateAllFields = useCallback((): FormErrors<T> => {
     const newErrors: FormErrors<T> = {};
 
     // Field-level validation
-    Object.keys(values).forEach((key) => {
+    Object.keys(values).forEach(key => {
       const field = key as keyof T;
       const error = validateField(field);
       if (error) {
@@ -220,26 +220,32 @@ export function useForm<T extends Record<string, any>>(
   }, [values, validateField]);
 
   // Actions
-  const setValue = useCallback(<K extends keyof T>(field: K, value: T[K]) => {
-    setValuesState(prev => ({ ...prev, [field]: value }));
+  const setValue = useCallback(
+    <K extends keyof T>(field: K, value: T[K]) => {
+      setValuesState(prev => ({ ...prev, [field]: value }));
 
-    if (validateOnChange) {
-      const error = validateField(field);
-      setErrorsState(prev => ({
-        ...prev,
-        [field]: error,
-      }));
-    }
-  }, [validateOnChange, validateField]);
+      if (validateOnChange) {
+        const error = validateField(field);
+        setErrorsState(prev => ({
+          ...prev,
+          [field]: error,
+        }));
+      }
+    },
+    [validateOnChange, validateField]
+  );
 
-  const setValues = useCallback((newValues: Partial<T>) => {
-    setValuesState(prev => ({ ...prev, ...newValues }));
+  const setValues = useCallback(
+    (newValues: Partial<T>) => {
+      setValuesState(prev => ({ ...prev, ...newValues }));
 
-    if (validateOnChange) {
-      const newErrors = validateAllFields();
-      setErrorsState(newErrors);
-    }
-  }, [validateOnChange, validateAllFields]);
+      if (validateOnChange) {
+        const newErrors = validateAllFields();
+        setErrorsState(newErrors);
+      }
+    },
+    [validateOnChange, validateAllFields]
+  );
 
   const setError = useCallback(<K extends keyof T>(field: K, error: string | null) => {
     setErrorsState(prev => ({
@@ -252,17 +258,20 @@ export function useForm<T extends Record<string, any>>(
     setErrorsState(newErrors);
   }, []);
 
-  const setTouched = useCallback(<K extends keyof T>(field: K, isTouched = true) => {
-    setTouchedState(prev => ({ ...prev, [field]: isTouched }));
+  const setTouched = useCallback(
+    <K extends keyof T>(field: K, isTouched = true) => {
+      setTouchedState(prev => ({ ...prev, [field]: isTouched }));
 
-    if (validateOnBlur && isTouched) {
-      const error = validateField(field);
-      setErrorsState(prev => ({
-        ...prev,
-        [field]: error,
-      }));
-    }
-  }, [validateOnBlur, validateField]);
+      if (validateOnBlur && isTouched) {
+        const error = validateField(field);
+        setErrorsState(prev => ({
+          ...prev,
+          [field]: error,
+        }));
+      }
+    },
+    [validateOnBlur, validateField]
+  );
 
   const setTouchedFields = useCallback((newTouched: TouchedFields<T>) => {
     setTouchedState(newTouched);
@@ -307,15 +316,18 @@ export function useForm<T extends Record<string, any>>(
     }
   }, [onSubmit, values, validateAllFields, resetOnSubmit, reset]);
 
-  const getFieldProps = useCallback(<K extends keyof T>(field: K) => {
-    return {
-      value: values[field],
-      onChange: (value: T[K]) => setValue(field, value),
-      onBlur: () => setTouched(field, true),
-      error: errors[field],
-      touched: touched[field],
-    };
-  }, [values, errors, touched, setValue, setTouched]);
+  const getFieldProps = useCallback(
+    <K extends keyof T>(field: K) => {
+      return {
+        value: values[field],
+        onChange: (value: T[K]) => setValue(field, value),
+        onBlur: () => setTouched(field, true),
+        error: errors[field],
+        touched: touched[field],
+      };
+    },
+    [values, errors, touched, setValue, setTouched]
+  );
 
   return {
     // State

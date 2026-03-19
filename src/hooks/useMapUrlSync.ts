@@ -340,4 +340,3 @@ export const useMapUrlSync = (options: UseMapUrlSyncOptions = {}): UseMapUrlSync
     hasMapParams,
   };
 };
-

@@ -5,11 +5,7 @@
 
 import React, { CSSProperties } from 'react';
 
-import {
-  ANIMATION_DURATION,
-  ANIMATION_EASING,
-  usePrefersReducedMotion,
-} from '@/hooks/useMotion';
+import { ANIMATION_DURATION, ANIMATION_EASING, usePrefersReducedMotion } from '@/hooks/useMotion';
 
 /**
  * Animation type
@@ -54,10 +50,7 @@ function getAnimationStyles(
   }
 
   // Full motion animations
-  const animations: Record<
-    AnimationType,
-    { initial: CSSProperties; animate: CSSProperties }
-  > = {
+  const animations: Record<AnimationType, { initial: CSSProperties; animate: CSSProperties }> = {
     none: {
       initial: {},
       animate: {},
@@ -141,12 +134,7 @@ export const MotionSafe: React.FC<MotionSafeProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
-  const { initial, animate } = getAnimationStyles(
-    animation,
-    duration,
-    delay,
-    prefersReducedMotion
-  );
+  const { initial, animate } = getAnimationStyles(animation, duration, delay, prefersReducedMotion);
 
   return (
     <div
@@ -164,35 +152,35 @@ export const MotionSafe: React.FC<MotionSafeProps> = ({
 /**
  * Fade In Component
  */
-export const FadeIn: React.FC<Omit<MotionSafeProps, 'animation'>> = (props) => (
+export const FadeIn: React.FC<Omit<MotionSafeProps, 'animation'>> = props => (
   <MotionSafe {...props} animation="fade" />
 );
 
 /**
  * Scale In Component
  */
-export const ScaleIn: React.FC<Omit<MotionSafeProps, 'animation'>> = (props) => (
+export const ScaleIn: React.FC<Omit<MotionSafeProps, 'animation'>> = props => (
   <MotionSafe {...props} animation="scale" />
 );
 
 /**
  * Slide In Component
  */
-export const SlideIn: React.FC<Omit<MotionSafeProps, 'animation'>> = (props) => (
+export const SlideIn: React.FC<Omit<MotionSafeProps, 'animation'>> = props => (
   <MotionSafe {...props} animation="slide" />
 );
 
 /**
  * Slide Up Component
  */
-export const SlideUp: React.FC<Omit<MotionSafeProps, 'animation'>> = (props) => (
+export const SlideUp: React.FC<Omit<MotionSafeProps, 'animation'>> = props => (
   <MotionSafe {...props} animation="slideUp" />
 );
 
 /**
  * Slide Down Component
  */
-export const SlideDown: React.FC<Omit<MotionSafeProps, 'animation'>> = (props) => (
+export const SlideDown: React.FC<Omit<MotionSafeProps, 'animation'>> = props => (
   <MotionSafe {...props} animation="slideDown" />
 );
 
@@ -205,10 +193,7 @@ export interface ConditionalMotionProps {
   fallback?: React.ReactNode;
 }
 
-export const ConditionalMotion: React.FC<ConditionalMotionProps> = ({
-  children,
-  fallback,
-}) => {
+export const ConditionalMotion: React.FC<ConditionalMotionProps> = ({ children, fallback }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   if (prefersReducedMotion && fallback) {
@@ -222,8 +207,7 @@ export const ConditionalMotion: React.FC<ConditionalMotionProps> = ({
  * Motion-Safe Button Component
  * Button with safe press animation
  */
-export interface MotionSafeButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface MotionSafeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
@@ -286,11 +270,7 @@ export interface MotionSafeLinkProps extends React.AnchorHTMLAttributes<HTMLAnch
   children: React.ReactNode;
 }
 
-export const MotionSafeLink: React.FC<MotionSafeLinkProps> = ({
-  children,
-  style,
-  ...props
-}) => {
+export const MotionSafeLink: React.FC<MotionSafeLinkProps> = ({ children, style, ...props }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const linkStyle: CSSProperties = prefersReducedMotion
@@ -313,4 +293,3 @@ export const MotionSafeLink: React.FC<MotionSafeLinkProps> = ({
 };
 
 export default MotionSafe;
-

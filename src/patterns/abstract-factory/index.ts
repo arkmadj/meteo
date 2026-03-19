@@ -1,6 +1,6 @@
 /**
  * Abstract Factory Pattern Exports
- * 
+ *
  * Exports all components of the Abstract Factory pattern implementation
  * for creating platform-specific UI components.
  */
@@ -47,7 +47,12 @@ export { DesktopButton, DesktopCheckbox, DesktopInput } from './DesktopComponent
 // FACTORY PROVIDER
 // ============================================================================
 
-export { FactoryProvider, getCurrentPlatform, getFactory, getFactoryForPlatform } from './FactoryProvider';
+export {
+  FactoryProvider,
+  getCurrentPlatform,
+  getFactory,
+  getFactoryForPlatform,
+} from './FactoryProvider';
 
 // ============================================================================
 // EXAMPLES
@@ -63,4 +68,3 @@ export {
   runAllExamples,
   themeCustomizationExample,
 } from './examples';
-

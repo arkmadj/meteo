@@ -13,4 +13,3 @@ export { default as WeatherSettingsWithRadioGroup } from './WeatherSettingsWithR
 export { default as WeatherSettingsWithSwitch } from './WeatherSettingsWithSwitch';
 export { default as CityDateInfo } from './CityDateInfo';
 export { default as ForecastCarouselExample } from './ForecastCarouselExample';
-

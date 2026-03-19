@@ -1,6 +1,6 @@
 /**
  * Side Drawer Usage Examples
- * 
+ *
  * Demonstrates various configurations and use cases for the SideDrawer component
  */
 
@@ -18,11 +18,7 @@ export const BasicDrawerExample: React.FC = () => {
     <div>
       <button onClick={() => setIsOpen(true)}>Open Basic Drawer</button>
 
-      <SideDrawer
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        header={<h2>Basic Drawer</h2>}
-      >
+      <SideDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} header={<h2>Basic Drawer</h2>}>
         <p>This is a basic right-side drawer with default settings.</p>
         <p>Click the backdrop or press Escape to close.</p>
       </SideDrawer>
@@ -238,7 +234,10 @@ export const FormDrawerExample: React.FC = () => {
           </div>
         }
       >
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+        >
           <div>
             <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem' }}>
               Name
@@ -276,8 +275,8 @@ export const FormDrawerExample: React.FC = () => {
             />
           </div>
           <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>
-            Note: This drawer won't close when clicking the backdrop or pressing Escape.
-            Use the Cancel or Submit buttons.
+            Note: This drawer won't close when clicking the backdrop or pressing Escape. Use the
+            Cancel or Submit buttons.
           </p>
         </form>
       </SideDrawer>
@@ -361,7 +360,7 @@ export const AllDrawerExamples: React.FC = () => {
   return (
     <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <h1>Side Drawer Examples</h1>
-      
+
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         <BasicDrawerExample />
         <LeftDrawerExample />
@@ -376,4 +375,3 @@ export const AllDrawerExamples: React.FC = () => {
 };
 
 export default AllDrawerExamples;
-

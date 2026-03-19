@@ -78,7 +78,7 @@ export interface ApiRetryConfig extends Omit<RetryConfig, 'retryableErrors'> {
 // UTILITY TYPES
 // ============================================================================
 
-export type RetryableErrorType = 
+export type RetryableErrorType =
   | 'network_error'
   | 'timeout_error'
   | 'api_error'
@@ -86,7 +86,7 @@ export type RetryableErrorType =
   | 'weather_data_error'
   | 'geocoding_error';
 
-export type NonRetryableErrorType = 
+export type NonRetryableErrorType =
   | 'city_not_found'
   | 'default_city_not_found'
   | 'invalid_coordinates'
@@ -105,7 +105,7 @@ export function isRetryableErrorType(type: ErrorType): type is RetryableErrorTyp
     'weather_data_error',
     'geocoding_error',
   ]);
-  
+
   return retryableTypes.has(type);
 }
 
@@ -186,7 +186,7 @@ export const RetryStrategies = {
       jitter: true,
     },
   },
-  
+
   /** Aggressive strategy for non-critical operations */
   aggressive: {
     name: 'aggressive',
@@ -198,7 +198,7 @@ export const RetryStrategies = {
       jitter: true,
     },
   },
-  
+
   /** Quick strategy for user-facing operations */
   quick: {
     name: 'quick',

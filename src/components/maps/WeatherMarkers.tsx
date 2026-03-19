@@ -129,9 +129,7 @@ const WeatherMarkers: React.FC<WeatherMarkersProps> = ({
                 className="weather-marker-label"
                 opacity={0.9}
               >
-                <div className="text-xs font-semibold">
-                  {point.temperature.toFixed(1)}°C
-                </div>
+                <div className="text-xs font-semibold">{point.temperature.toFixed(1)}°C</div>
               </Tooltip>
             )}
           </CircleMarker>
@@ -142,4 +140,3 @@ const WeatherMarkers: React.FC<WeatherMarkersProps> = ({
 };
 
 export default WeatherMarkers;
-

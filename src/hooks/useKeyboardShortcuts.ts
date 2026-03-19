@@ -78,7 +78,10 @@ export interface UseKeyboardShortcutsReturn {
   /** Get all shortcuts grouped by category */
   getShortcutsByCategory: () => Record<string, KeyboardShortcut[]>;
   /** Check for shortcut conflicts */
-  hasConflict: (action: KeyboardShortcutAction, combo: KeyCombination) => KeyboardShortcutAction | null;
+  hasConflict: (
+    action: KeyboardShortcutAction,
+    combo: KeyCombination
+  ) => KeyboardShortcutAction | null;
 }
 
 /**
@@ -192,4 +195,3 @@ export function useKeyboardShortcuts(): UseKeyboardShortcutsReturn {
 }
 
 export default useKeyboardShortcuts;
-

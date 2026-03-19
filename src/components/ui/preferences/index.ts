@@ -9,4 +9,3 @@ export { default as ThemeToggleTestComponent } from './ThemeToggleTestComponent'
 export { default as UpdateFrequencySelector } from './UpdateFrequencySelector';
 export { default as VisibilityUnitSelector } from './VisibilityUnitSelector';
 export { default as WindSpeedUnitSelector } from './WindSpeedUnitSelector';
-

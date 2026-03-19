@@ -218,7 +218,9 @@ const Box = React.forwardRef<HTMLDivElement, BoxProps>(
       classes.push(marginY === 'auto' ? 'my-auto' : `my-[${SPACING?.[marginY as SpacingValue]}]`);
     }
     if (marginTop && marginTop !== 'none')
-      classes.push(marginTop === 'auto' ? 'mt-auto' : `mt-[${SPACING?.[marginTop as SpacingValue]}]`);
+      classes.push(
+        marginTop === 'auto' ? 'mt-auto' : `mt-[${SPACING?.[marginTop as SpacingValue]}]`
+      );
     if (marginRight && marginRight !== 'none')
       classes.push(
         marginRight === 'auto' ? 'mr-auto' : `mr-[${SPACING?.[marginRight as SpacingValue]}]`

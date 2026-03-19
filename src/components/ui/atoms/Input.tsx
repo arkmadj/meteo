@@ -22,7 +22,8 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
 // ============================================================================
 
 export interface InputProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Input variant */
   variant?: InputVariant;
