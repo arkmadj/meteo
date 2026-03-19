@@ -34,7 +34,11 @@ import type {
   NotificationSubscription,
   ScheduledNotification,
 } from '@/types/notification';
-import type { ScheduledAlert, SchedulerStatistics } from '@/types/notificationScheduler';
+import type {
+  CreateScheduledAlertOptions,
+  ScheduledAlert,
+  SchedulerStatistics,
+} from '@/types/notificationScheduler';
 import type { PushPermissionStatus } from '@/types/pushNotification';
 
 // ============================================================================

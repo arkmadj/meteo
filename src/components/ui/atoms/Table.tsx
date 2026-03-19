@@ -12,7 +12,7 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
 import { COLORS, SPACING } from '../../../design-system/tokens';
-import type { BaseComponentProps, ComponentSize, ComponentVariant } from '../base/BaseComponent';
+import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
 import { useComponentState } from '../base/BaseComponent';
 
 // ============================================================================
@@ -35,6 +35,10 @@ export interface TableColumn<T = any> {
   accessor: keyof T | ((row: T) => React.ReactNode);
   /** Column width (CSS value) */
   width?: string;
+  /** Minimum column width (CSS value) */
+  minWidth?: string;
+  /** Maximum column width (CSS value) */
+  maxWidth?: string;
   /** Text alignment */
   align?: 'left' | 'center' | 'right';
   /** Whether this column is sortable */
@@ -53,6 +57,10 @@ export interface TableColumn<T = any> {
   parentHeaderId?: string;
   /** Additional header IDs this cell is associated with (complex tables) */
   additionalHeaderIds?: string[];
+  /** Additional CSS class name */
+  className?: string;
+  /** Inline styles */
+  style?: React.CSSProperties;
 }
 
 /**

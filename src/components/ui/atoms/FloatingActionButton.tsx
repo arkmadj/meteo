@@ -26,7 +26,8 @@ export type FABVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'erro
 // ============================================================================
 
 export interface FloatingActionButtonProps
-  extends Omit<BaseComponentProps, 'variant' | 'fullWidth'>,
+  extends
+    Omit<BaseComponentProps, 'variant' | 'fullWidth'>,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
   /** FAB variant/color */
   variant?: FABVariant;
@@ -331,4 +332,3 @@ FloatingActionButton.displayName = 'FloatingActionButton';
 // ============================================================================
 
 export default FloatingActionButton;
-export type { FABPosition, FABSize, FABVariant };
