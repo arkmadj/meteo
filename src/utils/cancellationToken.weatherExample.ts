@@ -7,9 +7,14 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
+import { ErrorType } from '../types/error';
 import { Semaphore } from './asyncConcurrency';
-import { anyToken, CancellationTokenSource, withTimeout } from './cancellationToken';
-import { ErrorType } from './resultErrorHandling';
+import {
+  anyToken,
+  CancellationTokenSource,
+  withTimeout,
+  type CancellationToken,
+} from './cancellationToken';
 import { safeRetry } from './retry';
 
 // ============================================================================
@@ -71,7 +76,7 @@ export class EnhancedWeatherService {
 
   private async fetchWithRetryAndCancellation(
     location: string,
-    token: import('./cancellationToken').CancellationToken,
+    token: CancellationToken,
     enableRetry: boolean = true
   ): Promise<unknown> {
     const fetchFunction = async () => {
