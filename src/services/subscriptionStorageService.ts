@@ -457,7 +457,7 @@ class SubscriptionStorageService {
 
     const keysResult = await this.getDecryptedKeys(subscriptionId);
     if (!keysResult.success || !keysResult.data) {
-      return keysResult as StorageOperationResult<TransmittableSubscription>;
+      return keysResult as unknown as StorageOperationResult<TransmittableSubscription>;
     }
 
     const sub = subResult.data;

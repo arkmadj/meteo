@@ -70,7 +70,7 @@ export class EnhancedWeatherService {
 
   private async fetchWithRetryAndCancellation(
     location: string,
-    token: CancellationToken,
+    token: import('./cancellationToken').CancellationToken,
     enableRetry: boolean = true
   ): Promise<unknown> {
     const fetchFunction = async () => {
@@ -102,7 +102,11 @@ export class EnhancedWeatherService {
         maxRetries: 2,
         baseDelay: 1000,
         timeout: 15000, // Per-attempt timeout
-        retryableErrors: ['network_error', 'timeout_error', 'rate_limit_error'],
+        retryableErrors: [
+          ErrorType.NETWORK_ERROR,
+          ErrorType.TIMEOUT_ERROR,
+          ErrorType.RATE_LIMIT_ERROR,
+        ],
       });
     } else {
       return fetchFunction();

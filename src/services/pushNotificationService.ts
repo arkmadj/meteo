@@ -471,7 +471,7 @@ class PushNotificationService {
     if (!this.registration) {
       const regResult = await this.registerServiceWorker();
       if (!regResult.success) {
-        return regResult as PushNotificationResult<void>;
+        return regResult as unknown as PushNotificationResult<void>;
       }
     }
 

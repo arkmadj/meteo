@@ -5,8 +5,6 @@
  * and support streaming results with cancellation support.
  */
 
-import { type ICancellationToken } from './cancellationToken';
-
 /**
  * Basic tree node interface
  */
@@ -22,7 +20,7 @@ export interface TreeWalkerOptions {
   /** Maximum depth to traverse (default: Infinity) */
   maxDepth?: number;
   /** Cancellation token for aborting the walk */
-  cancellationToken?: ICancellationToken;
+  cancellationToken?: CancellationToken;
   /** Filter function to include/exclude nodes */
   filter?: (node: TreeNode, depth: number, path: string[]) => boolean;
   /** Transform function applied to each node before yielding */
