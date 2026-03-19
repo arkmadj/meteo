@@ -174,7 +174,7 @@ const ForecastCarousel: React.FC<ForecastCarouselProps> = ({
               <ReactAnimatedWeather
                 animate={!prefersReducedMotion}
                 color="#6B7280"
-                icon={day.condition.icon as unknown}
+                icon={day.condition.icon}
                 size={iconSize}
               />
             </div>

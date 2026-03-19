@@ -40,8 +40,8 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
   temperatureUnit,
   getLocalizedTemperature,
   getLocalizedWeatherDescription,
-  _sunrise,
-  _sunset,
+  sunrise,
+  sunset,
   compact = false,
   className = '',
   hoursToShow = 24,
@@ -267,7 +267,7 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
                 <ReactAnimatedWeather
                   animate={!prefersReducedMotion}
                   color={theme.isDark ? '#9CA3AF' : '#374151'}
-                  icon={selectedHour.condition.icon as unknown}
+                  icon={selectedHour.condition.icon}
                   size={64}
                 />
                 <div>

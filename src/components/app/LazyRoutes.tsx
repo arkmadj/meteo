@@ -161,9 +161,9 @@ export const withLazyRoute = <P extends object>(
  */
 export const ConditionalLazyComponent: React.FC<{
   condition: boolean;
-  lazyComponent: React.LazyExoticComponent<React.ComponentType<unknown>>;
-  fallbackComponent: React.ComponentType<unknown>;
-  props?: unknown;
+  lazyComponent: React.LazyExoticComponent<React.ComponentType<Record<string, unknown>>>;
+  fallbackComponent: React.ComponentType<Record<string, unknown>>;
+  props?: Record<string, unknown>;
 }> = ({
   condition,
   lazyComponent: LazyComponent,

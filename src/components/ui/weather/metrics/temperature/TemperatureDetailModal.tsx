@@ -9,9 +9,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AccessibleModal } from '@/components/ui/molecules';
-import TemperatureGauge from './TemperatureGauge';
 import { useTheme } from '@/design-system/theme';
 import type { TemperatureData } from '@/types/weather';
+import TemperatureGauge from './TemperatureGauge';
 
 export interface TemperatureDetailModalProps {
   /** Whether the modal is open */
@@ -34,7 +34,7 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
   getLocalizedTemperature,
 }) => {
   const { t } = useTranslation(['weather']);
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
 
   // Get temperature comfort level and color
   const getTemperatureInfo = (temp: number, tempUnit: 'C' | 'F') => {

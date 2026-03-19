@@ -7,8 +7,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RadioGroup } from '@/components/ui/atoms';
-import { useTheme } from '@/design-system/theme';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
+import { useTheme } from '@/design-system/theme';
 
 export type UpdateFrequency = 'off' | 'low' | 'medium' | 'high' | 'realtime';
 
@@ -24,7 +24,7 @@ const UpdateFrequencySelector: React.FC<UpdateFrequencySelectorProps> = ({
   showDescription = true,
 }) => {
   const { t } = useTranslation('settings');
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const { preferences, getUpdateFrequencyInterval, updateUpdateFrequency } =
     useUserPreferencesContext();
 

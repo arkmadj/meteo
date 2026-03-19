@@ -50,7 +50,7 @@ export const useOfflineSupport = () => {
           userMessage: t('errors:messages.offline'),
           retryable: false,
           timestamp: Date.now(),
-        } as unknown);
+        });
       };
 
       window.addEventListener('online', handleOnline);
@@ -99,7 +99,7 @@ export const useOfflineSupport = () => {
             userMessage: t('errors:messages.offlineStorageFailed'),
             retryable: false,
             timestamp: Date.now(),
-          } as unknown);
+          });
         }
       },
       [key]
@@ -128,9 +128,14 @@ export const useOfflineSupport = () => {
     React.useEffect(() => {
       // Save weather data to offline storage when it changes
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
+        const eventWithAction = event as {
+          type: string;
+          action?: string;
+          query: { queryKey?: unknown[]; state: { data?: unknown } };
+        };
         if (
           event.type === 'updated' &&
-          (event as unknown).action === 'success' &&
+          eventWithAction.action === 'success' &&
           event.query.queryKey?.[0] === 'weather' &&
           event.query.queryKey.includes(location)
         ) {
@@ -164,9 +169,14 @@ export const useOfflineSupport = () => {
     React.useEffect(() => {
       // Save forecast data to offline storage when it changes
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
+        const eventWithAction = event as {
+          type: string;
+          action?: string;
+          query: { queryKey?: unknown[]; state: { data?: unknown } };
+        };
         if (
           event.type === 'updated' &&
-          (event as unknown).action === 'success' &&
+          eventWithAction.action === 'success' &&
           event.query.queryKey?.[0] === 'weather' &&
           event.query.queryKey.includes('forecast') &&
           event.query.queryKey.includes(location)
@@ -379,8 +389,8 @@ export const useOfflineSupport = () => {
       enabled: options.enabled ?? true,
       staleTime: options.staleTime ?? 5 * 60 * 1000, // 5 minutes
       gcTime: options.gcTime ?? 30 * 60 * 1000, // 30 minutes
-      initialData: offlineData?.data,
-      initialDataUpdatedAt: offlineData?.timestamp,
+      initialData: (offlineData as { data?: unknown; timestamp?: number })?.data,
+      initialDataUpdatedAt: (offlineData as { data?: unknown; timestamp?: number })?.timestamp,
       networkMode: 'offlineFirst' as const,
       retry: (failureCount, _error) => {
         // Don't retry if offline

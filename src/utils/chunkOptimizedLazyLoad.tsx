@@ -179,7 +179,7 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
 
   const LazyComponent = React.lazy(importFn);
 
-  const ChunkOptimizedWrapper = forwardRef<unknown, unknown>((props, ref) => {
+  const ChunkOptimizedWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => {
     const { preferences, getLoadingStrategy } = useUserPreferencesContext();
 
     // Adapt loading strategy based on user preferences
@@ -220,7 +220,7 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
 
     return (
       <Suspense fallback={<LoadingComponent />}>
-        <LazyComponent {...props} ref={ref} />
+        <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
       </Suspense>
     );
   });
@@ -228,8 +228,8 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
   ChunkOptimizedWrapper.displayName = `ChunkOptimized(${componentName || 'Component'})`;
 
   // Add chunk metadata for debugging
-  (ChunkOptimizedWrapper as unknown).__chunkConfig = config;
-  (ChunkOptimizedWrapper as unknown).__chunkSection = chunkSection;
+  (ChunkOptimizedWrapper as unknown as Record<string, unknown>).__chunkConfig = config;
+  (ChunkOptimizedWrapper as unknown as Record<string, unknown>).__chunkSection = chunkSection;
 
   return ChunkOptimizedWrapper;
 }
@@ -243,9 +243,9 @@ function createBasicLazyComponent<T extends ComponentType<unknown>>(
 ) {
   const LazyComponent = React.lazy(importFn);
 
-  const BasicWrapper = forwardRef<unknown, unknown>((props, ref) => (
+  const BasicWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
-      <LazyComponent {...props} ref={ref} />
+      <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
     </Suspense>
   ));
 

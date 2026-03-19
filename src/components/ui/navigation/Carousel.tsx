@@ -91,6 +91,32 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }, []);
 
+  // Navigation functions (declared before useEffect to avoid hoisting issues)
+  const goToPage = useCallback(
+    (page: number) => {
+      const boundedPage = Math.max(0, Math.min(page, totalPages - 1));
+      setCurrentPage(boundedPage);
+      onPageChange?.(boundedPage);
+    },
+    [totalPages, onPageChange]
+  );
+
+  const goToNextPage = useCallback(() => {
+    setCurrentPage(prev => {
+      const nextPage = infinite ? (prev + 1) % totalPages : Math.min(prev + 1, totalPages - 1);
+      onPageChange?.(nextPage);
+      return nextPage;
+    });
+  }, [infinite, totalPages, onPageChange]);
+
+  const goToPreviousPage = useCallback(() => {
+    setCurrentPage(prev => {
+      const prevPage = infinite ? (prev - 1 + totalPages) % totalPages : Math.max(prev - 1, 0);
+      onPageChange?.(prevPage);
+      return prevPage;
+    });
+  }, [infinite, totalPages, onPageChange]);
+
   // Autoplay lifecycle
   useEffect(() => {
     startAutoplay();
@@ -153,32 +179,6 @@ const Carousel: React.FC<CarouselProps> = ({
       goToPreviousPage();
     }
   };
-
-  // Navigation functions
-  const goToPage = useCallback(
-    (page: number) => {
-      const boundedPage = Math.max(0, Math.min(page, totalPages - 1));
-      setCurrentPage(boundedPage);
-      onPageChange?.(boundedPage);
-    },
-    [totalPages, onPageChange]
-  );
-
-  const goToNextPage = useCallback(() => {
-    setCurrentPage(prev => {
-      const nextPage = infinite ? (prev + 1) % totalPages : Math.min(prev + 1, totalPages - 1);
-      onPageChange?.(nextPage);
-      return nextPage;
-    });
-  }, [infinite, totalPages, onPageChange]);
-
-  const goToPreviousPage = useCallback(() => {
-    setCurrentPage(prev => {
-      const prevPage = infinite ? (prev - 1 + totalPages) % totalPages : Math.max(prev - 1, 0);
-      onPageChange?.(prevPage);
-      return prevPage;
-    });
-  }, [infinite, totalPages, onPageChange]);
 
   // Calculate transform
   const getTransform = () => {

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import type { GeocodingResult } from '@/components/ui/AutocompleteDropdown';
+import type { GeocodingResult } from '@/components/ui/forms/AutocompleteDropdown';
 
 import { useGeocodingQuery } from './useWeatherQuery';
 
@@ -49,14 +49,24 @@ export const useGeocodingAutocomplete = (
     if (geocodingData && geocodingData.length > 0) {
       const transformedSuggestions: GeocodingResult[] = geocodingData
         .slice(0, maxResults)
-        .map((result: unknown) => ({
-          id: result.id,
-          name: result.name,
-          latitude: result.latitude,
-          longitude: result.longitude,
-          country: result.country,
-          admin1: result.admin1,
-        }));
+        .map((result: unknown) => {
+          const typedResult = result as {
+            id: number;
+            name: string;
+            latitude: number;
+            longitude: number;
+            country: string;
+            admin1?: string;
+          };
+          return {
+            id: typedResult.id,
+            name: typedResult.name,
+            latitude: typedResult.latitude,
+            longitude: typedResult.longitude,
+            country: typedResult.country,
+            admin1: typedResult.admin1,
+          };
+        });
 
       setSuggestions(transformedSuggestions);
     } else if (!isLoading && debouncedQuery.length >= minQueryLength) {

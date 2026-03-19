@@ -6,7 +6,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Card, CardBody, Button } from '@/components/ui/atoms';
+import { Button, Card, CardBody } from '@/components/ui/atoms';
 import { useTheme } from '@/design-system/theme';
 import { useFuzzyGeocodingAutocomplete } from '@/hooks/useFuzzyGeocodingAutocomplete';
 
@@ -24,7 +24,7 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
   canRemove,
 }) => {
   const { t } = useTranslation(['weather', 'common']);
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [query, setQuery] = useState('');

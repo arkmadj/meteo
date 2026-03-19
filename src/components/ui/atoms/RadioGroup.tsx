@@ -3,7 +3,7 @@
  * A group of radio buttons that can be managed together with validation
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useTheme } from '../../../design-system/theme';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
@@ -81,7 +81,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
     },
     ref
   ) => {
-    const { _theme } = useTheme();
+    const { theme } = useTheme();
     const { isDisabled } = useComponentState({
       disabled,
       testId,

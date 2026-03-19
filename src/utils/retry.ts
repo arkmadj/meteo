@@ -5,14 +5,14 @@
  * jitter, and error filtering for safe retry operations.
  */
 
-import type { AppError, ErrorType } from '@/types/error';
+import { ErrorType, type AppError } from '@/types/error';
+import { createErrorHandler } from '@/utils/errorHandler';
 import type {
   RetryConfig,
   RetryResult,
   RetryWithConfigFunction,
   RetryWithResultFunction,
 } from './retry.types';
-import { createErrorHandler } from '@/utils/errorHandler';
 
 // ============================================================================
 // CONFIGURATION
@@ -102,7 +102,7 @@ export const safeRetryWithResult: RetryWithResultFunction = async <T>(
     const data = await safeRetry(fn, config);
     return {
       success: true,
-      data,
+      data: data as T,
       attempts: 1,
       totalTime: Date.now() - startTime,
     };
@@ -211,10 +211,10 @@ export const retryNetwork = <T>(fn: () => Promise<T>, maxRetries = 3): Promise<T
   };
 
   if (process.env.NODE_ENV !== 'test') {
-    config.retryableErrors = ['network_error', 'timeout_error'] as ErrorType[];
+    config.retryableErrors = [ErrorType.NETWORK_ERROR, ErrorType.TIMEOUT_ERROR];
   }
 
-  return safeRetry(fn, config);
+  return safeRetry(fn, config) as Promise<T>;
 };
 
 /**
@@ -230,10 +230,14 @@ export const retryApi = <T>(fn: () => Promise<T>, maxRetries = 2): Promise<T> =>
   };
 
   if (process.env.NODE_ENV !== 'test') {
-    config.retryableErrors = ['api_error', 'rate_limit_error', 'timeout_error'] as ErrorType[];
+    config.retryableErrors = [
+      ErrorType.API_ERROR,
+      ErrorType.RATE_LIMIT_ERROR,
+      ErrorType.TIMEOUT_ERROR,
+    ];
   }
 
-  return safeRetry(fn, config);
+  return safeRetry(fn, config) as Promise<T>;
 };
 
 /**

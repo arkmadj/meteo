@@ -3,7 +3,7 @@
  * Provides a color picker for selecting custom accent colors
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { COLORS } from '../../../design-system/tokens';
@@ -99,7 +99,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
   testId,
   ...props
 }) => {
-  const { _t } = useTranslation('common');
+  const { t } = useTranslation('common');
   const { isDisabled } = useComponentState({
     disabled,
     testId,

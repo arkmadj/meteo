@@ -79,31 +79,31 @@ export interface ApiRetryConfig extends Omit<RetryConfig, 'retryableErrors'> {
 // ============================================================================
 
 export type RetryableErrorType =
-  | 'network_error'
-  | 'timeout_error'
-  | 'api_error'
-  | 'rate_limit_error'
-  | 'weather_data_error'
-  | 'geocoding_error';
+  | ErrorType.NETWORK_ERROR
+  | ErrorType.TIMEOUT_ERROR
+  | ErrorType.API_ERROR
+  | ErrorType.RATE_LIMIT_ERROR
+  | ErrorType.WEATHER_DATA_ERROR
+  | ErrorType.GEOCODING_ERROR;
 
 export type NonRetryableErrorType =
-  | 'city_not_found'
-  | 'default_city_not_found'
-  | 'invalid_coordinates'
-  | 'parsing_error'
-  | 'unknown_error';
+  | ErrorType.CITY_NOT_FOUND
+  | ErrorType.DEFAULT_CITY_NOT_FOUND
+  | ErrorType.INVALID_COORDINATES
+  | ErrorType.PARSING_ERROR
+  | ErrorType.UNKNOWN_ERROR;
 
 /**
  * Type guard for retryable errors
  */
 export function isRetryableErrorType(type: ErrorType): type is RetryableErrorType {
   const retryableTypes: Set<ErrorType> = new Set([
-    'network_error',
-    'timeout_error',
-    'api_error',
-    'rate_limit_error',
-    'weather_data_error',
-    'geocoding_error',
+    ErrorType.NETWORK_ERROR,
+    ErrorType.TIMEOUT_ERROR,
+    ErrorType.API_ERROR,
+    ErrorType.RATE_LIMIT_ERROR,
+    ErrorType.WEATHER_DATA_ERROR,
+    ErrorType.GEOCODING_ERROR,
   ]);
 
   return retryableTypes.has(type);

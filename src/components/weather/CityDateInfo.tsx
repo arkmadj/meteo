@@ -4,7 +4,7 @@
  * blue accents, rounded corners, and modern styling
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@/design-system/theme';
@@ -50,7 +50,7 @@ const CityDateInfo: React.FC<CityDateInfoProps> = ({
 }) => {
   const { t: _t } = useTranslation(['common', 'weather']);
   const { formatDate, formatWeekday: _formatWeekday } = useDateI18n();
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   // Update current time every minute if showTime is enabled

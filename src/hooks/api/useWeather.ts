@@ -6,18 +6,18 @@
  */
 
 import type { UseQueryOptions } from '@tanstack/react-query';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { WeatherService } from '../../api/services/weatherService';
 import type {
-  CurrentWeather,
-  WeatherForecast,
-  LocationSearchResult,
-  HistoricalWeather,
-  WeatherRequestParams,
-  ForecastRequestParams,
-  LocationSearchParams,
-  HistoricalWeatherParams,
   ApiError,
+  CurrentWeather,
+  ForecastRequestParams,
+  HistoricalWeather,
+  HistoricalWeatherParams,
+  LocationSearchParams,
+  LocationSearchResult,
+  WeatherForecast,
+  WeatherRequestParams,
 } from '../../api/types/weather';
 
 // Query key factory for consistent cache management
@@ -246,7 +246,7 @@ export function useOptimisticWeatherUpdate() {
 
   return useMutation({
     mutationFn: async ({
-      _location,
+      location,
       updates,
     }: {
       location: string;

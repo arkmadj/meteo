@@ -152,7 +152,7 @@ const LocationSearchMap: React.FC<LocationSearchMapProps> = ({
         });
 
         const searchResults = results.map(result => ({
-          ...result.item,
+          ...(result.item as SearchResult),
           score: result.score,
         }));
 

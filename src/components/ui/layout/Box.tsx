@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SPACING, COLORS } from '../../../design-system/tokens';
+import { COLORS, SPACING } from '../../../design-system/tokens';
 
 type SpacingValue = keyof typeof SPACING;
 type ColorValue = keyof typeof COLORS;
@@ -313,13 +313,13 @@ const Box = React.forwardRef<HTMLDivElement, BoxProps>(
 
     const finalClassName = [...classes, className].filter(Boolean).join(' ');
 
-    const Comp = Component as unknown;
+    const Comp = Component as React.ElementType;
     return (
       <Comp
-        ref={ref as unknown}
+        ref={ref as React.Ref<HTMLElement>}
         className={finalClassName}
         style={inlineStyles}
-        {...(props as unknown)}
+        {...(props as Record<string, unknown>)}
       >
         {children}
       </Comp>

@@ -113,8 +113,8 @@ export {
   CHUNK_CONFIGS,
   createChunkOptimizedLazyComponent,
   getChunkMetrics,
-  preloadChunks,
   useChunkOptimizedLoading,
+  usePreloadChunks,
   type ChunkLoadingStrategy,
 } from './chunkOptimizedLazyLoad';
 export * from './devicePerformance';
@@ -124,7 +124,19 @@ export * from './performance';
 export * from './AnnouncementManager';
 export * from './AriaLiveDebugger';
 export * from './colorVisionDeficiency';
-export * from './contrastVerification';
+// Export contrastVerification functions with different names to avoid conflicts
+export {
+  findContrastIssues,
+  getAccessibleTextColor,
+  getContrastRatio as getWCAGContrastRatio,
+  meetsContrastRequirement as meetsWCAGContrastRequirement,
+  suggestAccessibleColor,
+  verifyContrast,
+  type ContrastCheckResult,
+  type ContrastIssue,
+  type TextSize,
+  type WCAGLevel,
+} from './contrastVerification';
 
 // Data utilities
 export * from './mapUrlUtils';

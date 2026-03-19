@@ -187,8 +187,11 @@ export const useConditionalLoadingMetrics = (): ConditionalLoadingMetricsHook =>
             // Try to match chunk names to component names
             const chunkName = entry.name.split('/').pop()?.split('.')[0];
             if (chunkName) {
-              const size =
-                (entry as unknown).transferSize || (entry as unknown).encodedBodySize || 0;
+              const entryWithSize = entry as unknown as {
+                transferSize?: number;
+                encodedBodySize?: number;
+              };
+              const size = entryWithSize.transferSize || entryWithSize.encodedBodySize || 0;
               // Find matching component metric
               const matchingMetric = Array.from(metricsRef.current.values()).find(m =>
                 m.componentName.toLowerCase().includes(chunkName.toLowerCase())

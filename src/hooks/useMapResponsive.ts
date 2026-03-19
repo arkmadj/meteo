@@ -4,8 +4,8 @@
  * touch detection, viewport sizing, and orientation handling
  */
 
-import { useState, useEffect, useMemo } from 'react';
-import { useBreakpoint, useWindowSize, useIsMobile } from './useBreakpoint';
+import { useEffect, useMemo, useState } from 'react';
+import { useBreakpoint, useIsMobile, useWindowSize } from './useBreakpoint';
 
 export interface MapResponsiveConfig {
   /** Current breakpoint */
@@ -210,7 +210,7 @@ export function useMapResponsive(): MapResponsiveConfig {
  * ```
  */
 export function useMapHeight(defaultHeight: number = 500): string {
-  const { isMobile, isTablet, _windowSize, isLandscape } = useMapResponsive();
+  const { isMobile, isTablet, windowSize, isLandscape } = useMapResponsive();
 
   return useMemo(() => {
     if (isMobile) {

@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { GeocodingResult } from '@/components/ui/AutocompleteDropdown';
+import type { GeocodingResult } from '@/components/ui/forms/AutocompleteDropdown';
 import {
+  calculateLocationScore,
   fuzzySearchLocations,
   getPopularCities,
-  calculateLocationScore,
   type FuzzyMatch,
 } from '@/utils/fuzzySearch';
 
@@ -70,14 +70,22 @@ export const useFuzzyGeocodingAutocomplete = (
     if (!geocodingData || geocodingData.length === 0) return [];
 
     return geocodingData.slice(0, Math.ceil(maxResults / 2)).map((result: unknown) => {
-      const score = calculateLocationScore(debouncedQuery, result);
+      const typedResult = result as {
+        id: number;
+        name: string;
+        latitude: number;
+        longitude: number;
+        country: string;
+        admin1?: string;
+      };
+      const score = calculateLocationScore(debouncedQuery, typedResult);
       return {
-        id: result.id,
-        name: result.name,
-        latitude: result.latitude,
-        longitude: result.longitude,
-        country: result.country,
-        admin1: result.admin1,
+        id: typedResult.id,
+        name: typedResult.name,
+        latitude: typedResult.latitude,
+        longitude: typedResult.longitude,
+        country: typedResult.country,
+        admin1: typedResult.admin1,
         isFuzzyMatch: false,
         matchScore: score,
       };
@@ -99,7 +107,7 @@ export const useFuzzyGeocodingAutocomplete = (
     return fuzzyMatches.map(
       match =>
         ({
-          ...match.item,
+          ...(match.item as Record<string, unknown>),
           isFuzzyMatch: true,
           matchScore: match.score,
         }) as GeocodingResult
@@ -125,7 +133,7 @@ export const useFuzzyGeocodingAutocomplete = (
     const resultMap = new Map<string, GeocodingResult>();
 
     // Add API results first (higher priority)
-    apiResults.forEach((result: unknown) => {
+    apiResults.forEach((result: GeocodingResult) => {
       const key = `${result.name}-${result.country}`.toLowerCase();
       resultMap.set(key, result);
     });

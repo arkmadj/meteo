@@ -163,12 +163,12 @@ class HttpClient {
   private createApiError(error: AxiosError): ApiError {
     if (error.response) {
       // Server responded with error status
-      const data = error.response.data as unknown;
+      const data = error.response.data as Record<string, unknown>;
       return {
-        message: data?.message || 'Server error occurred',
-        code: data?.code || 'SERVER_ERROR',
+        message: (data?.message as string) || 'Server error occurred',
+        code: (data?.code as string) || 'SERVER_ERROR',
         status: error.response.status,
-        details: data?.details,
+        details: data?.details as Record<string, unknown> | undefined,
       };
     } else if (error.request) {
       // Request was made but no response received

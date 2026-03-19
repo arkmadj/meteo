@@ -117,10 +117,10 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
 
   const getCurrentPosition = useCallback(() => {
     if (!isSupported) {
-      const notSupportedError: GeolocationError = {
+      const notSupportedError = {
         code: 0,
         message: 'Geolocation is not supported by your browser',
-      };
+      } as GeolocationPositionError;
       setError(notSupportedError);
 
       if (showNotifications) {

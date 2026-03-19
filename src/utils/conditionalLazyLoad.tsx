@@ -2,11 +2,11 @@ import type { ComponentType } from 'react';
 import React, {
   Suspense,
   forwardRef,
-  useState,
-  useEffect,
-  useRef,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
+  useState,
 } from 'react';
 
 import { Loading } from '@/components/ui';
@@ -322,7 +322,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
       </div>
     ));
 
-  const ConditionalLazyWrapper = forwardRef<unknown, unknown>((props, ref) => {
+  const ConditionalLazyWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => {
     const [shouldLoad, setShouldLoad] = useState(loadingStrategy === 'immediate');
     const [retryKey, setRetryKey] = useState(0);
 
@@ -356,7 +356,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
 
       return (
         <Suspense fallback={<LoadingFallback />}>
-          <Component key={retryKey} {...props} ref={ref} />
+          <Component key={retryKey} {...(props as Record<string, unknown>)} ref={ref} />
         </Suspense>
       );
     };
@@ -520,7 +520,7 @@ export const createPreferenceAwareLazyComponent = <T extends ComponentType<unkno
  */
 const PreferenceAwareWrapper = <T extends ComponentType<unknown>>({
   importFn,
-  _componentName,
+  componentName,
   fallbackStrategy,
   props,
   forwardedRef,
@@ -528,8 +528,8 @@ const PreferenceAwareWrapper = <T extends ComponentType<unknown>>({
   importFn: () => Promise<{ default: T }>;
   componentName?: string;
   fallbackStrategy: 'visible' | 'hover' | 'click' | 'idle';
-  props: unknown;
-  forwardedRef: unknown;
+  props: Record<string, unknown>;
+  forwardedRef: React.Ref<unknown>;
 }) => {
   const { getLoadingStrategy, preferences } = useUserPreferencesContext();
 
@@ -559,7 +559,7 @@ const PreferenceAwareWrapper = <T extends ComponentType<unknown>>({
     return createConditionalLazyComponent(importFn, options);
   }, [strategy, preferences.saveData, importFn]);
 
-  return <ConditionalComponent {...props} ref={forwardedRef} />;
+  return <ConditionalComponent {...(props as Record<string, unknown>)} ref={forwardedRef} />;
 };
 
 export default {

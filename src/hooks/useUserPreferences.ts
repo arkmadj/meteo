@@ -265,7 +265,9 @@ export const useUserPreferences = (config: Partial<PreferenceConfig> = {}) => {
     const updates: Partial<UserPreferences> = {};
 
     if (finalConfig.adaptToConnection && 'connection' in navigator) {
-      const connection = (navigator as unknown).connection;
+      const connection = (navigator as unknown as Record<string, unknown>).connection as
+        | { saveData?: boolean; type?: string; effectiveType?: string }
+        | undefined;
 
       if (connection) {
         updates.saveData = connection.saveData || false;
@@ -412,7 +414,13 @@ export const useUserPreferences = (config: Partial<PreferenceConfig> = {}) => {
     let connectionHandler: (() => void) | null = null;
     if ('connection' in navigator) {
       connectionHandler = () => updatePreferences();
-      (navigator as unknown).connection?.addEventListener('change', connectionHandler);
+      const connection = (navigator as unknown as Record<string, unknown>).connection as
+        | {
+            addEventListener?: (event: string, handler: () => void) => void;
+            removeEventListener?: (event: string, handler: () => void) => void;
+          }
+        | undefined;
+      connection?.addEventListener?.('change', connectionHandler);
     }
 
     return () => {
@@ -421,7 +429,13 @@ export const useUserPreferences = (config: Partial<PreferenceConfig> = {}) => {
       });
 
       if (connectionHandler && 'connection' in navigator) {
-        (navigator as unknown).connection?.removeEventListener('change', connectionHandler);
+        const connection = (navigator as unknown as Record<string, unknown>).connection as
+          | {
+              addEventListener?: (event: string, handler: () => void) => void;
+              removeEventListener?: (event: string, handler: () => void) => void;
+            }
+          | undefined;
+        connection?.removeEventListener?.('change', connectionHandler);
       }
     };
   }, [updatePreferences]);

@@ -186,7 +186,7 @@ const NotificationHistoryPanel: React.FC<NotificationHistoryPanelProps> = ({
   emptyMessage,
 }) => {
   const { t } = useTranslation('common');
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
   const {

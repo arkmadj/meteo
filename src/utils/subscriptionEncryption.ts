@@ -32,15 +32,19 @@ export const isCryptoSupported = (): boolean => {
 /**
  * Generate a random initialization vector
  */
-const generateIV = (): Uint8Array => {
-  return window.crypto.getRandomValues(new Uint8Array(ENCRYPTION_CONFIG.ivLength));
+const generateIV = (): Uint8Array<ArrayBuffer> => {
+  return window.crypto.getRandomValues(
+    new Uint8Array(ENCRYPTION_CONFIG.ivLength)
+  ) as Uint8Array<ArrayBuffer>;
 };
 
 /**
  * Generate a random salt for key derivation
  */
-const generateSalt = (): Uint8Array => {
-  return window.crypto.getRandomValues(new Uint8Array(ENCRYPTION_CONFIG.saltLength));
+const generateSalt = (): Uint8Array<ArrayBuffer> => {
+  return window.crypto.getRandomValues(
+    new Uint8Array(ENCRYPTION_CONFIG.saltLength)
+  ) as Uint8Array<ArrayBuffer>;
 };
 
 /**
@@ -72,7 +76,7 @@ const base64ToArrayBuffer = (base64: string): ArrayBuffer => {
  */
 const deriveKey = async (
   password: string,
-  salt: Uint8Array,
+  salt: Uint8Array<ArrayBuffer>,
   iterations: number = ENCRYPTION_CONFIG.pbkdf2Iterations
 ): Promise<CryptoKey> => {
   const encoder = new TextEncoder();
@@ -87,7 +91,7 @@ const deriveKey = async (
   return window.crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt,
+      salt: salt as BufferSource,
       iterations,
       hash: 'SHA-256',
     },
@@ -131,10 +135,18 @@ const getEncryptionPassphrase = async (): Promise<string> => {
 /**
  * Encrypt a string value
  */
-const encryptValue = async (value: string, key: CryptoKey, iv: Uint8Array): Promise<string> => {
+const encryptValue = async (
+  value: string,
+  key: CryptoKey,
+  iv: Uint8Array<ArrayBuffer>
+): Promise<string> => {
   const encoder = new TextEncoder();
   const encrypted = await window.crypto.subtle.encrypt(
-    { name: ENCRYPTION_CONFIG.algorithm, iv, tagLength: ENCRYPTION_CONFIG.tagLength },
+    {
+      name: ENCRYPTION_CONFIG.algorithm,
+      iv: iv as BufferSource,
+      tagLength: ENCRYPTION_CONFIG.tagLength,
+    },
     key,
     encoder.encode(value)
   );
@@ -147,10 +159,14 @@ const encryptValue = async (value: string, key: CryptoKey, iv: Uint8Array): Prom
 const decryptValue = async (
   encryptedValue: string,
   key: CryptoKey,
-  iv: Uint8Array
+  iv: Uint8Array<ArrayBuffer>
 ): Promise<string> => {
   const decrypted = await window.crypto.subtle.decrypt(
-    { name: ENCRYPTION_CONFIG.algorithm, iv, tagLength: ENCRYPTION_CONFIG.tagLength },
+    {
+      name: ENCRYPTION_CONFIG.algorithm,
+      iv: iv as BufferSource,
+      tagLength: ENCRYPTION_CONFIG.tagLength,
+    },
     key,
     base64ToArrayBuffer(encryptedValue)
   );
@@ -181,12 +197,12 @@ export const encryptSubscriptionKeys = async (
   return {
     encryptedP256dh,
     encryptedAuth,
-    iv: arrayBufferToBase64(iv.buffer),
+    iv: arrayBufferToBase64(iv.buffer as ArrayBuffer),
     algorithm: ENCRYPTION_CONFIG.algorithm,
     keyDerivation: {
       algorithm: 'PBKDF2',
       iterations: ENCRYPTION_CONFIG.pbkdf2Iterations,
-      salt: arrayBufferToBase64(salt.buffer),
+      salt: arrayBufferToBase64(salt.buffer as ArrayBuffer),
     },
   };
 };
