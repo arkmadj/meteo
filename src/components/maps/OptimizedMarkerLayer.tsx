@@ -3,10 +3,10 @@
  * GPU-friendly marker rendering with clustering and throttling
  */
 
-import React, { useEffect, useRef, useMemo } from 'react';
-import { Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
 import type { PerformanceTier } from '@/utils/devicePerformance';
+import L from 'leaflet';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { Marker, Popup, useMap } from 'react-leaflet';
 
 export interface MarkerData {
   id: string | number;
@@ -87,7 +87,7 @@ function clusterMarkers(
  */
 function createClusterIcon(count: number): L.DivIcon {
   const size = Math.min(40 + Math.log(count) * 5, 60);
-  
+
   return L.divIcon({
     html: `
       <div style="
@@ -145,7 +145,7 @@ const OptimizedMarkerLayer: React.FC<OptimizedMarkerLayerProps> = ({
   // Determine max markers based on performance tier
   const effectiveMaxMarkers = useMemo(() => {
     if (maxMarkers !== undefined) return maxMarkers;
-    
+
     switch (performanceTier) {
       case 'high':
         return 100;
@@ -187,16 +187,13 @@ const OptimizedMarkerLayer: React.FC<OptimizedMarkerLayerProps> = ({
     <>
       {clusters.map((cluster, index) => {
         const isCluster = cluster.markers.length > 1;
-        const icon = isCluster
-          ? createClusterIcon(cluster.markers.length)
-          : markerIcon;
+        const icon = isCluster ? createClusterIcon(cluster.markers.length) : markerIcon;
 
         return (
           <Marker
             key={`cluster-${index}`}
             position={cluster.center}
             icon={icon}
-            renderer={canvasLayerRef.current || undefined}
             eventHandlers={{
               click: () => {
                 if (!isCluster && onMarkerClick) {
@@ -255,4 +252,3 @@ const OptimizedMarkerLayer: React.FC<OptimizedMarkerLayerProps> = ({
 };
 
 export default OptimizedMarkerLayer;
-

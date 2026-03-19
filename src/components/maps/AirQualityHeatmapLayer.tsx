@@ -6,9 +6,9 @@
  * intensity using color gradients based on European or US AQI standards.
  */
 
+import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
-import L from 'leaflet';
 
 import type { AQIStandard } from '@/types/airQuality';
 import { EUROPEAN_AQI_LEVELS, US_AQI_LEVELS } from '@/types/airQuality';
@@ -73,7 +73,7 @@ const getAQIColor = (
 class AirQualityCanvasLayer extends L.Layer {
   private canvas: HTMLCanvasElement | null = null;
   private data: AirQualityDataPoint[];
-  private layerOptions: Required<Omit<AirQualityHeatmapLayerProps, 'data'>>;
+  private layerOptions: Omit<AirQualityHeatmapLayerProps, 'data'>;
 
   constructor(data: AirQualityDataPoint[], options: Omit<AirQualityHeatmapLayerProps, 'data'>) {
     super();
@@ -84,6 +84,9 @@ class AirQualityCanvasLayer extends L.Layer {
       radius: options.radius ?? 35,
       blur: options.blur ?? 20,
       zIndex: options.zIndex ?? 400,
+      onLoadStart: options.onLoadStart,
+      onLoadComplete: options.onLoadComplete,
+      onError: options.onError,
     };
   }
 

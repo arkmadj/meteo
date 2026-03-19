@@ -4,9 +4,9 @@
  * Respects user preferences for reduced motion and reduced data
  */
 
-import React from 'react';
 import { useTheme } from '@/design-system/theme';
-import { BORDER_RADIUS, ANIMATION } from '@/design-system/tokens';
+import { ANIMATION, BORDER_RADIUS } from '@/design-system/tokens';
+import React from 'react';
 
 export interface SkeletonProps {
   /** Width of skeleton (CSS value or 'full') */
@@ -94,7 +94,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
     if (animation === 'pulse') {
       return {
-        animation: `skeleton-pulse ${ANIMATION.duration.slow} ${ANIMATION.easing.easeInOut} infinite`,
+        animation: `skeleton-pulse ${ANIMATION.duration.slow} ${ANIMATION.easing.inOut} infinite`,
       };
     }
 
@@ -240,7 +240,10 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`skeleton-list ${className}`} style={{ display: 'flex', flexDirection: 'column', gap }}>
+    <div
+      className={`skeleton-list ${className}`}
+      style={{ display: 'flex', flexDirection: 'column', gap }}
+    >
       {Array.from({ length: items }).map((_, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {showAvatar && <SkeletonCircle width="2.5rem" height="2.5rem" />}
@@ -317,4 +320,3 @@ export const SkeletonTable: React.FC<SkeletonTableProps> = ({
 };
 
 export default Skeleton;
-

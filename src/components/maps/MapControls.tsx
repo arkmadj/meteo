@@ -119,7 +119,7 @@ const MapControls: React.FC<MapControlsProps> = ({
           {/* Row 1: Height Selector and Toggles */}
           <Flex
             gap="lg"
-            wrap
+            wrap="wrap"
             alignItems="flex-start"
             justifyContent="space-between"
             className="flex-col lg:flex-row"
@@ -178,7 +178,7 @@ const MapControls: React.FC<MapControlsProps> = ({
             <label className={`block text-sm font-medium mb-3 ${labelText}`}>
               {t('mapDemo.baseDemo.quickLocations')}
             </label>
-            <Flex gap="sm" wrap className="flex-wrap">
+            <Flex gap="sm" wrap="wrap" className="flex-wrap">
               <Button
                 variant="primary"
                 size="sm"

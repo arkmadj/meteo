@@ -1,32 +1,32 @@
 /**
  * Weather Service
- * 
+ *
  * Demonstrates best practices for API service layer implementation
  * with comprehensive error handling and type safety.
  */
 
 import httpClient, { ApiError } from '../clients/httpClient';
 import {
-  CurrentWeatherResponse,
-  ForecastResponse,
-  LocationSearchResponse,
-  HistoricalWeatherResponse,
-  WeatherRequestParams,
-  ForecastRequestParams,
-  LocationSearchParams,
-  HistoricalWeatherParams,
   CurrentWeather,
-  WeatherForecast,
-  LocationSearchResult,
+  CurrentWeatherResponse,
+  ForecastRequestParams,
+  ForecastResponse,
   HistoricalWeather,
+  HistoricalWeatherParams,
+  HistoricalWeatherResponse,
   isApiError,
   isCurrentWeather,
   isWeatherForecast,
+  LocationSearchParams,
+  LocationSearchResponse,
+  LocationSearchResult,
+  WeatherForecast,
+  WeatherRequestParams,
 } from '../types/weather';
 
 /**
  * Weather API Service Class
- * 
+ *
  * Provides type-safe methods for interacting with weather APIs.
  * Implements proper error handling, request validation, and response transformation.
  */
@@ -41,16 +41,13 @@ export class WeatherService {
     try {
       this.validateLocation(params.location);
 
-      const response = await httpClient.get<CurrentWeatherResponse>(
-        `${this.BASE_PATH}/current`,
-        {
-          params: this.sanitizeParams(params),
-          timeout: this.DEFAULT_TIMEOUT,
-        }
-      );
+      const response = await httpClient.get<CurrentWeatherResponse>(`${this.BASE_PATH}/current`, {
+        params: this.sanitizeParams(params),
+        timeout: this.DEFAULT_TIMEOUT,
+      });
 
       const weatherData = response.data.data;
-      
+
       if (!isCurrentWeather(weatherData)) {
         throw this.createValidationError('Invalid weather data format received');
       }
@@ -69,16 +66,13 @@ export class WeatherService {
       this.validateLocation(params.location);
       this.validateForecastParams(params);
 
-      const response = await httpClient.get<ForecastResponse>(
-        `${this.BASE_PATH}/forecast`,
-        {
-          params: this.sanitizeParams(params),
-          timeout: this.DEFAULT_TIMEOUT,
-        }
-      );
+      const response = await httpClient.get<ForecastResponse>(`${this.BASE_PATH}/forecast`, {
+        params: this.sanitizeParams(params),
+        timeout: this.DEFAULT_TIMEOUT,
+      });
 
       const forecastData = response.data.data;
-      
+
       if (!isWeatherForecast(forecastData)) {
         throw this.createValidationError('Invalid forecast data format received');
       }
@@ -96,17 +90,14 @@ export class WeatherService {
     try {
       this.validateSearchQuery(params.query);
 
-      const response = await httpClient.get<LocationSearchResponse>(
-        `${this.BASE_PATH}/search`,
-        {
-          params: {
-            q: params.query.trim(),
-            limit: Math.min(params.limit || 10, 50), // Cap at 50 results
-            country: params.country,
-          },
-          timeout: this.DEFAULT_TIMEOUT,
-        }
-      );
+      const response = await httpClient.get<LocationSearchResponse>(`${this.BASE_PATH}/search`, {
+        params: {
+          q: params.query.trim(),
+          limit: Math.min(params.limit || 10, 50), // Cap at 50 results
+          country: params.country,
+        },
+        timeout: this.DEFAULT_TIMEOUT,
+      });
 
       return response.data.data || [];
     } catch (error) {
@@ -139,7 +130,10 @@ export class WeatherService {
   /**
    * Get weather for multiple locations (batch request)
    */
-  static async getBatchWeather(locations: string[], units?: 'metric' | 'imperial'): Promise<CurrentWeather[]> {
+  static async getBatchWeather(
+    locations: string[],
+    units?: 'metric' | 'imperial'
+  ): Promise<CurrentWeather[]> {
     try {
       if (!locations.length || locations.length > 10) {
         throw this.createValidationError('Batch requests must include 1-10 locations');
@@ -216,7 +210,7 @@ export class WeatherService {
   }
 
   // Private utility methods
-  private static sanitizeParams(params: Record<string, unknown>): Record<string, unknown> {
+  private static sanitizeParams(params: any): Record<string, unknown> {
     const sanitized: Record<string, unknown> = {};
 
     Object.entries(params).forEach(([key, value]) => {

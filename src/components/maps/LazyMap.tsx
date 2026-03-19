@@ -101,7 +101,7 @@ const MapLoadingFallback: React.FC<MapLoadingFallbackProps> = ({
       aria-live="polite"
       aria-label={message}
     >
-      <MapLoadingOverlay isLoading={true} message={message} />
+      <MapLoadingOverlay state="loading" message={message} />
     </div>
   );
 };

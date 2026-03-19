@@ -70,8 +70,8 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
   const listboxRef = useRef<HTMLUListElement>(null);
   const liveRegionRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find((opt) => opt.value === value);
-  const enabledOptions = options.filter((opt) => !opt.disabled);
+  const selectedOption = options.find(opt => opt.value === value);
+  const enabledOptions = options.filter(opt => !opt.disabled);
 
   // Generate IDs
   const triggerId = `${id}-trigger`;
@@ -95,9 +95,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
     if (disabled) return;
     setIsOpen(true);
     // Set active index to selected option or first enabled option
-    const selectedIndex = value
-      ? enabledOptions.findIndex((opt) => opt.value === value)
-      : 0;
+    const selectedIndex = value ? enabledOptions.findIndex(opt => opt.value === value) : 0;
     setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
   };
 
@@ -105,7 +103,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
    * Select option
    */
   const selectOption = (optionValue: string) => {
-    const option = options.find((opt) => opt.value === optionValue);
+    const option = options.find(opt => opt.value === optionValue);
     if (option && !option.disabled) {
       onChange(optionValue);
       closeDropdown();
@@ -121,7 +119,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
    * Navigate to next option
    */
   const navigateNext = () => {
-    setActiveIndex((prev) => {
+    setActiveIndex(prev => {
       const next = prev + 1;
       return next >= enabledOptions.length ? 0 : next;
     });
@@ -131,7 +129,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
    * Navigate to previous option
    */
   const navigatePrevious = () => {
-    setActiveIndex((prev) => {
+    setActiveIndex(prev => {
       const next = prev - 1;
       return next < 0 ? enabledOptions.length - 1 : next;
     });
@@ -165,7 +163,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
     setSearchQuery(newQuery);
 
     // Find matching option
-    const matchIndex = enabledOptions.findIndex((opt) =>
+    const matchIndex = enabledOptions.findIndex(opt =>
       opt.label.toLowerCase().startsWith(newQuery)
     );
 
@@ -316,12 +314,12 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
           marginBottom: SPACING[2],
           fontSize: '14px',
           fontWeight: 600,
-          color: error ? COLORS.semantic.error : COLORS.neutral[900],
+          color: error ? COLORS.semantic.error[500] : COLORS.neutral[900],
         }}
       >
         {label}
         {required && (
-          <span style={{ color: COLORS.semantic.error, marginLeft: '4px' }}>*</span>
+          <span style={{ color: COLORS.semantic.error[500], marginLeft: '4px' }}>*</span>
         )}
       </label>
 
@@ -351,11 +349,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
           gap: SPACING[2],
           backgroundColor: disabled ? COLORS.neutral[100] : 'white',
           border: `2px solid ${
-            error
-              ? COLORS.semantic.error
-              : isOpen
-              ? COLORS.primary[500]
-              : COLORS.neutral[300]
+            error ? COLORS.semantic.error : isOpen ? COLORS.primary[500] : COLORS.neutral[300]
           }`,
           borderRadius: BORDER_RADIUS.md,
           fontSize: '14px',
@@ -430,8 +424,8 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                   backgroundColor: isActive
                     ? COLORS.primary[50]
                     : isSelected
-                    ? COLORS.primary[100]
-                    : 'transparent',
+                      ? COLORS.primary[100]
+                      : 'transparent',
                   color: COLORS.neutral[900],
                   cursor: 'pointer',
                   borderRadius: BORDER_RADIUS.sm,
@@ -470,7 +464,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
           style={{
             marginTop: SPACING[1],
             fontSize: '12px',
-            color: error ? COLORS.semantic.error : COLORS.neutral[600],
+            color: error ? COLORS.semantic.error[500] : COLORS.neutral[600],
           }}
         >
           {error ? errorMessage : helperText}
@@ -500,4 +494,3 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
 };
 
 export default AccessibleDropdown;
-

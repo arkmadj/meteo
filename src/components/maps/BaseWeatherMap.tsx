@@ -393,7 +393,6 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
           scrollWheelZoom={!preferences.prefersReducedMotion}
           doubleClickZoom={true}
           dragging={true}
-          animate={!preferences.prefersReducedMotion}
           touchZoom={responsive.isTouch}
         >
           {/* Base Tile Layer */}
