@@ -6,17 +6,17 @@
  */
 
 // Core interfaces and types
-export type { IModalState, IModalContext, IModalData, ModalStateType } from './ModalState';
 export { BaseModalState } from './ModalState';
+export type { IModalContext, IModalData, IModalState, ModalStateType } from './ModalState';
 
 // Concrete state implementations
 export {
   ClosedState,
-  OpeningState,
-  OpenState,
   ClosingState,
-  LoadingState,
   ErrorState,
+  LoadingState,
+  OpenState,
+  OpeningState,
 } from './ModalStates';
 
 // Context manager
@@ -26,5 +26,5 @@ export { ModalContext } from './ModalContext';
 export { useModalState } from './useModalState';
 export type { UseModalStateOptions, UseModalStateReturn } from './useModalState';
 
-// Examples
-export { BasicModalExample, ConfirmationModalExample, LoadingErrorModalExample } from './examples';
+// Examples file not yet created
+// export { BasicModalExample, ConfirmationModalExample, LoadingErrorModalExample } from './examples';

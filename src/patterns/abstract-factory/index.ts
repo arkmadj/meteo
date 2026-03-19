@@ -19,16 +19,16 @@ export type {
   IUIComponent,
 } from './UIComponent';
 
-export type { IUIFactory, Platform } from './UIFactory';
 export { BaseUIFactory } from './UIFactory';
+export type { IUIFactory, Platform } from './UIFactory';
 
 // ============================================================================
 // CONCRETE FACTORIES
 // ============================================================================
 
-export { WebFactory } from './WebFactory';
-export { MobileFactory } from './MobileFactory';
 export { DesktopFactory } from './DesktopFactory';
+export { MobileFactory } from './MobileFactory';
+export { WebFactory } from './WebFactory';
 
 // ============================================================================
 // CONCRETE COMPONENTS
@@ -58,13 +58,14 @@ export {
 // EXAMPLES
 // ============================================================================
 
-export {
-  basicFactoryExample,
-  componentInteractionExample,
-  crossPlatformExample,
-  factoryProviderExample,
-  formCreationExample,
-  platformFeaturesExample,
-  runAllExamples,
-  themeCustomizationExample,
-} from './examples';
+// Examples file not yet created
+// export {
+//   basicFactoryExample,
+//   componentInteractionExample,
+//   crossPlatformExample,
+//   factoryProviderExample,
+//   formCreationExample,
+//   platformFeaturesExample,
+//   runAllExamples,
+//   themeCustomizationExample,
+// } from './examples';

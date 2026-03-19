@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { Semaphore } from './asyncConcurrency';
 import { anyToken, CancellationTokenSource, withTimeout } from './cancellationToken';
+import { ErrorType } from './resultErrorHandling';
 import { safeRetry } from './retry';
 
 // ============================================================================
