@@ -11,9 +11,9 @@
  * - Efficient opacity switching instead of layer recreation
  */
 
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { useMap } from 'react-leaflet';
 import L from 'leaflet';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMap } from 'react-leaflet';
 
 import { usePrefersReducedMotion } from '@/hooks/useMotion';
 
@@ -149,12 +149,13 @@ const RadarPlayback: React.FC<RadarPlaybackProps> = React.memo(
 
       // Cleanup
       return () => {
-        tileLayersRef.current.forEach(layer => {
+        const tileLayers = tileLayersRef.current;
+        tileLayers.forEach(layer => {
           if (map.hasLayer(layer)) {
             map.removeLayer(layer);
           }
         });
-        tileLayersRef.current.clear();
+        tileLayers.clear();
       };
     }, [map, frames, createTileLayer, opacity, frameHash]);
 

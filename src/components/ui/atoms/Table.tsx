@@ -228,7 +228,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
       announceSortChanges = true,
       sortAnnouncementMessage,
       focusIndicatorStyle,
-      enhancedFocusManagement = true,
+      enhancedFocusManagement: _enhancedFocusManagement = true,
       className = '',
       disabled = false,
       ...props
@@ -295,7 +295,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
         // without breaking accessibility guidelines
         return 0;
       },
-      [enhancedFocusManagement]
+      []
     );
 
     useEffect(() => {

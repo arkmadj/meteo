@@ -4,7 +4,7 @@
  * with keyboard navigation, touch support, and consistent design
  */
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useTheme } from '@/design-system/theme';
 
@@ -126,7 +126,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [keyboardNavigation, totalPages]);
+  }, [keyboardNavigation, totalPages, goToNextPage, goToPreviousPage, goToPage]);
 
   // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -155,27 +155,30 @@ const Carousel: React.FC<CarouselProps> = ({
   };
 
   // Navigation functions
-  const goToPage = (page: number) => {
-    const boundedPage = Math.max(0, Math.min(page, totalPages - 1));
-    setCurrentPage(boundedPage);
-    onPageChange?.(boundedPage);
-  };
+  const goToPage = useCallback(
+    (page: number) => {
+      const boundedPage = Math.max(0, Math.min(page, totalPages - 1));
+      setCurrentPage(boundedPage);
+      onPageChange?.(boundedPage);
+    },
+    [totalPages, onPageChange]
+  );
 
-  const goToNextPage = () => {
+  const goToNextPage = useCallback(() => {
     setCurrentPage(prev => {
       const nextPage = infinite ? (prev + 1) % totalPages : Math.min(prev + 1, totalPages - 1);
       onPageChange?.(nextPage);
       return nextPage;
     });
-  };
+  }, [infinite, totalPages, onPageChange]);
 
-  const goToPreviousPage = () => {
+  const goToPreviousPage = useCallback(() => {
     setCurrentPage(prev => {
       const prevPage = infinite ? (prev - 1 + totalPages) % totalPages : Math.max(prev - 1, 0);
       onPageChange?.(prevPage);
       return prevPage;
     });
-  };
+  }, [infinite, totalPages, onPageChange]);
 
   // Calculate transform
   const getTransform = () => {

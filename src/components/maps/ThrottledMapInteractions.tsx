@@ -3,10 +3,10 @@
  * Optimizes map interactions for low-performance devices
  */
 
-import { useEffect, useRef, useCallback } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
-import type L from 'leaflet';
 import type { PerformanceTier } from '@/utils/devicePerformance';
+import type L from 'leaflet';
+import { useCallback, useEffect, useRef } from 'react';
+import { useMap, useMapEvents } from 'react-leaflet';
 
 export interface ThrottledMapInteractionsProps {
   /** Performance tier */
@@ -225,6 +225,7 @@ export function useThrottledMapInteractions(
   const effectiveDelay = throttleDelay || getThrottleDelay(performanceTier);
 
   const throttledSetView = useCallback(
+     
     throttle((center: L.LatLngExpression, zoom?: number) => {
       map.setView(center, zoom);
     }, effectiveDelay),
@@ -232,6 +233,7 @@ export function useThrottledMapInteractions(
   );
 
   const throttledFlyTo = useCallback(
+     
     throttle((latlng: L.LatLngExpression, zoom?: number) => {
       if (performanceTier === 'low') {
         // Use instant setView for low-end devices
@@ -244,6 +246,7 @@ export function useThrottledMapInteractions(
   );
 
   const throttledPanTo = useCallback(
+     
     throttle((latlng: L.LatLngExpression) => {
       if (performanceTier === 'low') {
         map.setView(latlng, map.getZoom());
@@ -255,6 +258,7 @@ export function useThrottledMapInteractions(
   );
 
   const throttledSetZoom = useCallback(
+     
     throttle((zoom: number) => {
       map.setZoom(zoom);
     }, effectiveDelay),

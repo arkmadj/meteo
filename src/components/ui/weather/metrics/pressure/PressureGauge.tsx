@@ -184,7 +184,7 @@ const PressureGauge: React.FC<PressureGaugeProps> = ({
         letterSpacing: meta?.letterSpacing ?? '0em',
       };
     },
-    [theme.typography.fontSize]
+    [theme]
   );
 
   const primaryFontFamily = React.useMemo(

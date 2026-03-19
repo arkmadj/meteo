@@ -294,6 +294,7 @@ export const useQueryPerformance = () => {
           gcTime: (options as unknown).gcTime ?? 30 * 60 * 1000,
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [prefetchQuery, queryKey, queryFn, options.staleTime, options.cacheTime, options.prefetch]);
 
     // Background refresh
@@ -312,6 +313,7 @@ export const useQueryPerformance = () => {
 
         return () => clearInterval(interval);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [queryClient, queryKey, options.staleTime, options.backgroundRefresh]);
 
     return usePerformanceQuery(queryKey, queryFn, options);

@@ -199,7 +199,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
       return () => clearTimeout(timer);
     }
-  }, [isOpen, animationDuration, onOpen, onOpened, onClosing, onClosed]);
+  }, [isOpen, animationDuration, onOpen, onOpened, onClosing, onClosed, isMounted]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {

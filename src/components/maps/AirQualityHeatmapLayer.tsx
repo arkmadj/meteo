@@ -252,6 +252,7 @@ const AirQualityHeatmapLayer: React.FC<AirQualityHeatmapLayerProps> = ({
         canvasLayerRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, zIndex, onLoadStart, onLoadComplete, onError]);
 
   // Update canvas layer when data changes

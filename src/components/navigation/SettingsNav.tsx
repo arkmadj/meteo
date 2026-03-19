@@ -131,6 +131,7 @@ const SettingsNav: React.FC<SettingsNavProps> = ({ items, className = '', onNavi
       // Small delay to ensure DOM is ready
       setTimeout(() => scrollToSection(hash), 100);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run on mount
 
   return (
