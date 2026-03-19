@@ -104,7 +104,11 @@ export function BasicTableExample() {
   return (
     <div style={{ padding: '20px' }}>
       <h2>Basic Table</h2>
-      <Table columns={columns} rows={rows} caption="Weather Forecast" />
+      <Table
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
+        caption="Weather Forecast"
+      />
     </div>
   );
 }
@@ -168,8 +172,8 @@ export function SortableTableExample() {
       <h2>Sortable Table</h2>
       <p>Click column headers to sort</p>
       <Table
-        columns={columns}
-        rows={rows}
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
         caption="Sortable Weather Forecast"
         sortable={true}
         sortColumn={sortColumn}
@@ -228,8 +232,8 @@ export function SelectableTableExample() {
       <h2>Selectable Table</h2>
       <p>Selected rows: {selectedRows.length}</p>
       <Table
-        columns={columns}
-        rows={rows}
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
         caption="Selectable Weather Forecast"
         selectable={true}
         selectedRows={selectedRows}
@@ -282,8 +286,8 @@ export function StripedHoverableTableExample() {
     <div style={{ padding: '20px' }}>
       <h2>Striped & Hoverable Table</h2>
       <Table
-        columns={columns}
-        rows={rows}
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
         caption="Weather Forecast with Striped Rows"
         striped={true}
         hoverable={true}
@@ -328,8 +332,8 @@ export function CompactTableExample() {
     <div style={{ padding: '20px' }}>
       <h2>Compact Table</h2>
       <Table
-        columns={columns}
-        rows={rows}
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
         caption="Compact Weather Forecast"
         density="compact"
         size="sm"
@@ -434,8 +438,8 @@ export function ExpandableTableExample() {
         using Tab to navigate and Enter/Space to expand rows.
       </p>
       <Table
-        columns={columns}
-        rows={rows}
+        columns={columns as TableColumn<unknown>[]}
+        rows={rows as TableRow<unknown>[]}
         caption="Expandable Weather Forecast"
         expandable={true}
         expandedRows={expandedRows}
@@ -444,8 +448,8 @@ export function ExpandableTableExample() {
         hoverable={true}
         expansionAriaLabel={(data, expanded) =>
           expanded
-            ? `Collapse detailed weather information for ${data.city}`
-            : `Expand detailed weather information for ${data.city}`
+            ? `Collapse detailed weather information for ${(data as WeatherForecast).city}`
+            : `Expand detailed weather information for ${(data as WeatherForecast).city}`
         }
       />
     </div>

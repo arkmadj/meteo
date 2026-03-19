@@ -124,7 +124,7 @@ export const createLazyComponent = <T extends ComponentType<unknown>>(
   }
 
   // Create the wrapper component with error boundary
-  const LazyWrapper = forwardRef<unknown, React.ComponentProps<T>>((props, ref) => {
+  const LazyWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => {
     const [error, setError] = React.useState<Error | null>(null);
     const [retryKey, setRetryKey] = React.useState(0);
 
@@ -143,13 +143,13 @@ export const createLazyComponent = <T extends ComponentType<unknown>>(
         onError={setError}
       >
         <Suspense fallback={<LoadingFallback />}>
-          <LazyComponent key={retryKey} {...props} ref={ref} />
+          <LazyComponent key={retryKey} {...(props as Record<string, unknown>)} ref={ref} />
         </Suspense>
       </ErrorBoundary>
     );
   });
 
-  LazyWrapper.displayName = `LazyWrapper(${LazyComponent.displayName || 'Component'})`;
+  LazyWrapper.displayName = `LazyWrapper(${(LazyComponent as React.LazyExoticComponent<T> & { displayName?: string }).displayName || 'Component'})`;
 
   return LazyWrapper;
 };

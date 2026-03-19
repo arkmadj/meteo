@@ -84,7 +84,7 @@ export const useOptimisticWeatherUpdate = () => {
           userMessage: t('errors:messages.optimisticUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as unknown);
+        });
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);
@@ -176,7 +176,7 @@ export const useOptimisticWeatherUpdate = () => {
           userMessage: t('errors:messages.optimisticUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as unknown);
+        });
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);
@@ -370,7 +370,7 @@ export const useBatchOptimisticUpdate = () => {
           userMessage: t('errors:messages.batchUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as unknown);
+        });
 
         // Call onError callback if provided
         options.onError?.(error, Array.from(context?.previousDataMap?.values() || []));
@@ -479,7 +479,7 @@ export const useOptimisticUI = () => {
           userMessage: t('errors:messages.optimisticUIFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as unknown);
+        });
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);

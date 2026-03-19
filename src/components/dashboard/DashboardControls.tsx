@@ -15,7 +15,7 @@ export interface DashboardControlsProps {
  * Dashboard controls for customization
  */
 const DashboardControls: React.FC<DashboardControlsProps> = ({ className = '' }) => {
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const { state, toggleEditMode, resetLayout, loadPreset, addWidget, exportLayout, importLayout } =
     useDashboardLayout();
 

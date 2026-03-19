@@ -11,6 +11,7 @@ import { Button, Card, CardBody, CardHeader } from '@/components/ui/atoms';
 import { useTheme } from '@/design-system/theme';
 import { usePrefersReducedMotion } from '@/hooks/useMotion';
 import { useCompleteWeatherQuery } from '@/hooks/useWeatherQuery';
+import type { CurrentWeatherData, ForecastDay } from '@/types/weather';
 import { WEATHER_CODES } from '@/types/weather';
 
 // Helper to get weather description from code
@@ -45,11 +46,16 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Fetch weather data for this city
-  const { data, isLoading, isError, _error } = useCompleteWeatherQuery(query, 7, {
+  const { data, isLoading, isError, error } = useCompleteWeatherQuery(query, 7, {
     enabled: !!query,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
-  });
+  }) as {
+    data: { current: CurrentWeatherData; forecast: ForecastDay[] } | undefined;
+    isLoading: boolean;
+    isError: boolean;
+    error: Error | null;
+  };
 
   const weather = data?.current;
   const forecast = data?.forecast;
@@ -130,7 +136,7 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
             <ReactAnimatedWeather
               animate={!prefersReducedMotion}
               color={theme.isDark ? '#9CA3AF' : '#374151'}
-              icon={(weather.condition?.icon as unknown) || 'CLEAR_DAY'}
+              icon={weather.condition?.icon || 'CLEAR_DAY'}
               size={48}
             />
             <div>

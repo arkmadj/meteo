@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/design-system/theme';
 import { COLORS } from '@/design-system/tokens';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface VisibilityUnitSelectorProps {
   /** Current visibility unit */
@@ -56,9 +56,9 @@ const UNIT_METADATA: Record<
 };
 
 // Theme-aware color utilities
-const getThemeColors = (theme: unknown) => {
-  const isDark = theme.isDark;
-  const isHighContrast = theme.isHighContrast;
+const getThemeColors = (theme: Record<string, unknown>) => {
+  const isDark = theme.isDark as boolean;
+  const isHighContrast = theme.isHighContrast as boolean;
 
   // Surface colors for different states
   const surfaceColors = {
@@ -71,13 +71,13 @@ const getThemeColors = (theme: unknown) => {
   const borderColors = {
     default: isDark ? COLORS.neutral[700] : COLORS.neutral[200],
     hover: isDark ? COLORS.neutral[600] : COLORS.neutral[300],
-    active: theme.primaryColor,
+    active: theme.primaryColor as string,
   };
 
   // Text colors
   const textColors = {
-    primary: theme.textColor,
-    secondary: theme.textSecondaryColor,
+    primary: theme.textColor as string,
+    secondary: theme.textSecondaryColor as string,
     active: 'rgba(255, 255, 255, 0.9)',
     disabled: isDark ? COLORS.neutral[500] : COLORS.neutral[400],
   };
@@ -86,15 +86,15 @@ const getThemeColors = (theme: unknown) => {
     surfaceColors,
     borderColors,
     textColors,
-    primaryColor: theme.primaryColor,
-    accentColor: theme.accentColor,
+    primaryColor: theme.primaryColor as string,
+    accentColor: theme.accentColor as string,
     isDark,
     isHighContrast,
   };
 };
 
 // Component variant styles with theme-aware colors
-const getVariantStyles = (theme: unknown) => {
+const getVariantStyles = (theme: Record<string, unknown>) => {
   const colors = getThemeColors(theme);
 
   return {
@@ -186,8 +186,8 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
   const [hoveredUnit, setHoveredUnit] = useState<VisibilityUnit | null>(null);
   const [focusedUnit, setFocusedUnit] = useState<VisibilityUnit | null>(null);
 
-  const styles = getVariantStyles(theme)[variant];
-  const colors = getThemeColors(theme);
+  const styles = getVariantStyles(theme as unknown as Record<string, unknown>)[variant];
+  const colors = getThemeColors(theme as unknown as Record<string, unknown>);
 
   const handleUnitChange = (unit: VisibilityUnit) => {
     if (!disabled && !loading) {
@@ -202,11 +202,16 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
     }
   };
 
-  const getButtonStyles = (isActive: boolean, isHovered: boolean, isFocused: boolean) => {
-    const baseStyles = {
+  const getButtonStyles = (
+    isActive: boolean,
+    isHovered: boolean,
+    isFocused: boolean
+  ): React.CSSProperties => {
+    const buttonStyle = styles.button as Record<string, unknown>;
+    const baseStyles: React.CSSProperties = {
       ...styles.button,
-      display: styles.button.flexDirection === 'column' ? 'flex' : 'inline-flex',
-      alignItems: styles.button.alignItems || 'center',
+      display: buttonStyle.flexDirection === 'column' ? 'flex' : 'inline-flex',
+      alignItems: (buttonStyle.alignItems as string) || 'center',
       justifyContent: 'center',
       border: '1px solid transparent',
       outline: 'none',
@@ -257,10 +262,10 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
     <div
       className={`inline-flex rounded-lg transition-all duration-200 ${className}`}
       style={{
-        backgroundColor: styles.container.backgroundColor,
-        borderColor: styles.container.borderColor,
-        padding: styles.container.padding,
-        boxShadow: styles.container.boxShadow,
+        backgroundColor: (styles.container as Record<string, unknown>).backgroundColor as string,
+        borderColor: (styles.container as Record<string, unknown>).borderColor as string,
+        padding: (styles.container as Record<string, unknown>).padding as string,
+        boxShadow: (styles.container as Record<string, unknown>).boxShadow as string | undefined,
         opacity: disabled ? 0.5 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}
@@ -294,7 +299,9 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
               <span
                 style={{
                   ...styles.labelText,
-                  marginTop: styles.labelText.marginTop || '0.25rem',
+                  marginTop:
+                    ((styles.labelText as Record<string, unknown>).marginTop as string) ||
+                    '0.25rem',
                   color: isActive ? colors.textColors.active : colors.textColors.secondary,
                 }}
               >

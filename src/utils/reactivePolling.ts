@@ -160,7 +160,7 @@ export async function pollUntilCondition<T>(
   try {
     while (attempts < maxAttempts) {
       // Check cancellation
-      if (effectiveToken.isCancelled) {
+      if (effectiveToken.isCancellationRequested) {
         cancelled = true;
         break;
       }
@@ -373,7 +373,7 @@ async function sleep(ms: number, cancellationToken?: CancellationToken): Promise
 
     // Register cancellation callback
     if (cancellationToken) {
-      const unregister = cancellationToken.register(() => {
+      const unregister = cancellationToken.onCancelled(() => {
         clearTimeout(timeoutId);
         reject(new Error('Sleep cancelled'));
       });

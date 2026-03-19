@@ -361,7 +361,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
           <ReactAnimatedWeather
             animate={!prefersReducedMotion}
             color={theme.isDark ? '#9CA3AF' : '#6B7280'}
-            icon={weather.condition.icon as unknown}
+            icon={weather.condition.icon}
             size={40}
           />
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-[var(--theme-accent)] rounded-full border-2 border-[var(--theme-surface)] shadow-sm" />
@@ -434,7 +434,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
             <ReactAnimatedWeather
               animate={!prefersReducedMotion}
               color={theme.isDark ? '#9CA3AF' : '#374151'}
-              icon={weather.condition.icon as unknown}
+              icon={weather.condition.icon}
               size={ICON_SIZES.WEATHER_MAIN}
             />
             {/* Decorative ring around icon */}
@@ -516,7 +516,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
               <ReactAnimatedWeather
                 animate={!prefersReducedMotion}
                 color={theme.isDark ? '#9CA3AF' : '#374151'}
-                icon={weather.condition.icon as unknown}
+                icon={weather.condition.icon}
                 size={64}
               />
               {/* Decorative ring around icon */}

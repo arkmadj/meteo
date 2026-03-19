@@ -187,11 +187,14 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
 
       // Clone child with additional classes and styles
       if (childClasses.length > 0) {
-        const existingClassName = (child.props as unknown).className || '';
+        const existingClassName = (child.props as Record<string, unknown>).className || '';
         return React.cloneElement(child, {
           ...child.props,
           className: `${existingClassName} ${childClasses.join(' ')}`.trim(),
-          style: { ...childStyles, ...(child.props as unknown).style },
+          style: {
+            ...childStyles,
+            ...(((child.props as Record<string, unknown>).style as Record<string, unknown>) || {}),
+          },
         });
       }
 
@@ -199,18 +202,18 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     });
 
     // If dividers are requested, add divider elements between children
-    let finalChildren = processedChildren;
+    let finalChildren: React.ReactNode = processedChildren;
     if (dividers && React.Children.count(children) > 1) {
       const childrenArray = React.Children.toArray(processedChildren);
-      finalChildren = childrenArray.reduce((acc: unknown[], child, index) => {
-        acc.push(child as unknown);
+      finalChildren = childrenArray.reduce((acc: React.ReactNode[], child, index) => {
+        acc.push(child);
 
         // Add divider between items (not after the last one)
         if (index < childrenArray.length - 1) {
           const { key: spacingKey } = resolveSpacing(spacing);
           const divider = (
             <div
-              key={`divider-${String((child as unknown)?.key ?? index)}-${String((childrenArray?.[index + 1] as unknown)?.key ?? index + 1)}`}
+              key={`divider-${String((child as React.ReactElement)?.key ?? index)}-${String((childrenArray?.[index + 1] as React.ReactElement)?.key ?? index + 1)}`}
               className={`flex-shrink-0 border-t ${dividerColor}`}
               style={{
                 height: direction === 'column' || direction === 'column-reverse' ? '1px' : 'auto',
@@ -249,9 +252,13 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       }, []);
     }
 
-    const Comp = Component as unknown;
+    const Comp = Component as React.ElementType;
     return (
-      <Comp ref={ref as unknown} className={classes.join(' ')} {...(props as unknown)}>
+      <Comp
+        ref={ref as React.Ref<HTMLElement>}
+        className={classes.join(' ')}
+        {...(props as Record<string, unknown>)}
+      >
         {finalChildren}
       </Comp>
     );

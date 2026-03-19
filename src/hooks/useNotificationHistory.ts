@@ -358,7 +358,7 @@ export function useNotificationHistory(
 
   const {
     state,
-    _getHistory,
+    getHistory,
     markAsRead,
     markAsUnread,
     markAllAsRead,

@@ -6,12 +6,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { ANIMATION, BORDER_RADIUS, COLORS, SHADOWS, SPACING } from '@/design-system/tokens';
 import type {
+  SnackbarDisplayMode,
   Snackbar as SnackbarType,
   SnackbarVariant,
-  SnackbarDisplayMode,
 } from '@/contexts/SnackbarContext';
+import { ANIMATION, BORDER_RADIUS, COLORS, SHADOWS, SPACING } from '@/design-system/tokens';
 import { useBreakpoint, type Breakpoint } from '@/hooks/useBreakpoint';
 
 export interface SnackbarProps {
@@ -198,7 +198,7 @@ const Snackbar: React.FC<SnackbarProps> = ({
         minWidth: responsiveStyles.minWidth,
         maxWidth: responsiveStyles.maxWidth,
         marginBottom: displayMode === 'stack' ? SPACING[2] : 0,
-        opacity: (isVisible && !isExiting ? 1 : 0) * (stackingStyles.opacity ?? 1),
+        opacity: (isVisible && !isExiting ? 1 : 0) * ((stackingStyles.opacity as number) ?? 1),
         transform: combinedTransform,
         transition: `all ${ANIMATION.duration.normal} ${ANIMATION.easing.smooth}`,
         pointerEvents: 'auto',

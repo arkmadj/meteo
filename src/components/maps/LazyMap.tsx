@@ -267,13 +267,14 @@ export const LazyBaseWeatherMapComponent: React.FC<LazyBaseWeatherMapProps> = ({
   height = '400px',
   ...mapProps
 }) => {
+  const heightStr = height as string;
   return (
     <LazyMapWrapper
       preloadStrategy={preloadStrategy}
-      height={height}
+      height={heightStr}
       onLibrariesLoaded={onLibrariesLoaded}
     >
-      <LazyBaseWeatherMap {...mapProps} height={height} />
+      <LazyBaseWeatherMap {...mapProps} height={heightStr} />
     </LazyMapWrapper>
   );
 };
@@ -293,13 +294,14 @@ export const LazyLocationSearchMapComponent: React.FC<LazyLocationSearchMapProps
   height = '600px',
   ...mapProps
 }) => {
+  const heightStr = height as string;
   return (
     <LazyMapWrapper
       preloadStrategy={preloadStrategy}
-      height={height}
+      height={heightStr}
       onLibrariesLoaded={onLibrariesLoaded}
     >
-      <LazyLocationSearchMap {...mapProps} height={height} />
+      <LazyLocationSearchMap {...mapProps} height={heightStr} />
     </LazyMapWrapper>
   );
 };

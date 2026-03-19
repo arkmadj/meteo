@@ -1,9 +1,9 @@
-import type { HTMLAttributes, ButtonHTMLAttributes } from 'react';
-import React, { forwardRef } from 'react';
 import {
-  useUserPreferencesContext,
   PreferenceAwareClasses,
+  useUserPreferencesContext,
 } from '@/contexts/UserPreferencesContext';
+import type { ButtonHTMLAttributes, HTMLAttributes } from 'react';
+import React, { forwardRef } from 'react';
 
 /**
  * Preference-aware button component
@@ -103,7 +103,7 @@ interface PreferenceAwareCardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const PreferenceAwareCard = forwardRef<HTMLDivElement, PreferenceAwareCardProps>(
   ({ className = '', hover = false, interactive = false, children, ...props }, ref) => {
-    const { _shouldUseReducedAnimations, _preferences } = useUserPreferencesContext();
+    const { shouldUseReducedAnimations, preferences } = useUserPreferencesContext();
 
     const baseClasses = `
       bg-white rounded-lg shadow-sm border border-gray-200
@@ -232,7 +232,7 @@ export const PreferenceAwareSpinner: React.FC<PreferenceAwareSpinnerProps> = ({
   size = 'md',
   className = '',
 }) => {
-  const { shouldUseReducedAnimations, _preferences } = useUserPreferencesContext();
+  const { shouldUseReducedAnimations, preferences } = useUserPreferencesContext();
 
   const sizeClasses = {
     sm: 'h-4 w-4',

@@ -96,20 +96,23 @@ export const componentUtils = {
    */
   getColor: (colorPath: string, theme: unknown): string => {
     const parts = colorPath.split('.');
-    let value: unknown = theme.colors;
+    let value: unknown = (theme as Record<string, unknown>).colors;
 
     for (const part of parts) {
-      value = value?.[part];
+      value = (value as Record<string, unknown>)?.[part];
     }
 
-    return value || colorPath;
+    return (value as string) || colorPath;
   },
 
   /**
    * Get spacing value
    */
   getSpacing: (key: string, theme: unknown): string => {
-    return theme.spacing?.[key] || key;
+    return (
+      (((theme as Record<string, unknown>).spacing as Record<string, unknown>)?.[key] as string) ||
+      key
+    );
   },
 
   /**
@@ -125,7 +128,7 @@ export const componentUtils = {
   createEventHandlers: <T extends Record<string, unknown>>(handlers: T, disabled?: boolean): T => {
     if (disabled) {
       return Object.keys(handlers).reduce((acc, key) => {
-        (acc as unknown)[key] = (e: unknown) => {
+        (acc as Record<string, unknown>)[key] = (e: Event) => {
           e.preventDefault();
           e.stopPropagation();
         };

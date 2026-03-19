@@ -10,10 +10,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import PollenDetailModal from './PollenDetailModal';
-import PollenMeter from './PollenMeter';
 import WeatherDetailCard from '@/components/ui/weather/display/WeatherDetailCard';
 import type { PollenData } from '@/types/pollen';
+import PollenDetailModal from './PollenDetailModal';
+import PollenMeter from './PollenMeter';
 
 export interface PollenDetailCardProps {
   pollenData: PollenData;
@@ -39,9 +39,9 @@ const PollenDetailCard: React.FC<PollenDetailCardProps> = ({
     category,
     color,
     description,
-    _healthAdvice,
+    healthAdvice,
     pollens,
-    _dominantPollen,
+    dominantPollen,
     isPollenSeason,
     availableInRegion,
   } = pollenData;

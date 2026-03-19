@@ -137,7 +137,7 @@ const OptimizedMarkerLayer: React.FC<OptimizedMarkerLayerProps> = ({
   clusterRadius = 80,
   onMarkerClick,
   markerIcon = defaultIcon,
-  _enableAnimations = true,
+  enableAnimations = true,
 }) => {
   const map = useMap();
   const canvasLayerRef = useRef<L.Canvas | null>(null);

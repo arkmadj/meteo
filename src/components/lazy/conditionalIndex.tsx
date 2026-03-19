@@ -121,7 +121,9 @@ export const createPerformanceAwareComponent = <T extends React.ComponentType<un
 ) => {
   const getLoadingStrategy = () => {
     // Check connection speed if available
-    const connection = (navigator as unknown).connection;
+    const connection = (navigator as unknown as Record<string, unknown>).connection as
+      | { effectiveType: string }
+      | undefined;
     if (connection) {
       const effectiveType = connection.effectiveType;
       if (effectiveType === 'slow-2g' || effectiveType === '2g') {
@@ -151,7 +153,9 @@ export const createPreferenceAwareComponent = <T extends React.ComponentType<unk
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Check for data saver preference
-    const connection = (navigator as unknown).connection;
+    const connection = (navigator as unknown as Record<string, unknown>).connection as
+      | { saveData?: boolean }
+      | undefined;
     const saveData = connection?.saveData;
 
     if (saveData || prefersReducedMotion) {

@@ -7,15 +7,15 @@
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  PlayIcon,
   PauseIcon,
+  PlayIcon,
 } from '@heroicons/react/24/outline';
-import type { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
+import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import ClassNames from 'embla-carousel-class-names';
 import useEmblaCarousel from 'embla-carousel-react';
 import WheelGestures from 'embla-carousel-wheel-gestures';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { COLORS, SHADOWS } from '@/design-system/tokens';
 
@@ -128,11 +128,12 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
   const toggleAutoplay = useCallback(() => {
     if (!autoplayRef.current) return;
 
+    const autoplayPlugin = autoplayRef.current as { stop: () => void; play: () => void };
     if (isAutoplayActive) {
-      autoplayRef.current.stop();
+      autoplayPlugin.stop();
       setIsAutoplayActive(false);
     } else {
-      autoplayRef.current.play();
+      autoplayPlugin.play();
       setIsAutoplayActive(true);
     }
 

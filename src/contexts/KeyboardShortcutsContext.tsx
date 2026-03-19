@@ -120,14 +120,16 @@ export const KeyboardShortcutsProvider: React.FC<KeyboardShortcutsProviderProps>
               break;
             }
             case 'toggleDevTools': {
-              const toggleQuickNav = (window as unknown).__toggleQuickNav;
+              const toggleQuickNav = (window as unknown as Record<string, unknown>)
+                .__toggleQuickNav;
               if (typeof toggleQuickNav === 'function') {
                 toggleQuickNav();
               }
               break;
             }
             case 'toggleFavorites': {
-              const toggleFavorites = (window as unknown).__toggleFavorites;
+              const toggleFavorites = (window as unknown as Record<string, unknown>)
+                .__toggleFavorites;
               if (typeof toggleFavorites === 'function') {
                 toggleFavorites();
                 showInfo('Favorites toggled', 1000);

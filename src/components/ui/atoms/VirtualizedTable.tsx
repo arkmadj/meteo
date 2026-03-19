@@ -119,7 +119,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
       selectable = false,
       selectedRows = [],
       onSelectRow,
-      _onSelectAll,
+      onSelectAll,
       onRowClick,
       expandable = false,
       expandedRows = [],
@@ -218,7 +218,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent, rowIndex: number) => {
-        const { key, ctrlKey, metaKey, _shiftKey } = event;
+        const { key, ctrlKey, metaKey, shiftKey } = event;
 
         switch (key) {
           case 'ArrowUp':
@@ -479,7 +479,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
                   ...column.style,
                 }}
               >
-                {renderedValue}
+                {renderedValue as React.ReactNode}
               </td>
             );
           })}

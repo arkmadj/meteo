@@ -3,10 +3,10 @@
  * This bridges the new Result patterns with the existing AppError system
  */
 
-import type { Result, AsyncResult } from '../types/result';
-import { Ok, Err, fromAsync } from '../types/result';
 import type { AppError } from '../types/error';
 import { ErrorType } from '../types/error';
+import type { AsyncResult, Result } from '../types/result';
+import { Err, fromAsync, Ok } from '../types/result';
 import { createErrorHandler } from '../utils/errorHandler';
 
 // ============================================================================
@@ -118,8 +118,8 @@ export class WeatherService {
       return Err({
         id: `multi-fail-${Date.now()}`,
         type: ErrorType.WEATHER_DATA_ERROR,
-        category: 'API' as unknown,
-        severity: 'HIGH' as unknown,
+        category: ErrorCategory.API,
+        severity: ErrorSeverity.HIGH,
         message: `Failed to fetch weather data for all cities. Errors: ${errors.map(e => e.message).join(', ')}`,
         userMessage: 'Unable to fetch weather data for any of the requested cities',
         timestamp: Date.now(),
@@ -245,8 +245,8 @@ export class WeatherServiceWithResults {
       return Err({
         id: `multi-fail-${Date.now()}`,
         type: ErrorType.WEATHER_DATA_ERROR,
-        category: 'API' as unknown,
-        severity: 'HIGH' as unknown,
+        category: ErrorCategory.API,
+        severity: ErrorSeverity.HIGH,
         message: `Failed to fetch weather data for all cities`,
         userMessage: 'Unable to fetch weather data for any of the requested cities',
         timestamp: Date.now(),
@@ -319,8 +319,8 @@ export const batchOperations = async <T>(
     return Err({
       id: `batch-fail-${Date.now()}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: 'SYSTEM' as unknown,
-      severity: 'HIGH' as unknown,
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
       message: `All batch operations failed. Errors: ${failed.map(e => e.message).join(', ')}`,
       userMessage: 'All operations failed',
       timestamp: Date.now(),

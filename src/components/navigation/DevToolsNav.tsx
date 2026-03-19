@@ -62,7 +62,7 @@ const quickNavItems: QuickNavItem[] = [
 
 const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { _theme } = useTheme();
+  const { theme } = useTheme();
   const location = useLocation();
   const cardRef = useRef<HTMLDivElement>(null);
   const fabRef = useRef<HTMLButtonElement>(null);
@@ -75,10 +75,10 @@ const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', classNam
   // Expose toggle function globally for keyboard shortcut
   useEffect(() => {
     // Store the toggle function on window for global access
-    (window as unknown).__toggleQuickNav = toggleQuickNav;
+    (window as unknown as Record<string, unknown>).__toggleQuickNav = toggleQuickNav;
 
     return () => {
-      delete (window as unknown).__toggleQuickNav;
+      delete (window as unknown as Record<string, unknown>).__toggleQuickNav;
     };
   }, [toggleQuickNav]);
 

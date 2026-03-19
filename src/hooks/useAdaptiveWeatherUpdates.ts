@@ -3,10 +3,10 @@
  * Automatically chooses the best real-time communication method
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import type { UpdateMethod, UpdateFrequency } from '@/services/adaptiveWeatherUpdatesService';
-import { adaptiveWeatherUpdatesService } from '@/services/adaptiveWeatherUpdatesService';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
+import type { UpdateFrequency, UpdateMethod } from '@/services/adaptiveWeatherUpdatesService';
+import { adaptiveWeatherUpdatesService } from '@/services/adaptiveWeatherUpdatesService';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface WeatherUpdateData {
   timestamp: number;
@@ -65,7 +65,7 @@ export function useAdaptiveWeatherUpdates({
     'excellent' | 'good' | 'fair' | 'poor'
   >('good');
 
-  const { _preferences } = useUserPreferencesContext();
+  const { preferences } = useUserPreferencesContext();
   const locationRef = useRef(location);
   const enabledRef = useRef(enabled);
 

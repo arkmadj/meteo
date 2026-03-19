@@ -429,7 +429,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
           if (announceExpansionChanges && row) {
             const message = expansionAnnouncementMessage
               ? expansionAnnouncementMessage(row.data, !wasExpanded)
-              : `${row.data.name || `Row ${rowId}`} ${!wasExpanded ? 'expanded' : 'collapsed'}`;
+              : `${(row.data as Record<string, unknown>).name || `Row ${rowId}`} ${!wasExpanded ? 'expanded' : 'collapsed'}`;
 
             // Clear previous timeout
             if (expansionAnnouncementTimeoutRef.current) {
@@ -1065,7 +1065,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
               // Create a separate tbody for each expandable row group
               // This preserves logical hierarchy for screen readers
               const rowGroupAriaLabel = isExpandableRow
-                ? `Row group for ${row.data.name || `row ${row.id}`}${isExpanded ? ', expanded' : ', collapsed'}`
+                ? `Row group for ${(row.data as Record<string, unknown>).name || `row ${row.id}`}${isExpanded ? ', expanded' : ', collapsed'}`
                 : `Row ${rowIndex + 1}`;
 
               return (
@@ -1321,7 +1321,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
                           {/* Actual content */}
                           <div
                             role="group"
-                            aria-label={`Details for ${row.data.name || `row ${row.id}`}`}
+                            aria-label={`Details for ${(row.data as Record<string, unknown>).name || `row ${row.id}`}`}
                           >
                             {row.renderExpanded
                               ? row.renderExpanded(row.data, rowIndex)

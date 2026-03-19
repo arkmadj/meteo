@@ -110,13 +110,13 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
     if (flexBasis !== undefined)
       inlineStyles.flexBasis = typeof flexBasis === 'number' ? `${flexBasis}px` : flexBasis;
 
-    const Comp = Component as unknown;
+    const Comp = Component as React.ElementType;
     return (
       <Comp
-        ref={ref as unknown}
+        ref={ref as React.Ref<HTMLElement>}
         className={classes.join(' ')}
         style={inlineStyles}
-        {...(props as unknown)}
+        {...(props as Record<string, unknown>)}
       >
         {children}
       </Comp>

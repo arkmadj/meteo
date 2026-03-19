@@ -224,19 +224,21 @@ export const useQueryErrorHandling = () => {
    */
   const useGlobalErrorHandler = () => {
     const handleQueryError = (error: Error, query: unknown) => {
+      const queryWithKey = query as { queryKey: string[] };
       const appError = convertToAppError(error, {
         source: 'react-query',
         action: 'query',
-        location: query.queryKey.join(','),
+        location: queryWithKey.queryKey.join(','),
       });
       addError(appError);
     };
 
     const handleMutationError = (error: Error, _variables: unknown, context: unknown) => {
+      const contextWithKey = context as { mutationKey?: string[] };
       const appError = convertToAppError(error, {
         source: 'react-query',
         action: 'mutation',
-        location: context?.mutationKey?.join(','),
+        location: contextWithKey?.mutationKey?.join(','),
       });
       addError(appError);
     };
@@ -271,7 +273,8 @@ export const useQueryErrorHandling = () => {
           stats.bySeverity[error.severity] = (stats.bySeverity[error.severity] ?? 0) + 1;
 
           // By source
-          const source = error.context?.source || 'unknown';
+          const source =
+            ((error.context as Record<string, unknown>)?.source as string) || 'unknown';
           stats.bySource[source] = (stats.bySource[source] ?? 0) + 1;
 
           // By retryable
@@ -320,13 +323,23 @@ export const withQueryErrorHandling = (Component: React.ComponentType<unknown>) 
     React.useEffect(() => {
       // Set up global error handlers
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
-        if (event.type === 'updated' && (event as unknown).action === 'error') {
+        const eventWithAction = event as {
+          type: string;
+          action?: string;
+          query: { state: { error: Error } };
+        };
+        if (event.type === 'updated' && eventWithAction.action === 'error') {
           handleQueryError(event.query.state.error, event.query);
         }
       });
 
       const unsubscribeMutations = queryClient.getMutationCache().subscribe(event => {
-        if (event.type === 'updated' && (event as unknown).action === 'error') {
+        const eventWithAction = event as {
+          type: string;
+          action?: string;
+          mutation: { state: { error: Error; variables: unknown } };
+        };
+        if (event.type === 'updated' && eventWithAction.action === 'error') {
           handleMutationError(
             event.mutation.state.error,
             event.mutation.state.variables,

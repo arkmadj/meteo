@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCachedWeather, usePrefetchWeather, useRefreshWeather } from '@/hooks/useWeatherQuery';
+import type { CurrentWeatherData, ForecastDay } from '@/types/weather';
 
 import type { WeatherAnnouncement } from './useWeatherAnnouncement';
 import { useWeatherAnnouncement } from './useWeatherAnnouncement';
@@ -70,7 +71,7 @@ export const useWeatherEffects = (
   const resumeRefreshRef = useRef(0);
   const isInitialLoadRef = useRef(true);
 
-  const { setWeather, setLoading, setError, setOffline, searchQuery, isCelsius, _weather } =
+  const { setWeather, setLoading, setError, setOffline, searchQuery, isCelsius, weather } =
     weatherState;
   const temperatureUnit = isCelsius ? 'celsius' : 'fahrenheit';
 
@@ -91,18 +92,19 @@ export const useWeatherEffects = (
   // Update weather state when data changes and announce to screen readers
   useEffect(() => {
     if (weatherData) {
+      const data = weatherData as { current: CurrentWeatherData; forecast: ForecastDay[] };
       setWeather({
         loading: false,
-        data: weatherData.current,
-        forecast: weatherData.forecast,
+        data: data.current,
+        forecast: data.forecast,
       });
       setLoading(false);
       setError(null);
 
       // Announce weather update for screen readers
-      if (weatherData.current && searchQuery) {
-        const location = weatherData.current.city || searchQuery;
-        announceWeatherUpdate(weatherData.current, location, isInitialLoadRef.current);
+      if (data.current && searchQuery) {
+        const location = data.current.city || searchQuery;
+        announceWeatherUpdate(data.current, location, isInitialLoadRef.current);
         isInitialLoadRef.current = false;
       }
       return;
@@ -277,9 +279,10 @@ export const useWeatherEffects = (
     }
 
     const fallbackMessage = t('errors:messages.fetchFailed');
+    const errorObj = weatherError as { message?: string } | null | undefined;
     const normalizedMessage =
-      typeof weatherError?.message === 'string' && weatherError.message.trim().length > 0
-        ? weatherError.message
+      typeof errorObj?.message === 'string' && errorObj.message.trim().length > 0
+        ? errorObj.message
         : fallbackMessage;
 
     setError(normalizedMessage);

@@ -211,7 +211,8 @@ export function createSideEffectManager<T>(
     try {
       // Debounce the execution
       const debouncedFunc = debounceAsync(asyncFunction, debounceDelay);
-      currentOperation = debouncedFunc(...args);
+      const operation = debouncedFunc(...args) as Promise<T>;
+      currentOperation = operation;
 
       const result = await currentOperation;
 

@@ -170,7 +170,13 @@ const GlobalEventHandler: React.FC = () => {
       return;
     }
 
-    const connection = (navigator as unknown).connection;
+    const connection = (navigator as unknown as Record<string, unknown>).connection as
+      | {
+          effectiveType: string;
+          addEventListener: (event: string, handler: () => void) => void;
+          removeEventListener: (event: string, handler: () => void) => void;
+        }
+      | undefined;
     if (!connection) {
       return;
     }

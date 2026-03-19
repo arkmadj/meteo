@@ -291,7 +291,7 @@ export const useQueryPerformance = () => {
           queryKey,
           queryFn,
           staleTime: options.staleTime ?? 5 * 60 * 1000,
-          gcTime: (options as unknown).gcTime ?? 30 * 60 * 1000,
+          gcTime: ((options as Record<string, unknown>).gcTime as number) ?? 30 * 60 * 1000,
         });
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

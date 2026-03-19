@@ -118,9 +118,11 @@ const migrateLegacySubscription = async (
 
     // Record migration in IndexedDB
     await subscriptionIndexedDB.recordMigration({
-      version: CURRENT_MIGRATION_VERSION,
-      appliedAt: Date.now(),
-      description: `Migrated legacy subscription: ${legacy.id}`,
+      fromVersion: 0,
+      toVersion: CURRENT_MIGRATION_VERSION,
+      migratedAt: Date.now(),
+      recordsMigrated: 1,
+      status: 'completed',
     });
 
     return { success: true };
