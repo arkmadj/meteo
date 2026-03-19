@@ -497,7 +497,7 @@ export const createPreferenceAwareLazyComponent = <T extends ComponentType<unkno
   componentName?: string,
   fallbackStrategy: 'visible' | 'hover' | 'click' | 'idle' = 'visible'
 ) => {
-  const PreferenceAwareComponent = forwardRef<unknown, unknown>((props, ref) => {
+  const PreferenceAwareComponent = forwardRef<unknown, Record<string, unknown>>((props, ref) => {
     // This will be wrapped by UserPreferencesProvider, so we can't use the hook here
     // Instead, we'll create a wrapper that uses the hook
     return (

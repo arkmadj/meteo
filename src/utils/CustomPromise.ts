@@ -121,7 +121,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
             const result = onFulfilled(this.value as T);
             resolve(result);
           } else {
-            resolve(this.value as TResult1);
+            resolve(this.value as unknown as TResult1);
           }
         } catch (error) {
           reject(error);

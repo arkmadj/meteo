@@ -37,8 +37,9 @@ const defaultErrorLogger: ErrorLogger = (error: AppError) => {
 const classifyError = (
   error: unknown
 ): { type: ErrorType; category: ErrorCategory; severity: ErrorSeverity } => {
+  const errorWithProps = error as { code?: string; message?: string };
   // Network errors
-  if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+  if (errorWithProps.code === 'ERR_NETWORK' || errorWithProps.message === 'Network Error') {
     return {
       type: ErrorType.NETWORK_ERROR,
       category: ErrorCategory.NETWORK,
@@ -47,7 +48,7 @@ const classifyError = (
   }
 
   // Timeout errors
-  if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+  if (errorWithProps.code === 'ECONNABORTED' || errorWithProps.message?.includes('timeout')) {
     return {
       type: ErrorType.TIMEOUT_ERROR,
       category: ErrorCategory.NETWORK,

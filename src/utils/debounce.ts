@@ -12,8 +12,8 @@ const debounce = <T extends (...args: unknown[]) => unknown>(
 
   return function (this: unknown, ...args: Parameters<T>) {
     // Clear the previous timeout
-    if (timeoutId) {
-      clearTimeout(timeoutId as unknown);
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
     }
 
     // Set a new timeout
