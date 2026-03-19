@@ -47,7 +47,7 @@ export class ObjectImmutabilityAnalyzer {
     let canDeleteProperties = false;
     try {
       delete (obj as unknown).existing;
-      canDeleteProperties = !obj.hasOwnProperty('existing');
+      canDeleteProperties = !Object.prototype.hasOwnProperty.call(obj, 'existing');
     } catch (_e) {
       notes.push('Property deletion throws in strict mode');
     }
@@ -114,7 +114,7 @@ export class ObjectImmutabilityAnalyzer {
     let canDeleteProperties = false;
     try {
       delete (obj as unknown).existing;
-      canDeleteProperties = !obj.hasOwnProperty('existing');
+      canDeleteProperties = !Object.prototype.hasOwnProperty.call(obj, 'existing');
     } catch (_e) {
       notes.push('Property deletion throws in strict mode');
     }
@@ -181,7 +181,7 @@ export class ObjectImmutabilityAnalyzer {
     let canDeleteProperties = false;
     try {
       delete (obj as unknown).existing;
-      canDeleteProperties = !obj.hasOwnProperty('existing');
+      canDeleteProperties = !Object.prototype.hasOwnProperty.call(obj, 'existing');
     } catch (_e) {
       notes.push('Property deletion unexpectedly threw');
     }

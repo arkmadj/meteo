@@ -303,7 +303,17 @@ const PrecipitationTrendChart: React.FC<PrecipitationTrendChartProps> = ({
     }
 
     return lines;
-  }, [chartData, chartWidth, chartHeight, chartTokens, config.fontSize, timeRange]);
+  }, [
+    chartData,
+    chartWidth,
+    chartHeight,
+    chartTokens,
+    config.fontSize,
+    timeRange,
+    formatTimeLabel,
+    scaleX,
+    scaleY,
+  ]);
 
   if (chartData.length === 0) {
     return (

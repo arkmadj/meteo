@@ -227,7 +227,7 @@ export const useWeatherLayerLoading = <T = unknown>(
     if (autoFetch) {
       fetch();
     }
-  }, [autoFetch]); // Only run on mount
+  }, [autoFetch, fetch]); // Only run on mount
 
   return {
     state,

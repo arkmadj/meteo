@@ -454,6 +454,7 @@ const WindParticleLayer: React.FC<WindParticleLayerProps> = ({
         canvasLayerRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, preferences.prefersReducedMotion, zIndex, onLoadStart, onLoadComplete, onError]);
 
   // Update canvas layer when data changes

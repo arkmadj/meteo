@@ -469,9 +469,10 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
 
   // Cleanup timers on unmount
   useEffect(() => {
+    const timers = dismissTimersRef.current;
     return () => {
-      dismissTimersRef.current.forEach(timer => clearTimeout(timer));
-      dismissTimersRef.current.clear();
+      timers.forEach(timer => clearTimeout(timer));
+      timers.clear();
     };
   }, []);
 

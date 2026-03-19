@@ -173,7 +173,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
   // Update theme when mode, high contrast, or accent color changes
   useEffect(() => {
     setTheme(computeTheme(mode, isHighContrast, accentColor));
-  }, [mode, isHighContrast, accentColor]);
+  }, [mode, isHighContrast, accentColor, computeTheme]);
 
   // Listen for system theme changes when in auto mode
   useEffect(() => {
@@ -184,7 +184,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     }
-  }, [mode, isHighContrast, accentColor]);
+  }, [mode, isHighContrast, accentColor, computeTheme]);
 
   // Listen for high contrast preference changes (only if user hasn't manually set it)
   useEffect(() => {

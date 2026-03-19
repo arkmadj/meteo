@@ -13,7 +13,7 @@
  * - Cache-aware to avoid redundant fetches
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -122,7 +122,7 @@ export const useTomorrowForecastPrefetch = (
   config: TomorrowPrefetchConfig = {}
 ) => {
   const queryClient = useQueryClient();
-  const mergedConfig = { ...DEFAULT_CONFIG, ...config };
+  const mergedConfig = useMemo(() => ({ ...DEFAULT_CONFIG, ...config }), [config]);
 
   const viewStartTimeRef = useRef<number | null>(null);
   const prefetchScheduledRef = useRef(false);
@@ -303,7 +303,7 @@ export const useForecastDayPrefetch = (
   config: TomorrowPrefetchConfig = {}
 ) => {
   const queryClient = useQueryClient();
-  const mergedConfig = { ...DEFAULT_CONFIG, ...config };
+  const mergedConfig = useMemo(() => ({ ...DEFAULT_CONFIG, ...config }), [config]);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   /**

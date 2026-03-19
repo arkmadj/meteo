@@ -198,7 +198,7 @@ class PrototypePollutionDetector {
           p => p.constructor.name === alert.prototype
         );
 
-        if (proto && proto.hasOwnProperty(alert.property)) {
+        if (proto && Object.prototype.hasOwnProperty.call(proto, alert.property)) {
           delete proto?.[alert.property];
 
           if (this.options.enableLogging) {

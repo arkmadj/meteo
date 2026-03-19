@@ -4,12 +4,12 @@
  * Helps identify and resolve conflicts between screen reader announcements
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { BORDER_RADIUS, COLORS, SPACING } from '@/design-system/tokens';
 import {
-  type AriaAnnouncement,
   type AnnouncementConflict,
+  type AriaAnnouncement,
   useAriaLiveDebugger,
 } from '@/utils/AriaLiveDebugger';
 
@@ -24,6 +24,10 @@ const AriaLiveDebugPanel: React.FC = () => {
     byRole: {} as Record<string, number>,
     averageInterval: 0,
   });
+
+  const updateStatistics = useCallback(() => {
+    setStatistics(ariaDebugger.getStatistics());
+  }, [ariaDebugger]);
 
   useEffect(() => {
     if (!isEnabled) return;
@@ -43,11 +47,7 @@ const AriaLiveDebugPanel: React.FC = () => {
       unsubscribeAnnouncement();
       unsubscribeConflict();
     };
-  }, [isEnabled, ariaDebugger]);
-
-  const updateStatistics = () => {
-    setStatistics(ariaDebugger.getStatistics());
-  };
+  }, [isEnabled, ariaDebugger, updateStatistics]);
 
   const handleToggle = () => {
     if (isEnabled) {

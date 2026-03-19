@@ -70,8 +70,9 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
 
     return () => {
       // Cleanup map instance
-      if (mapInstanceRef.current) {
-        // mapInstanceRef.current.remove();
+      const mapInstance = mapInstanceRef.current;
+      if (mapInstance) {
+        // mapInstance.remove();
       }
     };
   }, [center, zoom, isLoaded]);

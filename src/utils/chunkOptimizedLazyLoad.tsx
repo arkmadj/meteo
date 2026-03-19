@@ -216,7 +216,7 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
         default:
           return Loading;
       }
-    }, [config.priority, componentName]);
+    }, []);
 
     return (
       <Suspense fallback={<LoadingComponent />}>

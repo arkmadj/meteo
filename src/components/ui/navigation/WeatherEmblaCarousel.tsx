@@ -65,7 +65,7 @@ const WeatherEmblaCarousel: React.FC<WeatherEmblaCarouselProps> = ({
   showArrows = true,
   showDots = true,
   loop = false,
-  slidesToShow = {
+  slidesToShow: _slidesToShow = {
     mobile: 1,
     tablet: 2,
     desktop: 3,
@@ -107,7 +107,7 @@ const WeatherEmblaCarousel: React.FC<WeatherEmblaCarouselProps> = ({
         },
       },
     };
-  }, [loop, forecast.length, slidesToShow]);
+  }, [loop, forecast.length]);
 
   // Handle day selection
   const handleDaySelect = useCallback(
@@ -182,7 +182,6 @@ const WeatherEmblaCarousel: React.FC<WeatherEmblaCarouselProps> = ({
     forecast,
     getDayInfo,
     selectedDayIndex,
-    slidesToShow.desktop,
     temperatureUnit,
     getLocalizedTemperature,
     getLocalizedWeatherDescription,
