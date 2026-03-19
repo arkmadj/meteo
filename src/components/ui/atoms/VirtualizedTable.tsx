@@ -17,12 +17,11 @@
 
 import React, {
   forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
   useRef,
   useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useImperativeHandle,
 } from 'react';
 import { TableColumn, TableRow } from './Table';
 
@@ -458,7 +457,10 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
           }}
         >
           {columns.map(column => {
-            const cellValue = column.accessor ? row.data[column.accessor] : undefined;
+            const cellValue =
+              typeof column.accessor === 'function'
+                ? column.accessor(row.data)
+                : row.data[column.accessor as keyof T];
             const renderedValue = column.render
               ? column.render(cellValue, row.data, actualIndex)
               : cellValue;

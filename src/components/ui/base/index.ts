@@ -11,5 +11,4 @@ export { default as Input } from './Input';
 export type { BadgeProps, BadgeSize, BadgeVariant } from './Badge';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './Button';
 export type { CardProps } from './Card';
-export type { InputProps, InputSize, InputType, InputVariant } from './Input';
-
+export type { InputProps, InputSize, InputVariant } from './Input';

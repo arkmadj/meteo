@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getLogger } from '@/utils/logger';
 
-import type { ForecastDay } from '../types/weather';
+import type { ForecastDay } from '@/types/weather';
 
 import { Box, Container, Stack } from '@/components/ui/layout';
 import ForecastCarousel from '@/components/ui/weather/forecast/ForecastCarousel';

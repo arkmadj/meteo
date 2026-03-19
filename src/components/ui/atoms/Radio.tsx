@@ -5,7 +5,6 @@
 
 import React, { forwardRef, useState } from 'react';
 
-import { COLORS } from '../../../design-system/tokens';
 import { useTheme } from '../../../design-system/theme';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
 import { useComponentState } from '../base/BaseComponent';
@@ -21,8 +20,7 @@ export type RadioSize = ComponentSize;
 // ============================================================================
 
 export interface RadioProps
-  extends BaseComponentProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
+  extends BaseComponentProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   /** Radio size */
   size?: RadioSize;
   /** Radio label */
@@ -210,8 +208,6 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
               : theme.isDark
                 ? 'var(--theme-border)'
                 : 'rgb(209 213 219)', // gray-300
-            ringColor: 'var(--theme-primary)',
-            ringOffsetColor: theme.isDark ? 'var(--theme-surface)' : 'white',
           }}
           role="radio"
           tabIndex={0}

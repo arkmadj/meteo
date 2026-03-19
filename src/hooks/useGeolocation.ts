@@ -7,14 +7,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useSnackbar } from '@/contexts/SnackbarContext';
 
-export interface GeolocationPosition {
+export interface GeoPosition {
   latitude: number;
   longitude: number;
   accuracy: number;
   timestamp: number;
 }
 
-export interface GeolocationError {
+export interface GeoError {
   code: number;
   message: string;
 }
@@ -24,14 +24,14 @@ export interface UseGeolocationOptions {
   timeout?: number;
   maximumAge?: number;
   watch?: boolean;
-  onSuccess?: (position: GeolocationPosition) => void;
-  onError?: (error: GeolocationError) => void;
+  onSuccess?: (position: GeoPosition) => void;
+  onError?: (error: GeoError) => void;
   showNotifications?: boolean;
 }
 
 export interface UseGeolocationReturn {
-  position: GeolocationPosition | null;
-  error: GeolocationError | null;
+  position: GeoPosition | null;
+  error: GeoError | null;
   loading: boolean;
   getCurrentPosition: () => void;
   clearError: () => void;
@@ -54,15 +54,15 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
 
   const { showError, showWarning, showSuccess } = useSnackbar();
 
-  const [position, setPosition] = useState<GeolocationPosition | null>(null);
-  const [error, setError] = useState<GeolocationError | null>(null);
+  const [position, setPosition] = useState<GeoPosition | null>(null);
+  const [error, setError] = useState<GeoError | null>(null);
   const [loading, setLoading] = useState(false);
 
   const isSupported = typeof navigator !== 'undefined' && 'geolocation' in navigator;
 
   const handleSuccess = useCallback(
     (pos: GeolocationPosition) => {
-      const geoPosition: GeolocationPosition = {
+      const geoPosition: GeoPosition = {
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude,
         accuracy: pos.coords.accuracy,
@@ -84,7 +84,7 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
 
   const handleError = useCallback(
     (err: GeolocationPositionError) => {
-      const geoError: GeolocationError = {
+      const geoError: GeoError = {
         code: err.code,
         message: err.message,
       };
@@ -207,4 +207,3 @@ export const useWatchPosition = (options: UseGeolocationOptions = {}) => {
 };
 
 export default useGeolocation;
-

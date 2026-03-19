@@ -21,8 +21,7 @@ export type CheckboxSize = ComponentSize;
 // ============================================================================
 
 export interface CheckboxProps
-  extends BaseComponentProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
+  extends BaseComponentProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   /** Checkbox size */
   size?: CheckboxSize;
   /** Checkbox label */
@@ -205,7 +204,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {/* Visual Checkbox */}
         <div
           aria-checked={indeterminate ? 'mixed' : currentChecked}
-          aria-label={label}
+          aria-label={typeof label === 'string' ? label : undefined}
           className={wrapperClasses}
           role="checkbox"
           tabIndex={0}

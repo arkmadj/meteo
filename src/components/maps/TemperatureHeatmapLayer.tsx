@@ -6,9 +6,9 @@
  * weather services and custom temperature data rendering.
  */
 
+import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
-import L from 'leaflet';
 
 export interface TemperatureDataPoint {
   lat: number;
@@ -97,8 +97,9 @@ const getTemperatureColor = (
 class TemperatureCanvasLayer extends L.Layer {
   private canvas: HTMLCanvasElement | null = null;
   private data: TemperatureDataPoint[];
-  private layerOptions: Required<
-    Omit<TemperatureHeatmapLayerProps, 'data' | 'useWeatherTiles' | 'apiKey' | 'tileLayer'>
+  private layerOptions: Omit<
+    TemperatureHeatmapLayerProps,
+    'data' | 'useWeatherTiles' | 'apiKey' | 'tileLayer'
   >;
 
   constructor(
@@ -114,6 +115,9 @@ class TemperatureCanvasLayer extends L.Layer {
       maxTemperature: options.maxTemperature ?? 40,
       minTemperature: options.minTemperature ?? -20,
       zIndex: options.zIndex ?? 400,
+      onError: options.onError,
+      onLoadStart: options.onLoadStart,
+      onLoadComplete: options.onLoadComplete,
     };
   }
 

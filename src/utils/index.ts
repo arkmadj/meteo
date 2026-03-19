@@ -58,7 +58,6 @@ export {
 } from './asyncConcurrency';
 
 export {
-  CancellationToken,
   CancellationTokenSource,
   CompositeCancellationToken,
   TimeoutCancellationTokenSource,
@@ -67,7 +66,10 @@ export {
   fromAbortSignal,
   neverCancels,
   withTimeout,
-  type CancellationToken as ICancellationToken,
+} from './cancellationToken';
+export type {
+  CancellationToken,
+  CancellationToken as ICancellationToken,
 } from './cancellationToken';
 
 export {
