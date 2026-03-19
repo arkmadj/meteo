@@ -3,7 +3,7 @@
  * Utilities for setting up global error handling in different environments
  */
 
-import { AppError } from './errorHandler';
+import type { AppError } from './errorHandler';
 
 /**
  * Setup global error handlers for Node.js environment
@@ -24,9 +24,9 @@ export function setupNodeGlobalHandlers(
 
     const appError: AppError = {
       id: `uncaught-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNCAUGHT_EXCEPTION' as any,
-      category: 'SYSTEM' as any,
-      severity: 'CRITICAL' as any,
+      type: 'UNCAUGHT_EXCEPTION' as unknown,
+      category: 'SYSTEM' as unknown,
+      severity: 'CRITICAL' as unknown,
       message: error.message,
       userMessage: 'A critical system error occurred',
       timestamp: Date.now(),
@@ -50,14 +50,14 @@ export function setupNodeGlobalHandlers(
   };
 
   // Handle unhandled promise rejections
-  const handleUnhandledRejection = (reason: any, promise: Promise<any>) => {
+  const handleUnhandledRejection = (reason: unknown, promise: Promise<unknown>) => {
     console.error('Unhandled Promise Rejection at:', promise, 'reason:', reason);
 
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNHANDLED_REJECTION' as any,
-      category: 'SYSTEM' as any,
-      severity: 'HIGH' as any,
+      type: 'UNHANDLED_REJECTION' as unknown,
+      category: 'SYSTEM' as unknown,
+      severity: 'HIGH' as unknown,
       message: reason?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
@@ -99,7 +99,7 @@ export function setupNodeGlobalHandlers(
  */
 export function setupBrowserGlobalHandlers(
   onError?: (error: AppError) => void,
-  onWarning?: (message: string) => void
+  _onWarning?: (message: string) => void
 ): () => void {
   const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
     event.preventDefault();
@@ -107,9 +107,9 @@ export function setupBrowserGlobalHandlers(
 
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNHANDLED_REJECTION' as any,
-      category: 'SYSTEM' as any,
-      severity: 'HIGH' as any,
+      type: 'UNHANDLED_REJECTION' as unknown,
+      category: 'SYSTEM' as unknown,
+      severity: 'HIGH' as unknown,
       message: event.reason?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
@@ -133,9 +133,9 @@ export function setupBrowserGlobalHandlers(
 
     const appError: AppError = {
       id: `global-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'GLOBAL_ERROR' as any,
-      category: 'SYSTEM' as any,
-      severity: 'HIGH' as any,
+      type: 'GLOBAL_ERROR' as unknown,
+      category: 'SYSTEM' as unknown,
+      severity: 'HIGH' as unknown,
       message: event.error?.message || 'An unexpected error occurred',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
@@ -188,7 +188,7 @@ export function safeAsync<T>(
 /**
  * Create a safe version of any async function
  */
-export function makeSafe<T extends any[], R>(
+export function makeSafe<T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   onError?: (error: Error, args: T) => void
 ): (...args: T) => Promise<R | null> {

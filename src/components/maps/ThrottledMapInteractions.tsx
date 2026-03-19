@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
+import type L from 'leaflet';
 import type { PerformanceTier } from '@/utils/devicePerformance';
 
 export interface ThrottledMapInteractionsProps {
@@ -26,7 +26,7 @@ export interface ThrottledMapInteractionsProps {
 /**
  * Throttle function
  */
-function throttle<T extends (...args: any[]) => void>(
+function throttle<T extends (...args: unknown[]) => void>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
@@ -56,7 +56,7 @@ function throttle<T extends (...args: any[]) => void>(
 /**
  * Debounce function
  */
-function debounce<T extends (...args: any[]) => void>(
+function debounce<T extends (...args: unknown[]) => void>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {

@@ -223,7 +223,7 @@ export const useQueryErrorHandling = () => {
    * Hook for global error handling
    */
   const useGlobalErrorHandler = () => {
-    const handleQueryError = (error: Error, query: any) => {
+    const handleQueryError = (error: Error, query: unknown) => {
       const appError = convertToAppError(error, {
         source: 'react-query',
         action: 'query',
@@ -232,7 +232,7 @@ export const useQueryErrorHandling = () => {
       addError(appError);
     };
 
-    const handleMutationError = (error: Error, _variables: any, context: any) => {
+    const handleMutationError = (error: Error, _variables: unknown, context: unknown) => {
       const appError = convertToAppError(error, {
         source: 'react-query',
         action: 'mutation',
@@ -311,8 +311,8 @@ export const useQueryErrorHandling = () => {
 /**
  * Higher-order component for error boundary integration
  */
-export const withQueryErrorHandling = (Component: React.ComponentType<any>) => {
-  return function WithQueryErrorHandling(props: any) {
+export const withQueryErrorHandling = (Component: React.ComponentType<unknown>) => {
+  return function WithQueryErrorHandling(props: unknown) {
     const { handleQueryError, handleMutationError } =
       useQueryErrorHandling().useGlobalErrorHandler();
     const queryClient = useQueryClient();
@@ -320,13 +320,13 @@ export const withQueryErrorHandling = (Component: React.ComponentType<any>) => {
     React.useEffect(() => {
       // Set up global error handlers
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
-        if (event.type === 'updated' && (event as any).action === 'error') {
+        if (event.type === 'updated' && (event as unknown).action === 'error') {
           handleQueryError(event.query.state.error, event.query);
         }
       });
 
       const unsubscribeMutations = queryClient.getMutationCache().subscribe(event => {
-        if (event.type === 'updated' && (event as any).action === 'error') {
+        if (event.type === 'updated' && (event as unknown).action === 'error') {
           handleMutationError(
             event.mutation.state.error,
             event.mutation.state.variables,
@@ -341,6 +341,6 @@ export const withQueryErrorHandling = (Component: React.ComponentType<any>) => {
       };
     }, [handleQueryError, handleMutationError]);
 
-    return React.createElement(Component as React.ComponentType<any>, props as any);
+    return React.createElement(Component as React.ComponentType<unknown>, props as unknown);
   };
 };

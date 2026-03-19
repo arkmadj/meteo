@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import AboutPageNav, { AboutNavItem } from '@/components/navigation/AboutPageNav';
+import type { AboutNavItem } from '@/components/navigation/AboutPageNav';
+import AboutPageNav from '@/components/navigation/AboutPageNav';
 import MainHeader from '@/components/headers/MainHeader';
 import { Card, CardBody, CardHeader, FloatingActionButton } from '@/components/ui/atoms';
 import { Container, Flex, Grid, Stack } from '@/components/ui/layout';
@@ -104,7 +105,7 @@ const AboutPage: React.FC = () => {
       const url = `${window.location.origin}${location.pathname}#${sectionId}`;
       await navigator.clipboard.writeText(url);
       showSuccess('🔗 Link copied to clipboard!', 2000);
-    } catch (error) {
+    } catch (_error) {
       showError('Failed to copy link');
     }
   };

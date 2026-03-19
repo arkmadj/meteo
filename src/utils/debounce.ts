@@ -4,16 +4,16 @@
  * @param {number} delay - The delay in milliseconds
  * @returns {Function} - The debounced function
  */
-const debounce = <T extends (...args: any[]) => any>(
+const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  return function (this: any, ...args: Parameters<T>) {
+  return function (this: unknown, ...args: Parameters<T>) {
     // Clear the previous timeout
     if (timeoutId) {
-      clearTimeout(timeoutId as any);
+      clearTimeout(timeoutId as unknown);
     }
 
     // Set a new timeout

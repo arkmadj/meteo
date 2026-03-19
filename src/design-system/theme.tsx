@@ -480,7 +480,7 @@ export const themeUtils = {
   // Get color with theme awareness
   getColor: (colorPath: string, theme: Theme): string => {
     const parts = colorPath.split('.');
-    let value: any = theme.colors;
+    let value: unknown = theme.colors;
 
     for (const part of parts) {
       value = value?.[part];
@@ -495,9 +495,9 @@ export const themeUtils = {
   },
 
   // Get typography value
-  getTypography: (path: string, theme: Theme): any => {
+  getTypography: (path: string, theme: Theme): unknown => {
     const parts = path.split('.');
-    let value: any = theme.typography;
+    let value: unknown = theme.typography;
 
     for (const part of parts) {
       value = value?.[part];

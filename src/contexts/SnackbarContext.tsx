@@ -10,9 +10,9 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useReducer,
   useRef,
-  useEffect,
 } from 'react';
 
 import { SnackbarContextUnavailableError } from '@/errors/domainErrors';
@@ -430,7 +430,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
 
     // Check if any snackbar should dismiss before others
     const now = Date.now();
-    let shouldReorder = false;
+    let _shouldReorder = false;
 
     for (let i = 0; i < sortedByCreation.length - 1; i++) {
       const current = sortedByCreation[i];
@@ -440,7 +440,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
       if (current.dismissAt && next.dismissAt) {
         // If next snackbar would dismiss before current, we need to delay it
         if (next.dismissAt < current.dismissAt) {
-          shouldReorder = true;
+          _shouldReorder = true;
 
           // Clear the next snackbar's timer
           const nextTimer = dismissTimersRef.current.get(next.id);

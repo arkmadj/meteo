@@ -130,7 +130,7 @@ export class MarkerFlyweight {
     });
 
     // Store extrinsic state for later retrieval
-    (marker as any).extrinsicState = extrinsicState;
+    (marker as unknown).extrinsicState = extrinsicState;
 
     return marker;
   }

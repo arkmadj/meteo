@@ -49,7 +49,7 @@ export const useGeocodingAutocomplete = (
     if (geocodingData && geocodingData.length > 0) {
       const transformedSuggestions: GeocodingResult[] = geocodingData
         .slice(0, maxResults)
-        .map((result: any) => ({
+        .map((result: unknown) => ({
           id: result.id,
           name: result.name,
           latitude: result.latitude,

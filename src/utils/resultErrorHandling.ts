@@ -3,8 +3,10 @@
  * This bridges the new Result patterns with the existing AppError system
  */
 
-import { Result, AsyncResult, Ok, Err, fromAsync } from '../types/result';
-import { AppError, ErrorType } from '../types/error';
+import type { Result, AsyncResult } from '../types/result';
+import { Ok, Err, fromAsync } from '../types/result';
+import type { AppError } from '../types/error';
+import { ErrorType } from '../types/error';
 import { createErrorHandler } from '../utils/errorHandler';
 
 // ============================================================================
@@ -31,7 +33,7 @@ export const AppErr = <T>(error: AppError): AppResult<T> => Err(error);
 /**
  * Create a failed AppResult from an unknown error
  */
-export const AppErrFrom = <T>(error: unknown, context?: Record<string, any>): AppResult<T> => {
+export const AppErrFrom = <T>(error: unknown, context?: Record<string, unknown>): AppResult<T> => {
   const errorHandler = createErrorHandler();
   return Err(errorHandler(error, context));
 };
@@ -41,7 +43,7 @@ export const AppErrFrom = <T>(error: unknown, context?: Record<string, any>): Ap
  */
 export const withAppError = async <T>(
   operation: () => Promise<T>,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): Promise<Result<T, AppError>> => {
   return fromAsync(operation, error => {
     const errorHandler = createErrorHandler();
@@ -116,8 +118,8 @@ export class WeatherService {
       return Err({
         id: `multi-fail-${Date.now()}`,
         type: ErrorType.WEATHER_DATA_ERROR,
-        category: 'API' as any,
-        severity: 'HIGH' as any,
+        category: 'API' as unknown,
+        severity: 'HIGH' as unknown,
         message: `Failed to fetch weather data for all cities. Errors: ${errors.map(e => e.message).join(', ')}`,
         userMessage: 'Unable to fetch weather data for any of the requested cities',
         timestamp: Date.now(),
@@ -188,7 +190,7 @@ export interface AppResultState<T> {
 
 export declare const useAppResult: <T>(
   operation: () => AsyncAppResult<T>,
-  dependencies: any[]
+  dependencies: unknown[]
 ) => AppResultState<T>;
 
 // ============================================================================
@@ -243,8 +245,8 @@ export class WeatherServiceWithResults {
       return Err({
         id: `multi-fail-${Date.now()}`,
         type: ErrorType.WEATHER_DATA_ERROR,
-        category: 'API' as any,
-        severity: 'HIGH' as any,
+        category: 'API' as unknown,
+        severity: 'HIGH' as unknown,
         message: `Failed to fetch weather data for all cities`,
         userMessage: 'Unable to fetch weather data for any of the requested cities',
         timestamp: Date.now(),
@@ -277,7 +279,7 @@ export class WeatherServiceWithResults {
  */
 export const adaptLegacyFunction = async <T>(
   legacyFn: () => Promise<T>,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): Promise<Result<T, AppError>> => {
   return withAppError(legacyFn, context);
 };
@@ -287,7 +289,7 @@ export const adaptLegacyFunction = async <T>(
  */
 export const batchOperations = async <T>(
   operations: Array<() => Promise<Result<T, AppError>>>,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): Promise<Result<T[], AppError>> => {
   const results = await Promise.allSettled(operations.map(op => op()));
 
@@ -317,8 +319,8 @@ export const batchOperations = async <T>(
     return Err({
       id: `batch-fail-${Date.now()}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: 'SYSTEM' as any,
-      severity: 'HIGH' as any,
+      category: 'SYSTEM' as unknown,
+      severity: 'HIGH' as unknown,
       message: `All batch operations failed. Errors: ${failed.map(e => e.message).join(', ')}`,
       userMessage: 'All operations failed',
       timestamp: Date.now(),

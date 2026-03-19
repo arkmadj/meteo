@@ -69,7 +69,7 @@ export const useFuzzyGeocodingAutocomplete = (
   const apiResults = useMemo(() => {
     if (!geocodingData || geocodingData.length === 0) return [];
 
-    return geocodingData.slice(0, Math.ceil(maxResults / 2)).map((result: any) => {
+    return geocodingData.slice(0, Math.ceil(maxResults / 2)).map((result: unknown) => {
       const score = calculateLocationScore(debouncedQuery, result);
       return {
         id: result.id,
@@ -125,7 +125,7 @@ export const useFuzzyGeocodingAutocomplete = (
     const resultMap = new Map<string, GeocodingResult>();
 
     // Add API results first (higher priority)
-    apiResults.forEach((result: any) => {
+    apiResults.forEach((result: unknown) => {
       const key = `${result.name}-${result.country}`.toLowerCase();
       resultMap.set(key, result);
     });

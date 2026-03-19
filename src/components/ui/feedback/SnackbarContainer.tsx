@@ -8,11 +8,7 @@
 import React from 'react';
 
 import { SPACING } from '@/design-system/tokens';
-import {
-  useSnackbar,
-  type SnackbarPosition,
-  type SnackbarDisplayMode,
-} from '@/contexts/SnackbarContext';
+import { useSnackbar, type SnackbarPosition } from '@/contexts/SnackbarContext';
 import { useBreakpoint, type Breakpoint } from '@/hooks/useBreakpoint';
 
 import Snackbar from './Snackbar';

@@ -16,7 +16,7 @@ import React from 'react';
 
 // Hook-based approach
 function useAuth() {
-  const [user, setUser] = React.useState(null);
+  const [user, _setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -38,7 +38,7 @@ function ProtectedRoute({ children, fallback = <div>Please log in</div> }) {
 }
 
 // Usage - Clear and explicit
-function CompositionAuthExample() {
+function _CompositionAuthExample() {
   return (
     <ProtectedRoute fallback={<LoginForm />}>
       <Dashboard />
@@ -63,7 +63,7 @@ function withAuth<P extends object>(Component: React.ComponentType<P>) {
 }
 
 // Usage - Less clear what's happening
-const ProtectedDashboard = withAuth(Dashboard);
+const _ProtectedDashboard = withAuth(Dashboard);
 
 // ============================================================================
 // SCENARIO 2: THIRD-PARTY ENHANCEMENT - HOC WINS
@@ -99,14 +99,14 @@ function withAnalytics<P extends object>(Component: React.ComponentType<P>, even
 }
 
 // Usage - Perfect for third-party enhancement
-const AnalyticsButton = withAnalytics(ThirdPartyButton, 'button-click');
+const _AnalyticsButton = withAnalytics(ThirdPartyButton, 'button-click');
 
 /**
  * ❌ COMPOSITION APPROACH (Not practical)
  * Would require wrapping every third-party component
  */
 
-function AnalyticsWrapper({ children, eventName }) {
+function _AnalyticsWrapper({ children, eventName }) {
   React.useEffect(() => {
     console.log(`Analytics: ${eventName}`);
   }, [eventName]);
@@ -128,9 +128,9 @@ interface FormData {
   password: string;
 }
 
-function useFormValidation<T>(initialValues: T, validationRules: any) {
+function useFormValidation<T>(initialValues: T, _validationRules: unknown) {
   const [values, setValues] = React.useState(initialValues);
-  const [errors, setErrors] = React.useState<Partial<T>>({});
+  const [errors, _setErrors] = React.useState<Partial<T>>({});
 
   const validate = () => {
     // Validation logic
@@ -164,9 +164,9 @@ function LoginForm() {
  * Type inference becomes difficult, harder to customize
  */
 
-function withFormValidation<P extends object>(
+function _withFormValidation<P extends object>(
   Component: React.ComponentType<P>,
-  validationRules: any
+  _validationRules: unknown
 ) {
   return (props: P) => {
     // Complex validation logic here
@@ -204,8 +204,8 @@ function withPerformanceMonitoring<P extends object>(
 }
 
 // Easy to apply to any component
-const MonitoredDashboard = withPerformanceMonitoring(Dashboard, 'Dashboard');
-const MonitoredProfile = withPerformanceMonitoring(Profile, 'Profile');
+const _MonitoredDashboard = withPerformanceMonitoring(Dashboard, 'Dashboard');
+const _MonitoredProfile = withPerformanceMonitoring(Profile, 'Profile');
 
 /**
  * ❌ COMPOSITION APPROACH (Repetitive)
@@ -221,7 +221,7 @@ function PerformanceMonitor({ children, componentName }) {
 }
 
 // Repetitive and verbose
-function CompositionMonitoringExample() {
+function _CompositionMonitoringExample() {
   return (
     <>
       <PerformanceMonitor componentName="Dashboard">
@@ -303,7 +303,7 @@ function withFeatureFlag<P extends object>(Component: React.ComponentType<P>, fl
 }
 
 // Usage examples
-function HybridApproachExample() {
+function _HybridApproachExample() {
   return (
     <div>
       {/* Composition approach - explicit and clear */}
@@ -333,13 +333,13 @@ function HybridApproachExample() {
 
 // Example: Migrating from HOC to composition
 // Before (HOC)
-const withLoading = Component => props => {
+const _withLoading = Component => props => {
   if (props.loading) return <div>Loading...</div>;
   return <Component {...props} />;
 };
 
 // After (Composition)
-function LoadingWrapper({ children, loading }) {
+function _LoadingWrapper({ children, loading }) {
   if (loading) return <div>Loading...</div>;
   return children;
 }

@@ -4,12 +4,14 @@
  */
 
 import { useQueryClient } from '@tanstack/react-query';
-import React, { createContext, ReactNode, useCallback, useContext, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import React, { createContext, useCallback, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSnackbar } from '@/contexts/SnackbarContext';
-import { useKeyboardShortcuts, UseKeyboardShortcutsReturn } from '@/hooks/useKeyboardShortcuts';
-import { KeyboardShortcutAction } from '@/types/keyboardShortcuts';
+import type { UseKeyboardShortcutsReturn } from '@/hooks/useKeyboardShortcuts';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import type { KeyboardShortcutAction } from '@/types/keyboardShortcuts';
 
 /**
  * Action handlers type
@@ -118,14 +120,14 @@ export const KeyboardShortcutsProvider: React.FC<KeyboardShortcutsProviderProps>
               break;
             }
             case 'toggleDevTools': {
-              const toggleQuickNav = (window as any).__toggleQuickNav;
+              const toggleQuickNav = (window as unknown).__toggleQuickNav;
               if (typeof toggleQuickNav === 'function') {
                 toggleQuickNav();
               }
               break;
             }
             case 'toggleFavorites': {
-              const toggleFavorites = (window as any).__toggleFavorites;
+              const toggleFavorites = (window as unknown).__toggleFavorites;
               if (typeof toggleFavorites === 'function') {
                 toggleFavorites();
                 showInfo('Favorites toggled', 1000);

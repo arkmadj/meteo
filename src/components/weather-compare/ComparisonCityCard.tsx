@@ -45,7 +45,7 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Fetch weather data for this city
-  const { data, isLoading, isError, error } = useCompleteWeatherQuery(query, 7, {
+  const { data, isLoading, isError, _error } = useCompleteWeatherQuery(query, 7, {
     enabled: !!query,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
@@ -130,7 +130,7 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
             <ReactAnimatedWeather
               animate={!prefersReducedMotion}
               color={theme.isDark ? '#9CA3AF' : '#374151'}
-              icon={(weather.condition?.icon as any) || 'CLEAR_DAY'}
+              icon={(weather.condition?.icon as unknown) || 'CLEAR_DAY'}
               size={48}
             />
             <div>

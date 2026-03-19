@@ -18,7 +18,7 @@ export const useOptimisticWeatherUpdate = () => {
   const { addError } = useError();
   const { t } = useTranslation(['errors']);
 
-  const updateWeatherOptimistically = (
+  const useUpdateWeatherOptimistically = (
     location: string,
     updateFn: (oldData: CurrentWeatherData) => CurrentWeatherData,
     options: {
@@ -84,7 +84,7 @@ export const useOptimisticWeatherUpdate = () => {
           userMessage: t('errors:messages.optimisticUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as any);
+        } as unknown);
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);
@@ -107,7 +107,7 @@ export const useOptimisticWeatherUpdate = () => {
     return mutation;
   };
 
-  const updateForecastOptimistically = (
+  const useUpdateForecastOptimistically = (
     location: string,
     days: number,
     updateFn: (oldData: ForecastDay[]) => ForecastDay[],
@@ -176,7 +176,7 @@ export const useOptimisticWeatherUpdate = () => {
           userMessage: t('errors:messages.optimisticUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as any);
+        } as unknown);
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);
@@ -199,7 +199,7 @@ export const useOptimisticWeatherUpdate = () => {
     return mutation;
   };
 
-  const updateTemperatureUnitOptimistically = (
+  const useUpdateTemperatureUnitOptimistically = (
     location: string,
     isCelsius: boolean,
     options: {
@@ -209,7 +209,7 @@ export const useOptimisticWeatherUpdate = () => {
       onSettled?: () => void;
     } = {}
   ) => {
-    return updateWeatherOptimistically(
+    return useUpdateWeatherOptimistically(
       location,
       oldData => {
         return {
@@ -224,7 +224,7 @@ export const useOptimisticWeatherUpdate = () => {
     );
   };
 
-  const updateWeatherConditionOptimistically = (
+  const useUpdateWeatherConditionOptimistically = (
     location: string,
     condition: {
       code: number;
@@ -238,7 +238,7 @@ export const useOptimisticWeatherUpdate = () => {
       onSettled?: () => void;
     } = {}
   ) => {
-    return updateWeatherOptimistically(
+    return useUpdateWeatherOptimistically(
       location,
       oldData => {
         return {
@@ -251,7 +251,7 @@ export const useOptimisticWeatherUpdate = () => {
     );
   };
 
-  const refreshWeatherOptimistically = (
+  const useRefreshWeatherOptimistically = (
     location: string,
     options: {
       onMutate?: (data: CurrentWeatherData) => void;
@@ -260,7 +260,7 @@ export const useOptimisticWeatherUpdate = () => {
       onSettled?: () => void;
     } = {}
   ) => {
-    return updateWeatherOptimistically(
+    return useUpdateWeatherOptimistically(
       location,
       oldData => {
         return {
@@ -273,11 +273,11 @@ export const useOptimisticWeatherUpdate = () => {
   };
 
   return {
-    updateWeatherOptimistically,
-    updateForecastOptimistically,
-    updateTemperatureUnitOptimistically,
-    updateWeatherConditionOptimistically,
-    refreshWeatherOptimistically,
+    useUpdateWeatherOptimistically,
+    useUpdateForecastOptimistically,
+    useUpdateTemperatureUnitOptimistically,
+    useUpdateWeatherConditionOptimistically,
+    useRefreshWeatherOptimistically,
   };
 };
 
@@ -289,7 +289,7 @@ export const useBatchOptimisticUpdate = () => {
   const { addError } = useError();
   const { t } = useTranslation(['errors']);
 
-  const updateMultipleLocationsOptimistically = (
+  const useUpdateMultipleLocationsOptimistically = (
     updates: Array<{
       location: string;
       updateFn: (oldData: CurrentWeatherData) => CurrentWeatherData;
@@ -370,7 +370,7 @@ export const useBatchOptimisticUpdate = () => {
           userMessage: t('errors:messages.batchUpdateFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as any);
+        } as unknown);
 
         // Call onError callback if provided
         options.onError?.(error, Array.from(context?.previousDataMap?.values() || []));
@@ -396,7 +396,7 @@ export const useBatchOptimisticUpdate = () => {
   };
 
   return {
-    updateMultipleLocationsOptimistically,
+    useUpdateMultipleLocationsOptimistically,
   };
 };
 
@@ -408,7 +408,7 @@ export const useOptimisticUI = () => {
   const { addError } = useError();
   const { t } = useTranslation(['errors']);
 
-  const updateWithLoadingState = (
+  const useUpdateWithLoadingState = (
     location: string,
     updateFn: (oldData: CurrentWeatherData) => CurrentWeatherData,
     options: {
@@ -479,7 +479,7 @@ export const useOptimisticUI = () => {
           userMessage: t('errors:messages.optimisticUIFailed'),
           retryable: true,
           timestamp: Date.now(),
-        } as any);
+        } as unknown);
 
         // Call onError callback if provided
         options.onError?.(error, context?.previousData!);
@@ -515,7 +515,7 @@ export const useOptimisticUI = () => {
   };
 
   return {
-    updateWithLoadingState,
+    useUpdateWithLoadingState,
     useLoadingState,
   };
 };

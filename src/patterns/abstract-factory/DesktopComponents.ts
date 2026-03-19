@@ -43,7 +43,7 @@ export class DesktopButton implements IButton {
     return 'desktop-button';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: 'button',
       disabled: this.disabled,
@@ -139,7 +139,7 @@ export class DesktopInput implements IInput {
     return 'desktop-input';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: this.type,
       placeholder: this.placeholder,
@@ -225,7 +225,7 @@ export class DesktopCheckbox implements ICheckbox {
     return 'desktop-checkbox';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: 'checkbox',
       checked: this.checked,

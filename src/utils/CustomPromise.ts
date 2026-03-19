@@ -8,13 +8,13 @@
 export type PromiseState = 'pending' | 'fulfilled' | 'rejected';
 
 export type ResolveFunction<T> = (value: T | PromiseLike<T>) => void;
-export type RejectFunction = (reason?: any) => void;
+export type RejectFunction = (reason?: unknown) => void;
 export type OnFulfilledCallback<T, TResult> =
   | ((value: T) => TResult | PromiseLike<TResult>)
   | null
   | undefined;
 export type OnRejectedCallback<TResult> =
-  | ((reason: any) => TResult | PromiseLike<TResult>)
+  | ((reason: unknown) => TResult | PromiseLike<TResult>)
   | null
   | undefined;
 
@@ -32,9 +32,9 @@ export interface ICustomPromise<T> {
 export class CustomPromise<T> implements ICustomPromise<T> {
   private state: PromiseState = 'pending';
   private value: T | undefined;
-  private reason: any;
+  private reason: unknown;
   private onFulfilledCallbacks: Array<(value: T) => void> = [];
-  private onRejectedCallbacks: Array<(reason: any) => void> = [];
+  private onRejectedCallbacks: Array<(reason: unknown) => void> = [];
 
   constructor(executor: (resolve: ResolveFunction<T>, reject: RejectFunction) => void) {
     try {
@@ -61,7 +61,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
     this.processCallbacks();
   };
 
-  private reject = (reason?: any): void => {
+  private reject = (reason?: unknown): void => {
     if (this.state !== 'pending') return;
 
     this.state = 'rejected';
@@ -91,7 +91,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
       this.onFulfilledCallbacks.forEach(callback => {
         try {
           callback(this.value as T);
-        } catch (error) {
+        } catch (_error) {
           // Silently ignore errors in fulfillment callbacks
           // In a real implementation, these would be handled via unhandled rejection
         }
@@ -101,7 +101,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
       this.onRejectedCallbacks.forEach(callback => {
         try {
           callback(this.reason);
-        } catch (error) {
+        } catch (_error) {
           // Silently ignore errors in rejection callbacks
           // In a real implementation, these would be handled via unhandled rejection
         }
@@ -197,7 +197,7 @@ export class CustomPromise<T> implements ICustomPromise<T> {
     return new CustomPromise<T>(resolve => resolve(value));
   }
 
-  static reject<T = never>(reason?: any): CustomPromise<T> {
+  static reject<T = never>(reason?: unknown): CustomPromise<T> {
     return new CustomPromise<T>((_, reject) => reject(reason));
   }
 

@@ -3,25 +3,26 @@
  * When HOCs are still the right choice in TypeScript React
  */
 
-import React, { ComponentType, useEffect, useState } from 'react';
+import type { ComponentType } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // ============================================================================
 // TYPES FOR HOCs
 // ============================================================================
 
 // Helper type to extract props from a component
-type ComponentProps<T> = T extends ComponentType<infer P> ? P : never;
+type _ComponentProps<T> = T extends ComponentType<infer P> ? P : never;
 
 // Helper type to make certain props optional
-type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+type _Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 // HOC that injects props
-type InjectedProps<T> = {
+type _InjectedProps<T> = {
   [K in keyof T]: T[K];
 };
 
 // HOC that removes props
-type WithoutProps<T, K extends keyof T> = Omit<T, K>;
+type _WithoutProps<T, K extends keyof T> = Omit<T, K>;
 
 // ============================================================================
 // HOC: WITH ANALYTICS (Cross-cutting concern)
@@ -279,7 +280,9 @@ export function withTheme<P extends object>(Component: ComponentType<P & ThemePr
  * Utility function to compose multiple HOCs
  * Helps avoid deeply nested HOC calls
  */
-export function compose<T>(...hocs: Array<(component: ComponentType<any>) => ComponentType<any>>) {
+export function compose<T>(
+  ...hocs: Array<(component: ComponentType<unknown>) => ComponentType<unknown>>
+) {
   return (Component: ComponentType<T>) => {
     return hocs.reduceRight((acc, hoc) => hoc(acc), Component);
   };

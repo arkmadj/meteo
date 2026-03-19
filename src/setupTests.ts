@@ -11,7 +11,7 @@ expect.extend(toHaveNoViolations);
 
 // Polyfill TextEncoder/TextDecoder for Node environment
 global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder as any;
+global.TextDecoder = TextDecoder as unknown;
 
 // Mock matchMedia for Embla Carousel
 Object.defineProperty(window, 'matchMedia', {
@@ -81,7 +81,7 @@ HTMLCanvasElement.prototype.getContext = jest.fn(() => ({
   transform: jest.fn(),
   rect: jest.fn(),
   clip: jest.fn(),
-})) as any;
+})) as unknown;
 
 // Mock canvas dimensions for ReactAnimatedWeather
 Object.defineProperty(HTMLCanvasElement.prototype, 'width', {

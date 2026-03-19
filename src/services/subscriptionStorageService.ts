@@ -488,7 +488,7 @@ class SubscriptionStorageService {
 
     try {
       const sub = result.data;
-      const expectedChecksum = await generateChecksum(
+      const _expectedChecksum = await generateChecksum(
         JSON.stringify({
           endpoint: sub.endpoint,
           status: sub.status,
@@ -662,7 +662,6 @@ class SubscriptionStorageService {
    */
   private log(...args: unknown[]): void {
     if (this.config.debug) {
-      // eslint-disable-next-line no-console
       console.log('[SubscriptionStorageService]', ...args);
     }
   }

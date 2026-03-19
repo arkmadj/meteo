@@ -5,13 +5,14 @@
  * and request/response transformation capabilities.
  */
 
-import axios, {
+import type {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import axios from 'axios';
 
 /**
  * API Error interface
@@ -162,7 +163,7 @@ class HttpClient {
   private createApiError(error: AxiosError): ApiError {
     if (error.response) {
       // Server responded with error status
-      const data = error.response.data as any;
+      const data = error.response.data as unknown;
       return {
         message: data?.message || 'Server error occurred',
         code: data?.code || 'SERVER_ERROR',

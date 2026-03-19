@@ -35,7 +35,7 @@ const defaultErrorLogger: ErrorLogger = (error: AppError) => {
 
 // Error classification utilities
 const classifyError = (
-  error: any
+  error: unknown
 ): { type: ErrorType; category: ErrorCategory; severity: ErrorSeverity } => {
   // Network errors
   if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
@@ -114,7 +114,7 @@ const classifyError = (
 };
 
 // Error message mapping
-const getErrorMessage = (type: ErrorType, originalError?: any): string => {
+const getErrorMessage = (type: ErrorType, originalError?: unknown): string => {
   switch (type) {
     case ErrorType.NETWORK_ERROR:
       return 'Network connection failed';
@@ -157,7 +157,7 @@ const isRetryable = (type: ErrorType): boolean => {
 
 // Main error handler factory
 export const createErrorHandler = (logger: ErrorLogger = defaultErrorLogger): ErrorHandler => {
-  return (error: any, context: Record<string, any> = {}): AppError => {
+  return (error: unknown, context: Record<string, unknown> = {}): AppError => {
     const classification = classifyError(error);
     const errorId = generateErrorId();
 
@@ -188,7 +188,7 @@ export const retryWithBackoff = async <T>(
   baseDelay: number = 1000,
   backoffFactor: number = 2
 ): Promise<T> => {
-  let lastError: any;
+  let lastError: unknown;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {

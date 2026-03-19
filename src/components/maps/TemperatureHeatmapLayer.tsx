@@ -279,7 +279,7 @@ const TemperatureHeatmapLayer: React.FC<TemperatureHeatmapLayerProps> = ({
           });
 
           // Add error handling for tile loading
-          tileLayerRef.current.on('tileerror', (error: any) => {
+          tileLayerRef.current.on('tileerror', (error: unknown) => {
             onError?.(
               new Error(`Failed to load temperature tile: ${error.tile?.src || 'unknown'}`)
             );

@@ -1,4 +1,5 @@
-import React, { Component, ComponentType, forwardRef, ReactNode, Suspense } from 'react';
+import type { ComponentType, ReactNode } from 'react';
+import React, { Component, forwardRef, Suspense } from 'react';
 
 import { Loading } from '@/components/ui';
 
@@ -92,7 +93,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 /**
  * Create a lazy-loaded component with enhanced error handling and loading states
  */
-export const createLazyComponent = <T extends ComponentType<any>>(
+export const createLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   options: LazyLoadOptions = {}
 ) => {
@@ -123,7 +124,7 @@ export const createLazyComponent = <T extends ComponentType<any>>(
   }
 
   // Create the wrapper component with error boundary
-  const LazyWrapper = forwardRef<any, React.ComponentProps<T>>((props, ref) => {
+  const LazyWrapper = forwardRef<unknown, React.ComponentProps<T>>((props, ref) => {
     const [error, setError] = React.useState<Error | null>(null);
     const [retryKey, setRetryKey] = React.useState(0);
 
@@ -156,7 +157,7 @@ export const createLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create a lazy component with route-based loading
  */
-export const createRouteLazyComponent = <T extends ComponentType<any>>(
+export const createRouteLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   routeName: string
 ) => {
@@ -206,7 +207,7 @@ export const createRouteLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create a lazy component for showcase/demo components
  */
-export const createShowcaseLazyComponent = <T extends ComponentType<any>>(
+export const createShowcaseLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   componentName: string
 ) => {
@@ -219,7 +220,7 @@ export const createShowcaseLazyComponent = <T extends ComponentType<any>>(
         </div>
       </div>
     ),
-    errorFallback: ({ error, retry }) => (
+    errorFallback: ({ _error, retry }) => (
       <div className="flex flex-col items-center justify-center p-6 border-2 border-red-200 rounded-lg bg-red-50">
         <div className="text-red-500 mb-2">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +248,7 @@ export const createShowcaseLazyComponent = <T extends ComponentType<any>>(
 /**
  * Preload a lazy component
  */
-export const preloadComponent = (importFn: () => Promise<{ default: ComponentType<any> }>) => {
+export const preloadComponent = (importFn: () => Promise<{ default: ComponentType<unknown> }>) => {
   return importFn().catch(() => {
     // Silently fail preloading
   });
@@ -256,7 +257,7 @@ export const preloadComponent = (importFn: () => Promise<{ default: ComponentTyp
 /**
  * Hook to preload components on user interaction
  */
-export const usePreloadOnHover = (importFn: () => Promise<{ default: ComponentType<any> }>) => {
+export const usePreloadOnHover = (importFn: () => Promise<{ default: ComponentType<unknown> }>) => {
   const [preloaded, setPreloaded] = React.useState(false);
 
   const preload = React.useCallback(() => {
@@ -276,7 +277,7 @@ export const usePreloadOnHover = (importFn: () => Promise<{ default: ComponentTy
  * Hook to preload components on viewport intersection
  */
 export const usePreloadOnIntersection = (
-  importFn: () => Promise<{ default: ComponentType<any> }>,
+  importFn: () => Promise<{ default: ComponentType<unknown> }>,
   options: IntersectionObserverInit = {}
 ) => {
   const [preloaded, setPreloaded] = React.useState(false);

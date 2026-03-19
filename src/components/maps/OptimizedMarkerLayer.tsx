@@ -15,7 +15,7 @@ export interface MarkerData {
   title?: string;
   description?: string;
   icon?: L.Icon;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface OptimizedMarkerLayerProps {
@@ -137,7 +137,7 @@ const OptimizedMarkerLayer: React.FC<OptimizedMarkerLayerProps> = ({
   clusterRadius = 80,
   onMarkerClick,
   markerIcon = defaultIcon,
-  enableAnimations = true,
+  _enableAnimations = true,
 }) => {
   const map = useMap();
   const canvasLayerRef = useRef<L.Canvas | null>(null);

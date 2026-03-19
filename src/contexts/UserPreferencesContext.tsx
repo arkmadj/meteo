@@ -1,13 +1,14 @@
-import {
+import type {
   NotificationFrequency,
   NotificationSettings,
   NotificationTypes,
   PreferenceConfig,
   QuietHours,
   UserPreferences,
-  useUserPreferences,
 } from '@/hooks/useUserPreferences';
-import React, { createContext, ReactNode, useContext } from 'react';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
+import type { ReactNode } from 'react';
+import React, { createContext, useContext } from 'react';
 
 /**
  * Context value type

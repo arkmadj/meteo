@@ -72,7 +72,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   // ============================================================================
 
   const { theme } = useTheme();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [_isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   // ============================================================================

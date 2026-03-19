@@ -10,7 +10,7 @@ import {
   type DeviceCapabilities,
   type PerformanceTier,
 } from '@/utils/devicePerformance';
-import { usePerformanceMonitor, usePerformanceSettings } from './usePerformanceMonitor';
+import { usePerformanceMonitor } from './usePerformanceMonitor';
 
 export interface AdaptiveRenderingConfig {
   /** Enable automatic quality adjustment (default: true) */

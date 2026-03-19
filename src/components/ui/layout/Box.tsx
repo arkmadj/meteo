@@ -313,9 +313,14 @@ const Box = React.forwardRef<HTMLDivElement, BoxProps>(
 
     const finalClassName = [...classes, className].filter(Boolean).join(' ');
 
-    const Comp = Component as any;
+    const Comp = Component as unknown;
     return (
-      <Comp ref={ref as any} className={finalClassName} style={inlineStyles} {...(props as any)}>
+      <Comp
+        ref={ref as unknown}
+        className={finalClassName}
+        style={inlineStyles}
+        {...(props as unknown)}
+      >
         {children}
       </Comp>
     );

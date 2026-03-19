@@ -7,7 +7,7 @@
 import React, { forwardRef, useState, useRef, useEffect } from 'react';
 
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
-import { componentUtils, useComponentState, IconWrapper } from '../base/BaseComponent';
+import { useComponentState, IconWrapper } from '../base/BaseComponent';
 import { useTheme } from '@/design-system/theme';
 
 // ============================================================================
@@ -225,7 +225,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       'gap-2',
     ].join(' ');
 
-    const propsForClasses: BaseComponentProps = {
+    const _propsForClasses: BaseComponentProps = {
       size,
       disabled: isDisabled,
       className,

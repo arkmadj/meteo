@@ -285,9 +285,9 @@ export function useTransition(
  * Get safe animation properties for reduced motion
  */
 export interface SafeAnimationProps {
-  initial: Record<string, any>;
-  animate: Record<string, any>;
-  transition: Record<string, any>;
+  initial: Record<string, unknown>;
+  animate: Record<string, unknown>;
+  transition: Record<string, unknown>;
 }
 
 export function useSafeAnimation(

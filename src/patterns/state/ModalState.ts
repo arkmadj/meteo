@@ -115,27 +115,27 @@ export interface IModalState {
 export abstract class BaseModalState implements IModalState {
   abstract readonly type: ModalStateType;
 
-  open(context: IModalContext): void {
+  open(_context: IModalContext): void {
     console.warn(`Cannot open modal from ${this.type} state`);
   }
 
-  close(context: IModalContext): void {
+  close(_context: IModalContext): void {
     console.warn(`Cannot close modal from ${this.type} state`);
   }
 
-  confirm(context: IModalContext): void {
+  confirm(_context: IModalContext): void {
     console.warn(`Cannot confirm from ${this.type} state`);
   }
 
-  cancel(context: IModalContext): void {
+  cancel(_context: IModalContext): void {
     console.warn(`Cannot cancel from ${this.type} state`);
   }
 
-  startLoading(context: IModalContext, message?: string): void {
+  startLoading(_context: IModalContext, _message?: string): void {
     console.warn(`Cannot start loading from ${this.type} state`);
   }
 
-  handleError(context: IModalContext, error: string): void {
+  handleError(_context: IModalContext, _error: string): void {
     console.warn(`Cannot handle error from ${this.type} state`);
   }
 
@@ -143,11 +143,11 @@ export abstract class BaseModalState implements IModalState {
   abstract isInteractive(): boolean;
   abstract getClasses(): string[];
 
-  handleKeyDown(context: IModalContext, event: KeyboardEvent): void {
+  handleKeyDown(_context: IModalContext, _event: KeyboardEvent): void {
     // Default: do nothing
   }
 
-  handleBackdropClick(context: IModalContext): void {
+  handleBackdropClick(_context: IModalContext): void {
     // Default: do nothing
   }
 }

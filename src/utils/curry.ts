@@ -9,7 +9,7 @@
  * or multiple arguments at once, returning either another curried function
  * or the final result.
  */
-type CurriedFunction<T extends (...args: any[]) => any> = (
+type CurriedFunction<T extends (...args: unknown[]) => unknown> = (
   ...args: Parameters<T>
 ) => ReturnType<T> | CurriedFunction<T>;
 
@@ -46,7 +46,7 @@ type CurriedFunction<T extends (...args: any[]) => any> = (
  * curriedSum(1)(2)(3); // 6
  * curriedSum(1, 2)(3); // 6
  */
-export function curry<T extends (...args: any[]) => any>(
+export function curry<T extends (...args: unknown[]) => unknown>(
   fn: T,
   arity: number = fn.length
 ): CurriedFunction<T> {
@@ -55,14 +55,14 @@ export function curry<T extends (...args: any[]) => any>(
     return fn as CurriedFunction<T>;
   }
 
-  return function curried(...args: any[]): ReturnType<T> | CurriedFunction<T> {
+  return function curried(...args: unknown[]): ReturnType<T> | CurriedFunction<T> {
     // If we have enough arguments, call the original function
     if (args.length >= arity) {
       return fn(...args.slice(0, arity));
     }
 
     // Otherwise, return a new curried function waiting for more arguments
-    return (...nextArgs: any[]) => curried(...args, ...nextArgs);
+    return (...nextArgs: unknown[]) => curried(...args, ...nextArgs);
   };
 }
 
@@ -83,11 +83,11 @@ export function curry<T extends (...args: any[]) => any>(
  * const addOneTwo = partial(addOne, 2);
  * addOneTwo(3); // 6
  */
-export function partial<T extends (...args: any[]) => any>(
+export function partial<T extends (...args: unknown[]) => unknown>(
   fn: T,
-  ...args: any[]
-): (...remainingArgs: any[]) => ReturnType<T> {
-  return (...nextArgs: any[]) => fn(...args, ...nextArgs);
+  ...args: unknown[]
+): (...remainingArgs: unknown[]) => ReturnType<T> {
+  return (...nextArgs: unknown[]) => fn(...args, ...nextArgs);
 }
 
 /**
@@ -107,8 +107,8 @@ export function partial<T extends (...args: any[]) => any>(
  * const pipeline = compose(subtract, multiply, add);
  * pipeline(2, 3); // ((2 + 3) * 2) - 5 = 5
  */
-export function compose<T>(...fns: Array<(arg: any) => any>): (...args: any[]) => T {
-  return (...args: any[]) => {
+export function compose<T>(...fns: Array<(arg: unknown) => unknown>): (...args: unknown[]) => T {
+  return (...args: unknown[]) => {
     let result = fns[fns.length - 1].apply(null, args);
     for (let i = fns.length - 2; i >= 0; i--) {
       result = fns[i](result);
@@ -134,8 +134,8 @@ export function compose<T>(...fns: Array<(arg: any) => any>): (...args: any[]) =
  * const pipeline = pipe(add, multiply, subtract);
  * pipeline(2, 3); // ((2 + 3) * 2) - 5 = 5
  */
-export function pipe<T>(...fns: Array<(arg: any) => any>): (...args: any[]) => T {
-  return (...args: any[]) => {
+export function pipe<T>(...fns: Array<(arg: unknown) => unknown>): (...args: unknown[]) => T {
+  return (...args: unknown[]) => {
     let result = fns[0].apply(null, args);
     for (let i = 1; i < fns.length; i++) {
       result = fns[i](result);
@@ -160,12 +160,12 @@ export function pipe<T>(...fns: Array<(arg: any) => any>): (...args: any[]) => T
  *
  * uncurriedAdd(1, 2, 3); // 6
  */
-export function uncurry<T extends (...args: any[]) => any>(
+export function uncurry<T extends (...args: unknown[]) => unknown>(
   fn: CurriedFunction<T>,
   arity: number
 ): T {
-  return ((...args: any[]) => {
-    let result: any = fn;
+  return ((...args: unknown[]) => {
+    let result: unknown = fn;
     for (const arg of args.slice(0, arity)) {
       result = result(arg);
     }

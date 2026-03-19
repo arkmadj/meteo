@@ -13,7 +13,8 @@
  * - Observable pattern integration
  */
 
-import { CancellationToken, CancellationTokenSource } from './cancellationToken';
+import type { CancellationToken } from './cancellationToken';
+import { CancellationTokenSource } from './cancellationToken';
 
 // ============================================================================
 // TYPES AND INTERFACES

@@ -21,14 +21,14 @@ export interface CancellationToken {
   /** Whether cancellation has completed */
   readonly isCancellationCompleted: boolean;
   /** The cancellation reason, if any */
-  readonly reason?: any;
+  readonly reason?: unknown;
   /** Promise that resolves when cancellation is requested */
   readonly cancellationRequested: Promise<void>;
   /** Promise that resolves when cancellation is completed */
   readonly cancellationCompleted: Promise<void>;
 
   /** Subscribe to cancellation events */
-  onCancelled(callback: (reason?: any) => void): () => void;
+  onCancelled(callback: (reason?: unknown) => void): () => void;
   /** Create a child token that inherits cancellation */
   createChild(): CancellationToken;
   /** Check if cancellation can be cancelled */
@@ -42,8 +42,8 @@ export interface CancellationToken {
 export class CancellationTokenSource implements CancellationToken {
   private _isCancellationRequested = false;
   private _isCancellationCompleted = false;
-  private _reason?: any;
-  private _callbacks: Array<(reason?: any) => void> = [];
+  private _reason?: unknown;
+  private _callbacks: Array<(reason?: unknown) => void> = [];
   private _children: CancellationTokenSource[] = [];
   private _parent?: CancellationTokenSource;
 
@@ -77,11 +77,11 @@ export class CancellationTokenSource implements CancellationToken {
     return this._isCancellationCompleted;
   }
 
-  get reason(): any {
+  get reason(): unknown {
     return this._reason;
   }
 
-  cancel(reason?: any): void {
+  cancel(reason?: unknown): void {
     if (this._isCancellationRequested) return; // Already cancelled
 
     this._isCancellationRequested = true;
@@ -98,7 +98,6 @@ export class CancellationTokenSource implements CancellationToken {
           try {
             callback(reason);
           } catch (error) {
-            // eslint-disable-next-line no-console
             console.error('Error in cancellation callback:', error);
           }
         });
@@ -117,14 +116,13 @@ export class CancellationTokenSource implements CancellationToken {
     this._resolveCompleted();
   }
 
-  onCancelled(callback: (reason?: any) => void): () => void {
+  onCancelled(callback: (reason?: unknown) => void): () => void {
     if (this._isCancellationRequested) {
       const reason = this._reason;
       scheduleEventDispatch(() => {
         try {
           callback(reason);
         } catch (error) {
-          // eslint-disable-next-line no-console
           console.error('Error in cancellation callback:', error);
         }
       });
@@ -183,8 +181,8 @@ export class CancellationTokenSource implements CancellationToken {
 export class CompositeCancellationToken implements CancellationToken {
   private _sources: CancellationToken[];
   private _isCompleted = false;
-  private _callbacks: Array<(reason?: any) => void> = [];
-  private _reason?: any;
+  private _callbacks: Array<(reason?: unknown) => void> = [];
+  private _reason?: unknown;
 
   constructor(...sources: CancellationToken[]) {
     this._sources = sources;
@@ -200,7 +198,6 @@ export class CompositeCancellationToken implements CancellationToken {
             try {
               cb(reason);
             } catch (error) {
-              // eslint-disable-next-line no-console
               console.error('Error in composite cancellation callback:', error);
             }
           });
@@ -217,7 +214,7 @@ export class CompositeCancellationToken implements CancellationToken {
     return this._isCompleted;
   }
 
-  get reason(): any {
+  get reason(): unknown {
     return this._reason;
   }
 
@@ -236,14 +233,13 @@ export class CompositeCancellationToken implements CancellationToken {
     });
   }
 
-  onCancelled(callback: (reason?: any) => void): () => void {
+  onCancelled(callback: (reason?: unknown) => void): () => void {
     if (this._isCompleted) {
       const reason = this._reason;
       scheduleEventDispatch(() => {
         try {
           callback(reason);
         } catch (error) {
-          // eslint-disable-next-line no-console
           console.error('Error in composite cancellation callback:', error);
         }
       });
@@ -283,7 +279,7 @@ export class TimeoutCancellationTokenSource extends CancellationTokenSource {
     }, timeoutMs);
   }
 
-  cancel(reason?: any): void {
+  cancel(reason?: unknown): void {
     if (this._timeoutId) {
       clearTimeout(this._timeoutId);
       this._timeoutId = undefined;

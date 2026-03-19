@@ -9,10 +9,8 @@ import type { AppError, ErrorType } from '@/types/error';
 import type {
   RetryConfig,
   RetryResult,
-  RetryFunction,
   RetryWithConfigFunction,
   RetryWithResultFunction,
-  isRetryableErrorType,
 } from './retry.types';
 import { createErrorHandler } from '@/utils/errorHandler';
 
@@ -44,7 +42,7 @@ export const safeRetry: RetryWithConfigFunction = async <T>(
   const finalConfig = { ...DEFAULT_CONFIG, ...config } as RetryConfig;
   const errorHandler = createErrorHandler();
 
-  let lastError: any;
+  let lastError: unknown;
   const startTime = Date.now();
 
   for (let attempt = 1; attempt <= finalConfig.maxRetries; attempt++) {

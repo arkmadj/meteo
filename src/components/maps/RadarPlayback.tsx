@@ -280,10 +280,10 @@ const RadarPlayback: React.FC<RadarPlaybackProps> = React.memo(
       };
 
       // Store controls on window for external access if needed
-      (window as any).__radarPlaybackControls = controls;
+      (window as unknown).__radarPlaybackControls = controls;
 
       return () => {
-        delete (window as any).__radarPlaybackControls;
+        delete (window as unknown).__radarPlaybackControls;
       };
     }, [currentFrameIndex, frames.length, showFrame]);
 

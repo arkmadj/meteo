@@ -21,7 +21,7 @@ export interface WidgetSidePanelProps {
  * Provides drag-and-drop reordering, quick settings, and widget management
  */
 export const WidgetSidePanel: React.FC<WidgetSidePanelProps> = ({ className = '' }) => {
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const {
     state,
     toggleWidgetPin,

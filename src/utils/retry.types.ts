@@ -24,9 +24,9 @@ export interface RetryConfig {
   /** Specific error types that are retryable */
   retryableErrors?: ErrorType[];
   /** Callback called before each retry attempt */
-  onRetry?: (attempt: number, error: any) => void;
+  onRetry?: (attempt: number, error: unknown) => void;
   /** Custom function to determine if retry should occur */
-  shouldRetry?: (error: any, attempt: number) => boolean;
+  shouldRetry?: (error: unknown, attempt: number) => boolean;
   /** Timeout in milliseconds for each attempt */
   timeout?: number;
 }
@@ -50,14 +50,14 @@ export type BackoffStrategy = 'exponential' | 'linear' | 'fixed';
 // FUNCTION TYPES
 // ============================================================================
 
-export type RetryFunction<T = any> = () => Promise<T>;
+export type RetryFunction<T = unknown> = () => Promise<T>;
 
-export type RetryWithConfigFunction<T = any> = (
+export type RetryWithConfigFunction<T = unknown> = (
   fn: RetryFunction<T>,
   config?: Partial<RetryConfig>
 ) => Promise<T>;
 
-export type RetryWithResultFunction<T = any> = (
+export type RetryWithResultFunction<T = unknown> = (
   fn: RetryFunction<T>,
   config?: Partial<RetryConfig>
 ) => Promise<RetryResult<T>>;
@@ -152,12 +152,12 @@ export interface RetryContext {
   /** Total elapsed time in milliseconds */
   elapsedTime: number;
   /** Last error that occurred */
-  lastError?: any;
+  lastError?: unknown;
 }
 
 export interface RetryCondition {
   /** Function to determine if retry should occur */
-  condition: (error: any, context: RetryContext) => boolean;
+  condition: (error: unknown, context: RetryContext) => boolean;
   /** Optional error message for why retry won't occur */
   message?: string;
 }

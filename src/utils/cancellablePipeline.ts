@@ -5,14 +5,15 @@
  * complex async task pipelines with granular control and graceful degradation.
  */
 
-import { CancellationToken, CancellationTokenSource } from './cancellationToken';
+import type { CancellationToken } from './cancellationToken';
+import { CancellationTokenSource } from './cancellationToken';
 import { scheduleEventDispatch } from './eventDispatcher';
 
 // ============================================================================
 // PIPELINE STAGE INTERFACE
 // ============================================================================
 
-export interface TaskStage<TInput = any, TOutput = any> {
+export interface TaskStage<TInput = unknown, TOutput = unknown> {
   /** Unique stage identifier */
   readonly id: string;
   /** Stage name for debugging and logging */
@@ -26,7 +27,7 @@ export interface TaskStage<TInput = any, TOutput = any> {
   execute(input: TInput, token: CancellationToken): Promise<TOutput>;
 
   /** Optional cleanup when stage is cancelled */
-  onCancel?(reason?: any): Promise<void>;
+  onCancel?(reason?: unknown): Promise<void>;
 
   /** Optional validation before stage execution */
   validate?(input: TInput): Promise<boolean>;
@@ -80,7 +81,7 @@ export interface PipelineExecutionContext {
   failedStages: Array<{ stageId: string; error: Error }>;
 
   /** Custom metadata for the execution */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // ============================================================================
@@ -91,24 +92,24 @@ export interface PipelineEvents {
   /** Fired when a stage starts execution */
   stageStart: (stage: TaskStage, context: PipelineExecutionContext) => void;
   /** Fired when a stage completes successfully */
-  stageComplete: (stage: TaskStage, result: any, context: PipelineExecutionContext) => void;
+  stageComplete: (stage: TaskStage, result: unknown, context: PipelineExecutionContext) => void;
   /** Fired when a stage fails */
   stageError: (stage: TaskStage, error: Error, context: PipelineExecutionContext) => void;
   /** Fired when a stage is cancelled */
-  stageCancelled: (stage: TaskStage, reason: any, context: PipelineExecutionContext) => void;
+  stageCancelled: (stage: TaskStage, reason: unknown, context: PipelineExecutionContext) => void;
   /** Fired when the entire pipeline completes */
-  pipelineComplete: (results: any[], context: PipelineExecutionContext) => void;
+  pipelineComplete: (results: unknown[], context: PipelineExecutionContext) => void;
   /** Fired when the pipeline fails */
   pipelineError: (error: Error, context: PipelineExecutionContext) => void;
   /** Fired when the pipeline is cancelled */
-  pipelineCancelled: (reason: any, context: PipelineExecutionContext) => void;
+  pipelineCancelled: (reason: unknown, context: PipelineExecutionContext) => void;
 }
 
 // ============================================================================
 // CORE PIPELINE IMPLEMENTATION
 // ============================================================================
 
-export class CancellableTaskPipeline<TInput = any, TOutput = any> {
+export class CancellableTaskPipeline<TInput = unknown, TOutput = unknown> {
   private stages: TaskStage[] = [];
   private eventHandlers: Partial<PipelineEvents> = {};
   private defaultPolicy: CancellationPolicy = {
@@ -158,7 +159,6 @@ export class CancellableTaskPipeline<TInput = any, TOutput = any> {
       try {
         (handler as PipelineEvents[K])(...args);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error(`Error in pipeline event handler for ${String(event)}:`, error);
       }
     });
@@ -172,7 +172,7 @@ export class CancellableTaskPipeline<TInput = any, TOutput = any> {
     options: {
       cancellationToken?: CancellationToken;
       policy?: Partial<CancellationPolicy>;
-      metadata?: Record<string, any>;
+      metadata?: Record<string, unknown>;
     } = {}
   ): Promise<TOutput> {
     const {
@@ -219,7 +219,7 @@ export class CancellableTaskPipeline<TInput = any, TOutput = any> {
     context: PipelineExecutionContext,
     coordinator: PipelineCancellationCoordinator
   ): Promise<TOutput> {
-    let currentResult: any = input;
+    let currentResult: unknown = input;
 
     for (const stage of this.stages) {
       // Check for cancellation before starting each stage
@@ -263,7 +263,6 @@ export class CancellableTaskPipeline<TInput = any, TOutput = any> {
             try {
               await stage.onCancel(error);
             } catch (cleanupError) {
-              // eslint-disable-next-line no-console
               console.error(`Error during cleanup of failed stage ${stage.id}:`, cleanupError);
             }
           }
@@ -285,7 +284,7 @@ export class CancellableTaskPipeline<TInput = any, TOutput = any> {
 // ============================================================================
 
 export class CancellationError extends Error {
-  constructor(public readonly reason?: any) {
+  constructor(public readonly reason?: unknown) {
     super(`Operation cancelled: ${reason || 'No reason provided'}`);
     this.name = 'CancellationError';
   }
@@ -316,7 +315,7 @@ class PipelineCancellationCoordinator {
     return source;
   }
 
-  private handlePipelineCancellation(reason: any): void {
+  private handlePipelineCancellation(reason: unknown): void {
     const { strategy, gracefulTimeout, criticalStageIds } = this.context.policy;
 
     switch (strategy) {
@@ -338,14 +337,14 @@ class PipelineCancellationCoordinator {
     }
   }
 
-  private cancelAllStages(reason: any): void {
+  private cancelAllStages(reason: unknown): void {
     this.stageTokens.forEach(token => token.cancel(reason));
     this.activeStages.forEach(stage => {
       stage.onCancel?.(reason);
     });
   }
 
-  private async gracefulCancellation(reason: any, timeout?: number): Promise<void> {
+  private async gracefulCancellation(reason: unknown, timeout?: number): Promise<void> {
     const promises = Array.from(this.activeStages).map(async stage => {
       try {
         await stage.onCancel?.(reason);
@@ -366,7 +365,7 @@ class PipelineCancellationCoordinator {
     this.cancelAllStages(reason);
   }
 
-  private selectiveCancellation(reason: any, criticalStageIds: string[]): void {
+  private selectiveCancellation(reason: unknown, criticalStageIds: string[]): void {
     this.activeStages.forEach(stage => {
       if (criticalStageIds.includes(stage.id)) {
         // Critical stage - let it finish
@@ -380,7 +379,7 @@ class PipelineCancellationCoordinator {
     });
   }
 
-  handleStageCancellation(stage: TaskStage, reason: any): void {
+  handleStageCancellation(stage: TaskStage, _reason: unknown): void {
     this.activeStages.delete(stage);
     this.stageTokens.delete(stage.id);
   }

@@ -37,7 +37,7 @@ interface AuthContextValue {
 // COMPOSITION: DATA PROVIDER
 // ============================================================================
 
-const DataContext = createContext<DataContextValue<any> | null>(null);
+const DataContext = createContext<DataContextValue<unknown> | null>(null);
 
 interface DataProviderProps<T> {
   children: React.ReactNode;
@@ -114,7 +114,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, _password: string) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 

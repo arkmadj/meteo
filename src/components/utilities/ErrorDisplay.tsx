@@ -191,7 +191,7 @@ ErrorDisplay.displayName = 'ErrorDisplay';
 // Error List component for displaying multiple errors
 interface ErrorListProps {
   errors: AppError[];
-  onRetry?: (_error: AppError) => Promise<any>;
+  onRetry?: (_error: AppError) => Promise<unknown>;
   onDismiss?: (_error: AppError) => void;
   showDetails?: boolean;
   maxErrors?: number;

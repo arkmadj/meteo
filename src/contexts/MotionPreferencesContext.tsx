@@ -4,14 +4,8 @@
  * Integrates with UserPreferencesContext for comprehensive motion control
  */
 
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import type { ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const STORAGE_KEY = 'motion-preferences';
 

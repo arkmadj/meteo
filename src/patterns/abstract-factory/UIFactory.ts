@@ -53,7 +53,7 @@ export interface IUIFactory {
   /**
    * Get platform-specific theme configuration
    */
-  getTheme(): Record<string, any>;
+  getTheme(): Record<string, unknown>;
 
   /**
    * Get platform-specific accessibility features
@@ -70,7 +70,7 @@ export interface IUIFactory {
  */
 export abstract class BaseUIFactory implements IUIFactory {
   protected platform: Platform;
-  protected theme: Record<string, any>;
+  protected theme: Record<string, unknown>;
 
   constructor(platform: Platform) {
     this.platform = platform;
@@ -81,7 +81,7 @@ export abstract class BaseUIFactory implements IUIFactory {
     return this.platform;
   }
 
-  public getTheme(): Record<string, any> {
+  public getTheme(): Record<string, unknown> {
     return { ...this.theme };
   }
 
@@ -94,7 +94,7 @@ export abstract class BaseUIFactory implements IUIFactory {
    * Initialize platform-specific theme
    * Override in concrete factories for custom themes
    */
-  protected initializeTheme(): Record<string, any> {
+  protected initializeTheme(): Record<string, unknown> {
     return {
       primaryColor: '#007bff',
       secondaryColor: '#6c757d',

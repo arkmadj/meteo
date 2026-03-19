@@ -5,8 +5,9 @@
  * with comprehensive error handling and type safety.
  */
 
-import httpClient, { ApiError } from '../clients/httpClient';
-import {
+import type { ApiError } from '../clients/httpClient';
+import httpClient from '../clients/httpClient';
+import type {
   CurrentWeather,
   CurrentWeatherResponse,
   ForecastRequestParams,
@@ -14,15 +15,13 @@ import {
   HistoricalWeather,
   HistoricalWeatherParams,
   HistoricalWeatherResponse,
-  isApiError,
-  isCurrentWeather,
-  isWeatherForecast,
   LocationSearchParams,
   LocationSearchResponse,
   LocationSearchResult,
   WeatherForecast,
   WeatherRequestParams,
 } from '../types/weather';
+import { isApiError, isCurrentWeather, isWeatherForecast } from '../types/weather';
 
 /**
  * Weather API Service Class
@@ -210,7 +209,7 @@ export class WeatherService {
   }
 
   // Private utility methods
-  private static sanitizeParams(params: any): Record<string, unknown> {
+  private static sanitizeParams(params: unknown): Record<string, unknown> {
     const sanitized: Record<string, unknown> = {};
 
     Object.entries(params).forEach(([key, value]) => {
@@ -290,7 +289,7 @@ export class WeatherService {
    */
   static async checkHealth(): Promise<{ status: 'healthy' | 'unhealthy'; timestamp: string }> {
     try {
-      const response = await httpClient.get('/health', {
+      const _response = await httpClient.get('/health', {
         timeout: 5000,
       });
 
@@ -298,7 +297,7 @@ export class WeatherService {
         status: 'healthy',
         timestamp: new Date().toISOString(),
       };
-    } catch (error) {
+    } catch (_error) {
       return {
         status: 'unhealthy',
         timestamp: new Date().toISOString(),

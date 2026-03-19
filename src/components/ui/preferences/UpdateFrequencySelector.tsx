@@ -24,7 +24,7 @@ const UpdateFrequencySelector: React.FC<UpdateFrequencySelectorProps> = ({
   showDescription = true,
 }) => {
   const { t } = useTranslation('settings');
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const { preferences, getUpdateFrequencyInterval, updateUpdateFrequency } =
     useUserPreferencesContext();
 

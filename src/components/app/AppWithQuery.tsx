@@ -215,7 +215,7 @@ const App = React.memo(() => {
         severity: ErrorSeverity.MEDIUM,
         retryable: true,
         timestamp: Date.now(),
-      } as any);
+      } as unknown);
     }
   }, [searchQuery, refreshWeather, addError, t, temperatureUnit]);
 
@@ -323,17 +323,17 @@ const App = React.memo(() => {
   const memoizedError = useMemo(() => error, [error]);
 
   return (
-    <div className={`app ${(CSS_CLASSES as any).APP}`}>
-      <div className={(CSS_CLASSES as any).CONTAINER}>
+    <div className={`app ${(CSS_CLASSES as unknown).APP}`}>
+      <div className={(CSS_CLASSES as unknown).CONTAINER}>
         <header className={CSS_CLASSES.HEADER}>
-          <h1 className={(CSS_CLASSES as any).TITLE}>{t('common:title')}</h1>
-          <p className={(CSS_CLASSES as any).SUBTITLE}>{t('common:subtitle')}</p>
+          <h1 className={(CSS_CLASSES as unknown).TITLE}>{t('common:title')}</h1>
+          <p className={(CSS_CLASSES as unknown).SUBTITLE}>{t('common:subtitle')}</p>
         </header>
 
         <ErrorBoundary>
-          <main className={(CSS_CLASSES as any).MAIN}>
+          <main className={(CSS_CLASSES as unknown).MAIN}>
             {/* Search Section */}
-            <section className={(CSS_CLASSES as any).SEARCH_SECTION}>
+            <section className={(CSS_CLASSES as unknown).SEARCH_SECTION}>
               <SearchEngine
                 loading={isWeatherFetching}
                 query={query}
@@ -346,9 +346,9 @@ const App = React.memo(() => {
 
             {/* Error Display */}
             {(memoizedError || errors.length > 0) && (
-              <section className={(CSS_CLASSES as any).ERROR_SECTION}>
+              <section className={(CSS_CLASSES as unknown).ERROR_SECTION}>
                 <ErrorDisplay
-                  error={(errors?.[errors.length - 1] as any) || (memoizedError as any)}
+                  error={(errors?.[errors.length - 1] as unknown) || (memoizedError as unknown)}
                   onDismiss={() => setError(null)}
                   onRetry={handleRefresh}
                 />
@@ -356,7 +356,7 @@ const App = React.memo(() => {
             )}
 
             {/* Weather Content */}
-            <section className={(CSS_CLASSES as any).WEATHER_SECTION}>
+            <section className={(CSS_CLASSES as unknown).WEATHER_SECTION}>
               {memoizedLoading && !memoizedError && (
                 <LoadingWithSkeleton
                   message={t('common:loading')}
@@ -382,7 +382,7 @@ const App = React.memo(() => {
             </section>
 
             {/* Language Selector */}
-            <section className={(CSS_CLASSES as any).LANGUAGE_SECTION}>
+            <section className={(CSS_CLASSES as unknown).LANGUAGE_SECTION}>
               <LanguageSelector
                 changeLanguage={changeLanguage}
                 currentLanguage={currentLanguage}
@@ -392,7 +392,7 @@ const App = React.memo(() => {
           </main>
         </ErrorBoundary>
 
-        <footer className={(CSS_CLASSES as any).FOOTER}>
+        <footer className={(CSS_CLASSES as unknown).FOOTER}>
           <p>{t('common:footer')}</p>
         </footer>
       </div>

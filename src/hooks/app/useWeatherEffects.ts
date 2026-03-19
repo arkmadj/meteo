@@ -32,10 +32,10 @@ export interface WeatherEffectsHook {
 }
 
 type WeatherQuerySnapshot = {
-  data?: any;
+  data?: unknown;
   isLoading: boolean;
   isError: boolean;
-  error?: any;
+  error?: unknown;
   isFetching?: boolean;
   dataUpdatedAt?: number;
 };
@@ -70,7 +70,7 @@ export const useWeatherEffects = (
   const resumeRefreshRef = useRef(0);
   const isInitialLoadRef = useRef(true);
 
-  const { setWeather, setLoading, setError, setOffline, searchQuery, isCelsius, weather } =
+  const { setWeather, setLoading, setError, setOffline, searchQuery, isCelsius, _weather } =
     weatherState;
   const temperatureUnit = isCelsius ? 'celsius' : 'fahrenheit';
 

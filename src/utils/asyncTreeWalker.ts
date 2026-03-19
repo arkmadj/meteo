@@ -5,13 +5,13 @@
  * and support streaming results with cancellation support.
  */
 
-import { CancellationToken, type ICancellationToken } from './cancellationToken';
+import { type ICancellationToken } from './cancellationToken';
 
 /**
  * Basic tree node interface
  */
 export interface TreeNode {
-  [key: string]: any;
+  [key: string]: unknown;
   children?: TreeNode[];
 }
 
@@ -26,7 +26,7 @@ export interface TreeWalkerOptions {
   /** Filter function to include/exclude nodes */
   filter?: (node: TreeNode, depth: number, path: string[]) => boolean;
   /** Transform function applied to each node before yielding */
-  transform?: (node: TreeNode, depth: number, path: string[]) => any;
+  transform?: (node: TreeNode, depth: number, path: string[]) => unknown;
   /** Whether to yield nodes before processing children (pre-order) */
   preOrder?: boolean;
   /** Whether to yield nodes after processing children (post-order) */
@@ -40,7 +40,7 @@ export interface TreeWalkerOptions {
  */
 export interface TreeWalkResult {
   /** The current node */
-  node: any;
+  node: unknown;
   /** Depth of the node in the tree */
   depth: number;
   /** Path from root to current node */

@@ -17,7 +17,7 @@ import {
 
 interface PerformanceContextType {
   metrics: PerformanceMetrics[];
-  summary: Record<string, any>;
+  summary: Record<string, unknown>;
   isEnabled: boolean;
   logReport: () => void;
   clearMetrics: () => void;
@@ -33,7 +33,7 @@ interface PerformanceProviderProps {
 
 export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ children, config }) => {
   const [metrics, setMetrics] = useState<PerformanceMetrics[]>([]);
-  const [summary, setSummary] = useState<Record<string, any>>({});
+  const [summary, setSummary] = useState<Record<string, unknown>>({});
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {

@@ -291,7 +291,7 @@ export const useQueryPerformance = () => {
           queryKey,
           queryFn,
           staleTime: options.staleTime ?? 5 * 60 * 1000,
-          gcTime: (options as any).gcTime ?? 30 * 60 * 1000,
+          gcTime: (options as unknown).gcTime ?? 30 * 60 * 1000,
         });
       }
     }, [prefetchQuery, queryKey, queryFn, options.staleTime, options.cacheTime, options.prefetch]);

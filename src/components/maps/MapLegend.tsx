@@ -103,7 +103,7 @@ const MapLegend: React.FC<MapLegendProps> = ({
   const isCompact = compact || autoCompact;
 
   // Auto-collapse on mobile if not explicitly set
-  const shouldAutoCollapse = responsive.isMobile && initiallyCollapsed === false;
+  const _shouldAutoCollapse = responsive.isMobile && initiallyCollapsed === false;
 
   const isDark = theme.isDark;
   const bgColor = isDark ? 'bg-gray-800/95' : 'bg-white/95';
@@ -159,7 +159,7 @@ const MapLegend: React.FC<MapLegendProps> = ({
         const upperNorm = (upper.temp - min) / range;
 
         if (normalized >= lowerNorm && normalized <= upperNorm) {
-          const ratio = (normalized - lowerNorm) / (upperNorm - lowerNorm);
+          const _ratio = (normalized - lowerNorm) / (upperNorm - lowerNorm);
           // Simple color interpolation
           color = upper.color;
           break;

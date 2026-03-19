@@ -23,13 +23,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { TableColumn, TableRow } from './Table';
+import type { TableColumn, TableRow } from './Table';
 
 // ============================================================================
 // TYPES & INTERFACES
 // ============================================================================
 
-export interface VirtualizedTableProps<T = any> {
+export interface VirtualizedTableProps<T = unknown> {
   /** Table columns configuration */
   columns: TableColumn<T>[];
   /** Table rows data */
@@ -102,7 +102,7 @@ export interface VirtualizedTableRef {
 // ============================================================================
 
 export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTableProps>(
-  <T extends any>(
+  <T extends unknown>(
     {
       columns,
       rows,
@@ -119,7 +119,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
       selectable = false,
       selectedRows = [],
       onSelectRow,
-      onSelectAll,
+      _onSelectAll,
       onRowClick,
       expandable = false,
       expandedRows = [],
@@ -218,7 +218,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent, rowIndex: number) => {
-        const { key, ctrlKey, metaKey, shiftKey } = event;
+        const { key, ctrlKey, metaKey, _shiftKey } = event;
 
         switch (key) {
           case 'ArrowUp':
@@ -256,7 +256,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
             break;
 
           case 'Enter':
-          case ' ':
+          case ' ': {
             event.preventDefault();
             const row = rows[rowIndex];
             if (row) {
@@ -271,6 +271,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
               onRowClick?.(row, rowIndex);
             }
             break;
+          }
         }
       },
       [

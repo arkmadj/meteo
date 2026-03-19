@@ -66,7 +66,7 @@ export interface ErrorContextType {
   removeError: (errorId: string) => void;
   clearErrors: () => void;
   dismissError: (errorId: string) => void;
-  handleError: (error: any, context?: Record<string, any>) => AppError;
+  handleError: (error: unknown, context?: Record<string, unknown>) => AppError;
 }
 
 // Create error context
@@ -81,7 +81,7 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
   const [errorState, dispatch] = useReducer(errorReducer, initialErrorState);
 
   // Create error handler
-  const handleError = (error: any, context?: Record<string, any>): AppError => {
+  const handleError = (error: unknown, context?: Record<string, unknown>): AppError => {
     const handler = createErrorHandler();
     const appError = handler(error, context);
     dispatch({ type: 'ADD_ERROR', payload: appError });

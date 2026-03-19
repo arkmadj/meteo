@@ -4,11 +4,8 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  adaptiveWeatherUpdatesService,
-  UpdateMethod,
-  UpdateFrequency,
-} from '@/services/adaptiveWeatherUpdatesService';
+import type { UpdateMethod, UpdateFrequency } from '@/services/adaptiveWeatherUpdatesService';
+import { adaptiveWeatherUpdatesService } from '@/services/adaptiveWeatherUpdatesService';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
 
 interface WeatherUpdateData {
@@ -68,7 +65,7 @@ export function useAdaptiveWeatherUpdates({
     'excellent' | 'good' | 'fair' | 'poor'
   >('good');
 
-  const { preferences } = useUserPreferencesContext();
+  const { _preferences } = useUserPreferencesContext();
   const locationRef = useRef(location);
   const enabledRef = useRef(enabled);
 

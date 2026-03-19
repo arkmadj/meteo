@@ -14,7 +14,8 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
-import { AccessibleDropdown, DropdownOption } from './AccessibleDropdown';
+import type { DropdownOption } from './AccessibleDropdown';
+import { AccessibleDropdown } from './AccessibleDropdown';
 
 // ============================================================================
 // CORE TYPES
@@ -242,17 +243,17 @@ export function TypeSafeSelect<T, K extends keyof T, V = T[K]>({
   const helpId = helpText ? `${fieldId}-help` : undefined;
 
   const handleChange = useCallback(
-    (newValue: V | V[], selectedOption: DropdownOption<V> | DropdownOption<V>[]) => {
+    (newValue: V | V[], _selectedOption: DropdownOption<V> | DropdownOption<V>[]) => {
       onChange(name, newValue as T[K]);
     },
     [name, onChange]
   );
 
-  const handleBlur = useCallback(() => {
+  const _handleBlur = useCallback(() => {
     onBlur?.(name);
   }, [name, onBlur]);
 
-  const handleFocus = useCallback(() => {
+  const _handleFocus = useCallback(() => {
     onFocus?.(name);
   }, [name, onFocus]);
 
@@ -472,7 +473,7 @@ export interface UseFormReturn<T> {
   };
 }
 
-export function useForm<T extends Record<string, any>>({
+export function useForm<T extends Record<string, unknown>>({
   initialValues,
   validationRules = {},
   onSubmit,

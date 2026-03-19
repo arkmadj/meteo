@@ -4,7 +4,8 @@
  * Features polished entry animations that respect user motion preferences
  */
 
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@/design-system/theme';

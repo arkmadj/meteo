@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/design-system/theme';
-import { COLORS } from '@/design-system/tokens';
 
 export interface FontSizeSelectorProps {
   /** Current font size */
@@ -62,7 +61,7 @@ const FONT_SIZE_METADATA: Record<
 };
 
 // Component variant styles
-const getVariantStyles = (theme: any) => ({
+const getVariantStyles = (_theme: unknown) => ({
   default: {
     container: 'bg-[var(--theme-surface)] border border-[var(--theme-border)] p-1 shadow-sm',
     button: 'px-3 py-2 text-sm font-medium rounded-md transition-all duration-200',

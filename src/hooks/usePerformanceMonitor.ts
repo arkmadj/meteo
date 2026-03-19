@@ -284,7 +284,7 @@ export function usePerformanceSettings(qualityTier: PerformanceTier) {
  * Hook to throttle updates based on performance
  */
 export function usePerformanceThrottle(
-  callback: (...args: any[]) => void,
+  callback: (...args: unknown[]) => void,
   qualityTier: PerformanceTier
 ) {
   const throttleMs = qualityTier === 'high' ? 100 : qualityTier === 'medium' ? 200 : 300;
@@ -292,7 +292,7 @@ export function usePerformanceThrottle(
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return useCallback(
-    (...args: any[]) => {
+    (...args: unknown[]) => {
       const now = Date.now();
       const timeSinceLastCall = now - lastCallRef.current;
 

@@ -1,6 +1,7 @@
 import { Loading } from '@/components/ui';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
-import React, { ComponentType, forwardRef, Suspense, useMemo } from 'react';
+import type { ComponentType } from 'react';
+import React, { forwardRef, Suspense, useMemo } from 'react';
 
 /**
  * Chunk-optimized lazy loading utilities
@@ -159,7 +160,7 @@ export const CHUNK_CONFIGS: Record<string, ChunkConfig> = {
 /**
  * Enhanced lazy component factory with chunk optimization
  */
-export function createChunkOptimizedLazyComponent<T extends ComponentType<any>>(
+export function createChunkOptimizedLazyComponent<T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   chunkSection: keyof typeof CHUNK_CONFIGS,
   componentName?: string
@@ -178,11 +179,11 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<any>>(
 
   const LazyComponent = React.lazy(importFn);
 
-  const ChunkOptimizedWrapper = forwardRef<any, any>((props, ref) => {
+  const ChunkOptimizedWrapper = forwardRef<unknown, unknown>((props, ref) => {
     const { preferences, getLoadingStrategy } = useUserPreferencesContext();
 
     // Adapt loading strategy based on user preferences
-    const adaptedStrategy = useMemo(() => {
+    const _adaptedStrategy = useMemo(() => {
       const userStrategy = getLoadingStrategy();
 
       // Override strategy based on user preferences
@@ -227,8 +228,8 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<any>>(
   ChunkOptimizedWrapper.displayName = `ChunkOptimized(${componentName || 'Component'})`;
 
   // Add chunk metadata for debugging
-  (ChunkOptimizedWrapper as any).__chunkConfig = config;
-  (ChunkOptimizedWrapper as any).__chunkSection = chunkSection;
+  (ChunkOptimizedWrapper as unknown).__chunkConfig = config;
+  (ChunkOptimizedWrapper as unknown).__chunkSection = chunkSection;
 
   return ChunkOptimizedWrapper;
 }
@@ -236,13 +237,13 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<any>>(
 /**
  * Basic lazy component factory (fallback)
  */
-function createBasicLazyComponent<T extends ComponentType<any>>(
+function createBasicLazyComponent<T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   componentName?: string
 ) {
   const LazyComponent = React.lazy(importFn);
 
-  const BasicWrapper = forwardRef<any, any>((props, ref) => (
+  const BasicWrapper = forwardRef<unknown, unknown>((props, ref) => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
       <LazyComponent {...props} ref={ref} />
     </Suspense>
@@ -255,7 +256,7 @@ function createBasicLazyComponent<T extends ComponentType<any>>(
 /**
  * Preload chunks based on strategy and user preferences
  */
-export function preloadChunks(sections: (keyof typeof CHUNK_CONFIGS)[]) {
+export function usePreloadChunks(sections: (keyof typeof CHUNK_CONFIGS)[]) {
   const { preferences } = useUserPreferencesContext();
 
   sections.forEach(section => {
@@ -356,7 +357,7 @@ export function useChunkOptimizedLoading() {
 
 export default {
   createChunkOptimizedLazyComponent,
-  preloadChunks,
+  usePreloadChunks,
   getChunkMetrics,
   useChunkOptimizedLoading,
   CHUNK_CONFIGS,

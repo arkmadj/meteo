@@ -24,7 +24,7 @@ const Widget: React.FC<WidgetProps> = ({
   children,
   className = '',
 }) => {
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
   return (

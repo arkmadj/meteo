@@ -26,7 +26,7 @@ export type TableDensity = 'compact' | 'normal' | 'comfortable';
 /**
  * Column definition for table headers
  */
-export interface TableColumn<T = any> {
+export interface TableColumn<T = unknown> {
   /** Unique identifier for the column (also used as header cell id) */
   id: string;
   /** Column header label */
@@ -44,7 +44,7 @@ export interface TableColumn<T = any> {
   /** Whether this column is sortable */
   sortable?: boolean;
   /** Custom cell renderer */
-  render?: (value: any, row: T, index: number) => React.ReactNode;
+  render?: (value: unknown, row: T, index: number) => React.ReactNode;
   /** Scope attribute for header cells */
   scope?: 'col' | 'colgroup';
   /** ARIA label for the column */
@@ -66,7 +66,7 @@ export interface TableColumn<T = any> {
 /**
  * Row definition for table data
  */
-export interface TableRow<T = any> {
+export interface TableRow<T = unknown> {
   /** Unique identifier for the row */
   id: string | number;
   /** Row data */
@@ -91,7 +91,7 @@ export interface TableRow<T = any> {
 // TABLE COMPONENT
 // ============================================================================
 
-export interface TableProps<T = any> extends Omit<BaseComponentProps, 'variant'> {
+export interface TableProps<T = unknown> extends Omit<BaseComponentProps, 'variant'> {
   /** Table columns configuration */
   columns: TableColumn<T>[];
   /** Table rows data */
@@ -286,9 +286,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
     // Enhanced focus management provides visual indicators and better UX
     const getTabIndex = useCallback(
       (
-        elementType: 'header' | 'expansion' | 'selection' | 'row',
-        rowIndex?: number,
-        columnIndex?: number
+        _elementType: 'header' | 'expansion' | 'selection' | 'row',
+        _rowIndex?: number,
+        _columnIndex?: number
       ): number => {
         // Always return 0 to maintain natural tab order and accessibility compliance
         // The enhanced focus management provides better visual indicators and UX
@@ -410,7 +410,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
     // EXPANSION HANDLERS
     // ========================================================================
 
-    const handleExpandAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const _handleExpandAll = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (onExpandAll) {
         onExpandAll(e.target.checked);
       }
@@ -576,7 +576,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
     const expandableRows = rows.filter(row => row.expandable);
     const allRowsExpanded =
       expandableRows.length > 0 && expandedRows.length === expandableRows.length;
-    const someRowsExpanded = expandedRows.length > 0 && expandedRows.length < expandableRows.length;
+    const _someRowsExpanded =
+      expandedRows.length > 0 && expandedRows.length < expandableRows.length;
 
     const getExpansionIcon = (expanded: boolean, disabled: boolean) => {
       if (renderExpansionIcon) {

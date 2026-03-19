@@ -24,7 +24,7 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
   canRemove,
 }) => {
   const { t } = useTranslation(['weather', 'common']);
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [query, setQuery] = useState('');

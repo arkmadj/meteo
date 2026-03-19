@@ -17,10 +17,8 @@ import type {
   RefreshResult,
 } from '@/types/weatherAlertMonitoring';
 
-import {
-  weatherAlertMonitoringService,
-  WeatherAlertMonitoringService,
-} from '@/services/weatherAlertMonitoringService';
+import type { WeatherAlertMonitoringService } from '@/services/weatherAlertMonitoringService';
+import { weatherAlertMonitoringService } from '@/services/weatherAlertMonitoringService';
 import { weatherAlertService } from '@/services/weatherAlertService';
 
 /**

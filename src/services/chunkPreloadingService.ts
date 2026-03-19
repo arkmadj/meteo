@@ -36,7 +36,7 @@ class ChunkPreloadingService {
   private preloadQueue: string[] = [];
   private activePreloads = new Set<string>();
   private userBehavior: UserBehaviorData;
-  private connectionInfo: any;
+  private connectionInfo: unknown;
 
   constructor(config: Partial<PreloadingConfig> = {}) {
     this.config = {
@@ -87,7 +87,7 @@ class ChunkPreloadingService {
       return { effectiveType: '4g', saveData: false };
     }
 
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
     return {
       effectiveType: connection?.effectiveType || '4g',
       saveData: connection?.saveData || false,
@@ -123,7 +123,7 @@ class ChunkPreloadingService {
    */
   private setupConnectionMonitoring() {
     if ('connection' in navigator) {
-      (navigator as any).connection?.addEventListener('change', () => {
+      (navigator as unknown).connection?.addEventListener('change', () => {
         this.connectionInfo = this.getConnectionInfo();
         this.adjustPreloadingStrategy();
       });
@@ -332,7 +332,7 @@ class ChunkPreloadingService {
       await new Promise(resolve => setTimeout(resolve, this.config.preloadDelay));
 
       // Attempt to preload the chunk
-      const module = await this.importChunk(chunkName);
+      const _module = await this.importChunk(chunkName);
 
       metric.preloadEndTime = performance.now();
       metric.success = true;
@@ -360,7 +360,7 @@ class ChunkPreloadingService {
    */
   private async importChunk(chunkName: string) {
     // Map chunk names to actual import paths
-    const chunkImportMap: Record<string, () => Promise<any>> = {
+    const chunkImportMap: Record<string, () => Promise<unknown>> = {
       'weather-components': () => import('@/components/weather/CurrentWeatherDetails'),
       'dashboard-components': () => import('@/components/dashboard/CustomizableDashboard'),
       'accessibility-components': () => import('@/components/utilities/AriaLiveDebugPanel'),

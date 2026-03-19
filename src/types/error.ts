@@ -45,8 +45,8 @@ export interface AppError {
   userMessage: string;
   timestamp: number;
   retryable: boolean;
-  context?: Record<string, any>;
-  originalError?: any;
+  context?: Record<string, unknown>;
+  originalError?: unknown;
 }
 
 // Error state interface
@@ -64,13 +64,13 @@ export type ErrorAction =
   | { type: 'DISMISS_ERROR'; payload: string };
 
 // Error handler function type
-export type ErrorHandler = (error: any, context?: Record<string, any>) => AppError;
+export type ErrorHandler = (error: unknown, context?: Record<string, unknown>) => AppError;
 
 // Error logger function type
 export type ErrorLogger = (error: AppError) => void;
 
 // Retry function type
-export type RetryFunction = () => Promise<any>;
+export type RetryFunction = () => Promise<unknown>;
 
 // Error boundary state
 export interface ErrorBoundaryState {

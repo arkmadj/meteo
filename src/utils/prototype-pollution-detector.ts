@@ -10,7 +10,7 @@ const detectorLogger = getLogger('Security:PrototypePollutionDetector');
 interface PrototypePollutionOptions {
   enableLogging?: boolean;
   throwOnDetection?: boolean;
-  monitoredPrototypes?: any[];
+  monitoredPrototypes?: unknown[];
   alertCallback?: (details: PollutionAlert) => void;
 }
 
@@ -18,14 +18,14 @@ interface PollutionAlert {
   type: 'pollution_detected' | 'pollution_attempt';
   prototype: string;
   property: string;
-  value: any;
+  value: unknown;
   stack: string;
   timestamp: number;
 }
 
 class PrototypePollutionDetector {
   private options: PrototypePollutionOptions;
-  private originalDescriptors: Map<any, Map<string, PropertyDescriptor>> = new Map();
+  private originalDescriptors: Map<unknown, Map<string, PropertyDescriptor>> = new Map();
   private monitoredKeys = ['__proto__', 'constructor', 'prototype'];
 
   constructor(options: PrototypePollutionOptions = {}) {
@@ -49,7 +49,7 @@ class PrototypePollutionDetector {
     });
   }
 
-  private protectProperty(obj: any, property: string): void {
+  private protectProperty(obj: unknown, property: string): void {
     const originalDescriptor = Object.getOwnPropertyDescriptor(obj, property);
 
     if (!this.originalDescriptors.has(obj)) {
@@ -62,7 +62,7 @@ class PrototypePollutionDetector {
 
     Object.defineProperty(obj, property, {
       get: originalDescriptor?.get || (() => originalDescriptor?.value),
-      set: (value: any) => {
+      set: (value: unknown) => {
         const alert: PollutionAlert = {
           type: 'pollution_attempt',
           prototype: obj.constructor.name,
@@ -139,7 +139,7 @@ class PrototypePollutionDetector {
     return alerts;
   }
 
-  private isExpectedProperty(proto: any, property: string): boolean {
+  private isExpectedProperty(proto: unknown, property: string): boolean {
     // Define expected properties for common prototypes
     const expectedProperties: Record<string, string[]> = {
       Object: [
@@ -249,7 +249,7 @@ export class SafeObjectUtils {
   /**
    * Safe object merge that prevents prototype pollution
    */
-  static safeMerge(target: any, source: any, maxDepth = 10): any {
+  static safeMerge(target: unknown, source: unknown, maxDepth = 10): unknown {
     if (maxDepth <= 0) {
       throw new PrototypePollutionError('Maximum merge depth exceeded', {
         details: { maxDepth },
@@ -292,7 +292,7 @@ export class SafeObjectUtils {
   /**
    * Safe Object.assign alternative
    */
-  static safeAssign(target: any, ...sources: any[]): any {
+  static safeAssign(target: unknown, ...sources: unknown[]): unknown {
     if (!target || typeof target !== 'object') {
       throw new PrototypePollutionError('Target must be an object', {
         details: { target },
@@ -317,7 +317,7 @@ export class SafeObjectUtils {
   /**
    * Safe property setter with path validation
    */
-  static safeSet(obj: any, path: string, value: any): void {
+  static safeSet(obj: unknown, path: string, value: unknown): void {
     if (!obj || typeof obj !== 'object') {
       throw new PrototypePollutionError('Target must be an object', {
         details: { path },
@@ -332,7 +332,7 @@ export class SafeObjectUtils {
       });
     }
 
-    let current: Record<string, any> = obj;
+    let current: Record<string, unknown> = obj;
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
       const currentValue = current[key];
@@ -353,20 +353,20 @@ export class SafeObjectUtils {
   /**
    * Create object with null prototype to prevent pollution
    */
-  static createSafeObject(): any {
+  static createSafeObject(): unknown {
     return Object.create(null);
   }
 
   /**
    * Validate object doesn't contain prototype pollution
    */
-  static validateObject(obj: any): boolean {
+  static validateObject(obj: unknown): boolean {
     if (!obj || typeof obj !== 'object') {
       return true;
     }
 
     // Check for dangerous keys at any level
-    const checkRecursive = (current: any, depth = 0): boolean => {
+    const checkRecursive = (current: unknown, depth = 0): boolean => {
       if (depth > 10) return true; // Prevent infinite recursion
 
       for (const key in current) {

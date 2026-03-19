@@ -130,7 +130,7 @@ export const useErrorDisplay = (): UseErrorDisplayReturn => {
  * <button onClick={execute}>Load Weather</button>
  * ```
  */
-export const useAsyncWithErrorDisplay = <T = any>(
+export const useAsyncWithErrorDisplay = <T = unknown>(
   asyncFn: () => Promise<T>,
   options: {
     onSuccess?: (data: T) => void;

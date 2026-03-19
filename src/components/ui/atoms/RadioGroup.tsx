@@ -5,7 +5,6 @@
 
 import React, { useState, useCallback } from 'react';
 
-import { COLORS } from '../../../design-system/tokens';
 import { useTheme } from '../../../design-system/theme';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
 import { useComponentState } from '../base/BaseComponent';
@@ -82,7 +81,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme();
+    const { _theme } = useTheme();
     const { isDisabled } = useComponentState({
       disabled,
       testId,

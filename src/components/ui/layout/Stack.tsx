@@ -187,11 +187,11 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
 
       // Clone child with additional classes and styles
       if (childClasses.length > 0) {
-        const existingClassName = (child.props as any).className || '';
+        const existingClassName = (child.props as unknown).className || '';
         return React.cloneElement(child, {
           ...child.props,
           className: `${existingClassName} ${childClasses.join(' ')}`.trim(),
-          style: { ...childStyles, ...(child.props as any).style },
+          style: { ...childStyles, ...(child.props as unknown).style },
         });
       }
 
@@ -202,15 +202,15 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     let finalChildren = processedChildren;
     if (dividers && React.Children.count(children) > 1) {
       const childrenArray = React.Children.toArray(processedChildren);
-      finalChildren = childrenArray.reduce((acc: any[], child, index) => {
-        acc.push(child as any);
+      finalChildren = childrenArray.reduce((acc: unknown[], child, index) => {
+        acc.push(child as unknown);
 
         // Add divider between items (not after the last one)
         if (index < childrenArray.length - 1) {
           const { key: spacingKey } = resolveSpacing(spacing);
           const divider = (
             <div
-              key={`divider-${String((child as any)?.key ?? index)}-${String((childrenArray?.[index + 1] as any)?.key ?? index + 1)}`}
+              key={`divider-${String((child as unknown)?.key ?? index)}-${String((childrenArray?.[index + 1] as unknown)?.key ?? index + 1)}`}
               className={`flex-shrink-0 border-t ${dividerColor}`}
               style={{
                 height: direction === 'column' || direction === 'column-reverse' ? '1px' : 'auto',
@@ -249,9 +249,9 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       }, []);
     }
 
-    const Comp = Component as any;
+    const Comp = Component as unknown;
     return (
-      <Comp ref={ref as any} className={classes.join(' ')} {...(props as any)}>
+      <Comp ref={ref as unknown} className={classes.join(' ')} {...(props as unknown)}>
         {finalChildren}
       </Comp>
     );

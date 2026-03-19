@@ -7,13 +7,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useKeyboardShortcutsContext } from '@/contexts/KeyboardShortcutsContext';
-import {
-  formatKeyCombination,
+import type {
   KeyboardShortcut,
   KeyboardShortcutAction,
   KeyCombination,
   ModifierKey,
 } from '@/types/keyboardShortcuts';
+import { formatKeyCombination } from '@/types/keyboardShortcuts';
 
 import { Button, Switch } from '@/components/ui/atoms';
 

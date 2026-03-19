@@ -5,7 +5,7 @@
  * to perform various operations on the file system tree.
  */
 
-import { Directory, File, FileSystemVisitor } from './FileSystemComponent';
+import type { Directory, File, FileSystemVisitor } from './FileSystemComponent';
 
 /**
  * Size Calculator Visitor

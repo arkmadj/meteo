@@ -55,7 +55,7 @@ const parseStoredFavorites = (raw: string | null): FavoriteLocation[] => {
     return unique;
   } catch (error) {
     // Malformed JSON should not break the app; ignore and reset favorites
-    // eslint-disable-next-line no-console
+
     console.warn('Failed to parse favorite locations from storage:', error);
     return [];
   }
@@ -73,7 +73,6 @@ const loadFavoritesFromStorage = (): FavoriteLocation[] => {
     const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
     return parseStoredFavorites(raw);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.warn('Failed to load favorite locations from storage:', error);
     return [];
   }
@@ -90,7 +89,6 @@ const saveFavoritesToStorage = (favorites: FavoriteLocation[]): void => {
   try {
     window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.warn('Failed to save favorite locations to storage:', error);
   }
 };
@@ -111,7 +109,6 @@ const emitFavoritesUpdatedEvent = (favorites: FavoriteLocation[]): void => {
     });
     window.dispatchEvent(event);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.warn('Failed to dispatch favorites update event:', error);
   }
 };

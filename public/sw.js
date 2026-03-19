@@ -8,7 +8,7 @@ const SW_VERSION = '1.0.0';
 const CACHE_NAME = `weather-app-v${SW_VERSION}`;
 
 // Install event - set up caches
-self.addEventListener('install', event => {
+self.addEventListener('install', _event => {
   console.log('[SW] Installing Service Worker version:', SW_VERSION);
   // Skip waiting to activate immediately
   self.skipWaiting();

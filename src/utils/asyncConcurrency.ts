@@ -44,7 +44,7 @@ export class Semaphore {
 }
 
 // PATTERN 2: QUEUE-BASED CONCURRENCY CONTROL (similar to RequestQueue in codebase)
-export class TaskQueue<T = any> {
+export class TaskQueue<T = unknown> {
   private queue: Array<() => Promise<T>> = [];
   private activeTasks = 0;
   private maxConcurrent: number;
@@ -317,7 +317,7 @@ interface PriorityTask<T> {
 }
 
 export class PriorityTaskQueue {
-  private queue: PriorityTask<any>[] = [];
+  private queue: PriorityTask<unknown>[] = [];
   private activeTasks = 0;
   private maxConcurrent: number;
 

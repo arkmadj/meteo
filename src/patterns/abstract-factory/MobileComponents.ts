@@ -43,7 +43,7 @@ export class MobileButton implements IButton {
     return 'mobile-button';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       disabled: this.disabled,
       'data-variant': this.variant,
@@ -132,7 +132,7 @@ export class MobileInput implements IInput {
     return 'mobile-input';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: this.type,
       placeholder: this.placeholder,
@@ -218,7 +218,7 @@ export class MobileCheckbox implements ICheckbox {
     return 'mobile-checkbox';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       disabled: this.disabled,
       'data-checked': this.checked,

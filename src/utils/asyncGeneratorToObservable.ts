@@ -265,12 +265,14 @@ export function fromAsyncGeneratorWithBackpressure<T>(
 /**
  * Extract the yielded type from an async generator
  */
-export type AsyncGeneratorYield<T> = T extends AsyncGenerator<infer Y, any, any> ? Y : never;
+export type AsyncGeneratorYield<T> =
+  T extends AsyncGenerator<infer Y, unknown, unknown> ? Y : never;
 
 /**
  * Extract the return type from an async generator
  */
-export type AsyncGeneratorReturn<T> = T extends AsyncGenerator<any, infer R, any> ? R : never;
+export type AsyncGeneratorReturn<T> =
+  T extends AsyncGenerator<unknown, infer R, unknown> ? R : never;
 
 // ============================================================================
 // EXAMPLE USAGE

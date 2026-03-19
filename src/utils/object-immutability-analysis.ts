@@ -28,9 +28,9 @@ export class ObjectImmutabilityAnalyzer {
     // Test property addition
     let canAddProperties = false;
     try {
-      (obj as any).newProp = 'new';
-      canAddProperties = (obj as any).newProp === 'new';
-    } catch (e) {
+      (obj as unknown).newProp = 'new';
+      canAddProperties = (obj as unknown).newProp === 'new';
+    } catch (_e) {
       notes.push('Property addition throws in strict mode');
     }
 
@@ -39,25 +39,25 @@ export class ObjectImmutabilityAnalyzer {
     try {
       obj.existing = 'modified';
       canModifyProperties = obj.existing === 'modified';
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property modification throws in strict mode');
     }
 
     // Test property deletion
     let canDeleteProperties = false;
     try {
-      delete (obj as any).existing;
+      delete (obj as unknown).existing;
       canDeleteProperties = !obj.hasOwnProperty('existing');
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property deletion throws in strict mode');
     }
 
     // Test prototype modification
     let canModifyPrototype = false;
     try {
-      (obj as any).__proto__ = { polluted: true };
-      canModifyPrototype = (obj as any).polluted === true;
-    } catch (e) {
+      (obj as unknown).__proto__ = { polluted: true };
+      canModifyPrototype = (obj as unknown).polluted === true;
+    } catch (_e) {
       notes.push('Direct __proto__ assignment may throw');
     }
 
@@ -65,9 +65,9 @@ export class ObjectImmutabilityAnalyzer {
     let canPolluteThroughPrototype = false;
     try {
       (Object.prototype as Record<string, unknown>).testPollution = 'freeze-test';
-      canPolluteThroughPrototype = (obj as any).testPollution === 'freeze-test';
-      delete (Object.prototype as any).testPollution; // Cleanup
-    } catch (e) {
+      canPolluteThroughPrototype = (obj as unknown).testPollution === 'freeze-test';
+      delete (Object.prototype as unknown).testPollution; // Cleanup
+    } catch (_e) {
       notes.push('Prototype pollution test failed');
     }
 
@@ -95,9 +95,9 @@ export class ObjectImmutabilityAnalyzer {
     // Test property addition
     let canAddProperties = false;
     try {
-      (obj as any).newProp = 'new';
-      canAddProperties = (obj as any).newProp === 'new';
-    } catch (e) {
+      (obj as unknown).newProp = 'new';
+      canAddProperties = (obj as unknown).newProp === 'new';
+    } catch (_e) {
       notes.push('Property addition throws in strict mode');
     }
 
@@ -106,25 +106,25 @@ export class ObjectImmutabilityAnalyzer {
     try {
       obj.existing = 'modified';
       canModifyProperties = obj.existing === 'modified';
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property modification unexpectedly threw');
     }
 
     // Test property deletion
     let canDeleteProperties = false;
     try {
-      delete (obj as any).existing;
+      delete (obj as unknown).existing;
       canDeleteProperties = !obj.hasOwnProperty('existing');
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property deletion throws in strict mode');
     }
 
     // Test prototype modification
     let canModifyPrototype = false;
     try {
-      (obj as any).__proto__ = { polluted: true };
-      canModifyPrototype = (obj as any).polluted === true;
-    } catch (e) {
+      (obj as unknown).__proto__ = { polluted: true };
+      canModifyPrototype = (obj as unknown).polluted === true;
+    } catch (_e) {
       notes.push('Direct __proto__ assignment may throw');
     }
 
@@ -132,9 +132,9 @@ export class ObjectImmutabilityAnalyzer {
     let canPolluteThroughPrototype = false;
     try {
       (Object.prototype as Record<string, unknown>).testPollution = 'seal-test';
-      canPolluteThroughPrototype = (obj as any).testPollution === 'seal-test';
-      delete (Object.prototype as any).testPollution; // Cleanup
-    } catch (e) {
+      canPolluteThroughPrototype = (obj as unknown).testPollution === 'seal-test';
+      delete (Object.prototype as unknown).testPollution; // Cleanup
+    } catch (_e) {
       notes.push('Prototype pollution test failed');
     }
 
@@ -162,9 +162,9 @@ export class ObjectImmutabilityAnalyzer {
     // Test property addition
     let canAddProperties = false;
     try {
-      (obj as any).newProp = 'new';
-      canAddProperties = (obj as any).newProp === 'new';
-    } catch (e) {
+      (obj as unknown).newProp = 'new';
+      canAddProperties = (obj as unknown).newProp === 'new';
+    } catch (_e) {
       notes.push('Property addition throws in strict mode');
     }
 
@@ -173,25 +173,25 @@ export class ObjectImmutabilityAnalyzer {
     try {
       obj.existing = 'modified';
       canModifyProperties = obj.existing === 'modified';
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property modification unexpectedly threw');
     }
 
     // Test property deletion (should work)
     let canDeleteProperties = false;
     try {
-      delete (obj as any).existing;
+      delete (obj as unknown).existing;
       canDeleteProperties = !obj.hasOwnProperty('existing');
-    } catch (e) {
+    } catch (_e) {
       notes.push('Property deletion unexpectedly threw');
     }
 
     // Test prototype modification
     let canModifyPrototype = false;
     try {
-      (obj as any).__proto__ = { polluted: true };
-      canModifyPrototype = (obj as any).polluted === true;
-    } catch (e) {
+      (obj as unknown).__proto__ = { polluted: true };
+      canModifyPrototype = (obj as unknown).polluted === true;
+    } catch (_e) {
       notes.push('Direct __proto__ assignment may throw');
     }
 
@@ -199,9 +199,9 @@ export class ObjectImmutabilityAnalyzer {
     let canPolluteThroughPrototype = false;
     try {
       (Object.prototype as Record<string, unknown>).testPollution = 'preventExt-test';
-      canPolluteThroughPrototype = (obj as any).testPollution === 'preventExt-test';
-      delete (Object.prototype as any).testPollution; // Cleanup
-    } catch (e) {
+      canPolluteThroughPrototype = (obj as unknown).testPollution === 'preventExt-test';
+      delete (Object.prototype as unknown).testPollution; // Cleanup
+    } catch (_e) {
       notes.push('Prototype pollution test failed');
     }
 
@@ -232,7 +232,7 @@ export class ObjectImmutabilityAnalyzer {
     };
 
     // Deep freeze implementation
-    function deepFreeze(obj: any): any {
+    function deepFreeze(obj: unknown): unknown {
       Object.getOwnPropertyNames(obj).forEach(prop => {
         if (obj?.[prop] !== null && typeof obj?.[prop] === 'object') {
           deepFreeze(obj?.[prop]);
@@ -248,7 +248,7 @@ export class ObjectImmutabilityAnalyzer {
     try {
       obj.level1.level2.value = 'modified';
       canModifyNested = obj.level1.level2.value === 'modified';
-    } catch (e) {
+    } catch (_e) {
       notes.push('Nested modification throws in strict mode');
     }
 
@@ -256,9 +256,9 @@ export class ObjectImmutabilityAnalyzer {
     let canPolluteThroughPrototype = false;
     try {
       (Object.prototype as Record<string, unknown>).testPollution = 'deep-freeze-test';
-      canPolluteThroughPrototype = (obj as any).testPollution === 'deep-freeze-test';
-      delete (Object.prototype as any).testPollution; // Cleanup
-    } catch (e) {
+      canPolluteThroughPrototype = (obj as unknown).testPollution === 'deep-freeze-test';
+      delete (Object.prototype as unknown).testPollution; // Cleanup
+    } catch (_e) {
       notes.push('Prototype pollution test failed');
     }
 
@@ -281,7 +281,7 @@ export class ObjectImmutabilityAnalyzer {
     const notes: string[] = [];
 
     // Freeze the prototypes themselves
-    const originalObjectProto = Object.getOwnPropertyDescriptors(Object.prototype);
+    const _originalObjectProto = Object.getOwnPropertyDescriptors(Object.prototype);
     Object.freeze(Object.prototype);
 
     let canPolluteThroughPrototype = false;
@@ -289,15 +289,15 @@ export class ObjectImmutabilityAnalyzer {
 
     try {
       // Try to add property to Object.prototype
-      (Object.prototype as any).polluted = 'test';
-      canPolluteThroughPrototype = ({} as any).polluted === 'test';
+      (Object.prototype as unknown).polluted = 'test';
+      canPolluteThroughPrototype = ({} as unknown).polluted === 'test';
 
       if (canPolluteThroughPrototype) {
         notes.push('Object.prototype pollution succeeded despite freeze');
       } else {
         notes.push('Object.prototype pollution blocked by freeze');
       }
-    } catch (e) {
+    } catch (_e) {
       notes.push('Object.prototype modification threw error');
     }
 
@@ -306,12 +306,12 @@ export class ObjectImmutabilityAnalyzer {
       const originalToString = Object.prototype.toString;
       (Object.prototype as Record<string, unknown>).toString = () => 'hacked';
       canModifyPrototype = Object.prototype.toString !== originalToString;
-    } catch (e) {
+    } catch (_e) {
       notes.push('Prototype method modification threw error');
     }
 
     // Cleanup
-    delete (Object.prototype as any).polluted;
+    delete (Object.prototype as unknown).polluted;
 
     return {
       method: 'Object.freeze(Object.prototype)',
@@ -361,7 +361,7 @@ export class EffectivePrototypeProtection {
   /**
    * Create truly safe object without prototype
    */
-  static createSafeObject(properties?: Record<string, any>): any {
+  static createSafeObject(properties?: Record<string, unknown>): unknown {
     const obj = Object.create(null);
     if (properties) {
       Object.assign(obj, properties);
@@ -372,7 +372,7 @@ export class EffectivePrototypeProtection {
   /**
    * Safe object creation with controlled prototype
    */
-  static createControlledObject(prototype: any = null): any {
+  static createControlledObject(prototype: unknown = null): unknown {
     return Object.create(prototype);
   }
 
@@ -391,7 +391,7 @@ export class EffectivePrototypeProtection {
   /**
    * Check if an object has a safe prototype chain
    */
-  static hasSafePrototype(obj: any): boolean {
+  static hasSafePrototype(obj: unknown): boolean {
     if (obj === null || typeof obj !== 'object') return true;
 
     let current = obj;

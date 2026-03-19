@@ -269,13 +269,14 @@ export class HttpRequestBuilder {
         this.addHeader('Authorization', `Bearer ${config.token}`);
         break;
 
-      case 'basic':
+      case 'basic': {
         if (!config.username || !config.password) {
           throw new Error('Username and password are required for basic auth');
         }
         const credentials = btoa(`${config.username}:${config.password}`);
         this.addHeader('Authorization', `Basic ${credentials}`);
         break;
+      }
 
       case 'api-key':
         if (!config.apiKey || !config.headerName) {

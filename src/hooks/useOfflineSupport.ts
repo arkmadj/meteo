@@ -50,7 +50,7 @@ export const useOfflineSupport = () => {
           userMessage: t('errors:messages.offline'),
           retryable: false,
           timestamp: Date.now(),
-        } as any);
+        } as unknown);
       };
 
       window.addEventListener('online', handleOnline);
@@ -69,7 +69,7 @@ export const useOfflineSupport = () => {
    * Hook for offline data persistence
    */
   const useOfflineData = (key: string) => {
-    const [offlineData, setOfflineData] = React.useState<any>(null);
+    const [offlineData, setOfflineData] = React.useState<unknown>(null);
 
     React.useEffect(() => {
       // Load data from localStorage on mount
@@ -84,7 +84,7 @@ export const useOfflineSupport = () => {
     }, [key]);
 
     const saveOfflineData = React.useCallback(
-      (data: any) => {
+      (data: unknown) => {
         try {
           localStorage.setItem(`offline_${key}`, JSON.stringify(data));
           setOfflineData(data);
@@ -99,7 +99,7 @@ export const useOfflineSupport = () => {
             userMessage: t('errors:messages.offlineStorageFailed'),
             retryable: false,
             timestamp: Date.now(),
-          } as any);
+          } as unknown);
         }
       },
       [key, addError, t]
@@ -130,7 +130,7 @@ export const useOfflineSupport = () => {
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
         if (
           event.type === 'updated' &&
-          (event as any).action === 'success' &&
+          (event as unknown).action === 'success' &&
           event.query.queryKey?.[0] === 'weather' &&
           event.query.queryKey.includes(location)
         ) {
@@ -166,7 +166,7 @@ export const useOfflineSupport = () => {
       const unsubscribe = queryClient.getQueryCache().subscribe(event => {
         if (
           event.type === 'updated' &&
-          (event as any).action === 'success' &&
+          (event as unknown).action === 'success' &&
           event.query.queryKey?.[0] === 'weather' &&
           event.query.queryKey.includes('forecast') &&
           event.query.queryKey.includes(location)
@@ -198,8 +198,8 @@ export const useOfflineSupport = () => {
     const [queue, setQueue] = React.useState<
       Array<{
         id: string;
-        mutationFn: () => Promise<any>;
-        variables: any;
+        mutationFn: () => Promise<unknown>;
+        variables: unknown;
         timestamp: number;
         retryCount: number;
       }>
@@ -226,16 +226,19 @@ export const useOfflineSupport = () => {
       }
     }, [queue]);
 
-    const addToQueue = React.useCallback((mutationFn: () => Promise<any>, variables: any) => {
-      const newMutation = {
-        id: Date.now().toString(),
-        mutationFn,
-        variables,
-        timestamp: Date.now(),
-        retryCount: 0,
-      };
-      setQueue(prev => [...prev, newMutation]);
-    }, []);
+    const addToQueue = React.useCallback(
+      (mutationFn: () => Promise<unknown>, variables: unknown) => {
+        const newMutation = {
+          id: Date.now().toString(),
+          mutationFn,
+          variables,
+          timestamp: Date.now(),
+          retryCount: 0,
+        };
+        setQueue(prev => [...prev, newMutation]);
+      },
+      []
+    );
 
     const processQueue = React.useCallback(async () => {
       if (queue.length === 0 || !navigator.onLine) return;
