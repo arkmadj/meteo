@@ -60,7 +60,6 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   return (
-     
     <span
       className={classes}
       role={onClick ? 'button' : undefined}

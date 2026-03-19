@@ -47,7 +47,6 @@ const Card: React.FC<CardProps> = ({
   const classes = `${baseClasses} ${paddingClasses?.[padding]} ${shadowClasses?.[shadow]} ${hoverClass} ${clickClass} ${className}`;
 
   return (
-     
     <div
       className={classes}
       role={onClick ? 'button' : undefined}
