@@ -61,7 +61,8 @@ class AdaptiveWeatherUpdatesService {
     updateFrequency: UpdateFrequency
   ): WeatherUpdateConfig {
     // Respect save-data preference
-    if (networkConditions.saveData || userPreferences.saveData) {
+    const userPrefs = userPreferences as { saveData?: boolean };
+    if (networkConditions.saveData || userPrefs.saveData) {
       return {
         method: 'polling',
         frequency: 'low',
@@ -116,7 +117,9 @@ class AdaptiveWeatherUpdatesService {
    * Get current network conditions
    */
   private getNetworkConditions(): NetworkConditions {
-    const connection = (navigator as unknown).connection;
+    const connection = (navigator as unknown as Record<string, unknown>).connection as
+      | { effectiveType?: string; downlink?: number; rtt?: number; saveData?: boolean }
+      | undefined;
 
     return {
       effectiveType: connection?.effectiveType || '4g',

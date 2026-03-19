@@ -40,12 +40,12 @@ export function VulnerableCache(ttl: number) {
 export function VulnerableRequireRole(role: string) {
   return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     // Store role in easily accessible metadata
-    setMetadata('required-role', role, target, propertyKey);
+    setMetadata('required-role', role, target as object, propertyKey);
 
     const originalMethod = descriptor.value;
     descriptor.value = function (...args: unknown[]) {
-      const requiredRole = getMetadata<string>('required-role', target, propertyKey);
-      const currentUser = getCurrentUser();
+      const requiredRole = getMetadata<string>('required-role', target as object, propertyKey);
+      const currentUser = getCurrentUser() as { roles: string[] } | null;
       if (!requiredRole) {
         throw new UnauthorizedAccessError('Authorization metadata missing');
       }
@@ -91,7 +91,7 @@ export class VulnerableDIContainer {
   }
 
   static get<T>(token: string): T {
-    return this.services.get(token);
+    return this.services.get(token) as T;
   }
 }
 
@@ -101,10 +101,11 @@ export function VulnerableInject(token: string) {
     _propertyKey: string | symbol | undefined,
     parameterIndex: number
   ) {
-    const existingTokens = getMetadata<Array<string | undefined>>('inject-tokens', target) ?? [];
+    const existingTokens =
+      getMetadata<Array<string | undefined>>('inject-tokens', target as object) ?? [];
 
     existingTokens[parameterIndex] = token;
-    setMetadata('inject-tokens', existingTokens, target);
+    setMetadata('inject-tokens', existingTokens, target as object);
   };
 }
 
@@ -116,7 +117,7 @@ export function VulnerableConditionalAuth(condition: () => boolean) {
     descriptor.value = function (...args: unknown[]) {
       if (condition()) {
         logger.info('🔓 SECURITY ISSUE: Auth check depends on external condition');
-        const user = getCurrentUser();
+        const user = getCurrentUser() as { isAdmin?: boolean } | null;
         if (!user || !user.isAdmin) {
           throw new UnauthorizedAccessError('Unauthorized');
         }
@@ -188,7 +189,7 @@ function getCurrentUser(): unknown {
 async function checkAuthAsync(): Promise<void> {
   // Simulate async auth check
   await new Promise(resolve => setTimeout(resolve, 100));
-  const user = getCurrentUser();
+  const user = getCurrentUser() as { isAdmin?: boolean } | null;
   if (!user || !user.isAdmin) {
     throw new UnauthorizedAccessError('Unauthorized');
   }

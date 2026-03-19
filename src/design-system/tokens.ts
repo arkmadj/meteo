@@ -657,7 +657,7 @@ export const tokenUtils = {
       return value?.[shade] || value;
     }
 
-    return value || colorPath;
+    return (value as string) || colorPath;
   },
 
   /**

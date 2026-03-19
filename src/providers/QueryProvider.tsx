@@ -55,7 +55,9 @@ const createQueryErrorHandler = (
     console.error('Query Error:', error);
 
     // Don't show snackbars for background refetches
-    const isBackgroundRefetch = query?.state?.fetchStatus === 'fetching' && query?.state?.data;
+    const queryWithState = query as { state?: { fetchStatus?: string; data?: unknown } };
+    const isBackgroundRefetch =
+      queryWithState?.state?.fetchStatus === 'fetching' && queryWithState?.state?.data;
     if (isBackgroundRefetch) {
       return;
     }
@@ -226,7 +228,12 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
     const handleQueryError = createQueryErrorHandler(showSnackbar, showError, showWarning);
 
     const unsubscribe = queryClient.getQueryCache().subscribe(event => {
-      if (event.type === 'updated' && (event as unknown).action === 'error') {
+      const eventWithAction = event as {
+        type: string;
+        action?: string;
+        query: { state: { error?: Error } };
+      };
+      if (event.type === 'updated' && eventWithAction.action === 'error') {
         const { query } = event;
         if (query.state.error) {
           handleQueryError(query.state.error, query);
@@ -243,9 +250,17 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = queryClient.getQueryCache().subscribe(event => {
       // Notify on successful background refetch
-      if (event.type === 'updated' && (event as unknown).action === 'success') {
+      const eventWithAction = event as {
+        type: string;
+        action?: string;
+        query: {
+          state: { data?: unknown; dataUpdatedAt?: number; fetchStatus?: string };
+          meta?: unknown;
+        };
+      };
+      if (event.type === 'updated' && eventWithAction.action === 'success') {
         const { query } = event;
-        const meta = query.meta as unknown;
+        const meta = query.meta as { autoRefresh?: boolean };
 
         // Only show notification for auto-refresh, not manual fetches
         if (meta?.autoRefresh && query.state.data && query.state.dataUpdatedAt) {
