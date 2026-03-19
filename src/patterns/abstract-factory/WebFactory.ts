@@ -56,7 +56,7 @@ export class WebFactory extends BaseUIFactory {
     ];
   }
 
-  protected initializeTheme(): Record<string, any> {
+  protected initializeTheme(): Record<string, unknown> {
     return {
       ...super.initializeTheme(),
       platform: 'web',

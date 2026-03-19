@@ -264,7 +264,7 @@ export const cacheUtils = {
    * Set query data manually (useful for optimistic updates)
    * With floating mode disabled, this data persists predictably
    */
-  setWeatherData: (location: string, data: any, units?: string) => {
+  setWeatherData: (location: string, data: unknown, units?: string) => {
     return queryClient.setQueryData(queryKeys.weather.current(location, units), data);
   },
 

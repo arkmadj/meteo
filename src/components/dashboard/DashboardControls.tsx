@@ -15,7 +15,7 @@ export interface DashboardControlsProps {
  * Dashboard controls for customization
  */
 const DashboardControls: React.FC<DashboardControlsProps> = ({ className = '' }) => {
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const { state, toggleEditMode, resetLayout, loadPreset, addWidget, exportLayout, importLayout } =
     useDashboardLayout();
 
@@ -44,7 +44,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ className = '' })
       const text = await file.text();
       await importLayout(text);
       setShowExportImport(false);
-    } catch (error) {
+    } catch (_error) {
       alert('Failed to import layout. Please check the file format.');
     }
   };

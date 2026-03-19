@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/design-system/theme';
 
 const TemperatureHeatmapPage: React.FC = () => {
-  const { t } = useTranslation(['common']);
+  const { _t } = useTranslation(['common']);
   const { theme } = useTheme();
 
   const isDark = theme.isDark;

@@ -57,7 +57,7 @@ const getSizeStyles = (size: 'small' | 'medium' | 'large') => {
 /**
  * Get pattern overlay styles
  */
-const getPatternOverlay = (pattern: PatternType, color: string): React.CSSProperties => {
+const getPatternOverlay = (pattern: PatternType, _color: string): React.CSSProperties => {
   if (pattern === 'solid') return {};
 
   const patterns: Record<PatternType, React.CSSProperties> = {

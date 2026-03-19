@@ -31,12 +31,12 @@ const INJECTION_METADATA = createMetadataToken<InjectionMetadata>('injection-met
 
 // ✅ SECURE: Context-aware caching that respects security boundaries
 export function SecureCache(ttl: number) {
-  const cache = new Map<string, { value: any; expires: number; userContext: string }>();
+  const cache = new Map<string, { value: unknown; expires: number; userContext: string }>();
 
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       const user = getCurrentUser();
       const userContext = user ? `${user.id}:${user.roles.join(',')}` : 'anonymous';
       const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}:${userContext}`;
@@ -55,7 +55,7 @@ export function SecureCache(ttl: number) {
 
 // ✅ SECURE: Tamper-resistant role-based authorization
 export function SecureRequireRole(role: string) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
     // Create tamper-resistant metadata
@@ -67,7 +67,7 @@ export function SecureRequireRole(role: string) {
 
     setMetadataValue(SECURITY_METADATA, metadata, target, propertyKey);
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       // Validate metadata integrity
       const storedMetadata = getMetadataValue(SECURITY_METADATA, target, propertyKey);
       if (
@@ -95,7 +95,7 @@ export function SecureRequireRole(role: string) {
 // ✅ SECURE: Request-scoped authentication context
 export class SecureAuthContext {
   private static contexts = new WeakMap<object, SecureAuthContext>();
-  private user: any = null;
+  private user: unknown = null;
   private readonly createdAt: number;
   private readonly requestId: string;
 
@@ -112,7 +112,7 @@ export class SecureAuthContext {
     return this.contexts.get(request)!;
   }
 
-  setCurrentUser(user: any) {
+  setCurrentUser(user: unknown) {
     // Validate user object
     if (!user || typeof user.id === 'undefined') {
       throw new SecurityInvariantError('Invalid user object');
@@ -140,7 +140,7 @@ export class SecureAuthContext {
 // ✅ SECURE: Validated dependency injection container
 export class SecureDIContainer {
   private static readonly registrations = new Map<string, ServiceRegistration>();
-  private static readonly instances = new Map<string, WeakMap<object, any>>();
+  private static readonly instances = new Map<string, WeakMap<object, unknown>>();
   private static readonly allowedTokens = new Set<string>();
 
   static registerAllowedToken(token: string) {
@@ -200,7 +200,11 @@ export class SecureDIContainer {
 
 // ✅ SECURE: Validated injection decorator
 export function SecureInject(token: string) {
-  return function (target: any, _propertyKey: string | symbol | undefined, parameterIndex: number) {
+  return function (
+    target: unknown,
+    _propertyKey: string | symbol | undefined,
+    parameterIndex: number
+  ) {
     // Validate token format
     if (!token || typeof token !== 'string' || token.length === 0) {
       throw new DependencyInjectionError('Invalid injection token');
@@ -216,10 +220,10 @@ export function SecureInject(token: string) {
 
 // ✅ SECURE: Always-on authentication with proper error handling
 export function SecureRequireAuth(options: AuthOptions = {}) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = async function (...args: any[]) {
+    descriptor.value = async function (...args: unknown[]) {
       const user = getCurrentUser();
 
       // Always require authentication unless explicitly allowed
@@ -246,10 +250,10 @@ export function SecureRequireAuth(options: AuthOptions = {}) {
 
 // ✅ SECURE: Race condition-free async authentication
 export function SecureAsyncAuth() {
-  return function (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = async function (...args: any[]) {
+    descriptor.value = async function (...args: unknown[]) {
       // Always complete auth check BEFORE executing method
       await checkAuthAsync();
 
@@ -266,12 +270,12 @@ export function SecureAsyncAuth() {
 
 // ✅ SECURE: Context-aware memoization
 export function SecureMemoize() {
-  const cache = new Map<string, { value: any; userContext: string; expires: number }>();
+  const cache = new Map<string, { value: unknown; userContext: string; expires: number }>();
 
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       const user = getCurrentUser();
       const userContext = user ? `${user.id}:${user.roles.join(',')}` : 'anonymous';
       const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}`;
@@ -298,11 +302,11 @@ export class SecurityMonitor {
   private static readonly accessLog = new Map<string, AccessRecord[]>();
   private static readonly suspiciousActivity = new Set<string>();
 
-  static logAuthorizedAccess(user: any, className: string, method: string) {
+  static logAuthorizedAccess(user: unknown, className: string, method: string) {
     this.logAccess(user, className, method, 'authorized');
   }
 
-  static logUnauthorizedAccess(user: any, className: string, method: string) {
+  static logUnauthorizedAccess(user: unknown, className: string, method: string) {
     this.logAccess(user, className, method, 'unauthorized');
     this.detectSuspiciousActivity(user, className, method);
   }
@@ -311,7 +315,7 @@ export class SecurityMonitor {
     monitorLogger.info('Context change detected', { requestId, userId });
   }
 
-  private static logAccess(user: any, className: string, method: string, type: string) {
+  private static logAccess(user: unknown, className: string, method: string, type: string) {
     const key = `${user?.id || 'anonymous'}:${className}:${method}`;
     const records = this.accessLog.get(key) || [];
 
@@ -327,7 +331,7 @@ export class SecurityMonitor {
     this.accessLog.set(key, recentRecords);
   }
 
-  private static detectSuspiciousActivity(user: any, className: string, method: string) {
+  private static detectSuspiciousActivity(user: unknown, className: string, method: string) {
     const key = `${user?.id || 'anonymous'}:${className}:${method}`;
     const records = this.accessLog.get(key) || [];
     const recentUnauthorized = records.filter(
@@ -350,7 +354,7 @@ function generateChecksum(data: string): string {
 }
 
 function validateMetadata(
-  metadata: any,
+  metadata: unknown,
   role: string,
   propertyKey: string,
   className: string
@@ -365,7 +369,7 @@ function generateRequestId(): string {
   return crypto.randomBytes(16).toString('hex');
 }
 
-function getCurrentUser(): any {
+function getCurrentUser(): unknown {
   // Implementation would get user from current request context
   return null; // Placeholder
 }
@@ -378,7 +382,7 @@ function getCurrentIP(): string {
   return '127.0.0.1'; // Placeholder
 }
 
-function validateUserSession(_user: any): boolean {
+function validateUserSession(_user: unknown): boolean {
   // Validate session hasn't expired, user is still active, etc.
   return true; // Placeholder
 }
@@ -393,15 +397,15 @@ async function checkAuthAsync(): Promise<void> {
 
 // Types and interfaces
 interface ServiceRegistration {
-  factory: () => any;
+  factory: () => unknown;
   scope: 'singleton' | 'scoped';
-  validator?: (instance: any) => boolean;
+  validator?: (instance: unknown) => boolean;
   createdAt: number;
 }
 
 interface DIOptions {
   scope?: 'singleton' | 'scoped';
-  validator?: (instance: any) => boolean;
+  validator?: (instance: unknown) => boolean;
 }
 
 interface AuthOptions {

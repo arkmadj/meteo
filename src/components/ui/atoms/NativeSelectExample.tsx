@@ -136,8 +136,8 @@ const NativeSelectExample: React.FC = () => {
             label={`Dynamic ${selectedVariant} Select (${selectedSize})`}
             options={languageOptions}
             placeholder="Try me!"
-            size={selectedSize as any}
-            variant={selectedVariant as any}
+            size={selectedSize as unknown}
+            variant={selectedVariant as unknown}
           />
         </div>
       </div>

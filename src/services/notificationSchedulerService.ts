@@ -771,7 +771,7 @@ class NotificationSchedulerService {
    */
   private getNextWeeklyOccurrence(from: Date, daysOfWeek: DayOfWeek[], after: Date): Date {
     const dayNumbers = daysOfWeek.map(d => DAY_OF_WEEK_MAP[d]).sort((a, b) => a - b);
-    let current = new Date(from);
+    const current = new Date(from);
 
     // Find the next matching day
     for (let i = 0; i < 14; i++) {

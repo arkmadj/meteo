@@ -91,7 +91,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const [internalValue, setInternalValue] = useState(value);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { theme } = useTheme();
+    const { _theme } = useTheme();
     const { t } = useTranslation();
 
     const { isDisabled } = useComponentState({

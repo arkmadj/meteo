@@ -23,6 +23,7 @@ import type {
   VapidStatus,
   WeatherAlertNotificationOptions,
 } from '@/types/pushNotification';
+import type { SubscriptionAlertType } from '@/types/subscriptionStorage';
 
 import { subscriptionStorageService } from './subscriptionStorageService';
 

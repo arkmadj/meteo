@@ -5,12 +5,14 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import {
-  DEFAULT_KEYBOARD_SHORTCUTS_CONFIG,
+import type {
   KeyboardShortcut,
   KeyboardShortcutAction,
   KeyboardShortcutsConfig,
   KeyCombination,
+} from '@/types/keyboardShortcuts';
+import {
+  DEFAULT_KEYBOARD_SHORTCUTS_CONFIG,
   matchesKeyCombination,
 } from '@/types/keyboardShortcuts';
 

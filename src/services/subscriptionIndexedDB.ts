@@ -38,7 +38,7 @@ const STORES = {
 /**
  * Metadata keys
  */
-const METADATA_KEYS = {
+const _METADATA_KEYS = {
   LAST_CLEANUP: 'lastCleanup',
   LAST_SYNC: 'lastSync',
   SCHEMA_VERSION: 'schemaVersion',
@@ -654,7 +654,6 @@ class SubscriptionIndexedDB {
    */
   private log(...args: unknown[]): void {
     if (this.config.debug) {
-      // eslint-disable-next-line no-console
       console.log('[SubscriptionIndexedDB]', ...args);
     }
   }

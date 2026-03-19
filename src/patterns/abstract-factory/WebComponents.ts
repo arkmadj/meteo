@@ -42,7 +42,7 @@ export class WebButton implements IButton {
     return 'web-button';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: 'button',
       disabled: this.disabled,
@@ -118,7 +118,7 @@ export class WebInput implements IInput {
     return 'web-input';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: this.type,
       placeholder: this.placeholder,
@@ -191,7 +191,7 @@ export class WebCheckbox implements ICheckbox {
     return 'web-checkbox';
   }
 
-  public getAttributes(): Record<string, any> {
+  public getAttributes(): Record<string, unknown> {
     return {
       type: 'checkbox',
       checked: this.checked,

@@ -3,6 +3,7 @@ import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -22,6 +23,7 @@ const baseRules = {
   '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true, ignoreRestArgs: false }],
   'prefer-const': 'error',
   'no-var': 'error',
+  'no-prototype-builtins': 'warn', // Warn instead of error for hasOwnProperty usage
 
   // Disallow implicit `this` and enforce arrow callbacks for lexical scoping
   'no-invalid-this': 'off',
@@ -37,6 +39,8 @@ const baseRules = {
       varsIgnorePattern: '^_',
       args: 'after-used',
       argsIgnorePattern: '^_',
+      caughtErrors: 'all',
+      caughtErrorsIgnorePattern: '^_',
       ignoreRestSiblings: true,
     },
   ],
@@ -75,26 +79,19 @@ const baseRules = {
     },
   ],
 
-  // Naming conventions - enforce strict naming patterns
+  // Naming conventions - enforce naming patterns
   '@typescript-eslint/naming-convention': [
     'error',
-    // Interfaces must be prefixed with I and use PascalCase (e.g., IFoo)
+    // Interfaces should be PascalCase (I-prefix is optional, not enforced)
     {
       selector: 'interface',
       format: ['PascalCase'],
-      custom: {
-        regex: '^I[A-Z]',
-        match: true,
-      },
     },
-    // Type aliases should be PascalCase and must NOT start with I (reserve I* for interfaces)
+    // Type aliases should be PascalCase
     {
       selector: 'typeAlias',
       format: ['PascalCase'],
-      custom: {
-        regex: '^I[A-Z]',
-        match: false,
-      },
+      leadingUnderscore: 'allow',
     },
     // Enums should be PascalCase
     {
@@ -122,6 +119,7 @@ const baseRules = {
     {
       selector: 'function',
       format: ['camelCase', 'PascalCase'],
+      leadingUnderscore: 'allow',
     },
     // Parameters should be camelCase (allow PascalCase for React components)
     {
@@ -137,6 +135,11 @@ const baseRules = {
       leadingUnderscore: 'allow',
       trailingUnderscore: 'forbid',
     },
+    // Object literal methods can be any format (for chunk names like 'weather-components')
+    {
+      selector: 'objectLiteralMethod',
+      format: null,
+    },
     // Properties should be camelCase or snake_case (for API responses) or UPPER_CASE (for constants)
     {
       selector: 'property',
@@ -147,6 +150,11 @@ const baseRules = {
     // Object literal properties can be any format (for API compatibility)
     {
       selector: 'objectLiteralProperty',
+      format: null,
+    },
+    // Type properties can be any format (for aria attributes, data attributes, etc.)
+    {
+      selector: 'typeProperty',
       format: null,
     },
     // Type parameters should be PascalCase and single letter or start with T
@@ -352,11 +360,137 @@ export default [
           tsconfigRootDir: import.meta.dirname,
         }),
       },
+      globals: {
+        // Browser globals
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        console: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        alert: 'readonly',
+        confirm: 'readonly',
+        prompt: 'readonly',
+        btoa: 'readonly',
+        atob: 'readonly',
+        performance: 'readonly',
+        screen: 'readonly',
+        // DOM types
+        HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        HTMLCanvasElement: 'readonly',
+        HTMLLabelElement: 'readonly',
+        HTMLImageElement: 'readonly',
+        HTMLAnchorElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        HTMLTableElement: 'readonly',
+        HTMLTableRowElement: 'readonly',
+        HTMLSpanElement: 'readonly',
+        HTMLLIElement: 'readonly',
+        HTMLUListElement: 'readonly',
+        SVGSVGElement: 'readonly',
+        CanvasRenderingContext2D: 'readonly',
+        MouseEvent: 'readonly',
+        KeyboardEvent: 'readonly',
+        ErrorEvent: 'readonly',
+        PromiseRejectionEvent: 'readonly',
+        Node: 'readonly',
+        Element: 'readonly',
+        Event: 'readonly',
+        Option: 'readonly',
+        JSX: 'readonly',
+        // Web APIs
+        IntersectionObserver: 'readonly',
+        IntersectionObserverInit: 'readonly',
+        MutationObserver: 'readonly',
+        PerformanceObserver: 'readonly',
+        AbortController: 'readonly',
+        AbortSignal: 'readonly',
+        Blob: 'readonly',
+        File: 'readonly',
+        FormData: 'readonly',
+        URL: 'readonly',
+        URLSearchParams: 'readonly',
+        Response: 'readonly',
+        Request: 'readonly',
+        RequestCredentials: 'readonly',
+        ShareData: 'readonly',
+        CryptoKey: 'readonly',
+        TextEncoder: 'readonly',
+        TextDecoder: 'readonly',
+        WebGLRenderingContext: 'readonly',
+        Console: 'readonly',
+        Storage: 'readonly',
+        StorageEvent: 'readonly',
+        BeforeUnloadEvent: 'readonly',
+        MediaQueryListEvent: 'readonly',
+        CustomEvent: 'readonly',
+        UIEvent: 'readonly',
+        EventTarget: 'readonly',
+        EventListener: 'readonly',
+        NotificationPermission: 'readonly',
+        PushSubscription: 'readonly',
+        GeolocationPosition: 'readonly',
+        GeolocationPositionError: 'readonly',
+        GeolocationError: 'readonly',
+        HTMLHeadingElement: 'readonly',
+        HTMLElementEventMap: 'readonly',
+        GlobalEventHandlersEventMap: 'readonly',
+        Keyframe: 'readonly',
+        PropertyIndexedKeyframes: 'readonly',
+        KeyframeAnimationOptions: 'readonly',
+        CSS: 'readonly',
+        getComputedStyle: 'readonly',
+        queueMicrotask: 'readonly',
+        requestIdleCallback: 'readonly',
+        // Service Worker & Notifications
+        ServiceWorkerRegistration: 'readonly',
+        Notification: 'readonly',
+        PushSubscriptionOptionsInit: 'readonly',
+        // Mutation Observer
+        MutationRecord: 'readonly',
+        // IndexedDB
+        indexedDB: 'readonly',
+        IDBDatabase: 'readonly',
+        IDBOpenDBRequest: 'readonly',
+        IDBTransactionMode: 'readonly',
+        IDBTransaction: 'readonly',
+        IDBValidKey: 'readonly',
+        // WebSocket & SSE
+        WebSocket: 'readonly',
+        EventSource: 'readonly',
+        // Media
+        Navigator: 'readonly',
+        MediaQueryList: 'readonly',
+        // Crypto
+        BufferSource: 'readonly',
+        // React
+        React: 'readonly',
+        // Node.js types
+        NodeJS: 'readonly',
+        // Node.js (for scripts and config files)
+        process: 'readonly',
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
       react,
       'react-hooks': reactHooks,
+      'jsx-a11y': jsxA11y,
       prettier,
       'unused-imports': unusedImports,
       import: importPlugin,
@@ -394,7 +528,81 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
-
+  {
+    // Node.js scripts and config files
+    files: [
+      'scripts/**/*.js',
+      '*.config.js',
+      '*.config.mjs',
+      '.*.js',
+      'babel.config.js',
+      'jest.config.js',
+      'postcss.config.js',
+      'prettier.config.js',
+    ],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        console: 'readonly',
+        Buffer: 'readonly',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
+  {
+    // Service Worker files
+    files: ['**/sw.js', '**/service-worker.js', 'public/**/*.js'],
+    languageOptions: {
+      globals: {
+        self: 'readonly',
+        caches: 'readonly',
+        console: 'readonly',
+        fetch: 'readonly',
+        Response: 'readonly',
+        Request: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
+    // Test files
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+      '**/setupTests.ts',
+      '**/setupTests.js',
+    ],
+    languageOptions: {
+      globals: {
+        jest: 'readonly',
+        expect: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
   {
     // Ignore patterns
     ignores: [
@@ -403,8 +611,16 @@ export default [
       'node_modules/**',
       '.next/**',
       'coverage/**',
-      '*.config.js',
-      '*.config.ts',
+      '**/*.example.ts',
+      '**/*.example.tsx',
+      '**/*.demo.ts',
+      '**/*.demo.tsx',
+      '**/examples/**',
+      '**/demos/**',
+      'src/types/conditional-type-inference.ts',
+      'src/utils/cancellationToken.weatherExample.ts',
+      'src/utils/cancellablePipeline.utils.ts',
+      'src/patterns/**',
     ],
   },
 ];

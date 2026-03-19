@@ -11,7 +11,7 @@
  * @returns Array of translated strings or fallback
  */
 export function getTranslationAsArray(
-  t: (key: string, options?: any) => any,
+  t: (key: string, options?: unknown) => unknown,
   key: string,
   fallback: string[] = []
 ): string[] {
@@ -33,7 +33,7 @@ export function getTranslationAsArray(
  * @returns JSX elements array or empty array
  */
 export function mapTranslationItems<T = string>(
-  t: (key: string, options?: any) => any,
+  t: (key: string, options?: unknown) => unknown,
   key: string,
   renderItem: (item: T, index: number) => React.ReactNode,
   fallback: T[] = []
@@ -50,7 +50,7 @@ export function mapTranslationItems<T = string>(
  * @returns Translation value or null if type mismatch
  */
 export function getTranslationSafely<T>(
-  t: (key: string, options?: any) => any,
+  t: (key: string, options?: unknown) => unknown,
   key: string,
   expectedType: 'string' | 'array' | 'object' = 'string'
 ): T | null {

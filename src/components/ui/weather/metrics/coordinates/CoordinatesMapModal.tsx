@@ -24,14 +24,14 @@ import TemperatureHeatmapLayer, {
 } from '@/components/maps/TemperatureHeatmapLayer';
 import WeatherMarkers from '@/components/maps/WeatherMarkers';
 import WeatherTooltip, { type WeatherDataPoint } from '@/components/maps/WeatherTooltip';
-import { AccessibleModal } from '@/components/ui/molecules';
 import { Checkbox } from '@/components/ui/atoms';
+import { AccessibleModal } from '@/components/ui/molecules';
 import { useTheme } from '@/design-system/theme';
 import type { AQIStandard } from '@/types/airQuality';
 import type { LocationData } from '@/types/weather';
 
 // Fix for default markers in react-leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as unknown)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -101,7 +101,7 @@ const CoordinatesMapModal: React.FC<CoordinatesMapModalProps> = ({
         setShareFeedback('Link copied to clipboard');
       }
       setTimeout(() => setShareFeedback(null), 3000);
-    } catch (err) {
+    } catch (_err) {
       // Fallback to copying if native share is cancelled/failed
       try {
         if (shareUrl) {
@@ -110,7 +110,9 @@ const CoordinatesMapModal: React.FC<CoordinatesMapModalProps> = ({
           setTimeout(() => setShareFeedback(null), 3000);
           return;
         }
-      } catch {}
+      } catch (_error) {
+        // Share API failed, show error message
+      }
       setShareFeedback('Unable to share');
       setTimeout(() => setShareFeedback(null), 3000);
     }
@@ -126,7 +128,7 @@ const CoordinatesMapModal: React.FC<CoordinatesMapModalProps> = ({
       window.open(waUrl, '_blank', 'noopener,noreferrer');
       setShareFeedback('Opening WhatsApp…');
       setTimeout(() => setShareFeedback(null), 3000);
-    } catch (err) {
+    } catch (_err) {
       setShareFeedback('Unable to open WhatsApp');
       setTimeout(() => setShareFeedback(null), 3000);
     }

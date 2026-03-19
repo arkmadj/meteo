@@ -4,13 +4,6 @@ import { Link } from 'react-router-dom';
 
 import MainHeader from '@/components/headers/MainHeader';
 import SettingsNav, { type SettingsNavItem } from '@/components/navigation/SettingsNav';
-import FontSizeSelector from '@/components/ui/preferences/FontSizeSelector';
-import KeyboardShortcutsEditor from '@/components/ui/preferences/KeyboardShortcutsEditor';
-import NotificationPermissionStatus from '@/components/ui/notifications/NotificationPermissionStatus';
-import PushNotificationConsentModal from '@/components/ui/notifications/PushNotificationConsentModal';
-import UpdateFrequencySelector from '@/components/ui/preferences/UpdateFrequencySelector';
-import VisibilityUnitSelector from '@/components/ui/preferences/VisibilityUnitSelector';
-import WindSpeedUnitSelector from '@/components/ui/preferences/WindSpeedUnitSelector';
 import {
   AccentColorPicker,
   Button,
@@ -22,10 +15,18 @@ import {
   type DropdownItem,
 } from '@/components/ui/atoms';
 import { Container } from '@/components/ui/layout';
+import NotificationPermissionStatus from '@/components/ui/notifications/NotificationPermissionStatus';
+import PushNotificationConsentModal from '@/components/ui/notifications/PushNotificationConsentModal';
+import FontSizeSelector from '@/components/ui/preferences/FontSizeSelector';
+import KeyboardShortcutsEditor from '@/components/ui/preferences/KeyboardShortcutsEditor';
+import UpdateFrequencySelector from '@/components/ui/preferences/UpdateFrequencySelector';
+import VisibilityUnitSelector from '@/components/ui/preferences/VisibilityUnitSelector';
+import WindSpeedUnitSelector from '@/components/ui/preferences/WindSpeedUnitSelector';
 import { useMotionPreferences } from '@/contexts/MotionPreferencesContext';
 import { useSnackbar } from '@/contexts/SnackbarContext';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
-import { ThemeMode, useTheme } from '@/design-system/theme';
+import type { ThemeMode } from '@/design-system/theme';
+import { useTheme } from '@/design-system/theme';
 import { usePushNotificationPermission } from '@/hooks/usePushNotificationPermission';
 import { useVisibilityUnit } from '@/hooks/useVisibilityUnit';
 import { useWindSpeedUnit } from '@/hooks/useWindSpeedUnit';
@@ -48,9 +49,9 @@ const SettingsPage: React.FC = () => {
     updateVisibilityUnit,
     updateFontSize,
   } = useUserPreferencesContext();
-  const { currentUnit: windSpeedUnit } = useWindSpeedUnit();
-  const { currentUnit: visibilityUnit } = useVisibilityUnit();
-  const { showSuccess } = useSnackbar();
+  const { currentUnit: _windSpeedUnit } = useWindSpeedUnit();
+  const { currentUnit: _visibilityUnit } = useVisibilityUnit();
+  const { showSuccess, showError } = useSnackbar();
 
   const [settings, setSettings] = React.useState({
     theme: theme.mode,
@@ -142,7 +143,7 @@ const SettingsPage: React.FC = () => {
     setSettings(prev => ({ ...prev, fontSize: userPreferences.fontSize }));
   }, [userPreferences.fontSize]);
 
-  const updateSetting = (key: string, value: any) => {
+  const updateSetting = (key: string, value: unknown) => {
     setSettings(prev => ({ ...prev, [key]: value }));
 
     // If theme is being changed, update the global theme context

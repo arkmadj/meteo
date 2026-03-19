@@ -34,7 +34,7 @@ const TemperatureDetailModal: React.FC<TemperatureDetailModalProps> = ({
   getLocalizedTemperature,
 }) => {
   const { t } = useTranslation(['weather']);
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
 
   // Get temperature comfort level and color
   const getTemperatureInfo = (temp: number, tempUnit: 'C' | 'F') => {

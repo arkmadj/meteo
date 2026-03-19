@@ -170,7 +170,7 @@ const GlobalEventHandler: React.FC = () => {
       return;
     }
 
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
     if (!connection) {
       return;
     }

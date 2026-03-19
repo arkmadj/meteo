@@ -111,7 +111,7 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
         <ReactAnimatedWeather
           animate={!prefersReducedMotion && isSelected}
           color={iconColor}
-          icon={hour.condition.icon as any}
+          icon={hour.condition.icon as unknown}
           size={iconSize}
         />
         {/* Precipitation indicator */}

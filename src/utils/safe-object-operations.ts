@@ -35,18 +35,18 @@ export class SafeObjectOperations {
   /**
    * Safe deep merge that prevents prototype pollution
    */
-  static deepMerge(target: any, source: any, options: SafeObjectOptions = {}): any {
+  static deepMerge(target: unknown, source: unknown, options: SafeObjectOptions = {}): unknown {
     const opts = { ...this.DEFAULT_OPTIONS, ...options };
 
     return this.deepMergeRecursive(target, source, opts, 0);
   }
 
   private static deepMergeRecursive(
-    target: any,
-    source: any,
+    target: unknown,
+    source: unknown,
     options: SafeObjectOptions,
     depth: number
-  ): any {
+  ): unknown {
     if (depth >= (options.maxDepth || 10)) {
       if (options.strictMode) {
         throw new UnsafeObjectOperationError(`Maximum merge depth (${options.maxDepth}) exceeded`, {
@@ -64,7 +64,7 @@ export class SafeObjectOperations {
       target = {};
     }
 
-    const targetRecord = target as Record<string, any>;
+    const targetRecord = target as Record<string, unknown>;
 
     for (const key of Object.keys(source)) {
       if (!this.isKeySafe(key, options)) {
@@ -76,7 +76,7 @@ export class SafeObjectOperations {
         continue;
       }
 
-      const sourceValue = (source as Record<string, any>)[key];
+      const sourceValue = (source as Record<string, unknown>)[key];
       const targetValue = targetRecord[key];
 
       if (this.isValidObject(sourceValue) && !Array.isArray(sourceValue)) {
@@ -97,19 +97,19 @@ export class SafeObjectOperations {
   /**
    * Safe Object.assign alternative
    */
-  static safeAssign(target: any, ...sources: any[]): any {
+  static safeAssign(target: unknown, ...sources: unknown[]): unknown {
     if (!this.isValidObject(target)) {
       target = {};
     }
 
-    const targetRecord = target as Record<string, any>;
+    const targetRecord = target as Record<string, unknown>;
 
     for (const source of sources) {
       if (!this.isValidObject(source)) continue;
 
       for (const key of Object.keys(source)) {
         if (this.isKeySafe(key)) {
-          targetRecord[key] = (source as Record<string, any>)[key];
+          targetRecord[key] = (source as Record<string, unknown>)[key];
         }
       }
     }
@@ -121,9 +121,9 @@ export class SafeObjectOperations {
    * Safe property path setter
    */
   static setPath(
-    obj: any,
+    obj: unknown,
     path: string | string[],
-    value: any,
+    value: unknown,
     options: SafeObjectOptions = {}
   ): void {
     if (!this.isValidObject(obj)) {
@@ -146,7 +146,7 @@ export class SafeObjectOperations {
       }
     }
 
-    let current: Record<string, any> = obj;
+    let current: Record<string, unknown> = obj;
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
 
@@ -164,7 +164,7 @@ export class SafeObjectOperations {
   /**
    * Safe property path getter
    */
-  static getPath(obj: any, path: string | string[], defaultValue?: any): any {
+  static getPath(obj: unknown, path: string | string[], defaultValue?: unknown): unknown {
     if (!this.isValidObject(obj)) return defaultValue;
 
     const keys = Array.isArray(path) ? path : path.split('.');
@@ -183,13 +183,13 @@ export class SafeObjectOperations {
   /**
    * Create a safe object with null prototype
    */
-  static createSafeObject(properties?: Record<string, any>): any {
+  static createSafeObject(properties?: Record<string, unknown>): unknown {
     const obj = Object.create(null);
 
     if (properties) {
       for (const [key, value] of Object.entries(properties)) {
         if (this.isKeySafe(key)) {
-          (obj as Record<string, any>)[key] = value;
+          (obj as Record<string, unknown>)[key] = value;
         }
       }
     }
@@ -200,7 +200,7 @@ export class SafeObjectOperations {
   /**
    * Safe JSON parsing with validation
    */
-  static safeJsonParse(json: string, options: SafeObjectOptions = {}): any {
+  static safeJsonParse(json: string, options: SafeObjectOptions = {}): unknown {
     try {
       const parsed = JSON.parse(json);
       return this.sanitizeObject(parsed, options);
@@ -218,14 +218,14 @@ export class SafeObjectOperations {
   /**
    * Sanitize an object by removing dangerous properties
    */
-  static sanitizeObject(obj: any, options: SafeObjectOptions = {}): any {
+  static sanitizeObject(obj: unknown, options: SafeObjectOptions = {}): unknown {
     if (!this.isValidObject(obj)) return obj;
 
     const opts = { ...this.DEFAULT_OPTIONS, ...options };
     const sanitized = Array.isArray(obj) ? [] : {};
 
-    const sanitizedRecord = sanitized as Record<string, any>;
-    const sourceRecord = obj as Record<string, any>;
+    const sanitizedRecord = sanitized as Record<string, unknown>;
+    const sourceRecord = obj as Record<string, unknown>;
 
     for (const key of Object.keys(obj)) {
       if (!this.isKeySafe(key, opts)) {
@@ -246,7 +246,7 @@ export class SafeObjectOperations {
   /**
    * Freeze object recursively to prevent modification
    */
-  static deepFreeze(obj: any): any {
+  static deepFreeze(obj: unknown): unknown {
     if (!this.isValidObject(obj)) return obj;
 
     Object.freeze(obj);
@@ -263,7 +263,7 @@ export class SafeObjectOperations {
   /**
    * Clone object safely
    */
-  static safeClone(obj: any, options: SafeObjectOptions = {}): any {
+  static safeClone(obj: unknown, options: SafeObjectOptions = {}): unknown {
     if (!this.isValidObject(obj)) return obj;
 
     const opts = { ...this.DEFAULT_OPTIONS, ...options };
@@ -271,11 +271,11 @@ export class SafeObjectOperations {
   }
 
   private static cloneRecursive(
-    obj: any,
+    obj: unknown,
     options: SafeObjectOptions,
     depth: number,
-    seen: WeakMap<any, any>
-  ): any {
+    seen: WeakMap<unknown, unknown>
+  ): unknown {
     if (depth >= (options.maxDepth || 10)) {
       return {};
     }
@@ -288,8 +288,8 @@ export class SafeObjectOperations {
     }
 
     const cloned = Array.isArray(obj) ? [] : {};
-    const clonedRecord = cloned as Record<string, any>;
-    const sourceRecord = obj as Record<string, any>;
+    const clonedRecord = cloned as Record<string, unknown>;
+    const sourceRecord = obj as Record<string, unknown>;
     seen.set(obj, cloned);
 
     for (const key of Object.keys(obj)) {
@@ -311,14 +311,18 @@ export class SafeObjectOperations {
   /**
    * Validate if an object is safe from prototype pollution
    */
-  static validateObject(obj: any, options: SafeObjectOptions = {}): boolean {
+  static validateObject(obj: unknown, options: SafeObjectOptions = {}): boolean {
     if (!this.isValidObject(obj)) return true;
 
     const opts = { ...this.DEFAULT_OPTIONS, ...options };
     return this.validateRecursive(obj, opts, 0);
   }
 
-  private static validateRecursive(obj: any, options: SafeObjectOptions, depth: number): boolean {
+  private static validateRecursive(
+    obj: unknown,
+    options: SafeObjectOptions,
+    depth: number
+  ): boolean {
     if (depth >= (options.maxDepth || 10)) {
       return true;
     }
@@ -360,7 +364,7 @@ export class SafeObjectOperations {
   /**
    * Check if value is a valid object for processing
    */
-  private static isValidObject(value: any): boolean {
+  private static isValidObject(value: unknown): boolean {
     return value !== null && typeof value === 'object';
   }
 }
@@ -369,7 +373,7 @@ export class SafeObjectOperations {
  * Express.js middleware to prevent prototype pollution in request data
  */
 export function prototypePollutionMiddleware(options: SafeObjectOptions = {}) {
-  return (req: any, res: any, next: any) => {
+  return (req: unknown, res: unknown, next: unknown) => {
     try {
       // Sanitize request body
       if (req.body) {
@@ -387,7 +391,7 @@ export function prototypePollutionMiddleware(options: SafeObjectOptions = {}) {
       }
 
       next();
-    } catch (error) {
+    } catch (_error) {
       if (options.strictMode) {
         res.status(400).json({ error: 'Invalid request data' });
       } else {
@@ -404,7 +408,7 @@ export const SafeUtils = {
   /**
    * Safe merge for configuration objects
    */
-  mergeConfig: (defaultConfig: any, userConfig: any) =>
+  mergeConfig: (defaultConfig: unknown, userConfig: unknown) =>
     SafeObjectOperations.deepMerge(defaultConfig, userConfig, { strictMode: true }),
 
   /**
@@ -421,6 +425,6 @@ export const SafeUtils = {
   /**
    * Validate API response
    */
-  validateApiResponse: (response: any) =>
+  validateApiResponse: (response: unknown) =>
     SafeObjectOperations.validateObject(response, { maxDepth: 5 }),
 };

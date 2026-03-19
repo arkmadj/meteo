@@ -149,7 +149,7 @@ const FloatingActionButton = forwardRef<HTMLButtonElement, FloatingActionButtonP
     };
 
     // Get hover styles
-    const getHoverStyle = (): React.CSSProperties => {
+    const _getHoverStyle = (): React.CSSProperties => {
       switch (variant) {
         case 'primary':
           return {

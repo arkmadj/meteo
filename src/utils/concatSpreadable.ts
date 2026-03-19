@@ -21,7 +21,7 @@ export class ConcatSpreadableCollection<T> {
 
     // Set up numeric indices to make the object array-like
     this.items.forEach((item, index) => {
-      (this as any)[index] = item;
+      (this as unknown)[index] = item;
     });
   }
 
@@ -46,13 +46,13 @@ export class ConcatSpreadableCollection<T> {
     // Clear old indices
     Object.keys(this).forEach(key => {
       if (/^\d+$/.test(key)) {
-        delete (this as any)[key];
+        delete (this as unknown)[key];
       }
     });
 
     // Set new indices
     this.items.forEach((item, index) => {
-      (this as any)[index] = item;
+      (this as unknown)[index] = item;
     });
   }
 

@@ -26,7 +26,7 @@ export interface IUIComponent {
   /**
    * Get platform-specific attributes
    */
-  getAttributes(): Record<string, any>;
+  getAttributes(): Record<string, unknown>;
 
   /**
    * Handle component interaction

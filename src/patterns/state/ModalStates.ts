@@ -159,7 +159,7 @@ export class ClosingState extends BaseModalState {
   readonly type = 'closing' as const;
 
   // Cannot perform actions while closing
-  open(context: IModalContext): void {
+  open(_context: IModalContext): void {
     console.warn('Cannot open modal while closing');
   }
 

@@ -94,9 +94,9 @@ export const componentUtils = {
   /**
    * Get color value from theme
    */
-  getColor: (colorPath: string, theme: any): string => {
+  getColor: (colorPath: string, theme: unknown): string => {
     const parts = colorPath.split('.');
-    let value: any = theme.colors;
+    let value: unknown = theme.colors;
 
     for (const part of parts) {
       value = value?.[part];
@@ -108,7 +108,7 @@ export const componentUtils = {
   /**
    * Get spacing value
    */
-  getSpacing: (key: string, theme: any): string => {
+  getSpacing: (key: string, theme: unknown): string => {
     return theme.spacing?.[key] || key;
   },
 
@@ -122,10 +122,10 @@ export const componentUtils = {
   /**
    * Handle common component events
    */
-  createEventHandlers: <T extends Record<string, any>>(handlers: T, disabled?: boolean): T => {
+  createEventHandlers: <T extends Record<string, unknown>>(handlers: T, disabled?: boolean): T => {
     if (disabled) {
       return Object.keys(handlers).reduce((acc, key) => {
-        (acc as any)[key] = (e: any) => {
+        (acc as unknown)[key] = (e: unknown) => {
           e.preventDefault();
           e.stopPropagation();
         };

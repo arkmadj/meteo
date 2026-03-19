@@ -40,7 +40,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
   onDataClick,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<unknown>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
 

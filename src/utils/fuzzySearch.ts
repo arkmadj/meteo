@@ -3,7 +3,7 @@
  */
 
 export interface FuzzyMatch {
-  item: any;
+  item: unknown;
   score: number;
   matches: {
     field: string;

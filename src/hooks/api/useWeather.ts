@@ -5,15 +5,10 @@
  * including proper error handling, caching strategies, and optimistic updates.
  */
 
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  UseQueryOptions,
-  UseMutationOptions,
-} from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { WeatherService } from '../../api/services/weatherService';
-import {
+import type {
   CurrentWeather,
   WeatherForecast,
   LocationSearchResult,
@@ -251,7 +246,7 @@ export function useOptimisticWeatherUpdate() {
 
   return useMutation({
     mutationFn: async ({
-      location,
+      _location,
       updates,
     }: {
       location: string;

@@ -33,7 +33,7 @@ const PollenMeter: React.FC<PollenMeterProps> = ({
   const maxIndex = 5; // Maximum pollen index
 
   // Find current level configuration
-  const currentLevel =
+  const _currentLevel =
     POLLEN_LEVELS.find(level => overallIndex >= level.min && overallIndex <= level.max) ||
     POLLEN_LEVELS[0];
 

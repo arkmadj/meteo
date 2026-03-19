@@ -126,8 +126,8 @@ const NotificationHistoryItem: React.FC<NotificationHistoryItemProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation('common');
-  const { theme } = useTheme();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const { _theme } = useTheme();
+  const _prefersReducedMotion = usePrefersReducedMotion();
 
   const unread = isUnread(notification);
 

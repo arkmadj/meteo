@@ -38,8 +38,8 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
   onStationClick,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
+  const mapInstanceRef = useRef<unknown>(null);
+  const markersRef = useRef<unknown[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Initialize Leaflet map
@@ -81,13 +81,13 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
     if (!mapInstanceRef.current || !weatherStations.length) return;
 
     // Clear existing markers
-    markersRef.current.forEach(marker => {
+    markersRef.current.forEach(_marker => {
       // mapInstanceRef.current.removeLayer(marker);
     });
     markersRef.current = [];
 
     // Add new markers
-    weatherStations.forEach(station => {
+    weatherStations.forEach(_station => {
       // In real implementation:
       // const marker = L.marker([station.lat, station.lng])
       //   .bindPopup(`

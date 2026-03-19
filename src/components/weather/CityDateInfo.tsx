@@ -50,7 +50,7 @@ const CityDateInfo: React.FC<CityDateInfoProps> = ({
 }) => {
   const { t: _t } = useTranslation(['common', 'weather']);
   const { formatDate, formatWeekday: _formatWeekday } = useDateI18n();
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   // Update current time every minute if showTime is enabled

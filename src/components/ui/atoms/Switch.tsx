@@ -23,7 +23,6 @@
 
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { COLORS } from '../../../design-system/tokens';
 import { useTheme } from '../../../design-system/theme';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
 import { IconWrapper, useComponentState } from '../base/BaseComponent';
@@ -118,7 +117,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       testId,
     });
 
-    const { theme } = useTheme();
+    const { _theme } = useTheme();
 
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
     const [isFocused, setIsFocused] = useState(false);
@@ -358,7 +357,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     }
 
     // Build wrapper classes
-    let wrapperClasses = `${switchWrapperClasses} ${currentSize.track}`;
+    const wrapperClasses = `${switchWrapperClasses} ${currentSize.track}`;
 
     // Determine ARIA label
     const effectiveAriaLabel = ariaLabel || (typeof label === 'string' ? label : undefined);

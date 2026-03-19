@@ -31,7 +31,7 @@ const PollenDetailCard: React.FC<PollenDetailCardProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation(['weather']);
-  const [showDetails, setShowDetails] = useState(false);
+  const [_showDetails, _setShowDetails] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
@@ -39,9 +39,9 @@ const PollenDetailCard: React.FC<PollenDetailCardProps> = ({
     category,
     color,
     description,
-    healthAdvice,
+    _healthAdvice,
     pollens,
-    dominantPollen,
+    _dominantPollen,
     isPollenSeason,
     availableInRegion,
   } = pollenData;
@@ -65,7 +65,7 @@ const PollenDetailCard: React.FC<PollenDetailCardProps> = ({
   };
 
   // Get active pollens
-  const activePollens = Object.values(pollens).filter(pollen => pollen && pollen.value > 0);
+  const _activePollens = Object.values(pollens).filter(pollen => pollen && pollen.value > 0);
 
   return (
     <>

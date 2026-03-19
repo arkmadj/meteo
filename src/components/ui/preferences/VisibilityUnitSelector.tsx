@@ -56,7 +56,7 @@ const UNIT_METADATA: Record<
 };
 
 // Theme-aware color utilities
-const getThemeColors = (theme: any) => {
+const getThemeColors = (theme: unknown) => {
   const isDark = theme.isDark;
   const isHighContrast = theme.isHighContrast;
 
@@ -94,7 +94,7 @@ const getThemeColors = (theme: any) => {
 };
 
 // Component variant styles with theme-aware colors
-const getVariantStyles = (theme: any) => {
+const getVariantStyles = (theme: unknown) => {
   const colors = getThemeColors(theme);
 
   return {

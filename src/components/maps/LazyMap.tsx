@@ -258,7 +258,7 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
 export interface LazyBaseWeatherMapProps {
   preloadStrategy?: 'immediate' | 'hover' | 'visible' | 'idle' | 'manual';
   onLibrariesLoaded?: () => void;
-  [key: string]: any; // Pass through all other props
+  [key: string]: unknown; // Pass through all other props
 }
 
 export const LazyBaseWeatherMapComponent: React.FC<LazyBaseWeatherMapProps> = ({
@@ -284,7 +284,7 @@ export const LazyBaseWeatherMapComponent: React.FC<LazyBaseWeatherMapProps> = ({
 export interface LazyLocationSearchMapProps {
   preloadStrategy?: 'immediate' | 'hover' | 'visible' | 'idle' | 'manual';
   onLibrariesLoaded?: () => void;
-  [key: string]: any; // Pass through all other props
+  [key: string]: unknown; // Pass through all other props
 }
 
 export const LazyLocationSearchMapComponent: React.FC<LazyLocationSearchMapProps> = ({

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type WeatherLayerType = 'temperature' | 'airQuality' | 'precipitation' | 'wind';
 
-export interface WeatherLayerState<T = any> {
+export interface WeatherLayerState<T = unknown> {
   isLoading: boolean;
   hasError: boolean;
   errorMessage: string | null;
@@ -61,7 +61,7 @@ const createInitialState = <T>(): WeatherLayerState<T> => ({
 /**
  * Hook for managing weather layer loading
  */
-export const useWeatherLayerLoading = <T = any>(
+export const useWeatherLayerLoading = <T = unknown>(
   options: UseWeatherLayerLoadingOptions<T>
 ): UseWeatherLayerLoadingReturn<T> => {
   const {

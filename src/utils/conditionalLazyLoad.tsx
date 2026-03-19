@@ -1,6 +1,6 @@
+import type { ComponentType } from 'react';
 import React, {
   Suspense,
-  ComponentType,
   forwardRef,
   useState,
   useEffect,
@@ -254,7 +254,7 @@ export const IdleTrigger: React.FC<IdleTriggerProps> = ({ children, onIdle, dela
 /**
  * Create a conditionally lazy-loaded component
  */
-export function createConditionalLazyComponent<T extends ComponentType<any>>(
+export function createConditionalLazyComponent<T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   options: ConditionalLazyLoadOptions = {}
 ) {
@@ -307,7 +307,7 @@ export function createConditionalLazyComponent<T extends ComponentType<any>>(
       </div>
     ));
 
-  const ErrorFallback =
+  const _ErrorFallback =
     CustomErrorFallback ||
     (({ retry }) => (
       <div className="flex flex-col items-center justify-center p-4 text-center">
@@ -322,7 +322,7 @@ export function createConditionalLazyComponent<T extends ComponentType<any>>(
       </div>
     ));
 
-  const ConditionalLazyWrapper = forwardRef<any, any>((props, ref) => {
+  const ConditionalLazyWrapper = forwardRef<unknown, unknown>((props, ref) => {
     const [shouldLoad, setShouldLoad] = useState(loadingStrategy === 'immediate');
     const [retryKey, setRetryKey] = useState(0);
 
@@ -330,7 +330,7 @@ export function createConditionalLazyComponent<T extends ComponentType<any>>(
       setShouldLoad(true);
     }, []);
 
-    const handleRetry = useCallback(() => {
+    const _handleRetry = useCallback(() => {
       setRetryKey(prev => prev + 1);
       setShouldLoad(true);
     }, []);
@@ -438,9 +438,9 @@ export function createConditionalLazyComponent<T extends ComponentType<any>>(
 /**
  * Create a visibility-based lazy component (loads when scrolled into view)
  */
-export const createVisibilityLazyComponent = <T extends ComponentType<any>>(
+export const createVisibilityLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
-  componentName?: string
+  _componentName?: string
 ) =>
   createConditionalLazyComponent(importFn, {
     loadingStrategy: 'visible',
@@ -451,9 +451,9 @@ export const createVisibilityLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create a hover-based lazy component (loads on hover)
  */
-export const createHoverLazyComponent = <T extends ComponentType<any>>(
+export const createHoverLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
-  componentName?: string
+  _componentName?: string
 ) =>
   createConditionalLazyComponent(importFn, {
     loadingStrategy: 'hover',
@@ -464,9 +464,9 @@ export const createHoverLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create an idle-based lazy component (loads when user is idle)
  */
-export const createIdleLazyComponent = <T extends ComponentType<any>>(
+export const createIdleLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
-  componentName?: string
+  _componentName?: string
 ) =>
   createConditionalLazyComponent(importFn, {
     loadingStrategy: 'idle',
@@ -476,9 +476,9 @@ export const createIdleLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create a click-based lazy component (loads on click)
  */
-export const createClickLazyComponent = <T extends ComponentType<any>>(
+export const createClickLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
-  componentName?: string
+  _componentName?: string
 ) =>
   createConditionalLazyComponent(importFn, {
     loadingStrategy: 'click',
@@ -492,12 +492,12 @@ export const createClickLazyComponent = <T extends ComponentType<any>>(
 /**
  * Create a preference-aware lazy component that adapts loading strategy
  */
-export const createPreferenceAwareLazyComponent = <T extends ComponentType<any>>(
+export const createPreferenceAwareLazyComponent = <T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   componentName?: string,
   fallbackStrategy: 'visible' | 'hover' | 'click' | 'idle' = 'visible'
 ) => {
-  const PreferenceAwareComponent = forwardRef<any, any>((props, ref) => {
+  const PreferenceAwareComponent = forwardRef<unknown, unknown>((props, ref) => {
     // This will be wrapped by UserPreferencesProvider, so we can't use the hook here
     // Instead, we'll create a wrapper that uses the hook
     return (
@@ -518,9 +518,9 @@ export const createPreferenceAwareLazyComponent = <T extends ComponentType<any>>
 /**
  * Internal wrapper component that uses the preferences hook
  */
-const PreferenceAwareWrapper = <T extends ComponentType<any>>({
+const PreferenceAwareWrapper = <T extends ComponentType<unknown>>({
   importFn,
-  componentName,
+  _componentName,
   fallbackStrategy,
   props,
   forwardedRef,
@@ -528,8 +528,8 @@ const PreferenceAwareWrapper = <T extends ComponentType<any>>({
   importFn: () => Promise<{ default: T }>;
   componentName?: string;
   fallbackStrategy: 'visible' | 'hover' | 'click' | 'idle';
-  props: any;
-  forwardedRef: any;
+  props: unknown;
+  forwardedRef: unknown;
 }) => {
   const { getLoadingStrategy, preferences } = useUserPreferencesContext();
 

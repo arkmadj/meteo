@@ -29,7 +29,7 @@ import { createPortal } from 'react-dom';
 // TYPES & INTERFACES
 // ============================================================================
 
-export interface DropdownOption<T = any> {
+export interface DropdownOption<T = unknown> {
   /** Unique identifier for the option */
   id: string;
   /** Display label for the option */
@@ -43,10 +43,10 @@ export interface DropdownOption<T = any> {
   /** Optional group/category for the option */
   group?: string;
   /** Custom data for the option */
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
-export interface DropdownProps<T = any> {
+export interface DropdownProps<T = unknown> {
   /** Array of dropdown options */
   options: DropdownOption<T>[];
   /** Currently selected option(s) */
@@ -126,7 +126,7 @@ export interface DropdownRef {
 // ============================================================================
 
 export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
-  <T extends any>(
+  <T extends unknown>(
     {
       options,
       value,

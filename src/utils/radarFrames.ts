@@ -72,7 +72,7 @@ const generateOpenWeatherMapFrames = (
 
   for (let i = 0; i < frameCount; i++) {
     const timestamp = now - (frameCount - 1 - i) * intervalMinutes * 60 * 1000;
-    const date = new Date(timestamp);
+    const _date = new Date(timestamp);
 
     frames.push({
       timestamp,
@@ -101,7 +101,7 @@ const generateRainViewerFrames = async (frameCount: number): Promise<RadarFrame[
     // Get the most recent frames
     const radarTimestamps = data.radar.past.slice(-frameCount);
 
-    const frames: RadarFrame[] = radarTimestamps.map((item: any) => {
+    const frames: RadarFrame[] = radarTimestamps.map((item: unknown) => {
       const timestamp = item.time * 1000; // Convert to milliseconds
       return {
         timestamp,
@@ -154,7 +154,7 @@ export const generateRadarFrames = async (
     frameCount = 10,
     intervalMinutes = 10,
     startTime = new Date(),
-    includeForecast = false,
+    _includeForecast = false,
   } = options;
 
   try {

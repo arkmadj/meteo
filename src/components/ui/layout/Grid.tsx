@@ -85,14 +85,14 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     const resolveSpacing = (s?: SpacingValue | 'none') => {
       if (!s || s === 'none') return null;
       const map: Record<string, keyof typeof SPACING> = {
-        sm: 2 as any,
-        md: 4 as any,
-        lg: 6 as any,
-        xl: 8 as any,
+        sm: 2 as unknown,
+        md: 4 as unknown,
+        lg: 6 as unknown,
+        xl: 8 as unknown,
       };
-      const key = (SPACING as any)[s]
+      const key = (SPACING as unknown)[s]
         ? (s as keyof typeof SPACING)
-        : (map[s as string] ?? (s as any));
+        : (map[s as string] ?? (s as unknown));
       return SPACING[key];
     };
 
@@ -147,9 +147,14 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     if (autoColumns) inlineStyles.gridAutoColumns = autoColumns;
     if (autoRows) inlineStyles.gridAutoRows = autoRows;
 
-    const Comp = Component as any;
+    const Comp = Component as unknown;
     return (
-      <Comp ref={ref as any} className={classes.join(' ')} style={inlineStyles} {...(props as any)}>
+      <Comp
+        ref={ref as unknown}
+        className={classes.join(' ')}
+        style={inlineStyles}
+        {...(props as unknown)}
+      >
         {children}
       </Comp>
     );

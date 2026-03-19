@@ -8,7 +8,8 @@
  * and returns existing instances when possible, creating new ones only when necessary.
  */
 
-import { IMarkerIntrinsicState, MarkerFlyweight } from './MarkerFlyweight';
+import type { IMarkerIntrinsicState } from './MarkerFlyweight';
+import { MarkerFlyweight } from './MarkerFlyweight';
 
 /**
  * Factory for creating and managing marker flyweights

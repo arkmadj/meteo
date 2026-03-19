@@ -1,4 +1,5 @@
-import React, { Component, ReactNode, Suspense } from 'react';
+import type { ReactNode } from 'react';
+import React, { Component, Suspense } from 'react';
 
 import { Loading } from '@/components/ui';
 import { createRouteLazyComponent } from '@/utils/lazyLoad';
@@ -140,7 +141,7 @@ export const withLazyRoute = <P extends object>(
   routeName: string,
   minHeight = '400px'
 ) => {
-  const LazyRoute = React.forwardRef<any, P>((props, ref) => (
+  const LazyRoute = React.forwardRef<unknown, P>((props, ref) => (
     <LazyRouteWrapper routeName={routeName} minHeight={minHeight}>
       <Component {...props} ref={ref} />
     </LazyRouteWrapper>
@@ -160,9 +161,9 @@ export const withLazyRoute = <P extends object>(
  */
 export const ConditionalLazyComponent: React.FC<{
   condition: boolean;
-  lazyComponent: React.LazyExoticComponent<React.ComponentType<any>>;
-  fallbackComponent: React.ComponentType<any>;
-  props?: any;
+  lazyComponent: React.LazyExoticComponent<React.ComponentType<unknown>>;
+  fallbackComponent: React.ComponentType<unknown>;
+  props?: unknown;
 }> = ({
   condition,
   lazyComponent: LazyComponent,

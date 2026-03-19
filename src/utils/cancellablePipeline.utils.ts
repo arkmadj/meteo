@@ -5,14 +5,10 @@
  * building cancellable async task pipelines.
  */
 
-import {
-  CancellationError,
-  CancellationPolicy,
-  CancellationPropagationStrategy,
-  PipelineEvents,
-  TaskStage,
-} from './cancellablePipeline';
-import { CancellationToken, CancellationTokenSource } from './cancellationToken';
+import type { CancellationPolicy, PipelineEvents, TaskStage } from './cancellablePipeline';
+import { CancellationError, CancellationPropagationStrategy } from './cancellablePipeline';
+import type { CancellationToken } from './cancellationToken';
+import { CancellationTokenSource } from './cancellationToken';
 
 // ============================================================================
 // UTILITY TASK STAGES
@@ -21,27 +17,30 @@ import { CancellationToken, CancellationTokenSource } from './cancellationToken'
 /**
  * Simple function-based task stage
  */
-export class FunctionStage<TInput = any, TOutput = any> implements TaskStage<TInput, TOutput> {
+export class FunctionStage<TInput = unknown, TOutput = unknown> implements TaskStage<
+  TInput,
+  TOutput
+> {
   constructor(
     public readonly id: string,
     public readonly name: string,
     private executor: (input: TInput, token: CancellationToken) => Promise<TOutput>,
     public readonly isInterruptible: boolean = true,
     public readonly estimatedDuration?: number,
-    private cleanupFn?: (reason?: any) => Promise<void>
+    private cleanupFn?: (reason?: unknown) => Promise<void>
   ) {}
 
   async execute(input: TInput, token: CancellationToken): Promise<TOutput> {
     return this.executor(input, token);
   }
 
-  async onCancel(reason?: any): Promise<void> {
+  async onCancel(reason?: unknown): Promise<void> {
     if (this.cleanupFn) {
       await this.cleanupFn(reason);
     }
   }
 
-  validate?(input: TInput): Promise<boolean> {
+  validate?(_input: TInput): Promise<boolean> {
     return Promise.resolve(true);
   }
 }
@@ -49,7 +48,7 @@ export class FunctionStage<TInput = any, TOutput = any> implements TaskStage<TIn
 /**
  * Retry-aware task stage with cancellation support
  */
-export class RetryStage<TInput = any, TOutput = any> implements TaskStage<TInput, TOutput> {
+export class RetryStage<TInput = unknown, TOutput = unknown> implements TaskStage<TInput, TOutput> {
   private attemptCount = 0;
 
   constructor(
@@ -128,7 +127,10 @@ export class RetryStage<TInput = any, TOutput = any> implements TaskStage<TInput
 /**
  * Timeout-aware task stage
  */
-export class TimeoutStage<TInput = any, TOutput = any> implements TaskStage<TInput, TOutput> {
+export class TimeoutStage<TInput = unknown, TOutput = unknown> implements TaskStage<
+  TInput,
+  TOutput
+> {
   constructor(
     public readonly id: string,
     public readonly name: string,
@@ -178,7 +180,7 @@ export class TimeoutStage<TInput = any, TOutput = any> implements TaskStage<TInp
 /**
  * Fluent pipeline builder for easier pipeline construction
  */
-export class PipelineBuilder<TInput = any, TOutput = any> {
+export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
   private stages: TaskStage[] = [];
   private policy: Partial<CancellationPolicy> = {};
   private eventHandlers: Partial<PipelineEvents> = {};
@@ -193,7 +195,7 @@ export class PipelineBuilder<TInput = any, TOutput = any> {
     options: {
       isInterruptible?: boolean;
       estimatedDuration?: number;
-      cleanup?: (reason?: any) => Promise<void>;
+      cleanup?: (reason?: unknown) => Promise<void>;
     } = {}
   ): PipelineBuilder<TInput, TStageOutput> {
     const stage = new FunctionStage(
@@ -205,7 +207,7 @@ export class PipelineBuilder<TInput = any, TOutput = any> {
       options.cleanup
     );
     this.stages.push(stage);
-    return this as any;
+    return this as unknown;
   }
 
   /**
@@ -236,7 +238,7 @@ export class PipelineBuilder<TInput = any, TOutput = any> {
       options.retryDelay
     );
     this.stages.push(stage);
-    return this as any;
+    return this as unknown;
   }
 
   /**
@@ -261,7 +263,7 @@ export class PipelineBuilder<TInput = any, TOutput = any> {
       options.timeout
     );
     this.stages.push(stage);
-    return this as any;
+    return this as unknown;
   }
 
   /**
@@ -301,7 +303,7 @@ export class PipelineBuilder<TInput = any, TOutput = any> {
     // Attach any registered event handlers
     Object.entries(this.eventHandlers).forEach(([event, handler]) => {
       if (handler) {
-        pipeline.on(event as keyof PipelineEvents, handler as any);
+        pipeline.on(event as keyof PipelineEvents, handler as unknown);
       }
     });
 
@@ -356,7 +358,7 @@ export interface PipelineMetrics {
   currentStage?: string;
   executionTime: number;
   isCancelled: boolean;
-  cancellationReason?: any;
+  cancellationReason?: unknown;
 }
 
 export class PipelineMonitor {
@@ -368,11 +370,11 @@ export class PipelineMonitor {
     this.metrics.totalStages = (this.metrics.totalStages || 0) + 1;
   }
 
-  onStageComplete(stage: TaskStage): void {
+  onStageComplete(_stage: TaskStage): void {
     this.metrics.completedStages = (this.metrics.completedStages || 0) + 1;
   }
 
-  onStageError(stage: TaskStage, error: Error): void {
+  onStageError(_stage: TaskStage, _error: Error): void {
     this.metrics.failedStages = (this.metrics.failedStages || 0) + 1;
   }
 
@@ -392,7 +394,7 @@ export class PipelineMonitor {
     };
   }
 
-  onPipelineCancelled(reason: any): PipelineMetrics {
+  onPipelineCancelled(reason: unknown): PipelineMetrics {
     const executionTime = this.startTime ? Date.now() - this.startTime : 0;
     return {
       totalStages: this.metrics.totalStages || 0,

@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { CircleMarker, Tooltip } from 'react-leaflet';
-import L from 'leaflet';
 
 import { useTheme } from '@/design-system/theme';
 import type { WeatherDataPoint } from './WeatherTooltip';
@@ -67,7 +66,7 @@ const WeatherMarkers: React.FC<WeatherMarkersProps> = ({
   colorByTemperature = true,
   showLabels = false,
   opacity = 0.7,
-  zIndex = 500,
+  _zIndex = 500,
   renderMarker,
 }) => {
   const { theme } = useTheme();

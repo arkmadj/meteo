@@ -3,7 +3,7 @@
  * for operations that have side effects
  */
 
-import { CancellationToken, CancellationTokenSource } from './cancellationToken';
+import { CancellationTokenSource } from './cancellationToken';
 
 // ============================================================================
 // BASIC ASYNC DEBOUNCE
@@ -13,14 +13,14 @@ import { CancellationToken, CancellationTokenSource } from './cancellationToken'
  * Debounces an async function, cancelling previous executions
  * to prevent race conditions with side effects
  */
-export function debounceAsync<T extends (...args: any[]) => Promise<any>>(
+export function debounceAsync<T extends (...args: unknown[]) => Promise<unknown>>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => Promise<ReturnType<T>> {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   let cancelSource: CancellationTokenSource | undefined;
 
-  return function (this: any, ...args: Parameters<T>): Promise<ReturnType<T>> {
+  return function (this: unknown, ...args: Parameters<T>): Promise<ReturnType<T>> {
     // Cancel previous operation
     if (cancelSource) {
       cancelSource.cancel('Debounced - new operation started');
@@ -65,7 +65,7 @@ export interface DebounceAsyncOptions {
 /**
  * Advanced async debounce with leading/trailing edge execution
  */
-export function createAsyncDebounce<T extends (...args: any[]) => Promise<any>>(
+export function createAsyncDebounce<T extends (...args: unknown[]) => Promise<unknown>>(
   func: T,
   delay: number,
   options: DebounceAsyncOptions = {}
@@ -75,19 +75,19 @@ export function createAsyncDebounce<T extends (...args: any[]) => Promise<any>>(
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   let maxTimeoutId: ReturnType<typeof setTimeout> | undefined;
   let cancelSource: CancellationTokenSource | undefined;
-  let lastCallTime: number;
+  let _lastCallTime: number;
   let lastInvokeTime = 0;
   let lastArgs: Parameters<T> | undefined;
-  let lastThis: any;
+  let lastThis: unknown;
   let result: ReturnType<T>;
 
-  return function (this: any, ...args: Parameters<T>): Promise<ReturnType<T>> {
+  return function (this: unknown, ...args: Parameters<T>): Promise<ReturnType<T>> {
     const time = Date.now();
     const isInvoking = time - lastInvokeTime > delay;
 
     lastArgs = args;
     lastThis = this;
-    lastCallTime = time;
+    _lastCallTime = time;
 
     // Cancel previous operation
     if (cancelSource) {
@@ -171,7 +171,7 @@ export function createAsyncDebounce<T extends (...args: any[]) => Promise<any>>(
 
 export interface SideEffectManager<T> {
   /** Execute the operation with side effects */
-  execute(...args: any[]): Promise<T>;
+  execute(...args: unknown[]): Promise<T>;
   /** Cancel any pending operations */
   cancel(): void;
   /** Check if there are pending operations */
@@ -183,7 +183,7 @@ export interface SideEffectManager<T> {
  * completes successfully, preventing race conditions
  */
 export function createSideEffectManager<T>(
-  asyncFunction: (...args: any[]) => Promise<T>,
+  asyncFunction: (...args: unknown[]) => Promise<T>,
   options: {
     debounceDelay?: number;
     onSuccess?: (result: T) => void;
@@ -197,7 +197,7 @@ export function createSideEffectManager<T>(
   let cancelSource: CancellationTokenSource | null = null;
   let isPending = false;
 
-  const execute = async (...args: any[]): Promise<T> => {
+  const execute = async (...args: unknown[]): Promise<T> => {
     // Cancel previous operation
     if (cancelSource) {
       cancelSource.cancel('New operation started');

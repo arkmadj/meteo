@@ -94,7 +94,7 @@ export type FormReturn<T> = FormState<T> & FormActions<T>;
 // VALIDATION UTILITIES
 // ============================================================================
 
-function validateField<T>(value: T, rules: ValidationRule<T> = {}): string | null {
+function _validateField<T>(value: T, rules: ValidationRule<T> = {}): string | null {
   const { required, minLength, maxLength, pattern, custom } = rules;
 
   // Required validation
@@ -157,7 +157,7 @@ function validateField<T>(value: T, rules: ValidationRule<T> = {}): string | nul
  * });
  * ```
  */
-export function useForm<T extends Record<string, any>>(options: FormOptions<T>): FormReturn<T> {
+export function useForm<T extends Record<string, unknown>>(options: FormOptions<T>): FormReturn<T> {
   const {
     initialValues,
     validationRules = {},

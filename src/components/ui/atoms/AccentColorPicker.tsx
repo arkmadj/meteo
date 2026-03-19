@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { COLORS } from '../../../design-system/tokens';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
-import { componentUtils, useComponentState } from '../base/BaseComponent';
+import { useComponentState } from '../base/BaseComponent';
 
 // ============================================================================
 // TYPES
@@ -99,7 +99,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
   testId,
   ...props
 }) => {
-  const { t } = useTranslation('common');
+  const { _t } = useTranslation('common');
   const { isDisabled } = useComponentState({
     disabled,
     testId,

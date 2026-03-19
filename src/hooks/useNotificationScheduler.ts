@@ -16,10 +16,8 @@ import type {
   SchedulerStatistics,
 } from '@/types/notificationScheduler';
 
-import {
-  notificationSchedulerService,
-  NotificationSchedulerService,
-} from '@/services/notificationSchedulerService';
+import type { NotificationSchedulerService } from '@/services/notificationSchedulerService';
+import { notificationSchedulerService } from '@/services/notificationSchedulerService';
 
 /**
  * Hook options

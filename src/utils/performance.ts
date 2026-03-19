@@ -19,7 +19,7 @@ export interface PerformanceMetrics {
   baseDuration: number;
   startTime: number;
   commitTime: number;
-  interactions: any[];
+  interactions: unknown[];
 }
 
 // Performance monitoring configuration

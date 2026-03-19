@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import L from 'leaflet';
+import type L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import { useAdaptiveMapRendering } from '@/hooks/useAdaptiveMapRendering';
@@ -157,7 +157,7 @@ const AdaptiveWeatherMap: React.FC<AdaptiveWeatherMapProps> = ({
   showPerformanceOverlay = false,
 }) => {
   const [mapCenter, setMapCenter] = useState<MapLocation>(defaultLocation);
-  const [currentZoom, setCurrentZoom] = useState<number>(zoom);
+  const [currentZoom, _setCurrentZoom] = useState<number>(zoom);
   const mapRef = useRef<L.Map | null>(null);
 
   const { preferences } = useUserPreferencesContext();
@@ -197,7 +197,7 @@ const AdaptiveWeatherMap: React.FC<AdaptiveWeatherMapProps> = ({
   /**
    * Handle location change
    */
-  const handleLocationChange = useCallback(
+  const _handleLocationChange = useCallback(
     (location: MapLocation) => {
       setMapCenter(location);
       onLocationChange?.(location);

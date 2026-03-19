@@ -18,7 +18,7 @@ import { useMapUrlSync } from '@/hooks/useMapUrlSync';
 import MapShareButton from './MapShareButton';
 
 // Fix for default markers in react-leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as unknown)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -164,7 +164,7 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
   onLocationChange,
   onMapReady,
   showUserLocation = true,
-  enableLocationSearch = true, // eslint-disable-line @typescript-eslint/no-unused-vars
+  _enableLocationSearch = true,
   className = '',
   children,
   enableUrlSync = true,
@@ -182,7 +182,7 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
   const { showError, showSuccess, showInfo } = useSnackbar();
   const { theme } = useTheme();
   const responsive = useMapResponsive();
-  const responsiveZoom = useMapZoom(zoom);
+  const _responsiveZoom = useMapZoom(zoom);
 
   // Theme-aware colors for map controls
   const controlBgColor = theme.isDark ? '#1f2937' : '#ffffff';
@@ -208,8 +208,8 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
 
   // Geolocation hook with error handling
   const {
-    position,
-    error: geoError,
+    _position,
+    error: _geoError,
     loading: geoLoading,
     getCurrentPosition,
     isSupported: geoSupported,

@@ -4,7 +4,8 @@
  * Provides convenient methods for creating and manipulating file system structures
  */
 
-import { Directory, File, FileSystemComponent } from './FileSystemComponent';
+import type { FileSystemComponent } from './FileSystemComponent';
+import { Directory, File } from './FileSystemComponent';
 
 /**
  * FileSystemBuilder - Fluent API for building file system structures

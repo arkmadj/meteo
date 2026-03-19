@@ -76,7 +76,7 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
   const [isAutoplayActive, setIsAutoplayActive] = useState(autoplay);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const autoplayRef = useRef<any>(null);
+  const autoplayRef = useRef<unknown>(null);
 
   // Configure enhanced options
   const enhancedOptions: EmblaOptionsType = {

@@ -241,7 +241,7 @@ export function generateContrastReport(result: ThemeContrastResult): string {
   lines.push(`\nPassing Checks:`);
   result.checks
     .filter(check => check.passes)
-    .forEach((check, index) => {
+    .forEach((check, _index) => {
       lines.push(`  ✓ ${check.foreground} on ${check.background}: ${check.ratio.toFixed(2)}:1`);
     });
 

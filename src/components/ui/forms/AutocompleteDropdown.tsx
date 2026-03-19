@@ -99,7 +99,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
   error = null,
   query = '',
 }) => {
-  const { theme } = useTheme();
+  const { _theme } = useTheme();
   const { t } = useTranslation();
 
   if (error) {

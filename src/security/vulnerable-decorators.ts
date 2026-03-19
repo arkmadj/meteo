@@ -12,12 +12,12 @@ const logger = vulnerableLogger;
 
 // ❌ VULNERABLE: Decorator order dependency
 export function VulnerableCache(ttl: number) {
-  const cache = new Map<string, { value: any; expires: number }>();
+  const cache = new Map<string, { value: unknown; expires: number }>();
 
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}`;
       const cached = cache.get(key);
 
@@ -38,12 +38,12 @@ export function VulnerableCache(ttl: number) {
 
 // ❌ VULNERABLE: Metadata-based auth that can be tampered
 export function VulnerableRequireRole(role: string) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     // Store role in easily accessible metadata
     setMetadata('required-role', role, target, propertyKey);
 
     const originalMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       const requiredRole = getMetadata<string>('required-role', target, propertyKey);
       const currentUser = getCurrentUser();
       if (!requiredRole) {
@@ -62,7 +62,7 @@ export function VulnerableRequireRole(role: string) {
 // ❌ VULNERABLE: Singleton DI with shared mutable state
 export class VulnerableAuthContext {
   private static instance: VulnerableAuthContext;
-  private currentUser: any = null;
+  private currentUser: unknown = null;
 
   static getInstance() {
     if (!this.instance) {
@@ -71,7 +71,7 @@ export class VulnerableAuthContext {
     return this.instance;
   }
 
-  setCurrentUser(user: any) {
+  setCurrentUser(user: unknown) {
     vulnerableLogger.warn('Setting user in shared singleton', { hasUser: Boolean(user) });
     this.currentUser = user; // Shared across all requests!
   }
@@ -83,9 +83,9 @@ export class VulnerableAuthContext {
 
 // ❌ VULNERABLE: DI container that can be poisoned
 export class VulnerableDIContainer {
-  private static services = new Map<string, any>();
+  private static services = new Map<string, unknown>();
 
-  static register(token: string, service: any) {
+  static register(token: string, service: unknown) {
     vulnerableLogger.warn('Allowing unrestricted service registration', { token });
     this.services.set(token, service);
   }
@@ -96,7 +96,11 @@ export class VulnerableDIContainer {
 }
 
 export function VulnerableInject(token: string) {
-  return function (target: any, _propertyKey: string | symbol | undefined, parameterIndex: number) {
+  return function (
+    target: unknown,
+    _propertyKey: string | symbol | undefined,
+    parameterIndex: number
+  ) {
     const existingTokens = getMetadata<Array<string | undefined>>('inject-tokens', target) ?? [];
 
     existingTokens[parameterIndex] = token;
@@ -106,10 +110,10 @@ export function VulnerableInject(token: string) {
 
 // ❌ VULNERABLE: Conditional auth that can be bypassed
 export function VulnerableConditionalAuth(condition: () => boolean) {
-  return function (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       if (condition()) {
         logger.info('🔓 SECURITY ISSUE: Auth check depends on external condition');
         const user = getCurrentUser();
@@ -127,10 +131,10 @@ export function VulnerableConditionalAuth(condition: () => boolean) {
 
 // ❌ VULNERABLE: Race condition in async auth
 export function VulnerableAsyncAuth() {
-  return function (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (_target: unknown, _propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = async function (...args: any[]) {
+    descriptor.value = async function (...args: unknown[]) {
       logger.info('🔓 SECURITY ISSUE: Race condition between auth and execution');
 
       // Race condition: both promises start simultaneously
@@ -153,13 +157,13 @@ export function VulnerableAddMethod(methodName: string, implementation: Function
 }
 
 // ❌ VULNERABLE: Memoization without considering security context
-const memoCache = new Map<string, any>();
+const memoCache = new Map<string, unknown>();
 
 export function VulnerableMemoize() {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (target: unknown, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (...args: unknown[]) {
       const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}`;
 
       if (memoCache.has(key)) {
@@ -177,7 +181,7 @@ export function VulnerableMemoize() {
 }
 
 // Mock functions for examples
-function getCurrentUser(): any {
+function getCurrentUser(): unknown {
   return VulnerableAuthContext.getInstance().getCurrentUser();
 }
 

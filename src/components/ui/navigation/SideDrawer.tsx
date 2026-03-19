@@ -163,7 +163,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 }) => {
   const { theme } = useTheme();
   const drawerRef = useRef<HTMLDivElement>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [_isAnimating, setIsAnimating] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // Get actual theme mode

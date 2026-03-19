@@ -51,7 +51,7 @@ const createQueryErrorHandler = (
   showError: ReturnType<typeof useSnackbar>['showError'],
   showWarning: ReturnType<typeof useSnackbar>['showWarning']
 ) => {
-  return (error: Error, query: any) => {
+  return (error: Error, query: unknown) => {
     console.error('Query Error:', error);
 
     // Don't show snackbars for background refetches
@@ -226,7 +226,7 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
     const handleQueryError = createQueryErrorHandler(showSnackbar, showError, showWarning);
 
     const unsubscribe = queryClient.getQueryCache().subscribe(event => {
-      if (event.type === 'updated' && (event as any).action === 'error') {
+      if (event.type === 'updated' && (event as unknown).action === 'error') {
         const { query } = event;
         if (query.state.error) {
           handleQueryError(query.state.error, query);
@@ -243,9 +243,9 @@ export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = queryClient.getQueryCache().subscribe(event => {
       // Notify on successful background refetch
-      if (event.type === 'updated' && (event as any).action === 'success') {
+      if (event.type === 'updated' && (event as unknown).action === 'success') {
         const { query } = event;
-        const meta = query.meta as any;
+        const meta = query.meta as unknown;
 
         // Only show notification for auto-refresh, not manual fetches
         if (meta?.autoRefresh && query.state.data && query.state.dataUpdatedAt) {

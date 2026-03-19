@@ -96,7 +96,7 @@ export const DashboardControls = createHoverLazyComponent(
 /**
  * Feature-gated component that loads based on feature flags
  */
-export const createFeatureGatedComponent = <T extends React.ComponentType<any>>(
+export const createFeatureGatedComponent = <T extends React.ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   featureFlag: string,
   fallbackComponent?: React.ComponentType
@@ -116,12 +116,12 @@ export const createFeatureGatedComponent = <T extends React.ComponentType<any>>(
 /**
  * Performance-aware component that loads based on connection speed
  */
-export const createPerformanceAwareComponent = <T extends React.ComponentType<any>>(
+export const createPerformanceAwareComponent = <T extends React.ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>
 ) => {
   const getLoadingStrategy = () => {
     // Check connection speed if available
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
     if (connection) {
       const effectiveType = connection.effectiveType;
       if (effectiveType === 'slow-2g' || effectiveType === '2g') {
@@ -143,7 +143,7 @@ export const createPerformanceAwareComponent = <T extends React.ComponentType<an
 /**
  * User preference-aware component
  */
-export const createPreferenceAwareComponent = <T extends React.ComponentType<any>>(
+export const createPreferenceAwareComponent = <T extends React.ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>
 ) => {
   const getLoadingStrategy = () => {
@@ -151,7 +151,7 @@ export const createPreferenceAwareComponent = <T extends React.ComponentType<any
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Check for data saver preference
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
     const saveData = connection?.saveData;
 
     if (saveData || prefersReducedMotion) {

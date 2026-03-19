@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
-import { createBrowserRouter, Outlet, RouterProvider, useLocation } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
-import QuickNav from '@/components/navigation/DevToolsNav';
 import { preloadRouteChunks } from '@/components/lazy/chunkOptimizedIndex';
+import QuickNav from '@/components/navigation/DevToolsNav';
 import { RouteSuspense } from '@/components/ui';
 import { KeyboardShortcutsProvider } from '@/contexts/KeyboardShortcutsContext';
 
@@ -216,7 +222,9 @@ export const preloadRoutes = {
  * Hook for programmatic navigation with preloading
  */
 export const useNavigateWithPreload = () => {
-  const navigate = (to: string, options?: { replace?: boolean; state?: any }) => {
+  const navigateFunction = useNavigate();
+
+  const navigate = (to: string, options?: { replace?: boolean; state?: unknown }) => {
     // Preload the route before navigating
     const routeName = to.split('/')[1] as keyof typeof preloadRoutes;
     if (preloadRoutes[routeName]) {
@@ -224,10 +232,7 @@ export const useNavigateWithPreload = () => {
     }
 
     // Use React Router's navigate
-    import('react-router-dom').then(({ useNavigate }) => {
-      const navigateFunction = useNavigate();
-      navigateFunction(to, options);
-    });
+    navigateFunction(to, options);
   };
 
   return { navigate };

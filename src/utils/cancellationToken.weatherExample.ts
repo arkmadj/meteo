@@ -5,8 +5,10 @@
  * the weather app's async operations compared to basic AbortController usage.
  */
 
-import { CancellationTokenSource, withTimeout, anyToken } from './cancellationToken';
+import { useCallback, useEffect, useRef } from 'react';
+
 import { Semaphore } from './asyncConcurrency';
+import { anyToken, CancellationTokenSource, withTimeout } from './cancellationToken';
 import { safeRetry } from './retry';
 
 // ============================================================================
@@ -32,7 +34,7 @@ export class EnhancedWeatherService {
       enableRetry?: boolean;
       priority?: 'high' | 'normal' | 'low';
     } = {}
-  ): Promise<any> {
+  ): Promise<unknown> {
     // Create operation-specific token
     const operationToken = this.globalTokenSource.createChild();
 
@@ -70,7 +72,7 @@ export class EnhancedWeatherService {
     location: string,
     token: CancellationToken,
     enableRetry: boolean = true
-  ): Promise<any> {
+  ): Promise<unknown> {
     const fetchFunction = async () => {
       // Check cancellation before each attempt
       if (token.isCancellationRequested) {
@@ -127,7 +129,7 @@ export class EnhancedWeatherService {
       maxConcurrent?: number;
       failFast?: boolean;
     } = {}
-  ): Promise<Map<string, any>> {
+  ): Promise<Map<string, unknown>> {
     const batchToken = this.globalTokenSource.createChild();
     const timeoutToken = options.timeout
       ? withTimeout(options.timeout, 'Batch operation timeout')
@@ -135,7 +137,7 @@ export class EnhancedWeatherService {
 
     const compositeToken = timeoutToken ? anyToken(batchToken, timeoutToken) : batchToken;
 
-    const results = new Map<string, any>();
+    const results = new Map<string, unknown>();
     const errors = new Map<string, Error>();
 
     // Use semaphore for concurrency control

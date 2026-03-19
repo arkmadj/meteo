@@ -327,12 +327,14 @@ export function inOrderCPS<T>(
 /**
  * Type for a recursive function that can be transformed to CPS
  */
-export type RecursiveFunction<Args extends any[], R> = (...args: Args) => R;
+export type RecursiveFunction<Args extends unknown[], R> = (...args: Args) => R;
 
 /**
  * Type for a CPS-transformed function
  */
-export type CPSFunction<Args extends any[], R> = (...args: [...Args, Continuation<R>]) => Bounce<R>;
+export type CPSFunction<Args extends unknown[], R> = (
+  ...args: [...Args, Continuation<R>]
+) => Bounce<R>;
 
 /**
  * Helper to create a CPS version of a simple recursive function
@@ -352,7 +354,7 @@ export type CPSFunction<Args extends any[], R> = (...args: [...Args, Continuatio
  *     cont(() => chain(recurse(n - 1), x => done(n * x)))
  * );
  */
-export function createCPS<Args extends any[], R>(
+export function createCPS<Args extends unknown[], R>(
   baseCase: (...args: Args) => boolean,
   baseCaseValue: (...args: Args) => R,
   recursiveStep: (
@@ -367,7 +369,9 @@ export function createCPS<Args extends any[], R>(
       return k(baseCaseValue(...funcArgs));
     }
 
-    return recursiveStep(...funcArgs, recurse => cont(() => cpsFunc(...[...(recurse as any), k])));
+    return recursiveStep(...funcArgs, recurse =>
+      cont(() => cpsFunc(...[...(recurse as unknown), k]))
+    );
   };
 
   return cpsFunc;

@@ -7,7 +7,7 @@ export interface RequestConfig {
   url: string;
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
-  body?: any;
+  body?: unknown;
   timeout?: number;
   retries?: number;
   priority?: 'low' | 'normal' | 'high';
@@ -51,7 +51,7 @@ export const getUserConnectionInfo = (): UserConnectionInfo => {
     return defaultInfo;
   }
 
-  const connection = (navigator as any).connection;
+  const connection = (navigator as unknown).connection;
   if (!connection) {
     return defaultInfo;
   }
@@ -68,7 +68,7 @@ export const getUserConnectionInfo = (): UserConnectionInfo => {
  * Request queue manager for respecting parallel request limits
  */
 class RequestQueue {
-  private queue: Array<() => Promise<any>> = [];
+  private queue: Array<() => Promise<unknown>> = [];
   private activeRequests = 0;
   private maxConcurrent: number;
 
@@ -127,7 +127,7 @@ export class PreferenceAwareHttpClient {
 
     // Listen for connection changes
     if ('connection' in navigator) {
-      (navigator as any).connection?.addEventListener('change', () => {
+      (navigator as unknown).connection?.addEventListener('change', () => {
         this.connectionInfo = getUserConnectionInfo();
         this.requestQueue.setMaxConcurrent(this.getOptimalMaxRequests());
       });
@@ -220,7 +220,7 @@ export class PreferenceAwareHttpClient {
     }
   }
 
-  async request<T = any>(config: PreferenceAwareRequestConfig): Promise<T> {
+  async request<T = unknown>(config: PreferenceAwareRequestConfig): Promise<T> {
     const optimizedConfig = this.optimizeRequestConfig(config);
     const maxRetries = optimizedConfig.retries || 3;
 
@@ -259,27 +259,30 @@ export class PreferenceAwareHttpClient {
     });
   }
 
-  async get<T = any>(url: string, config: Partial<PreferenceAwareRequestConfig> = {}): Promise<T> {
+  async get<T = unknown>(
+    url: string,
+    config: Partial<PreferenceAwareRequestConfig> = {}
+  ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'GET' });
   }
 
-  async post<T = any>(
+  async post<T = unknown>(
     url: string,
-    body: any,
+    body: unknown,
     config: Partial<PreferenceAwareRequestConfig> = {}
   ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'POST', body });
   }
 
-  async put<T = any>(
+  async put<T = unknown>(
     url: string,
-    body: any,
+    body: unknown,
     config: Partial<PreferenceAwareRequestConfig> = {}
   ): Promise<T> {
     return this.request<T>({ ...config, url, method: 'PUT', body });
   }
 
-  async delete<T = any>(
+  async delete<T = unknown>(
     url: string,
     config: Partial<PreferenceAwareRequestConfig> = {}
   ): Promise<T> {

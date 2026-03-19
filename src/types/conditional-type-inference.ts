@@ -14,40 +14,42 @@ type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T;
 
 // Basic usage
 type StringPromise = Promise<string>;
-type ResolvedString = Awaited<StringPromise>; // string
+type _ResolvedString = Awaited<StringPromise>; // string
 
 // Nested Promise inference
 type NestedPromise = Promise<Promise<Promise<number>>>;
-type DeeplyResolved = Awaited<NestedPromise>; // number
+type _DeeplyResolved = Awaited<NestedPromise>; // number
 
 // ============================================================================
 // ADVANCED FUNCTION RETURN TYPE INFERENCE
 // ============================================================================
 
 // Extract return type from async function
-type AsyncFunctionReturnType<T extends (...args: any[]) => any> = T extends (
-  ...args: any[]
+type AsyncFunctionReturnType<T extends (...args: unknown[]) => unknown> = T extends (
+  ...args: unknown[]
 ) => Promise<infer R>
   ? R
   : never;
 
 // Extract deeply nested return type
-type DeepAsyncReturnType<T extends (...args: any[]) => any> = Awaited<AsyncFunctionReturnType<T>>;
+type DeepAsyncReturnType<T extends (...args: unknown[]) => unknown> = Awaited<
+  AsyncFunctionReturnType<T>
+>;
 
 // Usage examples
-declare function fetchUser(id: string): Promise<{ id: string; name: string }>;
-declare function fetchPosts(userId: string): Promise<Promise<{ id: number; title: string }[]>>;
+declare function _fetchUser(id: string): Promise<{ id: string; name: string }>;
+declare function _fetchPosts(userId: string): Promise<Promise<{ id: number; title: string }[]>>;
 
-type User = DeepAsyncReturnType<typeof fetchUser>; // { id: string; name: string }
-type Posts = DeepAsyncReturnType<typeof fetchPosts>; // { id: number; title: string }[]
+type _User = DeepAsyncReturnType<typeof fetchUser>; // { id: string; name: string }
+type _Posts = DeepAsyncReturnType<typeof fetchPosts>; // { id: number; title: string }[]
 
 // ============================================================================
 // RECURSIVE CONDITIONAL TYPES FOR DEEP NESTING
 // ============================================================================
 
 // Recursive type that unwraps any level of Promise nesting
-type UnwrapPromise<T> =
-  T extends PromiseLike<infer U> ? (U extends PromiseLike<any> ? UnwrapPromise<U> : U) : T;
+type _UnwrapPromise<T> =
+  T extends PromiseLike<infer U> ? (U extends PromiseLike<unknown> ? UnwrapPromise<U> : U) : T;
 
 // Alternative recursive implementation with safe depth (simplified for TS compatibility)
 // We rely on TypeScript's recursion limit instead of manual arithmetic on the Depth type.
@@ -58,12 +60,12 @@ type UnwrapPromiseRecursive<T> = T extends PromiseLike<infer U> ? UnwrapPromiseR
 // ============================================================================
 
 // Infer the resolved type from any async function
-type InferAsyncResolved<T> = T extends (...args: infer A) => Promise<infer R>
+type _InferAsyncResolved<T> = T extends (...args: infer A) => Promise<infer R>
   ? (...args: A) => R
   : never;
 
 // Apply to function parameters
-function processAsyncResult<T extends (...args: any[]) => Promise<any>>(
+function _processAsyncResult<T extends (...args: unknown[]) => Promise<unknown>>(
   fn: T,
   ...args: Parameters<T>
 ): Promise<DeepAsyncReturnType<T>> {
@@ -75,13 +77,13 @@ function processAsyncResult<T extends (...args: any[]) => Promise<any>>(
 // ============================================================================
 
 // Handle both sync and async functions
-type FunctionReturnType<T> = T extends (...args: any[]) => Promise<infer R>
+type FunctionReturnType<T> = T extends (...args: unknown[]) => Promise<infer R>
   ? R
-  : T extends (...args: any[]) => infer R
+  : T extends (...args: unknown[]) => infer R
     ? R
     : never;
 
-type UnwrappedFunctionReturn<T> = T extends (...args: any[]) => any
+type _UnwrappedFunctionReturn<T> = T extends (...args: unknown[]) => unknown
   ? Awaited<FunctionReturnType<T>>
   : never;
 
@@ -91,19 +93,19 @@ type UnwrappedFunctionReturn<T> = T extends (...args: any[]) => any
 
 // Example: Complex nested async operations
 declare class DataService {
-  async fetchUser(id: string): Promise<{ id: string; name: string; email: string }> {
+  async fetchUser(_id: string): Promise<{ _id: string; name: string; email: string }> {
     // Implementation
-    return {} as any;
+    return {} as unknown;
   }
 
-  async fetchUserPreferences(userId: string): Promise<
+  async fetchUserPreferences(_userId: string): Promise<
     Promise<{
       theme: 'light' | 'dark';
       notifications: boolean;
     }>
   > {
     // Implementation
-    return {} as any;
+    return {} as unknown;
   }
 
   async fetchCompleteProfile(id: string): Promise<{
@@ -120,19 +122,19 @@ declare class DataService {
 }
 
 // Type inference for the complex profile
-type CompleteProfile = DeepAsyncReturnType<DataService['fetchCompleteProfile']>;
+type _CompleteProfile = DeepAsyncReturnType<DataService['fetchCompleteProfile']>;
 
 // ============================================================================
 // CONDITIONAL TYPE UTILITIES
 // ============================================================================
 
 // Utility to check if type is a Promise
-type IsPromise<T> = T extends PromiseLike<any> ? true : false;
+type _IsPromise<T> = T extends PromiseLike<unknown> ? true : false;
 
 // Utility to get Promise depth
-type PromiseDepth<T, Depth extends number = 0> =
+type _PromiseDepth<T, Depth extends number = 0> =
   T extends PromiseLike<infer U>
-    ? U extends PromiseLike<any>
+    ? U extends PromiseLike<unknown>
       ? PromiseDepth<
           U,
           Depth extends 0
@@ -159,7 +161,7 @@ type PromiseDepth<T, Depth extends number = 0> =
     : Depth;
 
 // Utility to unwrap to specific depth
-type UnwrapToDepth<
+type _UnwrapToDepth<
   T,
   TargetDepth extends number,
   CurrentDepth extends number = 0,
@@ -198,17 +200,17 @@ type UnwrapToDepth<
 // ============================================================================
 
 // Example 1: API response chaining
-declare function fetchApiData<T>(endpoint: string): Promise<Promise<T>>;
+declare function _fetchApiData<T>(endpoint: string): Promise<Promise<T>>;
 
-type ApiResponse<T> = DeepAsyncReturnType<typeof fetchApiData<T>>;
+type _ApiResponse<T> = DeepAsyncReturnType<typeof fetchApiData<T>>;
 
 // Example 2: Cache layer with nested promises
-declare function getCachedData<T>(key: string): Promise<Promise<T> | Promise<Promise<T>>>;
+declare function _getCachedData<T>(key: string): Promise<Promise<T> | Promise<Promise<T>>>;
 
-type CachedData<T> = UnwrapPromiseRecursive<ReturnType<typeof getCachedData<T>>>;
+type _CachedData<T> = UnwrapPromiseRecursive<ReturnType<typeof getCachedData<T>>>;
 
 // Example 3: Batch operations
-declare function batchFetch<T>(ids: string[]): Promise<{
+declare function _batchFetch<T>(ids: string[]): Promise<{
   results: Promise<Promise<T>>[];
   metadata: Promise<{
     total: number;
@@ -216,7 +218,7 @@ declare function batchFetch<T>(ids: string[]): Promise<{
   }>;
 }>;
 
-type BatchResults<T> = {
+type _BatchResults<T> = {
   results: T[];
   metadata: {
     total: number;
@@ -229,7 +231,7 @@ type BatchResults<T> = {
 // ============================================================================
 
 // Test function with multiple nesting levels
-async function complexNestedOperation(): Promise<
+async function _complexNestedOperation(): Promise<
   Promise<{
     data: Promise<{
       items: Promise<string[]>;
@@ -238,11 +240,11 @@ async function complexNestedOperation(): Promise<
     status: Promise<'pending' | 'complete'>;
   }>
 > {
-  return {} as any;
+  return {} as unknown;
 }
 
 // Inferred types
-type ComplexResult = DeepAsyncReturnType<typeof complexNestedOperation>;
+type _ComplexResult = DeepAsyncReturnType<typeof complexNestedOperation>;
 // Should equal:
 // {
 //   data: {
@@ -262,7 +264,7 @@ function isPromise(value: unknown): value is PromiseLike<unknown> {
     value !== null &&
     typeof value === 'object' &&
     'then' in value &&
-    typeof (value as any).then === 'function'
+    typeof (value as unknown).then === 'function'
   );
 }
 
@@ -277,4 +279,4 @@ async function resolveNested<T>(value: T): Promise<Awaited<T>> {
 
 // Example usage
 const nestedPromise = Promise.resolve(Promise.resolve(Promise.resolve(42)));
-const resolved = await resolveNested(nestedPromise); // 42
+const _resolved = await resolveNested(nestedPromise); // 42

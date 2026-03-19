@@ -135,7 +135,7 @@ const transformAirQualityData = (
   let dominantPollutant = 'PM2.5';
   let maxRelativeValue = 0;
 
-  Object.entries(pollutants).forEach(([key, pollutant]) => {
+  Object.entries(pollutants).forEach(([_key, pollutant]) => {
     const relativeValue = pollutant.value / 100; // Simplified calculation
     if (relativeValue > maxRelativeValue) {
       maxRelativeValue = relativeValue;

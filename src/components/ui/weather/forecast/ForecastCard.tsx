@@ -358,7 +358,7 @@ const ForecastCard: React.FC<ForecastCardProps> = ({
               <ReactAnimatedWeather
                 animate={!prefersReducedMotion}
                 color={iconColor}
-                icon={day.condition.icon as any}
+                icon={day.condition.icon as unknown}
                 size={config.iconSize}
               />
               {/* Weather condition badge - Theme-aware */}

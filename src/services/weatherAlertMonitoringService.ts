@@ -15,6 +15,7 @@ import type {
   MonitoringEventType,
   MonitoringServiceConfig,
   MonitoringStatistics,
+  RefreshResult,
 } from '@/types/weatherAlertMonitoring';
 
 import { getLogger } from '@/utils/logger';

@@ -647,7 +647,7 @@ export const tokenUtils = {
    */
   getColor: (colorPath: string, shade?: number): string => {
     const parts = colorPath.split('.');
-    let value: any = COLORS;
+    let value: unknown = COLORS;
 
     for (const part of parts) {
       value = value?.[part];
@@ -685,9 +685,9 @@ export const tokenUtils = {
   /**
    * Get a typography value
    */
-  getTypography: (path: string): any => {
+  getTypography: (path: string): unknown => {
     const parts = path.split('.');
-    let value: any = TYPOGRAPHY;
+    let value: unknown = TYPOGRAPHY;
 
     for (const part of parts) {
       value = value?.[part];
@@ -699,9 +699,9 @@ export const tokenUtils = {
   /**
    * Get a component-specific token
    */
-  getComponentToken: (component: keyof typeof COMPONENT_TOKENS, path: string): any => {
+  getComponentToken: (component: keyof typeof COMPONENT_TOKENS, path: string): unknown => {
     const parts = path.split('.');
-    let value: any = COMPONENT_TOKENS?.[component];
+    let value: unknown = COMPONENT_TOKENS?.[component];
 
     for (const part of parts) {
       value = value?.[part];
@@ -719,7 +719,7 @@ export const tokenUtils = {
     // Color variables
     Object.entries(COLORS).forEach(([category, shades]) => {
       if (typeof shades === 'object') {
-        Object.entries(shades as Record<string, any>).forEach(([shade, value]) => {
+        Object.entries(shades as Record<string, unknown>).forEach(([shade, value]) => {
           if (typeof value === 'string') {
             variables.push(`${prefix}-${category}-${shade}: ${value};`);
           } else if (typeof value === 'object') {

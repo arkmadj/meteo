@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import Dropdown, { DropdownItem } from './Dropdown';
+import type { DropdownItem } from './Dropdown';
+import Dropdown from './Dropdown';
 
 const DropdownExample: React.FC = () => {
   const [selectedAction, setSelectedAction] = useState<string>('');

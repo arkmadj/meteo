@@ -3,8 +3,6 @@
  * Chooses optimal real-time communication method based on network conditions and user preferences
  */
 
-import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
-
 export type UpdateMethod = 'websocket' | 'sse' | 'polling';
 export type UpdateFrequency = 'high' | 'medium' | 'low';
 
@@ -59,7 +57,7 @@ class AdaptiveWeatherUpdatesService {
    */
   private determineOptimalMethod(
     networkConditions: NetworkConditions,
-    userPreferences: any,
+    userPreferences: unknown,
     updateFrequency: UpdateFrequency
   ): WeatherUpdateConfig {
     // Respect save-data preference
@@ -118,7 +116,7 @@ class AdaptiveWeatherUpdatesService {
    * Get current network conditions
    */
   private getNetworkConditions(): NetworkConditions {
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
 
     return {
       effectiveType: connection?.effectiveType || '4g',

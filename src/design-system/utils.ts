@@ -17,7 +17,7 @@ export const colorUtils = {
    */
   get: (colorPath: string, shade?: number): string => {
     const parts = colorPath.split('.');
-    let value: any = COLORS;
+    let value: unknown = COLORS;
 
     for (const part of parts) {
       value = value?.[part];
