@@ -38,15 +38,18 @@ export class AnnouncementThrottler {
     this.processing = true;
     const delay = this.minInterval - (Date.now() - this.lastAnnouncement);
 
-    setTimeout(() => {
-      const callback = this.queue.shift();
-      if (callback) {
-        callback();
-        this.lastAnnouncement = Date.now();
-      }
-      this.processing = false;
-      this.processQueue();
-    }, Math.max(0, delay));
+    setTimeout(
+      () => {
+        const callback = this.queue.shift();
+        if (callback) {
+          callback();
+          this.lastAnnouncement = Date.now();
+        }
+        this.processing = false;
+        this.processQueue();
+      },
+      Math.max(0, delay)
+    );
   }
 
   clear(): void {
@@ -395,4 +398,3 @@ export function getAnnouncementManager(): AnnouncementManager {
   }
   return managerInstance;
 }
-

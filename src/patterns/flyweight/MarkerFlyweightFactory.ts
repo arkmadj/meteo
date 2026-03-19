@@ -1,9 +1,9 @@
 /**
  * MarkerFlyweightFactory
- * 
+ *
  * Factory class that manages the creation and reuse of MarkerFlyweight instances.
  * Ensures that only one flyweight exists for each unique combination of intrinsic state.
- * 
+ *
  * This is the core of the Flyweight pattern - it maintains a pool of shared objects
  * and returns existing instances when possible, creating new ones only when necessary.
  */
@@ -70,7 +70,7 @@ export class MarkerFlyweightFactory {
   } {
     const types = Array.from(this.flyweights.keys());
     const totalFlyweights = this.flyweights.size;
-    
+
     // Rough estimate: each flyweight saves ~1KB per marker instance
     const memorySavedPerMarker = 1; // KB
     const memoryEstimate = `~${memorySavedPerMarker * totalFlyweights}KB saved per 1000 markers`;
@@ -170,4 +170,3 @@ export const MARKER_TYPES = {
     borderWidth: 2,
   },
 } as const;
-

@@ -16,7 +16,8 @@ export type SearchInputSize = 'sm' | 'md' | 'lg' | 'xl';
 export type SearchInputVariant = 'default' | 'filled' | 'outlined';
 
 export interface SearchInputProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Search input variant */
   variant?: SearchInputVariant;

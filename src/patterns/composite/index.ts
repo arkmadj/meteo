@@ -1,6 +1,6 @@
 /**
  * Composite Pattern Exports
- * 
+ *
  * Exports all components of the Composite pattern implementation
  * for representing nested file system structures.
  */
@@ -36,4 +36,3 @@ export {
   example8_DynamicModifications,
   runAllExamples,
 } from './examples';
-

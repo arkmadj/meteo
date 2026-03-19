@@ -232,15 +232,21 @@ export const WidgetSidePanel: React.FC<WidgetSidePanelProps> = ({ className = ''
           <div className="px-3 pb-3 space-y-3 border-t border-[var(--theme-border)] pt-3">
             {/* Category Badge */}
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-[var(--theme-text-secondary)]">Category:</span>
-              <span className={`px-2 py-1 rounded text-xs font-medium ${getCategoryColor(getWidgetCategory(widget))}`}>
+              <span className="text-xs font-medium text-[var(--theme-text-secondary)]">
+                Category:
+              </span>
+              <span
+                className={`px-2 py-1 rounded text-xs font-medium ${getCategoryColor(getWidgetCategory(widget))}`}
+              >
                 {getWidgetCategory(widget)}
               </span>
             </div>
 
             {/* Size Control */}
             <div>
-              <label className="text-xs font-medium text-[var(--theme-text-secondary)] block mb-2">Size:</label>
+              <label className="text-xs font-medium text-[var(--theme-text-secondary)] block mb-2">
+                Size:
+              </label>
               <div className="flex gap-2">
                 {['small', 'medium', 'large'].map(size => (
                   <button
@@ -248,12 +254,15 @@ export const WidgetSidePanel: React.FC<WidgetSidePanelProps> = ({ className = ''
                     className={`
                       flex-1 px-3 py-1.5 rounded text-xs font-medium transition-colors
                       ${
-                        widget.size.w === (size === 'small' ? 1 : 2) && widget.size.h === (size === 'large' ? 3 : 2)
+                        widget.size.w === (size === 'small' ? 1 : 2) &&
+                        widget.size.h === (size === 'large' ? 3 : 2)
                           ? 'bg-[var(--theme-primary)] text-white'
                           : 'bg-[var(--theme-surface)] text-[var(--theme-text)] hover:bg-[var(--theme-hover)] border border-[var(--theme-border)]'
                       }
                     `}
-                    onClick={() => handleSizeChange(widget.id, size as 'small' | 'medium' | 'large')}
+                    onClick={() =>
+                      handleSizeChange(widget.id, size as 'small' | 'medium' | 'large')
+                    }
                   >
                     {size.charAt(0).toUpperCase() + size.slice(1)}
                   </button>
@@ -307,7 +316,9 @@ export const WidgetSidePanel: React.FC<WidgetSidePanelProps> = ({ className = ''
               {getWidgetDescription(widget)}
             </div>
             <div className="mt-1">
-              <span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(getWidgetCategory(widget))}`}>
+              <span
+                className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(getWidgetCategory(widget))}`}
+              >
                 {getWidgetCategory(widget)}
               </span>
             </div>
@@ -357,11 +368,12 @@ export const WidgetSidePanel: React.FC<WidgetSidePanelProps> = ({ className = ''
         ariaLabel="Widget customization panel"
         data-testid="widget-side-panel"
       >
-        <div className="space-y-3">{activeTab === 'pinned' ? renderPinnedWidgets() : renderAvailableWidgets()}</div>
+        <div className="space-y-3">
+          {activeTab === 'pinned' ? renderPinnedWidgets() : renderAvailableWidgets()}
+        </div>
       </SideDrawer>
     </>
   );
 };
 
 export default WidgetSidePanel;
-

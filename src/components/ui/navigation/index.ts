@@ -13,4 +13,3 @@ export { default as WeatherEmblaCarousel } from './WeatherEmblaCarousel';
 
 export type { ModalProps, ModalSize } from './Modal';
 export type { DrawerPosition, DrawerSize, DrawerVariant, SideDrawerProps } from './SideDrawer';
-

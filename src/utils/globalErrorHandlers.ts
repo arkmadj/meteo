@@ -21,7 +21,7 @@ export function setupNodeGlobalHandlers(
   // Handle uncaught exceptions
   const handleUncaughtException = (error: Error) => {
     console.error('Uncaught Exception:', error);
-    
+
     const appError: AppError = {
       id: `uncaught-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: 'UNCAUGHT_EXCEPTION' as any,
@@ -52,7 +52,7 @@ export function setupNodeGlobalHandlers(
   // Handle unhandled promise rejections
   const handleUnhandledRejection = (reason: any, promise: Promise<any>) => {
     console.error('Unhandled Promise Rejection at:', promise, 'reason:', reason);
-    
+
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: 'UNHANDLED_REJECTION' as any,
@@ -83,7 +83,7 @@ export function setupNodeGlobalHandlers(
   return () => {
     process.removeListener('uncaughtException', handleUncaughtException);
     process.removeListener('unhandledRejection', handleUnhandledRejection);
-    
+
     // Restore original handlers
     originalHandlers.uncaughtException.forEach(handler => {
       process.on('uncaughtException', handler);
@@ -104,7 +104,7 @@ export function setupBrowserGlobalHandlers(
   const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
     event.preventDefault();
     console.error('Unhandled promise rejection:', event.reason);
-    
+
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: 'UNHANDLED_REJECTION' as any,
@@ -130,7 +130,7 @@ export function setupBrowserGlobalHandlers(
   const handleError = (event: ErrorEvent) => {
     event.preventDefault();
     console.error('Global error:', event.error);
-    
+
     const appError: AppError = {
       id: `global-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: 'GLOBAL_ERROR' as any,

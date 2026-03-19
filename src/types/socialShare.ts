@@ -174,4 +174,3 @@ export interface ShareResult {
   error?: string;
   sharedUrl?: string;
 }
-

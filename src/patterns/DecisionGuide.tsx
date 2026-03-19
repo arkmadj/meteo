@@ -18,22 +18,22 @@ import React from 'react';
 function useAuth() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  
+
   React.useEffect(() => {
     // Check authentication
     setLoading(false);
   }, []);
-  
+
   return { user, loading, isAuthenticated: !!user };
 }
 
 // Composition component
 function ProtectedRoute({ children, fallback = <div>Please log in</div> }) {
   const { isAuthenticated, loading } = useAuth();
-  
+
   if (loading) return <div>Loading...</div>;
   if (!isAuthenticated) return fallback;
-  
+
   return <>{children}</>;
 }
 
@@ -54,10 +54,10 @@ function CompositionAuthExample() {
 function withAuth<P extends object>(Component: React.ComponentType<P>) {
   return (props: P) => {
     const { isAuthenticated, loading } = useAuth();
-    
+
     if (loading) return <div>Loading...</div>;
     if (!isAuthenticated) return <LoginForm />;
-    
+
     return <Component {...props} />;
   };
 }
@@ -83,10 +83,7 @@ interface ThirdPartyButtonProps {
 declare const ThirdPartyButton: React.ComponentType<ThirdPartyButtonProps>;
 
 // HOC to add analytics to third-party component
-function withAnalytics<P extends object>(
-  Component: React.ComponentType<P>,
-  eventName: string
-) {
+function withAnalytics<P extends object>(Component: React.ComponentType<P>, eventName: string) {
   return (props: P) => {
     const trackEvent = () => {
       console.log(`Analytics: ${eventName}`);
@@ -113,7 +110,7 @@ function AnalyticsWrapper({ children, eventName }) {
   React.useEffect(() => {
     console.log(`Analytics: ${eventName}`);
   }, [eventName]);
-  
+
   return children; // Can't easily inject props into children
 }
 
@@ -134,12 +131,12 @@ interface FormData {
 function useFormValidation<T>(initialValues: T, validationRules: any) {
   const [values, setValues] = React.useState(initialValues);
   const [errors, setErrors] = React.useState<Partial<T>>({});
-  
+
   const validate = () => {
     // Validation logic
     return Object.keys(errors).length === 0;
   };
-  
+
   return { values, errors, setValues, validate };
 }
 
@@ -148,13 +145,13 @@ function LoginForm() {
     { email: '', password: '' },
     { email: 'required', password: 'required' }
   );
-  
+
   return (
     <form>
       <input
         type="email"
         value={form.values.email}
-        onChange={(e) => form.setValues(prev => ({ ...prev, email: e.target.value }))}
+        onChange={e => form.setValues(prev => ({ ...prev, email: e.target.value }))}
       />
       {form.errors.email && <span>{form.errors.email}</span>}
       {/* More fields... */}
@@ -195,7 +192,7 @@ function withPerformanceMonitoring<P extends object>(
   return (props: P) => {
     React.useEffect(() => {
       const startTime = performance.now();
-      
+
       return () => {
         const endTime = performance.now();
         console.log(`${componentName} render time: ${endTime - startTime}ms`);
@@ -219,7 +216,7 @@ function PerformanceMonitor({ children, componentName }) {
   React.useEffect(() => {
     // Monitoring logic
   }, [componentName]);
-  
+
   return children;
 }
 
@@ -243,7 +240,7 @@ function CompositionMonitoringExample() {
 
 /**
  * DECISION FRAMEWORK
- * 
+ *
  * Use COMPOSITION when:
  * ✅ Building new components
  * ✅ Need explicit prop flow
@@ -251,7 +248,7 @@ function CompositionMonitoringExample() {
  * ✅ Need conditional rendering
  * ✅ Building reusable UI components
  * ✅ Want easier testing and debugging
- * 
+ *
  * Use HOCs when:
  * ✅ Enhancing third-party components
  * ✅ Adding cross-cutting concerns
@@ -273,20 +270,20 @@ function CompositionMonitoringExample() {
 // 1. Custom hook for logic (reusable)
 function useFeatureFlag(flagName: string) {
   const [enabled, setEnabled] = React.useState(false);
-  
+
   React.useEffect(() => {
     // Check feature flag
     setEnabled(Math.random() > 0.5); // Mock
   }, [flagName]);
-  
+
   return enabled;
 }
 
 // 2. Composition component for UI (explicit)
-function FeatureGate({ 
-  children, 
-  flagName, 
-  fallback = null 
+function FeatureGate({
+  children,
+  flagName,
+  fallback = null,
 }: {
   children: React.ReactNode;
   flagName: string;
@@ -297,10 +294,7 @@ function FeatureGate({
 }
 
 // 3. HOC for enhancement (when needed)
-function withFeatureFlag<P extends object>(
-  Component: React.ComponentType<P>,
-  flagName: string
-) {
+function withFeatureFlag<P extends object>(Component: React.ComponentType<P>, flagName: string) {
   return (props: P) => (
     <FeatureGate flagName={flagName}>
       <Component {...props} />
@@ -316,11 +310,9 @@ function HybridApproachExample() {
       <FeatureGate flagName="new-dashboard" fallback={<OldDashboard />}>
         <NewDashboard />
       </FeatureGate>
-      
+
       {/* HOC approach - for third-party components */}
-      {React.createElement(
-        withFeatureFlag(ThirdPartyWidget, 'widget-v2')
-      )}
+      {React.createElement(withFeatureFlag(ThirdPartyWidget, 'widget-v2'))}
     </div>
   );
 }
@@ -331,7 +323,7 @@ function HybridApproachExample() {
 
 /**
  * GRADUAL MIGRATION FROM HOCs TO COMPOSITION
- * 
+ *
  * 1. Start with new components using composition
  * 2. Extract logic from HOCs into custom hooks
  * 3. Replace HOC usage with composition where possible
@@ -341,7 +333,7 @@ function HybridApproachExample() {
 
 // Example: Migrating from HOC to composition
 // Before (HOC)
-const withLoading = (Component) => (props) => {
+const withLoading = Component => props => {
   if (props.loading) return <div>Loading...</div>;
   return <Component {...props} />;
 };
@@ -357,9 +349,21 @@ function LoadingWrapper({ children, loading }) {
 // Composition: <LoadingWrapper loading={isLoading}><Button /></LoadingWrapper>
 
 // Dummy components for examples
-function Dashboard() { return <div>Dashboard</div>; }
-function Profile() { return <div>Profile</div>; }
-function LoginForm() { return <div>Login Form</div>; }
-function NewDashboard() { return <div>New Dashboard</div>; }
-function OldDashboard() { return <div>Old Dashboard</div>; }
-function ThirdPartyWidget() { return <div>Third Party Widget</div>; }
+function Dashboard() {
+  return <div>Dashboard</div>;
+}
+function Profile() {
+  return <div>Profile</div>;
+}
+function LoginForm() {
+  return <div>Login Form</div>;
+}
+function NewDashboard() {
+  return <div>New Dashboard</div>;
+}
+function OldDashboard() {
+  return <div>Old Dashboard</div>;
+}
+function ThirdPartyWidget() {
+  return <div>Third Party Widget</div>;
+}

@@ -154,11 +154,6 @@ export function createTemperature(celsius: number): Temperature {
 /**
  * Factory function to create a Currency instance
  */
-export function createCurrency(
-  amount: number,
-  code?: string,
-  symbol?: string
-): Currency {
+export function createCurrency(amount: number, code?: string, symbol?: string): Currency {
   return new Currency(amount, code, symbol);
 }
-

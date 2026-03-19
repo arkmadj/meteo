@@ -1,6 +1,6 @@
 /**
  * Abstract Factory Pattern - Factory Provider
- * 
+ *
  * Provides a centralized way to get the appropriate factory based on platform.
  * Implements the Singleton pattern to ensure only one factory per platform.
  */
@@ -107,8 +107,9 @@ export class FactoryProvider {
 
     // Check for mobile devices
     const userAgent = window.navigator.userAgent.toLowerCase();
-    const isMobile =
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      userAgent
+    );
 
     if (isMobile) {
       return 'mobile';
@@ -149,4 +150,3 @@ export function getFactoryForPlatform(platform: Platform): IUIFactory {
 export function getCurrentPlatform(): Platform {
   return FactoryProvider.getInstance().getCurrentPlatform();
 }
-

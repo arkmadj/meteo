@@ -6,29 +6,26 @@
     "skipDefaultLibCheck": true,
     "noEmitOnError": false,
     "isolatedModules": true,
-    
+
     // Incremental compilation
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo-dev",
-    
+
     // Relaxed type checking for speed (still safe)
     "noUncheckedIndexedAccess": false,
     "exactOptionalPropertyTypes": false,
-    
+
     // Faster module resolution
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    
+
     // Development-specific settings
     "sourceMap": true,
     "declaration": false,
     "declarationMap": false
   },
-  "include": [
-    "src/**/*",
-    "types/**/*"
-  ],
+  "include": ["src/**/*", "types/**/*"],
   "exclude": [
     "node_modules",
     "dist",

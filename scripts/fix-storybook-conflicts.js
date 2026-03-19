@@ -11,7 +11,7 @@ const { execSync } = require('child_process');
 const DRY_RUN = process.argv.includes('--dry-run');
 
 console.log('🔧 Storybook Version Conflict Resolution');
-console.log('=' .repeat(45));
+console.log('='.repeat(45));
 
 if (DRY_RUN) {
   console.log('🔍 DRY RUN MODE - No changes will be made\n');
@@ -50,12 +50,12 @@ const solutions = {
     name: 'Downgrade Vite to compatible version',
     description: 'Downgrade Vite to 6.x to maintain compatibility',
     changes: {
-      vite: '^6.0.0'
+      vite: '^6.0.0',
     },
     pros: ['Immediate compatibility', 'No Storybook changes needed'],
-    cons: ['Lose Vite 7.x features', 'May affect other dependencies']
+    cons: ['Lose Vite 7.x features', 'May affect other dependencies'],
   },
-  
+
   option2: {
     name: 'Upgrade Storybook to latest',
     description: 'Upgrade to Storybook 8.7+ which supports Vite 7',
@@ -68,19 +68,19 @@ const solutions = {
       '@storybook/builder-vite': '^8.7.0',
       '@storybook/cli': '^8.7.0',
       '@storybook/react': '^8.7.0',
-      '@storybook/react-vite': '^8.7.0'
+      '@storybook/react-vite': '^8.7.0',
     },
     pros: ['Keep Vite 7.x features', 'Latest Storybook features'],
-    cons: ['May introduce breaking changes', 'Need to test Storybook setup']
+    cons: ['May introduce breaking changes', 'Need to test Storybook setup'],
   },
-  
+
   option3: {
     name: 'Use legacy peer deps (temporary)',
     description: 'Install with --legacy-peer-deps flag',
     changes: {},
     pros: ['Quick fix', 'No version changes'],
-    cons: ['Not a permanent solution', 'May hide other conflicts']
-  }
+    cons: ['Not a permanent solution', 'May hide other conflicts'],
+  },
 };
 
 console.log('\n💡 Solution Options:');
@@ -98,12 +98,12 @@ console.log(`Reason: Keeps project on latest Vite while updating Storybook to co
 
 if (!DRY_RUN) {
   console.log('\n🔄 Applying recommended solution...');
-  
+
   // Backup package.json
   const backupName = `package.json.storybook-backup.${Date.now()}`;
   fs.writeFileSync(backupName, JSON.stringify(packageJson, null, 2));
   console.log(`💾 Backup created: ${backupName}`);
-  
+
   // Update Storybook versions
   const newPackageJson = { ...packageJson };
   Object.entries(recommendedSolution.changes).forEach(([pkg, version]) => {
@@ -112,11 +112,11 @@ if (!DRY_RUN) {
       console.log(`🔄 Updated ${pkg} to ${version}`);
     }
   });
-  
+
   // Write updated package.json
   fs.writeFileSync('package.json', JSON.stringify(newPackageJson, null, 2) + '\n');
   console.log('✅ Updated package.json');
-  
+
   // Install updates
   console.log('\n📦 Installing updated dependencies...');
   try {
@@ -132,7 +132,6 @@ if (!DRY_RUN) {
       console.error('❌ Legacy peer deps also failed:', legacyError.message);
     }
   }
-  
 } else {
   console.log('\n🔍 DRY RUN - Changes that would be made:');
   Object.entries(recommendedSolution.changes).forEach(([pkg, version]) => {
@@ -147,12 +146,12 @@ console.log('The following extraneous packages should be removed:');
 const extraneousPackages = [
   'async@3.2.6',
   'btoa@1.2.1',
-  'duplexer@0.1.2', 
+  'duplexer@0.1.2',
   'ejs@3.1.10',
   'escape-html@1.0.3',
   'filelist@1.0.4',
   'gzip-size@6.0.0',
-  'jake@10.9.4'
+  'jake@10.9.4',
 ];
 
 extraneousPackages.forEach(pkg => {

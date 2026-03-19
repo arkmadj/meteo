@@ -45,10 +45,15 @@ jobs:
   format:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -60,13 +65,16 @@ jobs:
         run: npm ci
 
       - name: Check formatting
+        id: format-check
         run: npm run format:check
+        continue-on-error: true
 
       - name: Format code (if needed)
+        if: steps.format-check.outcome == 'failure'
         run: npm run format
 
       - name: Commit formatting changes
-        if: failure()
+        if: steps.format-check.outcome == 'failure'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -74,7 +82,7 @@ jobs:
           git diff --staged --quiet || git commit -m "style: Format code"
 
       - name: Push formatting changes
-        if: failure()
+        if: steps.format-check.outcome == 'failure'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

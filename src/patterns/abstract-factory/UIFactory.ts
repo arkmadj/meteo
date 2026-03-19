@@ -1,6 +1,6 @@
 /**
  * Abstract Factory Pattern - UI Factory Interface
- * 
+ *
  * Defines the abstract factory interface for creating platform-specific UI components.
  */
 
@@ -25,7 +25,7 @@ export type Platform = 'web' | 'mobile' | 'desktop';
 
 /**
  * Abstract factory interface for creating UI components
- * 
+ *
  * Each concrete factory implementation will create components
  * specific to a particular platform (Web, Mobile, Desktop)
  */
@@ -112,4 +112,3 @@ export abstract class BaseUIFactory implements IUIFactory {
     };
   }
 }
-

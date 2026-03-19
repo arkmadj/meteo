@@ -1,9 +1,9 @@
 /**
  * State Pattern Implementation for Modal Management
- * 
+ *
  * This implementation demonstrates the State pattern for managing modal states.
  * Each state encapsulates its own behavior and transitions.
- * 
+ *
  * States:
  * - Closed: Modal is not visible
  * - Opening: Modal is animating in
@@ -51,57 +51,57 @@ export interface IModalContext {
  */
 export interface IModalState {
   readonly type: ModalStateType;
-  
+
   /**
    * Open the modal
    */
   open(context: IModalContext): void;
-  
+
   /**
    * Close the modal
    */
   close(context: IModalContext): void;
-  
+
   /**
    * Confirm action (for confirmation modals)
    */
   confirm(context: IModalContext): void;
-  
+
   /**
    * Cancel action (for confirmation modals)
    */
   cancel(context: IModalContext): void;
-  
+
   /**
    * Start loading state
    */
   startLoading(context: IModalContext, message?: string): void;
-  
+
   /**
    * Handle error
    */
   handleError(context: IModalContext, error: string): void;
-  
+
   /**
    * Check if modal is visible
    */
   isVisible(): boolean;
-  
+
   /**
    * Check if modal is interactive
    */
   isInteractive(): boolean;
-  
+
   /**
    * Get state-specific CSS classes
    */
   getClasses(): string[];
-  
+
   /**
    * Handle keyboard events (ESC, Enter, etc.)
    */
   handleKeyDown(context: IModalContext, event: KeyboardEvent): void;
-  
+
   /**
    * Handle backdrop click
    */
@@ -114,41 +114,40 @@ export interface IModalState {
  */
 export abstract class BaseModalState implements IModalState {
   abstract readonly type: ModalStateType;
-  
+
   open(context: IModalContext): void {
     console.warn(`Cannot open modal from ${this.type} state`);
   }
-  
+
   close(context: IModalContext): void {
     console.warn(`Cannot close modal from ${this.type} state`);
   }
-  
+
   confirm(context: IModalContext): void {
     console.warn(`Cannot confirm from ${this.type} state`);
   }
-  
+
   cancel(context: IModalContext): void {
     console.warn(`Cannot cancel from ${this.type} state`);
   }
-  
+
   startLoading(context: IModalContext, message?: string): void {
     console.warn(`Cannot start loading from ${this.type} state`);
   }
-  
+
   handleError(context: IModalContext, error: string): void {
     console.warn(`Cannot handle error from ${this.type} state`);
   }
-  
+
   abstract isVisible(): boolean;
   abstract isInteractive(): boolean;
   abstract getClasses(): string[];
-  
+
   handleKeyDown(context: IModalContext, event: KeyboardEvent): void {
     // Default: do nothing
   }
-  
+
   handleBackdropClick(context: IModalContext): void {
     // Default: do nothing
   }
 }
-

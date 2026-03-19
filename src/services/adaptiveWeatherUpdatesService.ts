@@ -119,7 +119,7 @@ class AdaptiveWeatherUpdatesService {
    */
   private getNetworkConditions(): NetworkConditions {
     const connection = (navigator as any).connection;
-    
+
     return {
       effectiveType: connection?.effectiveType || '4g',
       downlink: connection?.downlink || 10,
@@ -148,9 +148,11 @@ class AdaptiveWeatherUpdatesService {
 
     // Determine optimal configuration
     const config = this.determineOptimalMethod(networkConditions, userPreferences, updateFrequency);
-    
-    console.log(`🌐 Starting weather updates with ${config.method} (${config.frequency} frequency)`);
-    
+
+    console.log(
+      `🌐 Starting weather updates with ${config.method} (${config.frequency} frequency)`
+    );
+
     // Start with optimal method
     this.startWithMethod(config.method, config);
   }
@@ -188,7 +190,7 @@ class AdaptiveWeatherUpdatesService {
       console.log('🔌 WebSocket connected for weather updates');
     };
 
-    this.websocket.onmessage = (event) => {
+    this.websocket.onmessage = event => {
       try {
         const data: WeatherUpdateData = JSON.parse(event.data);
         this.updateCallback?.(data);
@@ -206,7 +208,7 @@ class AdaptiveWeatherUpdatesService {
       }
     };
 
-    this.websocket.onerror = (error) => {
+    this.websocket.onerror = error => {
       console.error('WebSocket error:', error);
     };
   }
@@ -224,7 +226,7 @@ class AdaptiveWeatherUpdatesService {
       console.log('📡 SSE connected for weather updates');
     };
 
-    this.eventSource.onmessage = (event) => {
+    this.eventSource.onmessage = event => {
       try {
         const data: WeatherUpdateData = JSON.parse(event.data);
         this.updateCallback?.(data);
@@ -233,7 +235,7 @@ class AdaptiveWeatherUpdatesService {
       }
     };
 
-    this.eventSource.addEventListener('weather-alert', (event) => {
+    this.eventSource.addEventListener('weather-alert', event => {
       try {
         const alert: WeatherAlert = JSON.parse(event.data);
         this.alertCallback?.(alert);
@@ -268,7 +270,7 @@ class AdaptiveWeatherUpdatesService {
         const response = await fetch(
           `https://api.weather.com/current?lat=${this.currentLocation.lat}&lon=${this.currentLocation.lon}&timestamp=${Date.now()}`
         );
-        
+
         if (response.ok) {
           const data: WeatherUpdateData = await response.json();
           this.updateCallback?.(data);
@@ -313,10 +315,12 @@ class AdaptiveWeatherUpdatesService {
 
     // For WebSocket, send location update
     if (this.currentMethod === 'websocket' && this.websocket?.readyState === WebSocket.OPEN) {
-      this.websocket.send(JSON.stringify({
-        type: 'location_update',
-        data: newLocation
-      }));
+      this.websocket.send(
+        JSON.stringify({
+          type: 'location_update',
+          data: newLocation,
+        })
+      );
     } else {
       // For SSE and polling, restart with new location
       if (this.isActive) {
@@ -352,7 +356,7 @@ class AdaptiveWeatherUpdatesService {
     const networkConditions = this.getNetworkConditions();
     const config = this.determineOptimalMethod(networkConditions, {}, frequency);
     config.method = method; // Override with forced method
-    
+
     this.startWithMethod(method, config);
   }
 }

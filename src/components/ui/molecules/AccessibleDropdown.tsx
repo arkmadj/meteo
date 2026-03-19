@@ -1,9 +1,9 @@
 /**
  * Accessible Dropdown Component
- * 
+ *
  * A fully accessible dropdown component with TypeScript types that follows
  * ARIA best practices for combobox/listbox patterns.
- * 
+ *
  * Features:
  * - ARIA combobox pattern implementation
  * - Keyboard navigation (Arrow keys, Enter, Escape, Tab)
@@ -74,9 +74,16 @@ export interface DropdownProps<T = any> {
   /** Custom search function */
   onSearch?: (query: string, options: DropdownOption<T>[]) => DropdownOption<T>[];
   /** Custom option renderer */
-  renderOption?: (option: DropdownOption<T>, isHighlighted: boolean, isSelected: boolean) => React.ReactNode;
+  renderOption?: (
+    option: DropdownOption<T>,
+    isHighlighted: boolean,
+    isSelected: boolean
+  ) => React.ReactNode;
   /** Custom selected value renderer */
-  renderValue?: (option: DropdownOption<T> | DropdownOption<T>[], placeholder: string) => React.ReactNode;
+  renderValue?: (
+    option: DropdownOption<T> | DropdownOption<T>[],
+    placeholder: string
+  ) => React.ReactNode;
   /** Maximum height of the dropdown list */
   maxHeight?: number;
   /** Whether to use a portal for the dropdown */
@@ -177,24 +184,25 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
 
     const filteredOptions = useMemo(() => {
       if (!searchable || !searchQuery.trim()) return options;
-      
+
       if (onSearch) {
         return onSearch(searchQuery, options);
       }
 
       // Default search implementation
       const query = searchQuery.toLowerCase();
-      return options.filter(option => 
-        option.label.toLowerCase().includes(query) ||
-        option.description?.toLowerCase().includes(query)
+      return options.filter(
+        option =>
+          option.label.toLowerCase().includes(query) ||
+          option.description?.toLowerCase().includes(query)
       );
     }, [options, searchQuery, searchable, onSearch]);
 
     const selectedOptions = useMemo(() => {
       if (!value) return [];
       const values = Array.isArray(value) ? value : [value];
-      return options.filter(option => 
-        values.includes(option.value !== undefined ? option.value : option.id as T)
+      return options.filter(option =>
+        values.includes(option.value !== undefined ? option.value : (option.id as T))
       );
     }, [value, options]);
 
@@ -214,13 +222,14 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
       return option.value !== undefined ? option.value : (option.id as T);
     }, []);
 
-    const isOptionSelected = useCallback((option: DropdownOption<T>): boolean => {
-      if (!value) return false;
-      const optionValue = getOptionValue(option);
-      return Array.isArray(value) 
-        ? value.includes(optionValue)
-        : value === optionValue;
-    }, [value, getOptionValue]);
+    const isOptionSelected = useCallback(
+      (option: DropdownOption<T>): boolean => {
+        if (!value) return false;
+        const optionValue = getOptionValue(option);
+        return Array.isArray(value) ? value.includes(optionValue) : value === optionValue;
+      },
+      [value, getOptionValue]
+    );
 
     // ========================================================================
     // EVENT HANDLERS
@@ -228,7 +237,7 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
 
     const handleToggle = useCallback(() => {
       if (disabled) return;
-      
+
       if (isOpen) {
         setIsOpen(false);
         setSearchQuery('');
@@ -237,11 +246,13 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
         triggerRef.current?.focus();
       } else {
         setIsOpen(true);
-        setHighlightedIndex(selectedOptions.length > 0 ? 
-          filteredOptions.findIndex(opt => opt.id === selectedOptions[0].id) : 0
+        setHighlightedIndex(
+          selectedOptions.length > 0
+            ? filteredOptions.findIndex(opt => opt.id === selectedOptions[0].id)
+            : 0
         );
         onOpen?.();
-        
+
         // Focus search input if searchable, otherwise focus listbox
         setTimeout(() => {
           if (searchable) {
@@ -253,129 +264,138 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
       }
     }, [disabled, isOpen, onClose, onOpen, selectedOptions, filteredOptions, searchable]);
 
-    const handleOptionSelect = useCallback((option: DropdownOption<T>) => {
-      if (option.disabled) return;
+    const handleOptionSelect = useCallback(
+      (option: DropdownOption<T>) => {
+        if (option.disabled) return;
 
-      const optionValue = getOptionValue(option);
+        const optionValue = getOptionValue(option);
 
-      if (multiple) {
-        const currentValues = Array.isArray(value) ? value : [];
-        const newValues = currentValues.includes(optionValue)
-          ? currentValues.filter(v => v !== optionValue)
-          : [...currentValues, optionValue];
-        
-        const newOptions = options.filter(opt => 
-          newValues.includes(getOptionValue(opt))
-        );
-        
-        onChange?.(newValues, newOptions);
-        
-        // Announce selection change
-        const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
-        announceToScreenReader(`${option.label} ${action}. ${newValues.length} items selected.`);
-      } else {
-        onChange?.(optionValue, option);
-        setIsOpen(false);
-        setSearchQuery('');
-        onClose?.();
-        
-        // Announce selection and close
-        announceToScreenReader(`${option.label} selected.`);
-        
-        // Return focus to trigger
-        setTimeout(() => triggerRef.current?.focus(), 0);
-      }
-    }, [multiple, value, options, getOptionValue, onChange, onClose, announceToScreenReader]);
+        if (multiple) {
+          const currentValues = Array.isArray(value) ? value : [];
+          const newValues = currentValues.includes(optionValue)
+            ? currentValues.filter(v => v !== optionValue)
+            : [...currentValues, optionValue];
 
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-      const { key, altKey, ctrlKey, metaKey } = event;
+          const newOptions = options.filter(opt => newValues.includes(getOptionValue(opt)));
 
-      // Handle trigger key events
-      if (!isOpen) {
+          onChange?.(newValues, newOptions);
+
+          // Announce selection change
+          const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
+          announceToScreenReader(`${option.label} ${action}. ${newValues.length} items selected.`);
+        } else {
+          onChange?.(optionValue, option);
+          setIsOpen(false);
+          setSearchQuery('');
+          onClose?.();
+
+          // Announce selection and close
+          announceToScreenReader(`${option.label} selected.`);
+
+          // Return focus to trigger
+          setTimeout(() => triggerRef.current?.focus(), 0);
+        }
+      },
+      [multiple, value, options, getOptionValue, onChange, onClose, announceToScreenReader]
+    );
+
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
+        const { key, altKey, ctrlKey, metaKey } = event;
+
+        // Handle trigger key events
+        if (!isOpen) {
+          switch (key) {
+            case 'Enter':
+            case ' ':
+            case 'ArrowDown':
+            case 'ArrowUp':
+              event.preventDefault();
+              handleToggle();
+              break;
+          }
+          return;
+        }
+
+        // Handle open dropdown key events
         switch (key) {
+          case 'Escape':
+            event.preventDefault();
+            setIsOpen(false);
+            setSearchQuery('');
+            onClose?.();
+            triggerRef.current?.focus();
+            break;
+
           case 'Enter':
-          case ' ':
+            event.preventDefault();
+            if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+              handleOptionSelect(filteredOptions[highlightedIndex]);
+            }
+            break;
+
           case 'ArrowDown':
+            event.preventDefault();
+            setHighlightedIndex(prev => (prev < filteredOptions.length - 1 ? prev + 1 : 0));
+            break;
+
           case 'ArrowUp':
             event.preventDefault();
-            handleToggle();
+            setHighlightedIndex(prev => (prev > 0 ? prev - 1 : filteredOptions.length - 1));
             break;
-        }
-        return;
-      }
 
-      // Handle open dropdown key events
-      switch (key) {
-        case 'Escape':
-          event.preventDefault();
-          setIsOpen(false);
-          setSearchQuery('');
-          onClose?.();
-          triggerRef.current?.focus();
-          break;
+          case 'Home':
+            event.preventDefault();
+            setHighlightedIndex(0);
+            break;
 
-        case 'Enter':
-          event.preventDefault();
-          if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
-            handleOptionSelect(filteredOptions[highlightedIndex]);
-          }
-          break;
+          case 'End':
+            event.preventDefault();
+            setHighlightedIndex(filteredOptions.length - 1);
+            break;
 
-        case 'ArrowDown':
-          event.preventDefault();
-          setHighlightedIndex(prev => 
-            prev < filteredOptions.length - 1 ? prev + 1 : 0
-          );
-          break;
+          case 'Tab':
+            // Allow tab to close dropdown and move focus
+            setIsOpen(false);
+            setSearchQuery('');
+            onClose?.();
+            break;
 
-        case 'ArrowUp':
-          event.preventDefault();
-          setHighlightedIndex(prev => 
-            prev > 0 ? prev - 1 : filteredOptions.length - 1
-          );
-          break;
-
-        case 'Home':
-          event.preventDefault();
-          setHighlightedIndex(0);
-          break;
-
-        case 'End':
-          event.preventDefault();
-          setHighlightedIndex(filteredOptions.length - 1);
-          break;
-
-        case 'Tab':
-          // Allow tab to close dropdown and move focus
-          setIsOpen(false);
-          setSearchQuery('');
-          onClose?.();
-          break;
-
-        default:
-          // Handle character navigation for non-searchable dropdowns
-          if (!searchable && key.length === 1 && !altKey && !ctrlKey && !metaKey) {
-            const char = key.toLowerCase();
-            const startIndex = highlightedIndex + 1;
-            const matchIndex = filteredOptions.findIndex((option, index) => 
-              index >= startIndex && option.label.toLowerCase().startsWith(char)
-            );
-            
-            if (matchIndex >= 0) {
-              setHighlightedIndex(matchIndex);
-            } else {
-              // Wrap around to beginning
-              const wrapIndex = filteredOptions.findIndex(option => 
-                option.label.toLowerCase().startsWith(char)
+          default:
+            // Handle character navigation for non-searchable dropdowns
+            if (!searchable && key.length === 1 && !altKey && !ctrlKey && !metaKey) {
+              const char = key.toLowerCase();
+              const startIndex = highlightedIndex + 1;
+              const matchIndex = filteredOptions.findIndex(
+                (option, index) =>
+                  index >= startIndex && option.label.toLowerCase().startsWith(char)
               );
-              if (wrapIndex >= 0) {
-                setHighlightedIndex(wrapIndex);
+
+              if (matchIndex >= 0) {
+                setHighlightedIndex(matchIndex);
+              } else {
+                // Wrap around to beginning
+                const wrapIndex = filteredOptions.findIndex(option =>
+                  option.label.toLowerCase().startsWith(char)
+                );
+                if (wrapIndex >= 0) {
+                  setHighlightedIndex(wrapIndex);
+                }
               }
             }
-          }
-          break;
-      }
-    }, [isOpen, highlightedIndex, filteredOptions, handleToggle, handleOptionSelect, onClose, searchable]);
+            break;
+        }
+      },
+      [
+        isOpen,
+        highlightedIndex,
+        filteredOptions,
+        handleToggle,
+        handleOptionSelect,
+        onClose,
+        searchable,
+      ]
+    );
 
     // ========================================================================
     // EFFECTS
@@ -398,9 +418,12 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
       const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as Element;
         if (
-          triggerRef.current && !triggerRef.current.contains(target) &&
-          listboxRef.current && !listboxRef.current.contains(target) &&
-          searchInputRef.current && !searchInputRef.current.contains(target)
+          triggerRef.current &&
+          !triggerRef.current.contains(target) &&
+          listboxRef.current &&
+          !listboxRef.current.contains(target) &&
+          searchInputRef.current &&
+          !searchInputRef.current.contains(target)
         ) {
           setIsOpen(false);
           setSearchQuery('');
@@ -416,18 +439,22 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
     // IMPERATIVE HANDLE
     // ========================================================================
 
-    useImperativeHandle(ref, () => ({
-      open: () => handleToggle(),
-      close: () => {
-        if (isOpen) {
-          setIsOpen(false);
-          setSearchQuery('');
-          onClose?.();
-        }
-      },
-      focus: () => triggerRef.current?.focus(),
-      isOpen: () => isOpen,
-    }), [handleToggle, isOpen, onClose]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        open: () => handleToggle(),
+        close: () => {
+          if (isOpen) {
+            setIsOpen(false);
+            setSearchQuery('');
+            onClose?.();
+          }
+        },
+        focus: () => triggerRef.current?.focus(),
+        isOpen: () => isOpen,
+      }),
+      [handleToggle, isOpen, onClose]
+    );
 
     // ========================================================================
     // RENDER HELPERS
@@ -450,15 +477,13 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
         onClick={handleToggle}
       >
         <span className="dropdown-value">
-          {renderValue ? 
-            renderValue(selectedOption, placeholder) :
-            selectedOption ? 
-              (Array.isArray(selectedOption) ? 
-                `${selectedOption.length} selected` : 
-                selectedOption.label
-              ) : 
-              placeholder
-          }
+          {renderValue
+            ? renderValue(selectedOption, placeholder)
+            : selectedOption
+              ? Array.isArray(selectedOption)
+                ? `${selectedOption.length} selected`
+                : selectedOption.label
+              : placeholder}
         </span>
         <span className="dropdown-arrow" aria-hidden="true">
           {isOpen ? '▲' : '▼'}
@@ -490,7 +515,7 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
           filteredOptions.map((option, index) => {
             const isHighlighted = index === highlightedIndex;
             const isSelected = isOptionSelected(option);
-            
+
             return (
               <li
                 key={option.id}
@@ -501,21 +526,23 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
                 aria-describedby={option.description ? `${option.id}-desc` : undefined}
                 onClick={() => handleOptionSelect(option)}
               >
-                {renderOption ? 
-                  renderOption(option, isHighlighted, isSelected) : (
-                    <>
-                      <span className="option-label">{option.label}</span>
-                      {option.description && (
-                        <span id={`${option.id}-desc`} className="option-description">
-                          {option.description}
-                        </span>
-                      )}
-                      {multiple && isSelected && (
-                        <span className="option-checkmark" aria-hidden="true">✓</span>
-                      )}
-                    </>
-                  )
-                }
+                {renderOption ? (
+                  renderOption(option, isHighlighted, isSelected)
+                ) : (
+                  <>
+                    <span className="option-label">{option.label}</span>
+                    {option.description && (
+                      <span id={`${option.id}-desc`} className="option-description">
+                        {option.description}
+                      </span>
+                    )}
+                    {multiple && isSelected && (
+                      <span className="option-checkmark" aria-hidden="true">
+                        ✓
+                      </span>
+                    )}
+                  </>
+                )}
               </li>
             );
           })
@@ -534,7 +561,7 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
               className="dropdown-search-input"
               placeholder="Search options..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               aria-label="Search options"
               aria-controls={listboxId}
@@ -556,25 +583,25 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
       <div className={`dropdown-container ${className}`}>
         {/* Label */}
         {label && (
-          <label 
-            htmlFor={dropdownId}
-            className={`dropdown-label ${hideLabel ? 'sr-only' : ''}`}
-          >
+          <label htmlFor={dropdownId} className={`dropdown-label ${hideLabel ? 'sr-only' : ''}`}>
             {label}
-            {required && <span className="required-indicator" aria-label="required">*</span>}
+            {required && (
+              <span className="required-indicator" aria-label="required">
+                *
+              </span>
+            )}
           </label>
         )}
 
         {/* Dropdown */}
         <div className="dropdown-wrapper">
           {renderTrigger()}
-          
+
           {/* Dropdown content - portal or inline */}
-          {isOpen && (
-            usePortal ? 
-              createPortal(renderDropdownContent(), portalContainer || document.body) :
-              renderDropdownContent()
-          )}
+          {isOpen &&
+            (usePortal
+              ? createPortal(renderDropdownContent(), portalContainer || document.body)
+              : renderDropdownContent())}
         </div>
 
         {/* Error message */}
@@ -592,12 +619,7 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
         )}
 
         {/* Screen reader announcements */}
-        <div
-          ref={liveRegionRef}
-          className="sr-only"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
+        <div ref={liveRegionRef} className="sr-only" aria-live="assertive" aria-atomic="true">
           {announceText}
         </div>
       </div>

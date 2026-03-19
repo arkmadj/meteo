@@ -1,6 +1,6 @@
 /**
  * State Pattern Exports
- * 
+ *
  * Exports all components of the State pattern implementation
  * for managing modal states.
  */
@@ -27,9 +27,4 @@ export { useModalState } from './useModalState';
 export type { UseModalStateOptions, UseModalStateReturn } from './useModalState';
 
 // Examples
-export {
-  BasicModalExample,
-  ConfirmationModalExample,
-  LoadingErrorModalExample,
-} from './examples';
-
+export { BasicModalExample, ConfirmationModalExample, LoadingErrorModalExample } from './examples';

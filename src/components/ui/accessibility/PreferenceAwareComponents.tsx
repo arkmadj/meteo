@@ -1,5 +1,8 @@
 import React, { forwardRef, HTMLAttributes, ButtonHTMLAttributes } from 'react';
-import { useUserPreferencesContext, PreferenceAwareClasses } from '@/contexts/UserPreferencesContext';
+import {
+  useUserPreferencesContext,
+  PreferenceAwareClasses,
+} from '@/contexts/UserPreferencesContext';
 
 /**
  * Preference-aware button component
@@ -11,7 +14,10 @@ interface PreferenceAwareButtonProps extends ButtonHTMLAttributes<HTMLButtonElem
 }
 
 export const PreferenceAwareButton = forwardRef<HTMLButtonElement, PreferenceAwareButtonProps>(
-  ({ className = '', variant = 'primary', size = 'md', loading = false, children, ...props }, ref) => {
+  (
+    { className = '', variant = 'primary', size = 'md', loading = false, children, ...props },
+    ref
+  ) => {
     const { getAnimationDuration, shouldUseReducedAnimations } = useUserPreferencesContext();
 
     const baseClasses = `
@@ -40,13 +46,15 @@ export const PreferenceAwareButton = forwardRef<HTMLButtonElement, PreferenceAwa
         highContrastClasses={highContrastClasses}
         touchClasses={touchClasses}
       >
-        {(classes) => (
+        {classes => (
           <button
             ref={ref}
             className={`${classes} ${className}`}
             disabled={loading || props.disabled}
             style={{
-              animationDuration: shouldUseReducedAnimations() ? '0ms' : `${getAnimationDuration(200)}ms`,
+              animationDuration: shouldUseReducedAnimations()
+                ? '0ms'
+                : `${getAnimationDuration(200)}ms`,
             }}
             {...props}
           >
@@ -118,7 +126,7 @@ export const PreferenceAwareCard = forwardRef<HTMLDivElement, PreferenceAwareCar
         darkModeClasses={darkModeClasses}
         touchClasses={touchClasses}
       >
-        {(classes) => (
+        {classes => (
           <div
             ref={ref}
             className={`${classes} ${className}`}
@@ -154,7 +162,8 @@ export const PreferenceAwareModal: React.FC<PreferenceAwareModalProps> = ({
   title,
   size = 'md',
 }) => {
-  const { shouldUseReducedAnimations, getAnimationDuration, preferences } = useUserPreferencesContext();
+  const { shouldUseReducedAnimations, getAnimationDuration, preferences } =
+    useUserPreferencesContext();
 
   if (!isOpen) return null;
 
@@ -187,12 +196,14 @@ export const PreferenceAwareModal: React.FC<PreferenceAwareModalProps> = ({
     >
       <div
         className={modalClasses}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
         style={{
-          animationDuration: shouldUseReducedAnimations() ? '0ms' : `${getAnimationDuration(300)}ms`,
+          animationDuration: shouldUseReducedAnimations()
+            ? '0ms'
+            : `${getAnimationDuration(300)}ms`,
         }}
       >
         {title && (
@@ -247,14 +258,7 @@ export const PreferenceAwareSpinner: React.FC<PreferenceAwareSpinnerProps> = ({
       role="status"
       aria-label="Loading"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"
@@ -275,21 +279,24 @@ interface PreferenceAwareImageProps extends React.ImgHTMLAttributes<HTMLImageEle
 }
 
 export const PreferenceAwareImage = forwardRef<HTMLImageElement, PreferenceAwareImageProps>(
-  ({
-    src,
-    lowQualitySrc,
-    mediumQualitySrc,
-    highQualitySrc,
-    fallbackSrc,
-    alt,
-    className = '',
-    ...props
-  }, ref) => {
+  (
+    {
+      src,
+      lowQualitySrc,
+      mediumQualitySrc,
+      highQualitySrc,
+      fallbackSrc,
+      alt,
+      className = '',
+      ...props
+    },
+    ref
+  ) => {
     const { getImageQuality, preferences } = useUserPreferencesContext();
 
     const getOptimalSrc = () => {
       const quality = getImageQuality();
-      
+
       switch (quality) {
         case 'low':
           return lowQualitySrc || src;
@@ -315,7 +322,7 @@ export const PreferenceAwareImage = forwardRef<HTMLImageElement, PreferenceAware
         alt={alt}
         className={imageClasses}
         loading={preferences.saveData ? 'lazy' : 'eager'}
-        onError={(e) => {
+        onError={e => {
           if (fallbackSrc && e.currentTarget.src !== fallbackSrc) {
             e.currentTarget.src = fallbackSrc;
           }

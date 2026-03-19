@@ -28,7 +28,8 @@ export interface SelectOption {
 // ============================================================================
 
 export interface SelectProps
-  extends Omit<BaseComponentProps, 'variant'>,
+  extends
+    Omit<BaseComponentProps, 'variant'>,
     Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   /** Select variant */
   variant?: SelectVariant;

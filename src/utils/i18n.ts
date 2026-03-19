@@ -56,7 +56,7 @@ export function getTranslationSafely<T>(
 ): T | null {
   try {
     const result = t(key, { returnObjects: true });
-    
+
     switch (expectedType) {
       case 'array':
         return Array.isArray(result) ? (result as T) : null;

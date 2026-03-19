@@ -66,7 +66,10 @@ export interface PollenLevelConfig {
 
 // Pollen thresholds for different pollen types (in Grains/m³)
 // These are approximate thresholds based on common allergy guidelines
-export const POLLEN_THRESHOLDS: Record<PollenType, { low: number; moderate: number; high: number; veryHigh: number }> = {
+export const POLLEN_THRESHOLDS: Record<
+  PollenType,
+  { low: number; moderate: number; high: number; veryHigh: number }
+> = {
   alder: { low: 10, moderate: 50, high: 100, veryHigh: 200 },
   birch: { low: 10, moderate: 50, high: 100, veryHigh: 200 },
   grass: { low: 20, moderate: 50, high: 100, veryHigh: 200 },
@@ -178,4 +181,3 @@ export const POLLEN_INFO: Record<PollenType, { name: string; icon: string; seaso
   olive: { name: 'Olive', icon: '🫒', season: 'Late Spring - Early Summer' },
   ragweed: { name: 'Ragweed', icon: '🍂', season: 'Late Summer - Autumn' },
 };
-

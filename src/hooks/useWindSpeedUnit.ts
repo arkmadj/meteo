@@ -11,9 +11,9 @@ export type WindSpeedUnit = 'ms' | 'kmh' | 'mph' | 'knots';
  * Wind speed conversion factors from m/s (base unit)
  */
 const WIND_SPEED_CONVERSIONS: Record<WindSpeedUnit, number> = {
-  ms: 1,        // meters per second (base)
-  kmh: 3.6,     // kilometers per hour
-  mph: 2.237,   // miles per hour
+  ms: 1, // meters per second (base)
+  kmh: 3.6, // kilometers per hour
+  mph: 2.237, // miles per hour
   knots: 1.944, // knots
 };
 
@@ -50,27 +50,30 @@ export const useWindSpeedUnit = () => {
    * Format wind speed with the current unit
    */
   const formatWindSpeed = useCallback(
-    (speedInMs: number, options?: {
-      unit?: WindSpeedUnit;
-      decimals?: number;
-      showUnit?: boolean;
-    }): string => {
+    (
+      speedInMs: number,
+      options?: {
+        unit?: WindSpeedUnit;
+        decimals?: number;
+        showUnit?: boolean;
+      }
+    ): string => {
       const unit = options?.unit || preferences.windSpeedUnit;
       const decimals = options?.decimals ?? 1;
       const showUnit = options?.showUnit ?? true;
-      
+
       const convertedSpeed = convertWindSpeed(speedInMs, unit);
       const formattedSpeed = convertedSpeed.toFixed(decimals);
-      
+
       if (!showUnit) return formattedSpeed;
-      
+
       const unitSymbols: Record<WindSpeedUnit, string> = {
         ms: 'm/s',
         kmh: 'km/h',
         mph: 'mph',
         knots: 'knots',
       };
-      
+
       return `${formattedSpeed} ${unitSymbols[unit]}`;
     },
     [convertWindSpeed, preferences.windSpeedUnit]

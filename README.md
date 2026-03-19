@@ -1,6 +1,8 @@
 # Meteo ☀️🌧️
 
-A modern, feature-rich weather application built with React, TypeScript, and Vite. Meteo provides real-time weather updates, interactive dashboards, and push notifications with a focus on performance, accessibility, and user experience.
+A modern, feature-rich weather application built with React, TypeScript, and
+Vite. Meteo provides real-time weather updates, interactive dashboards, and push
+notifications with a focus on performance, accessibility, and user experience.
 
 ## ✨ Features
 
@@ -11,7 +13,8 @@ A modern, feature-rich weather application built with React, TypeScript, and Vit
 - **Responsive Design**: Optimized for all device sizes with Tailwind CSS
 - **Accessibility**: WCAG-compliant with dedicated accessibility features
 - **Dark/Light Mode**: Theme switching with system preference detection
-- **Performance Optimized**: Code splitting, lazy loading, and chunk optimization
+- **Performance Optimized**: Code splitting, lazy loading, and chunk
+  optimization
 - **PWA Support**: Progressive Web App capabilities with offline support
 
 ## 🚀 Tech Stack
@@ -147,7 +150,8 @@ meteo/
 - Edge (last version)
 
 Production builds support:
-- >0.2% market share
+
+- > 0.2% market share
 - Not dead browsers
 - Not Opera Mini
 
@@ -157,7 +161,8 @@ See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please ensure all tests pass and code quality checks are met before submitting a pull request.
+Contributions are welcome! Please ensure all tests pass and code quality checks
+are met before submitting a pull request.
 
 ```bash
 # Before committing, run:
@@ -176,4 +181,3 @@ npm run validate
 ---
 
 Built with ❤️ using React and TypeScript
-

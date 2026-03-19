@@ -148,13 +148,8 @@ export const WidgetPinManager: React.FC = () => {
       )}
 
       {isOpen && (
-        <div
-          className="widget-pin-overlay"
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        />
+        <div className="widget-pin-overlay" onClick={() => setIsOpen(false)} aria-hidden="true" />
       )}
     </div>
   );
 };
-

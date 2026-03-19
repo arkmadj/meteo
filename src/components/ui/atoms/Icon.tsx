@@ -46,8 +46,7 @@ export type IconName =
 // ============================================================================
 
 export interface IconProps
-  extends Omit<BaseComponentProps, 'size'>,
-    Omit<React.SVGProps<SVGSVGElement>, 'size'> {
+  extends Omit<BaseComponentProps, 'size'>, Omit<React.SVGProps<SVGSVGElement>, 'size'> {
   /** Icon name or custom SVG */
   name?: IconName;
   /** Custom SVG content */

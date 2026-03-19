@@ -7,7 +7,7 @@
 .side-drawer {
   /* Smooth scrolling */
   -webkit-overflow-scrolling: touch;
-  
+
   /* Hardware acceleration */
   will-change: transform;
   backface-visibility: hidden;
@@ -260,7 +260,7 @@
     width: 100vw !important;
     max-width: 100vw;
   }
-  
+
   .side-drawer-top,
   .side-drawer-bottom {
     height: 80vh !important;
@@ -299,12 +299,12 @@
   .side-drawer {
     border: 2px solid currentColor;
   }
-  
+
   .side-drawer-header,
   .side-drawer-footer {
     border-width: 2px;
   }
-  
+
   .side-drawer-close-button {
     border: 1px solid currentColor;
   }
@@ -367,4 +367,3 @@
   background: #064e3b;
   color: #a7f3d0;
 }
-

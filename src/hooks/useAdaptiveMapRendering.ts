@@ -192,9 +192,7 @@ export function useAdaptiveMapRendering(
 
   const [capabilities, setCapabilities] = useState<DeviceCapabilities | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [manualTier, setManualTier] = useState<PerformanceTier | null>(
-    initialTier || null
-  );
+  const [manualTier, setManualTier] = useState<PerformanceTier | null>(initialTier || null);
 
   // Performance monitoring
   const {
@@ -332,13 +330,10 @@ export function useAdaptiveMapRendering(
   /**
    * Manually set quality tier
    */
-  const setTier = useCallback(
-    (tier: PerformanceTier) => {
-      setManualTier(tier);
-      console.log('Manual quality tier set:', tier);
-    },
-    []
-  );
+  const setTier = useCallback((tier: PerformanceTier) => {
+    setManualTier(tier);
+    console.log('Manual quality tier set:', tier);
+  }, []);
 
   return {
     tier: currentTier,
@@ -351,4 +346,3 @@ export function useAdaptiveMapRendering(
     recalculate: detectCapabilities,
   };
 }
-

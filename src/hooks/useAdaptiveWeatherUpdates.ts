@@ -4,7 +4,11 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { adaptiveWeatherUpdatesService, UpdateMethod, UpdateFrequency } from '@/services/adaptiveWeatherUpdatesService';
+import {
+  adaptiveWeatherUpdatesService,
+  UpdateMethod,
+  UpdateFrequency,
+} from '@/services/adaptiveWeatherUpdatesService';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
 
 interface WeatherUpdateData {
@@ -60,7 +64,9 @@ export function useAdaptiveWeatherUpdates({
   const [isConnected, setIsConnected] = useState(false);
   const [currentMethod, setCurrentMethod] = useState<UpdateMethod>('polling');
   const [lastUpdate, setLastUpdate] = useState<number | null>(null);
-  const [connectionQuality, setConnectionQuality] = useState<'excellent' | 'good' | 'fair' | 'poor'>('good');
+  const [connectionQuality, setConnectionQuality] = useState<
+    'excellent' | 'good' | 'fair' | 'poor'
+  >('good');
 
   const { preferences } = useUserPreferencesContext();
   const locationRef = useRef(location);
@@ -78,49 +84,55 @@ export function useAdaptiveWeatherUpdates({
   /**
    * Handle weather data updates
    */
-  const handleWeatherUpdate = useCallback((data: WeatherUpdateData) => {
-    setWeatherData(data);
-    setLastUpdate(Date.now());
-    setIsConnected(true);
-    
-    // Determine connection quality based on update frequency
-    const now = Date.now();
-    const timeSinceLastUpdate = lastUpdate ? now - lastUpdate : 0;
-    
-    if (timeSinceLastUpdate < 10000) {
-      setConnectionQuality('excellent');
-    } else if (timeSinceLastUpdate < 30000) {
-      setConnectionQuality('good');
-    } else if (timeSinceLastUpdate < 60000) {
-      setConnectionQuality('fair');
-    } else {
-      setConnectionQuality('poor');
-    }
-  }, [lastUpdate]);
+  const handleWeatherUpdate = useCallback(
+    (data: WeatherUpdateData) => {
+      setWeatherData(data);
+      setLastUpdate(Date.now());
+      setIsConnected(true);
+
+      // Determine connection quality based on update frequency
+      const now = Date.now();
+      const timeSinceLastUpdate = lastUpdate ? now - lastUpdate : 0;
+
+      if (timeSinceLastUpdate < 10000) {
+        setConnectionQuality('excellent');
+      } else if (timeSinceLastUpdate < 30000) {
+        setConnectionQuality('good');
+      } else if (timeSinceLastUpdate < 60000) {
+        setConnectionQuality('fair');
+      } else {
+        setConnectionQuality('poor');
+      }
+    },
+    [lastUpdate]
+  );
 
   /**
    * Handle weather alerts
    */
-  const handleWeatherAlert = useCallback((alert: WeatherAlert) => {
-    setAlerts(prev => {
-      // Avoid duplicate alerts
-      if (prev.some(a => a.id === alert.id)) {
-        return prev;
-      }
-      
-      // Add new alert and sort by severity
-      const newAlerts = [...prev, alert].sort((a, b) => {
-        const severityOrder = { extreme: 4, severe: 3, moderate: 2, minor: 1 };
-        return severityOrder[b.severity] - severityOrder[a.severity];
-      });
-      
-      // Limit to 10 alerts
-      return newAlerts.slice(0, 10);
-    });
+  const handleWeatherAlert = useCallback(
+    (alert: WeatherAlert) => {
+      setAlerts(prev => {
+        // Avoid duplicate alerts
+        if (prev.some(a => a.id === alert.id)) {
+          return prev;
+        }
 
-    // Call external alert handler
-    onAlert?.(alert);
-  }, [onAlert]);
+        // Add new alert and sort by severity
+        const newAlerts = [...prev, alert].sort((a, b) => {
+          const severityOrder = { extreme: 4, severe: 3, moderate: 2, minor: 1 };
+          return severityOrder[b.severity] - severityOrder[a.severity];
+        });
+
+        // Limit to 10 alerts
+        return newAlerts.slice(0, 10);
+      });
+
+      // Call external alert handler
+      onAlert?.(alert);
+    },
+    [onAlert]
+  );
 
   /**
    * Start weather updates
@@ -150,10 +162,13 @@ export function useAdaptiveWeatherUpdates({
   /**
    * Switch to specific update method
    */
-  const switchMethod = useCallback((method: UpdateMethod) => {
-    adaptiveWeatherUpdatesService.switchToMethod(method, frequency);
-    setCurrentMethod(method);
-  }, [frequency]);
+  const switchMethod = useCallback(
+    (method: UpdateMethod) => {
+      adaptiveWeatherUpdatesService.switchToMethod(method, frequency);
+      setCurrentMethod(method);
+    },
+    [frequency]
+  );
 
   /**
    * Clear all alerts
@@ -218,11 +233,13 @@ export function useAdaptiveWeatherUpdates({
       if (!lastUpdate) return;
 
       const timeSinceLastUpdate = Date.now() - lastUpdate;
-      
-      if (timeSinceLastUpdate > 120000) { // 2 minutes
+
+      if (timeSinceLastUpdate > 120000) {
+        // 2 minutes
         setConnectionQuality('poor');
         setIsConnected(false);
-      } else if (timeSinceLastUpdate > 60000) { // 1 minute
+      } else if (timeSinceLastUpdate > 60000) {
+        // 1 minute
         setConnectionQuality('fair');
       }
     };

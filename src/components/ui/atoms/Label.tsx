@@ -21,8 +21,7 @@ export type LabelSize = ComponentSize;
 // ============================================================================
 
 export interface LabelProps
-  extends Omit<BaseComponentProps, 'variant'>,
-    React.LabelHTMLAttributes<HTMLLabelElement> {
+  extends Omit<BaseComponentProps, 'variant'>, React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Label variant */
   variant?: LabelVariant;
   /** Label size */

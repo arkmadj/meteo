@@ -84,4 +84,3 @@ const FavoriteLocationsDrawerTrigger: React.FC<FavoriteLocationsDrawerTriggerPro
 };
 
 export default FavoriteLocationsDrawerTrigger;
-

@@ -58,15 +58,11 @@ export function DataProvider<T>({
   onSuccess,
   onError,
 }: DataProviderProps<T>) {
-  const { data, loading, error, execute } = useAsyncState(
-    fetcher,
-    dependencies,
-    {
-      immediate: true,
-      onSuccess,
-      onError,
-    }
-  );
+  const { data, loading, error, execute } = useAsyncState(fetcher, dependencies, {
+    immediate: true,
+    onSuccess,
+    onError,
+  });
 
   const [localData, setLocalData] = useState<T | null>(data);
 
@@ -87,11 +83,7 @@ export function DataProvider<T>({
     update,
   };
 
-  return (
-    <DataContext.Provider value={contextValue}>
-      {children}
-    </DataContext.Provider>
-  );
+  return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
 }
 
 /**
@@ -125,14 +117,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = useCallback(async (email: string, password: string) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     const mockUser: User = {
       id: 1,
       name: 'John Doe',
       email,
       role: email.includes('admin') ? 'admin' : 'user',
     };
-    
+
     setUser(mockUser);
     localStorage.setItem('user', JSON.stringify(mockUser));
   }, []);
@@ -142,9 +134,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem('user');
   }, []);
 
-  const hasRole = useCallback((role: string) => {
-    return user?.role === role;
-  }, [user]);
+  const hasRole = useCallback(
+    (role: string) => {
+      return user?.role === role;
+    },
+    [user]
+  );
 
   // Initialize user from localStorage
   React.useEffect(() => {
@@ -166,11 +161,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     hasRole,
   };
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
 
 /**
@@ -235,9 +226,7 @@ export function Protected({
 }: ProtectedProps) {
   const { isAuthenticated, hasRole } = useAuth();
 
-  const hasAccess = isAuthenticated && (
-    !requiredRole || hasRole(requiredRole)
-  );
+  const hasAccess = isAuthenticated && (!requiredRole || hasRole(requiredRole));
 
   return (
     <Conditional condition={hasAccess} fallback={fallback}>
@@ -265,10 +254,7 @@ interface ErrorBoundaryProps {
  * Error boundary using composition
  * Provides error handling for child components
  */
-export class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };

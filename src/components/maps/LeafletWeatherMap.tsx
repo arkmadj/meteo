@@ -51,14 +51,14 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
       try {
         // Simulated Leaflet initialization
         console.log('Initializing Leaflet map...');
-        
+
         // const map = L.map(mapRef.current).setView(center, zoom);
-        // 
+        //
         // // Add base tile layer
         // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         //   attribution: '© OpenStreetMap contributors'
         // }).addTo(map);
-        
+
         // mapInstanceRef.current = map;
         setIsLoaded(true);
       } catch (error) {
@@ -101,7 +101,6 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
       //   `)
       //   .on('click', () => onStationClick?.(station))
       //   .addTo(mapInstanceRef.current);
-      
       // markersRef.current.push(marker);
     });
   }, [weatherStations, onStationClick]);
@@ -116,7 +115,7 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
       //   attribution: 'Weather data © OpenWeatherMap',
       //   opacity: 0.6
       // }).addTo(mapInstanceRef.current);
-      
+
       console.log('Adding radar overlay...');
     }
   }, [showRadar]);
@@ -130,7 +129,7 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
       // const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       //   attribution: 'Tiles © Esri'
       // }).addTo(mapInstanceRef.current);
-      
+
       console.log('Adding satellite imagery...');
     }
   }, [showSatellite]);
@@ -138,7 +137,7 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
   return (
     <div className="relative w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
       <div ref={mapRef} className="w-full h-full" />
-      
+
       {/* Loading overlay */}
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
@@ -152,7 +151,9 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
       {/* Map controls */}
       <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-2 space-y-2">
         <button
-          onClick={() => {/* Toggle radar */}}
+          onClick={() => {
+            /* Toggle radar */
+          }}
           className={`block w-full px-3 py-1 text-sm rounded ${
             showRadar ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
@@ -160,7 +161,9 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
           Radar
         </button>
         <button
-          onClick={() => {/* Toggle satellite */}}
+          onClick={() => {
+            /* Toggle satellite */
+          }}
           className={`block w-full px-3 py-1 text-sm rounded ${
             showSatellite ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'
           }`}
@@ -188,7 +191,7 @@ export const LeafletWeatherMapExample: React.FC = () => {
     {
       id: '1',
       lat: 40.7128,
-      lng: -74.0060,
+      lng: -74.006,
       temperature: 72,
       humidity: 65,
       pressure: 1013,
@@ -214,10 +217,8 @@ export const LeafletWeatherMapExample: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          🍃 Leaflet Weather Map
-        </h2>
-        
+        <h2 className="text-xl font-bold text-gray-900 mb-4">🍃 Leaflet Weather Map</h2>
+
         <div className="mb-4">
           <h3 className="font-semibold text-gray-700 mb-2">Key Features:</h3>
           <ul className="text-sm text-gray-600 space-y-1">
@@ -230,7 +231,7 @@ export const LeafletWeatherMapExample: React.FC = () => {
         </div>
 
         <LeafletWeatherMap
-          center={[40.7128, -74.0060]}
+          center={[40.7128, -74.006]}
           zoom={10}
           weatherStations={weatherStations}
           showRadar={false}

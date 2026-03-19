@@ -26,7 +26,7 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
   const { t } = useTranslation(['weather', 'common']);
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const [query, setQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -47,42 +47,48 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
     setSelectedIndex(-1);
   }, []);
 
-  const handleSelectSuggestion = useCallback((suggestion: typeof suggestions[0]) => {
-    const cityName = suggestion.admin1
-      ? `${suggestion.name}, ${suggestion.admin1}, ${suggestion.country}`
-      : `${suggestion.name}, ${suggestion.country}`;
-    const searchQuery = `${suggestion.name}, ${suggestion.country}`;
-    
-    onCitySelect(cityId, cityName, searchQuery);
-    setQuery('');
-    setShowSuggestions(false);
-    clearSuggestions();
-  }, [cityId, onCitySelect, clearSuggestions]);
+  const handleSelectSuggestion = useCallback(
+    (suggestion: (typeof suggestions)[0]) => {
+      const cityName = suggestion.admin1
+        ? `${suggestion.name}, ${suggestion.admin1}, ${suggestion.country}`
+        : `${suggestion.name}, ${suggestion.country}`;
+      const searchQuery = `${suggestion.name}, ${suggestion.country}`;
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showSuggestions || suggestions.length === 0) return;
+      onCitySelect(cityId, cityName, searchQuery);
+      setQuery('');
+      setShowSuggestions(false);
+      clearSuggestions();
+    },
+    [cityId, onCitySelect, clearSuggestions]
+  );
 
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        setSelectedIndex(prev => Math.min(prev + 1, suggestions.length - 1));
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setSelectedIndex(prev => Math.max(prev - 1, -1));
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-          handleSelectSuggestion(suggestions[selectedIndex]);
-        }
-        break;
-      case 'Escape':
-        setShowSuggestions(false);
-        setSelectedIndex(-1);
-        break;
-    }
-  }, [showSuggestions, suggestions, selectedIndex, handleSelectSuggestion]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!showSuggestions || suggestions.length === 0) return;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setSelectedIndex(prev => Math.min(prev + 1, suggestions.length - 1));
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setSelectedIndex(prev => Math.max(prev - 1, -1));
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+            handleSelectSuggestion(suggestions[selectedIndex]);
+          }
+          break;
+        case 'Escape':
+          setShowSuggestions(false);
+          setSelectedIndex(-1);
+          break;
+      }
+    },
+    [showSuggestions, suggestions, selectedIndex, handleSelectSuggestion]
+  );
 
   const handleInputFocus = useCallback(() => {
     if (query.length >= 2) {
@@ -159,7 +165,8 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
                 >
                   <p className="font-medium text-[var(--theme-text)]">{suggestion.name}</p>
                   <p className="text-xs text-[var(--theme-text-secondary)]">
-                    {suggestion.admin1 ? `${suggestion.admin1}, ` : ''}{suggestion.country}
+                    {suggestion.admin1 ? `${suggestion.admin1}, ` : ''}
+                    {suggestion.country}
                   </p>
                 </button>
               ))}
@@ -184,4 +191,3 @@ const ComparisonEmptySlot: React.FC<ComparisonEmptySlotProps> = ({
 };
 
 export default ComparisonEmptySlot;
-

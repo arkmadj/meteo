@@ -1,16 +1,16 @@
 /**
  * Weather API Hooks
- * 
+ *
  * Demonstrates best practices for React Query integration with TypeScript,
  * including proper error handling, caching strategies, and optimistic updates.
  */
 
-import { 
-  useQuery, 
-  useMutation, 
-  useQueryClient, 
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
   UseQueryOptions,
-  UseMutationOptions 
+  UseMutationOptions,
 } from '@tanstack/react-query';
 import { WeatherService } from '../../api/services/weatherService';
 import {
@@ -29,19 +29,19 @@ import {
 export const weatherKeys = {
   all: ['weather'] as const,
   current: () => [...weatherKeys.all, 'current'] as const,
-  currentByLocation: (location: string, units?: string) => 
+  currentByLocation: (location: string, units?: string) =>
     [...weatherKeys.current(), location, units] as const,
   forecast: () => [...weatherKeys.all, 'forecast'] as const,
-  forecastByLocation: (location: string, params?: Partial<ForecastRequestParams>) => 
+  forecastByLocation: (location: string, params?: Partial<ForecastRequestParams>) =>
     [...weatherKeys.forecast(), location, params] as const,
   search: () => [...weatherKeys.all, 'search'] as const,
-  searchByQuery: (query: string, params?: Partial<LocationSearchParams>) => 
+  searchByQuery: (query: string, params?: Partial<LocationSearchParams>) =>
     [...weatherKeys.search(), query, params] as const,
   historical: () => [...weatherKeys.all, 'historical'] as const,
-  historicalByLocation: (location: string, date: string, units?: string) => 
+  historicalByLocation: (location: string, date: string, units?: string) =>
     [...weatherKeys.historical(), location, date, units] as const,
   batch: () => [...weatherKeys.all, 'batch'] as const,
-  batchByLocations: (locations: string[], units?: string) => 
+  batchByLocations: (locations: string[], units?: string) =>
     [...weatherKeys.batch(), locations.sort(), units] as const,
 };
 
@@ -155,16 +155,13 @@ export function useRefreshWeather() {
       await queryClient.invalidateQueries({
         queryKey: weatherKeys.currentByLocation(params.location, params.units),
       });
-      
+
       // Fetch fresh data
       return WeatherService.getCurrentWeather(params);
     },
     onSuccess: (data, params) => {
       // Update cache with fresh data
-      queryClient.setQueryData(
-        weatherKeys.currentByLocation(params.location, params.units),
-        data
-      );
+      queryClient.setQueryData(weatherKeys.currentByLocation(params.location, params.units), data);
     },
   });
 }
@@ -206,7 +203,7 @@ export function useWeatherCache() {
 
   const clearLocationCache = (location: string) => {
     queryClient.removeQueries({
-      predicate: (query) => {
+      predicate: query => {
         const queryKey = query.queryKey;
         return queryKey.includes('weather') && queryKey.includes(location);
       },
@@ -253,22 +250,22 @@ export function useOptimisticWeatherUpdate() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      location, 
-      updates 
-    }: { 
-      location: string; 
-      updates: Partial<CurrentWeather> 
+    mutationFn: async ({
+      location,
+      updates,
+    }: {
+      location: string;
+      updates: Partial<CurrentWeather>;
     }) => {
       // Simulate API call for user preference updates
       await new Promise(resolve => setTimeout(resolve, 1000));
       return updates;
     },
-    
+
     onMutate: async ({ location, updates }) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ 
-        queryKey: weatherKeys.currentByLocation(location) 
+      await queryClient.cancelQueries({
+        queryKey: weatherKeys.currentByLocation(location),
       });
 
       // Snapshot previous value
@@ -278,10 +275,10 @@ export function useOptimisticWeatherUpdate() {
 
       // Optimistically update
       if (previousWeather) {
-        queryClient.setQueryData<CurrentWeather>(
-          weatherKeys.currentByLocation(location),
-          { ...previousWeather, ...updates }
-        );
+        queryClient.setQueryData<CurrentWeather>(weatherKeys.currentByLocation(location), {
+          ...previousWeather,
+          ...updates,
+        });
       }
 
       return { previousWeather };
@@ -290,17 +287,14 @@ export function useOptimisticWeatherUpdate() {
     onError: (error, { location }, context) => {
       // Rollback on error
       if (context?.previousWeather) {
-        queryClient.setQueryData(
-          weatherKeys.currentByLocation(location),
-          context.previousWeather
-        );
+        queryClient.setQueryData(weatherKeys.currentByLocation(location), context.previousWeather);
       }
     },
 
     onSettled: (data, error, { location }) => {
       // Always refetch after mutation
-      queryClient.invalidateQueries({ 
-        queryKey: weatherKeys.currentByLocation(location) 
+      queryClient.invalidateQueries({
+        queryKey: weatherKeys.currentByLocation(location),
       });
     },
   });
@@ -312,7 +306,7 @@ export function useOptimisticWeatherUpdate() {
 export function useWeatherErrorHandler() {
   const handleWeatherError = (error: ApiError, context?: string) => {
     const errorMessage = getWeatherErrorMessage(error);
-    
+
     // Log error for monitoring
     console.error(`Weather API Error${context ? ` (${context})` : ''}:`, {
       message: error.message,

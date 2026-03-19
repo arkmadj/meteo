@@ -80,7 +80,7 @@ export function detectGPUTier(): PerformanceTier {
   try {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    
+
     if (!gl) {
       return 'low';
     }
@@ -90,7 +90,7 @@ export function detectGPUTier(): PerformanceTier {
       const renderer = (gl as WebGLRenderingContext).getParameter(
         debugInfo.UNMASKED_RENDERER_WEBGL
       );
-      
+
       // High-end GPUs
       if (
         /nvidia|geforce|radeon|amd|intel iris|apple m[1-9]/i.test(renderer) &&
@@ -98,13 +98,13 @@ export function detectGPUTier(): PerformanceTier {
       ) {
         return 'high';
       }
-      
+
       // Low-end GPUs
       if (/mali|adreno [1-4]|powervr|videocore/i.test(renderer)) {
         return 'low';
       }
     }
-    
+
     return 'medium';
   } catch {
     return 'medium';
@@ -122,11 +122,11 @@ export function detectConnectionType(): {
 } {
   // @ts-ignore - navigator.connection is experimental
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  
+
   if (!connection) {
     return {};
   }
-  
+
   return {
     type: connection.type,
     effectiveType: connection.effectiveType,
@@ -171,7 +171,7 @@ export async function detectBatteryStatus(): Promise<{
   } catch {
     // Battery API not supported
   }
-  
+
   return { isOnBattery: false };
 }
 
@@ -195,7 +195,7 @@ export function detectMaxTextureSize(): number | undefined {
   try {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    
+
     if (gl) {
       return (gl as WebGLRenderingContext).getParameter(
         (gl as WebGLRenderingContext).MAX_TEXTURE_SIZE
@@ -204,7 +204,7 @@ export function detectMaxTextureSize(): number | undefined {
   } catch {
     // WebGL not supported
   }
-  
+
   return undefined;
 }
 
@@ -213,7 +213,7 @@ export function detectMaxTextureSize(): number | undefined {
  */
 export function detectScreenSize(): 'small' | 'medium' | 'large' {
   const width = window.innerWidth;
-  
+
   if (width < 768) return 'small';
   if (width < 1024) return 'medium';
   return 'large';
@@ -222,35 +222,37 @@ export function detectScreenSize(): 'small' | 'medium' | 'large' {
 /**
  * Calculate performance tier based on device capabilities
  */
-export function calculatePerformanceTier(capabilities: Partial<DeviceCapabilities>): PerformanceTier {
+export function calculatePerformanceTier(
+  capabilities: Partial<DeviceCapabilities>
+): PerformanceTier {
   let score = 0;
-  
+
   // CPU cores (0-3 points)
   const cores = capabilities.cores || 4;
   if (cores >= 8) score += 3;
   else if (cores >= 4) score += 2;
   else score += 1;
-  
+
   // Memory (0-3 points)
   const memory = capabilities.memory || 4;
   if (memory >= 8) score += 3;
   else if (memory >= 4) score += 2;
   else score += 1;
-  
+
   // GPU tier (0-3 points)
   const gpuTier = capabilities.gpuTier || 'medium';
   if (gpuTier === 'high') score += 3;
   else if (gpuTier === 'medium') score += 2;
   else score += 1;
-  
+
   // Connection (0-2 points)
   const effectiveType = capabilities.effectiveType;
   if (effectiveType === '4g') score += 2;
   else if (effectiveType === '3g') score += 1;
-  
+
   // Screen size (0-1 point)
   if (capabilities.screenSize === 'large') score += 1;
-  
+
   // Total: 0-12 points
   if (score >= 9) return 'high';
   if (score >= 5) return 'medium';
@@ -272,7 +274,7 @@ export async function detectDeviceCapabilities(): Promise<DeviceCapabilities> {
   const maxTextureSize = detectMaxTextureSize();
   const devicePixelRatio = window.devicePixelRatio || 1;
   const screenSize = detectScreenSize();
-  
+
   const capabilities: DeviceCapabilities = {
     tier: 'medium', // Will be calculated
     cores,
@@ -289,10 +291,10 @@ export async function detectDeviceCapabilities(): Promise<DeviceCapabilities> {
     devicePixelRatio,
     screenSize,
   };
-  
+
   // Calculate overall performance tier
   capabilities.tier = calculatePerformanceTier(capabilities);
-  
+
   return capabilities;
 }
 
@@ -309,24 +311,24 @@ export function getPerformanceRecommendations(capabilities: DeviceCapabilities) 
     useCanvas: false,
     maxZoom: 18,
     updateThrottle: 100,
-    
+
     // Layer rendering
     maxLayers: 5,
     layerOpacity: 1,
     enableClustering: false,
     clusterRadius: 80,
-    
+
     // Interaction
     enableInertia: true,
     inertiaDeceleration: 3000,
     wheelDebounce: 40,
-    
+
     // Quality
     imageQuality: 'high' as 'high' | 'medium' | 'low',
     enableShadows: true,
     enableBlur: true,
   };
-  
+
   // Adjust based on performance tier
   if (capabilities.tier === 'low') {
     recommendations.maxMarkers = 25;
@@ -352,28 +354,27 @@ export function getPerformanceRecommendations(capabilities: DeviceCapabilities) 
     recommendations.maxLayers = 3;
     recommendations.imageQuality = 'medium';
   }
-  
+
   // Adjust for reduced motion
   if (capabilities.prefersReducedMotion) {
     recommendations.enableAnimations = false;
     recommendations.enableTransitions = false;
     recommendations.enableInertia = false;
   }
-  
+
   // Adjust for reduced data
   if (capabilities.prefersReducedData) {
     recommendations.tileSize = 256;
     recommendations.imageQuality = 'low';
     recommendations.maxLayers = 2;
   }
-  
+
   // Adjust for battery
   if (capabilities.isOnBattery && capabilities.batteryLevel && capabilities.batteryLevel < 0.2) {
     recommendations.enableAnimations = false;
     recommendations.updateThrottle = 500;
     recommendations.imageQuality = 'low';
   }
-  
+
   return recommendations;
 }
-

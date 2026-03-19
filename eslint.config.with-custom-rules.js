@@ -26,17 +26,17 @@ export default [
       // Standard rules
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
-      
+
       // Custom date rule - strict configuration
       'custom-rules/no-direct-date': [
         'error',
         {
           // No allowed methods - enforce DateUtils for everything
           allowedMethods: [],
-          
+
           // DateUtils import path
           dateUtilsImport: '@/utils/DateUtils',
-          
+
           // Files to exempt from this rule
           exemptFiles: [
             'node_modules/',
@@ -46,7 +46,7 @@ export default [
             'utils/DateUtils.ts',
             'utils/DateUtils.js',
           ],
-          
+
           // Allow in test files for mocking/testing purposes
           allowInTests: true,
         },

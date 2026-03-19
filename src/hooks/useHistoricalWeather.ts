@@ -126,10 +126,7 @@ export function calculateTemperatureChange(
 /**
  * Utility function to format historical period label
  */
-export function formatHistoricalPeriodLabel(
-  period: HistoricalPeriod,
-  locale?: string
-): string {
+export function formatHistoricalPeriodLabel(period: HistoricalPeriod, locale?: string): string {
   const labels: Record<HistoricalPeriod, Record<string, string>> = {
     'last-week': {
       en: 'Last Week',
@@ -152,4 +149,3 @@ export function formatHistoricalPeriodLabel(
 }
 
 export default useHistoricalWeather;
-

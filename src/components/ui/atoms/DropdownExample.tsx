@@ -188,9 +188,7 @@ const DropdownExample: React.FC = () => {
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Placements</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Bottom Start
-              </h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Bottom Start</h3>
               <Dropdown items={basicItems} placement="bottom-start" trigger="Bottom Start" />
             </div>
 
@@ -225,19 +223,13 @@ const DropdownExample: React.FC = () => {
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Actions Menu</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Document or item actions
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Document or item actions</p>
               <Dropdown items={basicItems} trigger="Actions" variant="secondary" />
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                Disabled Items
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Some items can be disabled
-              </p>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Disabled Items</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Some items can be disabled</p>
               <Dropdown items={disabledItems} trigger="Mixed States" variant="default" />
             </div>
           </div>
@@ -274,9 +266,7 @@ const DropdownExample: React.FC = () => {
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                No Auto-Close
-              </h3>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">No Auto-Close</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Keep dropdown open after selection
               </p>
@@ -285,9 +275,7 @@ const DropdownExample: React.FC = () => {
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Disabled</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Disabled dropdown state
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Disabled dropdown state</p>
               <Dropdown disabled items={basicItems} trigger="Disabled" />
             </div>
           </div>
@@ -295,9 +283,7 @@ const DropdownExample: React.FC = () => {
 
         {/* Custom Styling */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Custom Styling
-          </h2>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Custom Styling</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -310,12 +296,8 @@ const DropdownExample: React.FC = () => {
             </div>
 
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                No Trigger Icon
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Hide the dropdown chevron
-              </p>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">No Trigger Icon</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Hide the dropdown chevron</p>
               <Dropdown items={basicItems} showTriggerIcon={false} trigger="No Icon" />
             </div>
           </div>
@@ -326,4 +308,3 @@ const DropdownExample: React.FC = () => {
 };
 
 export default DropdownExample;
-

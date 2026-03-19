@@ -427,21 +427,21 @@
   .lazy-feature-placeholder {
     padding: 20px 16px;
   }
-  
+
   .placeholder-icon {
     font-size: 36px;
   }
-  
+
   .route-loading-fallback {
     min-height: 200px;
     padding: 20px;
   }
-  
+
   .skeleton-content {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .skeleton-footer {
     flex-direction: column;
     gap: 8px;
@@ -459,7 +459,7 @@
   .skeleton-bar {
     animation: none;
   }
-  
+
   .lazy-loader-content {
     transition: none;
   }
@@ -482,7 +482,7 @@
     background: #000;
     opacity: 0.1;
   }
-  
+
   .lazy-feature-placeholder {
     border-color: #000;
   }

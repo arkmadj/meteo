@@ -34,14 +34,14 @@ function getCurrentBreakpoint(width: number): Breakpoint {
 
 /**
  * Hook to detect current breakpoint
- * 
+ *
  * @returns Current breakpoint ('mobile', 'tablet', or 'desktop')
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const breakpoint = useBreakpoint();
- *   
+ *
  *   return (
  *     <div>
  *       Current breakpoint: {breakpoint}
@@ -80,15 +80,15 @@ export function useBreakpoint(): Breakpoint {
 
 /**
  * Hook to check if current breakpoint matches
- * 
+ *
  * @param targetBreakpoint - Breakpoint to check against
  * @returns True if current breakpoint matches target
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const isMobile = useBreakpointMatch('mobile');
- *   
+ *
  *   return (
  *     <div>
  *       {isMobile ? 'Mobile view' : 'Desktop view'}
@@ -104,15 +104,15 @@ export function useBreakpointMatch(targetBreakpoint: Breakpoint): boolean {
 
 /**
  * Hook to check if current breakpoint is at least the target
- * 
+ *
  * @param targetBreakpoint - Minimum breakpoint
  * @returns True if current breakpoint is >= target
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const isTabletOrLarger = useBreakpointMin('tablet');
- *   
+ *
  *   return (
  *     <div>
  *       {isTabletOrLarger ? 'Tablet or Desktop' : 'Mobile'}
@@ -123,25 +123,25 @@ export function useBreakpointMatch(targetBreakpoint: Breakpoint): boolean {
  */
 export function useBreakpointMin(targetBreakpoint: Breakpoint): boolean {
   const currentBreakpoint = useBreakpoint();
-  
+
   const breakpointOrder: Breakpoint[] = ['mobile', 'tablet', 'desktop'];
   const currentIndex = breakpointOrder.indexOf(currentBreakpoint);
   const targetIndex = breakpointOrder.indexOf(targetBreakpoint);
-  
+
   return currentIndex >= targetIndex;
 }
 
 /**
  * Hook to check if current breakpoint is at most the target
- * 
+ *
  * @param targetBreakpoint - Maximum breakpoint
  * @returns True if current breakpoint is <= target
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const isTabletOrSmaller = useBreakpointMax('tablet');
- *   
+ *
  *   return (
  *     <div>
  *       {isTabletOrSmaller ? 'Mobile or Tablet' : 'Desktop'}
@@ -152,20 +152,20 @@ export function useBreakpointMin(targetBreakpoint: Breakpoint): boolean {
  */
 export function useBreakpointMax(targetBreakpoint: Breakpoint): boolean {
   const currentBreakpoint = useBreakpoint();
-  
+
   const breakpointOrder: Breakpoint[] = ['mobile', 'tablet', 'desktop'];
   const currentIndex = breakpointOrder.indexOf(currentBreakpoint);
   const targetIndex = breakpointOrder.indexOf(targetBreakpoint);
-  
+
   return currentIndex <= targetIndex;
 }
 
 /**
  * Hook to get responsive value based on breakpoint
- * 
+ *
  * @param values - Object with values for each breakpoint
  * @returns Value for current breakpoint
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
@@ -174,7 +174,7 @@ export function useBreakpointMax(targetBreakpoint: Breakpoint): boolean {
  *     tablet: '16px',
  *     desktop: '20px',
  *   });
- *   
+ *
  *   return <div style={{ padding }}>{content}</div>;
  * }
  * ```
@@ -248,4 +248,3 @@ export const breakpointUtils = {
   getCurrentBreakpoint,
   BREAKPOINTS,
 };
-

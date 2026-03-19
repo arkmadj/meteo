@@ -8,4 +8,3 @@ export { default as AirQualityDetailModal } from './AirQualityDetailModal';
 
 export type { AQIDetailCardProps } from './AQIDetailCard';
 export type { AQIMeterProps } from './AQIMeter';
-

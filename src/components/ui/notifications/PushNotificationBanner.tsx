@@ -73,15 +73,17 @@ export const PushNotificationBanner: React.FC<PermissionBannerProps> = ({
 
   const bannerMessage =
     message ||
-    t(
-      'notifications.banner.message',
-      'Enable notifications to receive weather alerts and updates'
-    );
+    t('notifications.banner.message', 'Enable notifications to receive weather alerts and updates');
 
   const positionClasses = position === 'top' ? 'top-0' : 'bottom-0';
-  const translateClass = position === 'top'
-    ? (isAnimating ? 'translate-y-0' : '-translate-y-full')
-    : (isAnimating ? 'translate-y-0' : 'translate-y-full');
+  const translateClass =
+    position === 'top'
+      ? isAnimating
+        ? 'translate-y-0'
+        : '-translate-y-full'
+      : isAnimating
+        ? 'translate-y-0'
+        : 'translate-y-full';
 
   const bannerContent = (
     <div

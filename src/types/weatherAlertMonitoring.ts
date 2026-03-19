@@ -178,4 +178,3 @@ export interface RefreshResult {
   /** Timestamp */
   timestamp: Date;
 }
-

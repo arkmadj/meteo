@@ -185,4 +185,3 @@ export function useWeatherShare(options: UseWeatherShareOptions): UseWeatherShar
 }
 
 export default useWeatherShare;
-

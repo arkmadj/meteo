@@ -1,39 +1,32 @@
 /**
  * Smart Lazy Loader Component
- * 
+ *
  * Advanced lazy loading component that combines multiple optimization strategies
  * for optimal performance and user experience.
  */
 
-import React, { 
-  Suspense, 
-  useState, 
-  useEffect, 
-  useRef, 
-  useCallback,
-  useMemo 
-} from 'react';
+import React, { Suspense, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 interface SmartLazyLoaderProps {
   children: React.ReactNode;
   fallback?: React.ReactNode;
-  
+
   // Loading strategies
   strategy?: 'immediate' | 'intersection' | 'hover' | 'click' | 'idle';
-  
+
   // Intersection observer options
   rootMargin?: string;
   threshold?: number;
-  
+
   // Performance options
   preload?: boolean;
   priority?: 'high' | 'low';
   timeout?: number;
-  
+
   // Error handling
   maxRetries?: number;
   retryDelay?: number;
-  
+
   // Analytics
   onLoadStart?: () => void;
   onLoadComplete?: (loadTime: number) => void;
@@ -63,7 +56,7 @@ export function SmartLazyLoader({
   const [error, setError] = useState<Error | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [loadTime, setLoadTime] = useState<number | null>(null);
-  
+
   const ref = useRef<HTMLDivElement>(null);
   const loadStartTime = useRef<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -108,11 +101,12 @@ export function SmartLazyLoader({
   useEffect(() => {
     if (!preload || shouldLoad) return;
 
-    const preloadTimer = priority === 'high' 
-      ? setTimeout(() => setShouldLoad(true), 100)
-      : requestIdleCallback 
-        ? requestIdleCallback(() => setShouldLoad(true))
-        : setTimeout(() => setShouldLoad(true), 2000);
+    const preloadTimer =
+      priority === 'high'
+        ? setTimeout(() => setShouldLoad(true), 100)
+        : requestIdleCallback
+          ? requestIdleCallback(() => setShouldLoad(true))
+          : setTimeout(() => setShouldLoad(true), 2000);
 
     return () => {
       if (typeof preloadTimer === 'number') {
@@ -159,22 +153,25 @@ export function SmartLazyLoader({
   }, [onLoadComplete]);
 
   // Handle loading error
-  const handleLoadError = useCallback((error: Error) => {
-    setIsLoading(false);
-    setError(error);
-    onLoadError?.(error);
-    
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  }, [onLoadError]);
+  const handleLoadError = useCallback(
+    (error: Error) => {
+      setIsLoading(false);
+      setError(error);
+      onLoadError?.(error);
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    [onLoadError]
+  );
 
   // Retry logic
   const handleRetry = useCallback(() => {
     if (retryCount < maxRetries) {
       setError(null);
       setRetryCount(prev => prev + 1);
-      
+
       setTimeout(() => {
         setShouldLoad(false);
         setTimeout(() => setShouldLoad(true), 100);
@@ -204,9 +201,7 @@ export function SmartLazyLoader({
         <div className="error-content">
           <h3>Failed to load content</h3>
           <p>{error.message}</p>
-          <button onClick={() => window.location.reload()}>
-            Refresh Page
-          </button>
+          <button onClick={() => window.location.reload()}>Refresh Page</button>
         </div>
       </div>
     );
@@ -217,7 +212,9 @@ export function SmartLazyLoader({
     return (
       <div className="lazy-loader-retry" ref={ref}>
         <div className="retry-content">
-          <p>Loading failed. Retrying... ({retryCount + 1}/{maxRetries})</p>
+          <p>
+            Loading failed. Retrying... ({retryCount + 1}/{maxRetries})
+          </p>
           <button onClick={handleRetry}>Retry Now</button>
         </div>
       </div>
@@ -227,15 +224,9 @@ export function SmartLazyLoader({
   // Render loading trigger for click/hover strategies
   if (!shouldLoad && (strategy === 'click' || strategy === 'hover')) {
     return (
-      <div 
-        className={`lazy-loader-trigger lazy-loader-${strategy}`}
-        ref={ref}
-        {...eventHandlers}
-      >
+      <div className={`lazy-loader-trigger lazy-loader-${strategy}`} ref={ref} {...eventHandlers}>
         <div className="trigger-content">
-          <p>
-            {strategy === 'click' ? 'Click to load content' : 'Hover to load content'}
-          </p>
+          <p>{strategy === 'click' ? 'Click to load content' : 'Hover to load content'}</p>
           {fallback}
         </div>
       </div>
@@ -259,9 +250,7 @@ export function SmartLazyLoader({
           <div className="lazy-loader-suspense">
             {fallback}
             {process.env.NODE_ENV === 'development' && loadTime && (
-              <div className="load-time-debug">
-                Previous load: {loadTime.toFixed(2)}ms
-              </div>
+              <div className="load-time-debug">Previous load: {loadTime.toFixed(2)}ms</div>
             )}
           </div>
         }
@@ -288,11 +277,11 @@ interface LoadingWrapperProps {
   onLoadError: (error: Error) => void;
 }
 
-function LoadingWrapper({ 
-  children, 
-  onLoadStart, 
-  onLoadComplete, 
-  onLoadError 
+function LoadingWrapper({
+  children,
+  onLoadStart,
+  onLoadComplete,
+  onLoadError,
 }: LoadingWrapperProps) {
   useEffect(() => {
     onLoadStart();
@@ -305,11 +294,7 @@ function LoadingWrapper({
     return () => clearTimeout(timer);
   }, [onLoadStart, onLoadComplete]);
 
-  return (
-    <ErrorBoundary onError={onLoadError}>
-      {children}
-    </ErrorBoundary>
-  );
+  return <ErrorBoundary onError={onLoadError}>{children}</ErrorBoundary>;
 }
 
 /**
@@ -320,10 +305,7 @@ interface ErrorBoundaryProps {
   onError: (error: Error) => void;
 }
 
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  { hasError: boolean }
-> {
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, { hasError: boolean }> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };

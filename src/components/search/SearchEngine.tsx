@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import SearchInput from '@/components/ui/atoms/SearchInput';
-import AutocompleteDropdown, { type GeocodingResult } from '@/components/ui/forms/AutocompleteDropdown';
+import AutocompleteDropdown, {
+  type GeocodingResult,
+} from '@/components/ui/forms/AutocompleteDropdown';
 import { Container } from '@/components/ui/layout';
 import { useFuzzyGeocodingAutocomplete } from '@/hooks/useFuzzyGeocodingAutocomplete';
 import { useGeolocation } from '@/hooks/useGeolocation';

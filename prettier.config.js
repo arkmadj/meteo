@@ -11,7 +11,7 @@ module.exports = {
   bracketSpacing: true,
   bracketSameLine: false,
   arrowParens: 'avoid',
-  
+
   // CI-specific options for consistency
   ...(isCI && {
     requirePragma: false,
@@ -19,13 +19,13 @@ module.exports = {
     endOfLine: 'lf', // Enforce consistent line endings in CI
     embeddedLanguageFormatting: 'auto',
   }),
-  
+
   // Local development options for flexibility
   ...(!isCI && {
     endOfLine: 'auto', // More flexible locally
     embeddedLanguageFormatting: 'off', // Faster formatting
   }),
-  
+
   // File-specific overrides
   overrides: [
     {

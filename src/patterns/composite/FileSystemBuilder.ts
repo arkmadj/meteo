@@ -1,6 +1,6 @@
 /**
  * Builder and Utility Functions for File System Composite Pattern
- * 
+ *
  * Provides convenient methods for creating and manipulating file system structures
  */
 
@@ -90,11 +90,11 @@ export class FileSystemBuilder {
    */
   public static fromJSON(json: FileSystemJSON): Directory {
     const builder = new FileSystemBuilder(json.name);
-    
+
     if (json.children) {
       FileSystemBuilder.buildFromJSON(builder.getRoot(), json.children, `/${json.name}`);
     }
-    
+
     return builder.getRoot();
   }
 
@@ -105,14 +105,14 @@ export class FileSystemBuilder {
   ): void {
     for (const child of children) {
       const childPath = `${parentPath}/${child.name}`;
-      
+
       if (child.type === 'file') {
         const file = new File(child.name, childPath, child.content || '');
         parent.add(file);
       } else if (child.type === 'directory') {
         const directory = new Directory(child.name, childPath);
         parent.add(directory);
-        
+
         if (child.children) {
           FileSystemBuilder.buildFromJSON(directory, child.children, childPath);
         }
@@ -160,4 +160,3 @@ export interface FileSystemJSON {
   extension?: string;
   children?: FileSystemJSON[];
 }
-

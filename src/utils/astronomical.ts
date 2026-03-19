@@ -173,4 +173,3 @@ export function isSunUp(sunrise: string, sunset: string): boolean {
 
   return now >= sunriseDate && now <= sunsetDate;
 }
-

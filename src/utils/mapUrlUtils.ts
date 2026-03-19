@@ -55,7 +55,10 @@ export function decodeBounds(boundsStr: string): MapBounds | null {
 /**
  * Encode map location to URL parameters
  */
-export function encodeLocation(location: MapLocation, precision: number = 4): Record<string, string> {
+export function encodeLocation(
+  location: MapLocation,
+  precision: number = 4
+): Record<string, string> {
   const params: Record<string, string> = {
     lat: location.lat.toFixed(precision),
     lng: location.lng.toFixed(precision),
@@ -255,11 +258,7 @@ function toRadians(degrees: number): number {
 /**
  * Format coordinates for display
  */
-export function formatCoordinates(
-  lat: number,
-  lng: number,
-  precision: number = 4
-): string {
+export function formatCoordinates(lat: number, lng: number, precision: number = 4): string {
   const latDir = lat >= 0 ? 'N' : 'S';
   const lngDir = lng >= 0 ? 'E' : 'W';
 
@@ -307,4 +306,3 @@ export function getDefaultMapState(): MapUrlState {
     zoom: 10,
   };
 }
-

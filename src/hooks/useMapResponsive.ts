@@ -55,7 +55,7 @@ function getSafeAreaInsets() {
   }
 
   const computedStyle = getComputedStyle(document.documentElement);
-  
+
   return {
     top: parseInt(computedStyle.getPropertyValue('env(safe-area-inset-top)') || '0', 10),
     right: parseInt(computedStyle.getPropertyValue('env(safe-area-inset-right)') || '0', 10),
@@ -97,7 +97,9 @@ function getControlSizes(breakpoint: 'mobile' | 'tablet' | 'desktop', isTouch: b
 /**
  * Get recommended control positions based on breakpoint
  */
-function getControlPositions(breakpoint: 'mobile' | 'tablet' | 'desktop'): MapResponsiveConfig['positions'] {
+function getControlPositions(
+  breakpoint: 'mobile' | 'tablet' | 'desktop'
+): MapResponsiveConfig['positions'] {
   if (breakpoint === 'mobile') {
     return {
       legend: 'bottomLeft',
@@ -115,17 +117,17 @@ function getControlPositions(breakpoint: 'mobile' | 'tablet' | 'desktop'): MapRe
 
 /**
  * Hook to get responsive configuration for map components
- * 
+ *
  * @returns MapResponsiveConfig object with responsive utilities
- * 
+ *
  * @example
  * ```tsx
  * function MapComponent() {
  *   const responsive = useMapResponsive();
- *   
+ *
  *   return (
  *     <div>
- *       <MapLegend 
+ *       <MapLegend
  *         position={responsive.positions.legend}
  *         compact={responsive.isMobile}
  *       />
@@ -195,10 +197,10 @@ export function useMapResponsive(): MapResponsiveConfig {
 
 /**
  * Hook to get responsive map height based on viewport
- * 
+ *
  * @param defaultHeight - Default height in pixels
  * @returns Responsive height string
- * 
+ *
  * @example
  * ```tsx
  * function MapComponent() {
@@ -229,9 +231,9 @@ export function useMapHeight(defaultHeight: number = 500): string {
 
 /**
  * Hook to determine if map controls should be compact
- * 
+ *
  * @returns Boolean indicating if controls should be compact
- * 
+ *
  * @example
  * ```tsx
  * function MapLegend() {
@@ -242,7 +244,7 @@ export function useMapHeight(defaultHeight: number = 500): string {
  */
 export function useMapCompactMode(): boolean {
   const { isMobile, windowSize } = useMapResponsive();
-  
+
   return useMemo(() => {
     // Use compact mode on mobile or small viewports
     return isMobile || windowSize.width < 768;
@@ -251,9 +253,9 @@ export function useMapCompactMode(): boolean {
 
 /**
  * Hook to get touch-optimized event handlers
- * 
+ *
  * @returns Object with touch event utilities
- * 
+ *
  * @example
  * ```tsx
  * function MapButton() {
@@ -275,7 +277,7 @@ export function useMapTouchHandlers() {
 
   const handleTouchStart = useMemo(() => {
     if (!isTouch) return undefined;
-    
+
     return () => {
       setIsTouching(true);
     };
@@ -283,7 +285,7 @@ export function useMapTouchHandlers() {
 
   const handleTouchEnd = useMemo(() => {
     if (!isTouch) return undefined;
-    
+
     return () => {
       setIsTouching(false);
     };
@@ -299,10 +301,10 @@ export function useMapTouchHandlers() {
 
 /**
  * Hook to get responsive map zoom levels
- * 
+ *
  * @param defaultZoom - Default zoom level
  * @returns Responsive zoom level
- * 
+ *
  * @example
  * ```tsx
  * function Map() {
@@ -327,4 +329,3 @@ export function useMapZoom(defaultZoom: number = 12): number {
     return defaultZoom;
   }, [isMobile, isTablet, defaultZoom]);
 }
-

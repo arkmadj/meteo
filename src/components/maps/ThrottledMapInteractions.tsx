@@ -284,4 +284,3 @@ export function usePerformanceAwareMapUpdates(performanceTier: PerformanceTier =
     maxMarkers: performanceTier === 'high' ? 100 : performanceTier === 'medium' ? 50 : 25,
   };
 }
-

@@ -50,24 +50,24 @@ const DEFAULT_PRESET_COLORS = [
   COLORS.primary[500],
   COLORS.primary[600],
   COLORS.primary[400],
-  
+
   // Semantic colors
   COLORS.semantic.success[500],
   COLORS.semantic.warning[500],
   COLORS.semantic.error[500],
   COLORS.semantic.info[500],
-  
+
   // Neutral colors
   COLORS.neutral[600],
   COLORS.neutral[700],
   COLORS.neutral[800],
-  
+
   // Weather-themed colors
   COLORS.weather.sunny,
   COLORS.weather.rainy,
   COLORS.weather.cloudy,
   COLORS.weather.stormy,
-  
+
   // Special accent colors
   COLORS.special.accent,
   '#ff6b9d',
@@ -180,14 +180,12 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
       aria-label={`Select color ${color}`}
       aria-pressed={isSelected}
     >
-      {isSelected && (
-        <span className="color-swatch-check">✓</span>
-      )}
+      {isSelected && <span className="color-swatch-check">✓</span>}
     </button>
   );
 
   return (
-    <div 
+    <div
       ref={pickerRef}
       className={`accent-color-picker-container ${getSizeClasses()} ${className} ${
         error ? 'accent-color-picker-error' : ''
@@ -196,11 +194,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
       {...props}
     >
       {/* Label */}
-      {label && (
-        <label className="accent-color-picker-label">
-          {label}
-        </label>
-      )}
+      {label && <label className="accent-color-picker-label">{label}</label>}
 
       {/* Main picker trigger */}
       <div className="accent-color-picker-trigger">
@@ -212,14 +206,9 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
           aria-expanded={isPickerOpen}
           aria-haspopup="listbox"
         >
-          <div 
-            className="accent-color-preview"
-            style={{ backgroundColor: selectedColor }}
-          />
+          <div className="accent-color-preview" style={{ backgroundColor: selectedColor }} />
           <span className="accent-color-value">{selectedColor}</span>
-          <span className="accent-color-dropdown-arrow">
-            {isPickerOpen ? '▲' : '▼'}
-          </span>
+          <span className="accent-color-dropdown-arrow">{isPickerOpen ? '▲' : '▼'}</span>
         </button>
       </div>
 
@@ -230,9 +219,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
           {showPresets && (
             <div className="accent-color-presets">
               <div className="accent-color-presets-grid">
-                {presetColors.map((color) => 
-                  renderColorSwatch(color, color === selectedColor)
-                )}
+                {presetColors.map(color => renderColorSwatch(color, color === selectedColor))}
               </div>
             </div>
           )}
@@ -252,7 +239,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
               <input
                 type="color"
                 value={selectedColor}
-                onChange={(e) => handleColorSelect(e.target.value)}
+                onChange={e => handleColorSelect(e.target.value)}
                 className="accent-color-native-input"
                 disabled={isDisabled}
                 aria-label="Pick custom color"
@@ -263,18 +250,10 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
       )}
 
       {/* Helper text */}
-      {helperText && !error && (
-        <p className="accent-color-picker-helper">
-          {helperText}
-        </p>
-      )}
+      {helperText && !error && <p className="accent-color-picker-helper">{helperText}</p>}
 
       {/* Error message */}
-      {error && errorMessage && (
-        <p className="accent-color-picker-error-message">
-          {errorMessage}
-        </p>
-      )}
+      {error && errorMessage && <p className="accent-color-picker-error-message">{errorMessage}</p>}
     </div>
   );
 };
