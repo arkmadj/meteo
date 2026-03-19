@@ -26,7 +26,7 @@ export function setupNodeGlobalHandlers(
     const appError: AppError = {
       id: `uncaught-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: ErrorCategory.SYSTEM,
+      category: ErrorCategory.UNKNOWN,
       severity: ErrorSeverity.CRITICAL,
       message: error.message,
       userMessage: 'A critical system error occurred',
@@ -57,7 +57,7 @@ export function setupNodeGlobalHandlers(
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: ErrorCategory.SYSTEM,
+      category: ErrorCategory.UNKNOWN,
       severity: ErrorSeverity.HIGH,
       message: (reason as { message?: string })?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
@@ -109,7 +109,7 @@ export function setupBrowserGlobalHandlers(
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: ErrorCategory.SYSTEM,
+      category: ErrorCategory.UNKNOWN,
       severity: ErrorSeverity.HIGH,
       message: event.reason?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
@@ -135,7 +135,7 @@ export function setupBrowserGlobalHandlers(
     const appError: AppError = {
       id: `global-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: ErrorType.UNKNOWN_ERROR,
-      category: ErrorCategory.SYSTEM,
+      category: ErrorCategory.UNKNOWN,
       severity: ErrorSeverity.HIGH,
       message: event.error?.message || 'An unexpected error occurred',
       userMessage: 'An unexpected error occurred',
@@ -170,7 +170,7 @@ export function setupBrowserGlobalHandlers(
 /**
  * Safe async wrapper that prevents unhandled rejections
  */
-export function safeAsync<T>(
+export async function safeAsync<T>(
   asyncFn: () => Promise<T>,
   onError?: (error: Error) => void
 ): Promise<T | null> {

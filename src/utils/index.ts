@@ -126,12 +126,8 @@ export * from './AriaLiveDebugger';
 export * from './colorVisionDeficiency';
 // Export contrastVerification functions with different names to avoid conflicts
 export {
-  findContrastIssues,
-  getAccessibleTextColor,
   getContrastRatio as getWCAGContrastRatio,
   meetsContrastRequirement as meetsWCAGContrastRequirement,
-  suggestAccessibleColor,
-  verifyContrast,
   type ContrastCheckResult,
   type ContrastIssue,
   type TextSize,
