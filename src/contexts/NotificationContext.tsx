@@ -17,6 +17,10 @@ import React, {
 } from 'react';
 
 import { NotificationContextUnavailableError } from '@/errors/domainErrors';
+import {
+  notificationSchedulerService,
+  NotificationSchedulerService,
+} from '@/services/notificationSchedulerService';
 import { notificationService, NotificationService } from '@/services/notificationService';
 import type {
   CategoryPreference,
@@ -37,6 +41,8 @@ import type {
 import type {
   CreateScheduledAlertOptions,
   ScheduledAlert,
+  ScheduleFilterOptions,
+  SchedulerEvent,
   SchedulerStatistics,
 } from '@/types/notificationScheduler';
 import type { PushPermissionStatus } from '@/types/pushNotification';
