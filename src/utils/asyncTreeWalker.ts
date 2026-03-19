@@ -5,6 +5,8 @@
  * and support streaming results with cancellation support.
  */
 
+import { type CancellationToken } from './cancellationToken';
+
 /**
  * Basic tree node interface
  */
