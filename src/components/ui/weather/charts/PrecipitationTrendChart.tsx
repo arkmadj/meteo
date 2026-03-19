@@ -3,7 +3,7 @@
  * A visual chart component for displaying rain and snow probability trends over time
  */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@/design-system/theme';
@@ -164,9 +164,15 @@ const PrecipitationTrendChart: React.FC<PrecipitationTrendChartProps> = ({
   );
 
   // Scale functions (0-100% for probability)
-  const scaleX = (index: number) =>
-    chartData.length <= 1 ? chartWidth / 2 : (index / (chartData.length - 1)) * chartWidth;
-  const scaleY = (probability: number) => chartHeight - (probability / 100) * chartHeight;
+  const scaleX = useCallback(
+    (index: number) =>
+      chartData.length <= 1 ? chartWidth / 2 : (index / (chartData.length - 1)) * chartWidth,
+    [chartData.length, chartWidth]
+  );
+  const scaleY = useCallback(
+    (probability: number) => chartHeight - (probability / 100) * chartHeight,
+    [chartHeight]
+  );
 
   // Generate smooth path for trend lines
   const generatePath = (
@@ -226,14 +232,17 @@ const PrecipitationTrendChart: React.FC<PrecipitationTrendChartProps> = ({
       : 0;
 
   // Format time labels
-  const formatTimeLabel = (time: string, _index: number) => {
-    if (timeRange === '24h') {
+  const formatTimeLabel = useCallback(
+    (time: string, _index: number) => {
+      if (timeRange === '24h') {
+        const date = new Date(time);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
       const date = new Date(time);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    const date = new Date(time);
-    return date.toLocaleDateString([], { weekday: 'short' });
-  };
+      return date.toLocaleDateString([], { weekday: 'short' });
+    },
+    [timeRange]
+  );
 
   // Generate grid lines
   const gridLines = useMemo(() => {
@@ -303,7 +312,17 @@ const PrecipitationTrendChart: React.FC<PrecipitationTrendChartProps> = ({
     }
 
     return lines;
-  }, [chartData, chartWidth, chartHeight, chartTokens, config.fontSize, timeRange]);
+  }, [
+    chartData,
+    chartWidth,
+    chartHeight,
+    chartTokens,
+    config.fontSize,
+    timeRange,
+    formatTimeLabel,
+    scaleX,
+    scaleY,
+  ]);
 
   if (chartData.length === 0) {
     return (

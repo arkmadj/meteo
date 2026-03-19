@@ -3,7 +3,7 @@
  * Manages theme state and provides theme utilities throughout the app
  */
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ThemeContextError } from '@/errors/domainErrors';
 import { BORDER_RADIUS, COLORS, SHADOWS, SPACING, TYPOGRAPHY } from './tokens';
@@ -128,52 +128,51 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
   };
 
   // Compute actual theme based on mode and high contrast preference
-  const computeTheme = (
-    currentMode: ThemeMode,
-    highContrast: boolean,
-    customAccentColor: string
-  ): Theme => {
-    const actualMode = currentMode === 'auto' ? getSystemTheme() : currentMode;
-    const isDark = actualMode === 'dark';
+  const computeTheme = useCallback(
+    (currentMode: ThemeMode, highContrast: boolean, customAccentColor: string): Theme => {
+      const actualMode = currentMode === 'auto' ? getSystemTheme() : currentMode;
+      const isDark = actualMode === 'dark';
 
-    // Use high contrast colors when enabled
-    if (highContrast) {
-      const hcColors = isDark ? COLORS.highContrast.dark : COLORS.highContrast.light;
+      // Use high contrast colors when enabled
+      if (highContrast) {
+        const hcColors = isDark ? COLORS.highContrast.dark : COLORS.highContrast.light;
+        return {
+          ...defaultTheme,
+          mode: currentMode,
+          isDark,
+          isHighContrast: true,
+          primaryColor: hcColors.interactive.primary,
+          accentColor: customAccentColor,
+          backgroundColor: hcColors.background.primary,
+          surfaceColor: hcColors.background.surface,
+          textColor: hcColors.text.primary,
+          textSecondaryColor: hcColors.text.secondary,
+        };
+      }
+
+      // Standard theme colors
       return {
         ...defaultTheme,
         mode: currentMode,
         isDark,
-        isHighContrast: true,
-        primaryColor: hcColors.interactive.primary,
+        isHighContrast: false,
+        primaryColor: isDark ? COLORS.primary[400] : COLORS.primary[500],
         accentColor: customAccentColor,
-        backgroundColor: hcColors.background.primary,
-        surfaceColor: hcColors.background.surface,
-        textColor: hcColors.text.primary,
-        textSecondaryColor: hcColors.text.secondary,
+        backgroundColor: isDark ? COLORS.neutral[900] : COLORS.neutral[50],
+        surfaceColor: isDark ? COLORS.neutral[800] : COLORS.neutral[100],
+        textColor: isDark ? COLORS.neutral[100] : COLORS.neutral[900],
+        textSecondaryColor: isDark ? COLORS.neutral[400] : COLORS.neutral[600],
       };
-    }
-
-    // Standard theme colors
-    return {
-      ...defaultTheme,
-      mode: currentMode,
-      isDark,
-      isHighContrast: false,
-      primaryColor: isDark ? COLORS.primary[400] : COLORS.primary[500],
-      accentColor: customAccentColor,
-      backgroundColor: isDark ? COLORS.neutral[900] : COLORS.neutral[50],
-      surfaceColor: isDark ? COLORS.neutral[800] : COLORS.neutral[100],
-      textColor: isDark ? COLORS.neutral[100] : COLORS.neutral[900],
-      textSecondaryColor: isDark ? COLORS.neutral[400] : COLORS.neutral[600],
-    };
-  };
+    },
+    []
+  );
 
   const [theme, setTheme] = useState<Theme>(() => computeTheme(mode, isHighContrast, accentColor));
 
   // Update theme when mode, high contrast, or accent color changes
   useEffect(() => {
     setTheme(computeTheme(mode, isHighContrast, accentColor));
-  }, [mode, isHighContrast, accentColor]);
+  }, [mode, isHighContrast, accentColor, computeTheme]);
 
   // Listen for system theme changes when in auto mode
   useEffect(() => {
@@ -184,7 +183,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, defaultM
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     }
-  }, [mode, isHighContrast, accentColor]);
+  }, [mode, isHighContrast, accentColor, computeTheme]);
 
   // Listen for high contrast preference changes (only if user hasn't manually set it)
   useEffect(() => {

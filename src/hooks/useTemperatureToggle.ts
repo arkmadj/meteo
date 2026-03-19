@@ -3,7 +3,7 @@
  * Provides smooth temperature unit switching with loading states and animations
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { TEMPERATURE_CONVERSION } from '@/constants/weather';
 
@@ -48,7 +48,7 @@ const DEFAULT_OPTIONS: Required<TemperatureToggleOptions> = {
 export const useTemperatureToggle = (
   options: TemperatureToggleOptions = {}
 ): TemperatureToggleHook => {
-  const config = { ...DEFAULT_OPTIONS, ...options };
+  const config = useMemo(() => ({ ...DEFAULT_OPTIONS, ...options }), [options]);
 
   // Initialize temperature unit from storage or default
   const getInitialUnit = (): 'C' | 'F' => {

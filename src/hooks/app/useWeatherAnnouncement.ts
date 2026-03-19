@@ -70,17 +70,7 @@ export const useWeatherAnnouncement = (
   const { t } = useTranslation(['weather', 'common', 'errors']);
 
   // Memoize config to prevent infinite loops in dependent useCallbacks
-  const mergedConfig = useMemo(
-    () => ({ ...DEFAULT_CONFIG, ...config }),
-    [
-      config.minAnnouncementInterval,
-      config.debounceDelay,
-      config.dedupeWindow,
-      config.temperatureChangeThreshold,
-      config.announceBackgroundRefresh,
-      config.announceInitialLoad,
-    ]
-  );
+  const mergedConfig = useMemo(() => ({ ...DEFAULT_CONFIG, ...config }), [config]);
 
   const [currentAnnouncement, setCurrentAnnouncement] = useState<WeatherAnnouncement | null>(null);
 
@@ -96,8 +86,9 @@ export const useWeatherAnnouncement = (
 
   // Cleanup on unmount
   useEffect(() => {
+    const debouncer = debouncerRef.current;
     return () => {
-      debouncerRef.current.cancel();
+      debouncer.cancel();
     };
   }, []);
 

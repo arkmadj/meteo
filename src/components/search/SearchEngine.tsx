@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import SearchInput from '@/components/ui/atoms/SearchInput';
 import AutocompleteDropdown, {
@@ -52,7 +52,10 @@ const SearchEngine = React.memo(
         retry: 2,
       });
 
-    const reverseGeocodingResults = (reverseGeocodingData ?? []) as GeocodingResult[];
+    const reverseGeocodingResults = useMemo(
+      () => (reverseGeocodingData ?? []) as GeocodingResult[],
+      [reverseGeocodingData]
+    );
 
     // Handle suggestion selection - defined first to avoid ReferenceError
     const handleSuggestionSelect = useCallback(

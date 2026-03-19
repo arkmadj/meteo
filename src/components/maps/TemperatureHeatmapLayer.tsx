@@ -324,6 +324,7 @@ const TemperatureHeatmapLayer: React.FC<TemperatureHeatmapLayerProps> = ({
         tileLayerRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, useWeatherTiles, apiKey, tileLayer, zIndex]);
 
   // Update canvas layer when data or options change

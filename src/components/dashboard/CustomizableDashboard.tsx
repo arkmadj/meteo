@@ -35,7 +35,7 @@ export interface CustomizableDashboardProps {
 const CustomizableDashboard: React.FC<CustomizableDashboardProps> = ({
   weather,
   getLocalizedTemperature,
-  getLocalizedWeatherDescription,
+  getLocalizedWeatherDescription: _getLocalizedWeatherDescription,
   temperatureUnit,
   className = '',
 }) => {
@@ -232,13 +232,7 @@ const CustomizableDashboard: React.FC<CustomizableDashboardProps> = ({
           );
       }
     },
-    [
-      state.currentLayout.widgets,
-      weather,
-      getLocalizedTemperature,
-      getLocalizedWeatherDescription,
-      temperatureUnit,
-    ]
+    [state.currentLayout.widgets, weather, getLocalizedTemperature, temperatureUnit]
   );
 
   return (
