@@ -122,7 +122,7 @@ class AdaptiveWeatherUpdatesService {
       | undefined;
 
     return {
-      effectiveType: connection?.effectiveType || '4g',
+      effectiveType: (connection?.effectiveType as 'slow-2g' | '2g' | '3g' | '4g') || '4g',
       downlink: connection?.downlink || 10,
       rtt: connection?.rtt || 100,
       saveData: connection?.saveData || false,

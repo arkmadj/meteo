@@ -630,7 +630,12 @@ class NotificationSchedulerService {
    */
   private extractWeatherValue(conditionType: string, data: CurrentWeatherData): number {
     // Delegate to weather alert service for consistency
-    return weatherAlertService['extractValueForCondition']?.(conditionType, data) ?? 0;
+    return (
+      weatherAlertService['extractValueForCondition']?.(
+        conditionType as import('@/types/weatherAlert').AlertConditionType,
+        data
+      ) ?? 0
+    );
   }
 
   /**

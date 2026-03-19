@@ -36,7 +36,7 @@ class ChunkPreloadingService {
   private preloadQueue: string[] = [];
   private activePreloads = new Set<string>();
   private userBehavior: UserBehaviorData;
-  private connectionInfo: unknown;
+  private connectionInfo: { effectiveType: string; saveData: boolean };
 
   constructor(config: Partial<PreloadingConfig> = {}) {
     this.config = {
