@@ -57,8 +57,9 @@ const classifyError = (
   }
 
   // Axios API errors
-  if (error.response) {
-    const status = error.response.status;
+  const errorWithResponse = errorWithProps as { response?: { status: number } };
+  if (errorWithResponse.response) {
+    const status = errorWithResponse.response.status;
 
     // Rate limiting
     if (status === 429) {
@@ -89,7 +90,10 @@ const classifyError = (
   }
 
   // Geocoding errors
-  if (error.message?.includes('not found') || error.message?.includes('No results')) {
+  if (
+    errorWithProps.message?.includes('not found') ||
+    errorWithProps.message?.includes('No results')
+  ) {
     return {
       type: ErrorType.CITY_NOT_FOUND,
       category: ErrorCategory.GEOCODING,
@@ -98,7 +102,7 @@ const classifyError = (
   }
 
   // Weather data errors
-  if (error.message?.includes('weather') || error.message?.includes('forecast')) {
+  if (errorWithProps.message?.includes('weather') || errorWithProps.message?.includes('forecast')) {
     return {
       type: ErrorType.WEATHER_DATA_ERROR,
       category: ErrorCategory.WEATHER,
@@ -138,7 +142,7 @@ const getErrorMessage = (type: ErrorType, originalError?: unknown): string => {
     case ErrorType.PARSING_ERROR:
       return 'Failed to parse response data';
     default:
-      return originalError?.message || 'An unknown error occurred';
+      return (originalError as { message?: string })?.message || 'An unknown error occurred';
   }
 };
 
