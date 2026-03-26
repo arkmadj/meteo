@@ -170,7 +170,7 @@ const PressureDetailModal: React.FC<PressureDetailModalProps> = ({
                 showStatistics={true}
                 showTrendLine={true}
                 size="md"
-                trendChartTimeRange={'24h' as '24h' | '7d' | '30d'}
+                trendChartTimeRange={'24h' as const}
               />
             </div>
           </div>
