@@ -6,9 +6,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import UVIndexMeter from './UVIndexMeter';
 import AccessibleModal from '@/components/ui/molecules/AccessibleModal';
 import { useTheme } from '@/design-system/theme';
+import UVIndexMeter from './UVIndexMeter';
 
 export interface UVIndexDetailModalProps {
   /** Whether the modal is open */
@@ -178,7 +178,7 @@ const UVIndexDetailModal: React.FC<UVIndexDetailModalProps> = ({ isOpen, onClose
   const { t } = useTranslation(['weather']);
   const { theme } = useTheme();
   const clampedUVIndex = Math.max(0, Math.min(12, uvIndex));
-  const details = getUVDetails(clampedUVIndex, t);
+  const details = getUVDetails(clampedUVIndex, t as unknown as TranslateFn);
 
   return (
     <AccessibleModal
