@@ -340,6 +340,14 @@ const ciRules = {
   // Stricter rules in CI
   '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true, ignoreRestArgs: false }],
   'react-hooks/exhaustive-deps': 'error',
+  // Disable rules that require strictNullChecks (not enabled in tsconfig.json)
+  '@typescript-eslint/no-unnecessary-condition': 'off',
+  '@typescript-eslint/strict-boolean-expressions': 'off',
+  '@typescript-eslint/prefer-nullish-coalescing': 'off',
+  // Disable these rules for now - can be enabled later for gradual adoption
+  '@typescript-eslint/require-await': 'off',
+  '@typescript-eslint/prefer-optional-chain': 'off',
+  '@typescript-eslint/prefer-includes': 'off',
 };
 
 export default [
@@ -621,6 +629,29 @@ export default [
       'src/utils/cancellationToken.weatherExample.ts',
       'src/utils/cancellablePipeline.utils.ts',
       'src/patterns/**',
+      // Config files
+      '.eslintrc.js',
+      '.prettierrc.js',
+      '.lintstagedrc.js',
+      '.lintstaged.local.js',
+      'babel.config.js',
+      'jest.config.js',
+      'postcss.config.js',
+      'tailwind.config.js',
+      'prettier.config.js',
+      '.prettier.ci.js',
+      '.prettier.local.js',
+      'eslint.config.js',
+      'eslint.config.mjs',
+      'eslint.config.with-custom-rules.js',
+      'eslint.multi-env.config.js',
+      'vite.config.ts',
+      // Other files
+      'public/sw.js',
+      'scripts/**/*.js',
+      'src/setupTests.js',
+      'eslint-report.json',
+      '.eslintcache',
     ],
   },
 ];

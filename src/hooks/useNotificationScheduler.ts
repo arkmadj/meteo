@@ -280,7 +280,7 @@ export function useNotificationScheduler(
   // Auto-initialize on mount
   useEffect(() => {
     if (autoInitialize) {
-      initialize();
+      void initialize();
     }
   }, [autoInitialize, initialize]);
 

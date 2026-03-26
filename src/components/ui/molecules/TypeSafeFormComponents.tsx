@@ -609,6 +609,14 @@ export function useForm<T extends Record<string, unknown>>({
     return Object.values(errors).every(error => !error);
   }, [errors]);
 
+  // Wrap handleSubmit to handle the promise
+  const handleSubmitWrapper = useCallback(
+    (event?: React.FormEvent) => {
+      void handleSubmit(event);
+    },
+    [handleSubmit]
+  );
+
   return {
     values,
     errors,
@@ -620,7 +628,7 @@ export function useForm<T extends Record<string, unknown>>({
     setTouched,
     handleChange,
     handleBlur,
-    handleSubmit,
+    handleSubmit: handleSubmitWrapper,
     reset,
     validate,
     getFieldProps,

@@ -324,7 +324,7 @@ class PipelineCancellationCoordinator {
         break;
 
       case CancellationPropagationStrategy.GRACEFUL:
-        this.gracefulCancellation(reason, gracefulTimeout);
+        void this.gracefulCancellation(reason, gracefulTimeout);
         break;
 
       case CancellationPropagationStrategy.SELECTIVE:
@@ -340,7 +340,7 @@ class PipelineCancellationCoordinator {
   private cancelAllStages(reason: unknown): void {
     this.stageTokens.forEach(token => token.cancel(reason));
     this.activeStages.forEach(stage => {
-      stage.onCancel?.(reason);
+      void stage.onCancel?.(reason);
     });
   }
 

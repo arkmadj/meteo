@@ -81,7 +81,7 @@ class RequestQueue {
 
   setMaxConcurrent(max: number) {
     this.maxConcurrent = max;
-    this.processQueue();
+    void this.processQueue();
   }
 
   async add<T>(requestFn: () => Promise<T>): Promise<T> {
@@ -94,7 +94,7 @@ class RequestQueue {
           reject(error);
         }
       });
-      this.processQueue();
+      void this.processQueue();
     });
   }
 
@@ -112,7 +112,7 @@ class RequestQueue {
       await requestFn();
     } finally {
       this.activeRequests--;
-      this.processQueue();
+      void this.processQueue();
     }
   }
 }

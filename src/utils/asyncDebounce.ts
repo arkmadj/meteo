@@ -33,17 +33,19 @@ export function debounceAsync<T extends (...args: unknown[]) => Promise<unknown>
     cancelSource = new CancellationTokenSource();
 
     return new Promise<ReturnType<T>>((resolve, reject) => {
-      timeoutId = setTimeout(async () => {
-        try {
-          const result = await func.apply(this, args);
-          if (!cancelSource.isCancellationRequested) {
-            resolve(result);
+      timeoutId = setTimeout(() => {
+        void (async () => {
+          try {
+            const result = await func.apply(this, args);
+            if (!cancelSource.isCancellationRequested) {
+              resolve(result);
+            }
+          } catch (error) {
+            if (!cancelSource.isCancellationRequested) {
+              reject(error);
+            }
           }
-        } catch (error) {
-          if (!cancelSource.isCancellationRequested) {
-            reject(error);
-          }
-        }
+        })();
       }, delay);
     });
   };
@@ -122,29 +124,8 @@ export function createAsyncDebounce<T extends (...args: unknown[]) => Promise<un
     // Trailing edge execution
     return new Promise<ReturnType<T>>((resolve, reject) => {
       timeoutId = setTimeout(
-        async () => {
-          try {
-            const result = await invokeFunc();
-            if (!cancelSource?.isCancellationRequested) {
-              resolve(result);
-            }
-          } catch (error) {
-            if (!cancelSource?.isCancellationRequested) {
-              reject(error);
-            }
-          }
-        },
-        delay - (time - lastInvokeTime)
-      );
-
-      // Max wait timeout
-      if (maxWait && !maxTimeoutId) {
-        maxTimeoutId = setTimeout(
-          async () => {
-            if (timeoutId) {
-              clearTimeout(timeoutId);
-              timeoutId = undefined;
-            }
+        () => {
+          void (async () => {
             try {
               const result = await invokeFunc();
               if (!cancelSource?.isCancellationRequested) {
@@ -154,9 +135,34 @@ export function createAsyncDebounce<T extends (...args: unknown[]) => Promise<un
               if (!cancelSource?.isCancellationRequested) {
                 reject(error);
               }
-            } finally {
-              maxTimeoutId = undefined;
             }
+          })();
+        },
+        delay - (time - lastInvokeTime)
+      );
+
+      // Max wait timeout
+      if (maxWait && !maxTimeoutId) {
+        maxTimeoutId = setTimeout(
+          () => {
+            void (async () => {
+              if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = undefined;
+              }
+              try {
+                const result = await invokeFunc();
+                if (!cancelSource?.isCancellationRequested) {
+                  resolve(result);
+                }
+              } catch (error) {
+                if (!cancelSource?.isCancellationRequested) {
+                  reject(error);
+                }
+              } finally {
+                maxTimeoutId = undefined;
+              }
+            })();
           },
           maxWait - (time - lastInvokeTime)
         );

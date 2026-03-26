@@ -33,6 +33,7 @@ export const withPerformanceMonitoring = <P extends object>(
 };
 
 // Performance monitoring decorator for class components
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function PerformanceMonitoring<T extends new (...args: any[]) => React.Component>(
   componentName?: string
 ) {
@@ -43,6 +44,7 @@ export function PerformanceMonitoring<T extends new (...args: any[]) => React.Co
     return class extends constructor {
       static displayName = `PerformanceMonitoring(${displayName})`;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       constructor(...args: any[]) {
         super(...args);
       }

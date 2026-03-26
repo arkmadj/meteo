@@ -330,7 +330,7 @@ export const cacheUtils = {
 };
 
 // Mock fetch function - will be replaced with actual API calls
-async function fetchWeatherData(_location: string, _units?: string) {
+function fetchWeatherData(_location: string, _units?: string): never {
   // This will be implemented with the actual weather API
   throw new NotImplementedError('fetchWeatherData not implemented');
 }

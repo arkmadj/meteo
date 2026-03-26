@@ -419,7 +419,7 @@ class NotificationSchedulerService {
 
       // Check if schedule is due
       if (schedule.nextExecutionAt && schedule.nextExecutionAt <= now) {
-        this.executeSchedule(schedule);
+        void this.executeSchedule(schedule);
       }
     }
   }
@@ -619,7 +619,7 @@ class NotificationSchedulerService {
       const isTriggered = this.evaluateCondition(value, trigger);
 
       if (isTriggered) {
-        this.executeSchedule(schedule);
+        void this.executeSchedule(schedule);
         break; // Only execute once per check cycle
       }
     }

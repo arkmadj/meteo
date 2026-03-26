@@ -1,5 +1,5 @@
-import type { Layout } from 'react-grid-layout';
 import React, { createContext, useCallback, useContext, useEffect, useReducer } from 'react';
+import type { Layout } from 'react-grid-layout';
 
 import {
   DASHBOARD_PRESETS,
@@ -354,7 +354,7 @@ export const DashboardLayoutProvider: React.FC<{ children: React.ReactNode }> = 
     return JSON.stringify(state.currentLayout, null, 2);
   }, [state.currentLayout]);
 
-  const importLayout = useCallback(async (json: string): Promise<void> => {
+  const importLayout = useCallback((json: string): void => {
     try {
       const parsed = JSON.parse(json) as IDashboardLayout;
       // Validate the layout structure

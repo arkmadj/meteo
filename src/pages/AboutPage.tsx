@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import MainHeader from '@/components/headers/MainHeader';
 import type { AboutNavItem } from '@/components/navigation/AboutPageNav';
 import AboutPageNav from '@/components/navigation/AboutPageNav';
-import MainHeader from '@/components/headers/MainHeader';
 import { Card, CardBody, CardHeader, FloatingActionButton } from '@/components/ui/atoms';
 import { Container, Flex, Grid, Stack } from '@/components/ui/layout';
 import { useSnackbar } from '@/contexts/SnackbarContext';
@@ -123,7 +123,9 @@ const AboutPage: React.FC = () => {
         <p className="text-sm text-gray-600 dark:text-gray-400">{section.subtitle}</p>
       </div>
       <button
-        onClick={() => copySectionLink(section.id)}
+        onClick={() => {
+          void copySectionLink(section.id);
+        }}
         className={`
           p-2 rounded-md text-sm transition-all duration-200
           ${
@@ -1164,7 +1166,9 @@ const AboutPage: React.FC = () => {
                             accessible components, including modals, dropdowns, and more.
                           </p>
                           <button
-                            onClick={() => navigate('/accessibility')}
+                            onClick={() => {
+                              void navigate('/accessibility');
+                            }}
                             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           >
                             <span>Explore Demos</span>
@@ -1647,7 +1651,9 @@ const AboutPage: React.FC = () => {
         tooltip="Go to Weather"
         variant="primary"
         position="bottom-right"
-        onClick={() => navigate('/weather')}
+        onClick={() => {
+          void navigate('/weather');
+        }}
         aria-label="Navigate to weather page"
       />
 
@@ -1657,7 +1663,9 @@ const AboutPage: React.FC = () => {
         variant="secondary"
         position="bottom-right"
         className="!bottom-24"
-        onClick={() => navigate('/settings')}
+        onClick={() => {
+          void navigate('/settings');
+        }}
         aria-label="Navigate to settings page"
       />
     </div>

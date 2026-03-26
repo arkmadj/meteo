@@ -52,7 +52,7 @@ const AboutPageNav: React.FC<AboutPageNavProps> = ({ items, className = '', onNa
       });
 
       // Update URL hash without triggering a page reload
-      navigate(`${location.pathname}#${id}`, { replace: true });
+      void navigate(`${location.pathname}#${id}`, { replace: true });
 
       setActiveSection(id);
       onNavigate?.(id);
@@ -88,7 +88,7 @@ const AboutPageNav: React.FC<AboutPageNavProps> = ({ items, className = '', onNa
               // Update URL hash without triggering a page reload
               const currentHash = location.hash.replace('#', '');
               if (currentHash !== newActiveSection) {
-                navigate(`${location.pathname}#${newActiveSection}`, { replace: true });
+                void navigate(`${location.pathname}#${newActiveSection}`, { replace: true });
               }
             }
             break;

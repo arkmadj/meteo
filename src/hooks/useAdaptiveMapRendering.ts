@@ -3,13 +3,13 @@
  * Automatically adjusts map rendering quality based on device performance
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   detectDeviceCapabilities,
   getPerformanceRecommendations,
   type DeviceCapabilities,
   type PerformanceTier,
 } from '@/utils/devicePerformance';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePerformanceMonitor } from './usePerformanceMonitor';
 
 export interface AdaptiveRenderingConfig {
@@ -302,7 +302,7 @@ export function useAdaptiveMapRendering(
    * Initialize capabilities detection
    */
   useEffect(() => {
-    detectCapabilities();
+    void detectCapabilities();
   }, [detectCapabilities]);
 
   /**

@@ -662,7 +662,9 @@ class NotificationService {
       notification.status = 'clicked';
       notification.clickedAt = new Date();
       this.emitEvent('notification:clicked', notification);
-      this.saveToStorage();
+      this.saveToStorage().catch(error => {
+        this.log('Failed to save after marking as clicked:', error);
+      });
     }
   }
 
@@ -675,7 +677,9 @@ class NotificationService {
       notification.status = 'dismissed';
       notification.dismissedAt = new Date();
       this.emitEvent('notification:dismissed', notification);
-      this.saveToStorage();
+      this.saveToStorage().catch(error => {
+        this.log('Failed to save after marking as dismissed:', error);
+      });
     }
   }
 
@@ -688,7 +692,9 @@ class NotificationService {
       notification.isRead = true;
       notification.readAt = new Date();
       this.emitEvent('notification:clicked', notification);
-      this.saveToStorage();
+      this.saveToStorage().catch(error => {
+        this.log('Failed to save after marking as read:', error);
+      });
     }
   }
 
@@ -700,7 +706,9 @@ class NotificationService {
     if (notification && notification.isRead) {
       notification.isRead = false;
       notification.readAt = undefined;
-      this.saveToStorage();
+      this.saveToStorage().catch(error => {
+        this.log('Failed to save after marking as unread:', error);
+      });
     }
   }
 
@@ -718,7 +726,9 @@ class NotificationService {
       }
     }
     if (hasChanges) {
-      this.saveToStorage();
+      this.saveToStorage().catch(error => {
+        this.log('Failed to save after marking all as read:', error);
+      });
     }
   }
 
@@ -898,7 +908,9 @@ class NotificationService {
       this.history = this.history.slice(0, this.config.maxHistorySize);
     }
 
-    this.saveToStorage();
+    this.saveToStorage().catch(error => {
+      this.log('Failed to save after adding to history:', error);
+    });
   }
 
   /**
@@ -975,7 +987,7 @@ class NotificationService {
   private startScheduler(): void {
     // Check every minute for scheduled notifications
     this.schedulerInterval = setInterval(() => {
-      this.processScheduledNotifications();
+      void this.processScheduledNotifications();
     }, 60000);
   }
 
@@ -1007,7 +1019,7 @@ class NotificationService {
   private startQueueProcessor(): void {
     // Process queue every 30 seconds
     this.queueProcessorInterval = setInterval(() => {
-      this.processQueue();
+      void this.processQueue();
     }, 30000);
   }
 

@@ -3,8 +3,8 @@
  * Manages lazy loading state and preloading strategies for map components
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
 import { preloadMapLibraries } from '@/components/maps/LazyMap';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface UseMapLazyLoadOptions {
   /**
@@ -133,7 +133,9 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
   // Handle immediate strategy
   useEffect(() => {
     if (strategy === 'immediate') {
-      loadLibraries();
+      loadLibraries().catch(err => {
+        console.error('Failed to load map libraries:', err);
+      });
     }
   }, [strategy, loadLibraries]);
 
@@ -141,7 +143,9 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
   useEffect(() => {
     if (strategy === 'delay') {
       const timeout = setTimeout(() => {
-        loadLibraries();
+        loadLibraries().catch(err => {
+          console.error('Failed to load map libraries:', err);
+        });
       }, delay);
 
       return () => clearTimeout(timeout);
@@ -154,7 +158,9 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
       if ('requestIdleCallback' in window) {
         const idleCallback = window.requestIdleCallback(
           () => {
-            loadLibraries();
+            loadLibraries().catch(err => {
+              console.error('Failed to load map libraries:', err);
+            });
           },
           { timeout: 2000 }
         );
@@ -165,7 +171,9 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
       } else {
         // Fallback for browsers without requestIdleCallback
         const timeout = setTimeout(() => {
-          loadLibraries();
+          loadLibraries().catch(err => {
+            console.error('Failed to load map libraries:', err);
+          });
         }, 1000);
 
         return () => clearTimeout(timeout);
@@ -179,7 +187,9 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !hasTriggeredRef.current) {
-            loadLibraries();
+            loadLibraries().catch(err => {
+              console.error('Failed to load map libraries:', err);
+            });
             observer.disconnect();
           }
         });
@@ -197,8 +207,16 @@ export const useMapLazyLoad = (options: UseMapLazyLoadOptions = {}): UseMapLazyL
   const containerProps = {
     ref: containerRef,
     ...(strategy === 'hover' && {
-      onMouseEnter: triggerLoad,
-      onFocus: triggerLoad,
+      onMouseEnter: () => {
+        triggerLoad().catch(err => {
+          console.error('Failed to load map libraries:', err);
+        });
+      },
+      onFocus: () => {
+        triggerLoad().catch(err => {
+          console.error('Failed to load map libraries:', err);
+        });
+      },
     }),
   };
 
@@ -320,10 +338,15 @@ export const useProgressiveMapLoad = (
     }
   }, [stage, stageDelay, onStageComplete]);
 
+  // Wrap startLoading to handle the promise
+  const startLoadingWrapper = useCallback(() => {
+    void startLoading();
+  }, [startLoading]);
+
   return {
     stage,
     isComplete: stage === 4,
-    startLoading,
+    startLoading: startLoadingWrapper,
   };
 };
 

@@ -228,11 +228,11 @@ export const useNavigateWithPreload = () => {
     // Preload the route before navigating
     const routeName = to.split('/')[1] as keyof typeof preloadRoutes;
     if (preloadRoutes[routeName]) {
-      preloadRoutes[routeName]();
+      void preloadRoutes[routeName]();
     }
 
     // Use React Router's navigate
-    navigateFunction(to, options);
+    void navigateFunction(to, options);
   };
 
   return { navigate };

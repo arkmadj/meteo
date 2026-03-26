@@ -211,7 +211,7 @@ export function useAsyncState<T>(
   // Execute on dependency change
   useEffect(() => {
     if (immediate) {
-      execute();
+      void execute();
     }
 
     // Cleanup function

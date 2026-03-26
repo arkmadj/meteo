@@ -795,18 +795,22 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   // ---- Auto-initialization ----
   useEffect(() => {
     if (autoInitialize && !state.isInitialized && !state.isInitializing) {
-      initialize();
+      void initialize();
     }
   }, [autoInitialize, state.isInitialized, state.isInitializing, initialize]);
 
   // ---- Scheduler auto-initialization ----
   useEffect(() => {
     if (autoInitializeScheduler && state.isInitialized && !state.schedulerInitialized) {
-      initializeScheduler().then(() => {
-        if (autoStartScheduler) {
-          startScheduler();
-        }
-      });
+      initializeScheduler()
+        .then(() => {
+          if (autoStartScheduler) {
+            startScheduler();
+          }
+        })
+        .catch(err => {
+          console.error('Failed to initialize scheduler:', err);
+        });
     }
   }, [
     autoInitializeScheduler,

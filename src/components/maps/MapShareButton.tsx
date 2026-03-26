@@ -297,7 +297,9 @@ const MapShareButton: React.FC<MapShareButtonProps> = ({
 
   return (
     <button
-      onClick={handleShare}
+      onClick={() => {
+        void handleShare();
+      }}
       disabled={isDisabled}
       className={`
         inline-flex items-center gap-2 rounded-lg font-medium

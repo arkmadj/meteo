@@ -51,7 +51,8 @@ export const safeRetry: RetryWithConfigFunction = async <T>(
       const timeoutPromise = finalConfig.timeout ? createTimeoutPromise(finalConfig.timeout) : null;
 
       // Execute the function with timeout if configured
-      const result = timeoutPromise ? await Promise.race([fn(), timeoutPromise]) : await fn();
+      const result =
+        timeoutPromise !== null ? await Promise.race([fn(), timeoutPromise]) : await fn();
 
       return result;
     } catch (error) {

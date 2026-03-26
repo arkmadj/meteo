@@ -177,7 +177,7 @@ const LocationSearchMap: React.FC<LocationSearchMapProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const query = e.target.value;
       setSearchQuery(query);
-      performSearch(query);
+      void performSearch(query);
     },
     [performSearch]
   );

@@ -302,19 +302,19 @@ class ChunkPreloadingService {
     if (!this.shouldPreload()) return;
 
     this.preloadQueue.push(chunkName);
-    this.processPreloadQueue();
+    void this.processPreloadQueue();
   }
 
   /**
    * Process the preload queue
    */
-  private async processPreloadQueue() {
+  private processPreloadQueue(): void {
     while (
       this.preloadQueue.length > 0 &&
       this.activePreloads.size < this.config.maxConcurrentPreloads
     ) {
       const chunkName = this.preloadQueue.shift()!;
-      this.preloadChunkInternal(chunkName);
+      void this.preloadChunkInternal(chunkName);
     }
   }
 
@@ -356,7 +356,7 @@ class ChunkPreloadingService {
       this.activePreloads.delete(chunkName);
 
       // Continue processing queue
-      this.processPreloadQueue();
+      void this.processPreloadQueue();
     }
   }
 

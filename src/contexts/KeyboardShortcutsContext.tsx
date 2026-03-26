@@ -105,7 +105,9 @@ export const KeyboardShortcutsProvider: React.FC<KeyboardShortcutsProviderProps>
               break;
             }
             case 'refreshData':
-              queryClient.invalidateQueries({ queryKey: ['weather'] });
+              queryClient.invalidateQueries({ queryKey: ['weather'] }).catch(err => {
+                console.error('Failed to invalidate weather queries:', err);
+              });
               showInfo('Refreshing weather data...', 2000);
               break;
             case 'toggleUnits': {
@@ -137,15 +139,15 @@ export const KeyboardShortcutsProvider: React.FC<KeyboardShortcutsProviderProps>
               break;
             }
             case 'goToHome':
-              navigate('/');
+              void navigate('/');
               showInfo('Navigating to Home', 1000);
               break;
             case 'goToSettings':
-              navigate('/settings');
+              void navigate('/settings');
               showInfo('Navigating to Settings', 1000);
               break;
             case 'goToWeather':
-              navigate('/weather');
+              void navigate('/weather');
               showInfo('Navigating to Weather', 1000);
               break;
           }

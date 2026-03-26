@@ -263,7 +263,7 @@ export const usePreloadOnHover = (importFn: () => Promise<{ default: ComponentTy
 
   const preload = React.useCallback(() => {
     if (!preloaded) {
-      preloadComponent(importFn);
+      void preloadComponent(importFn);
       setPreloaded(true);
     }
   }, [importFn, preloaded]);
@@ -290,7 +290,7 @@ export const usePreloadOnIntersection = (
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          preloadComponent(importFn);
+          void preloadComponent(importFn);
           setPreloaded(true);
           observer.disconnect();
         }

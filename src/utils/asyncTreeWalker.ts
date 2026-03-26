@@ -281,14 +281,10 @@ export async function* walkFileSystemAsync(
 
     if (stats.isDirectory()) {
       const entries = await fs.readdir(filePath);
-      const children = await Promise.all(
-        entries
-          .map(entry => getFileNode(path.join(filePath, entry)))
-          .filter(async node => {
-            const resolved = await node;
-            return includeFiles || resolved.type === 'directory';
-          })
+      const nodes = await Promise.all(
+        entries.map(entry => getFileNode(path.join(filePath, entry)))
       );
+      const children = nodes.filter(node => includeFiles || node.type === 'directory');
 
       return {
         name,

@@ -143,7 +143,7 @@ export class AnnouncementPriorityQueue {
       return a.timestamp - b.timestamp;
     });
 
-    this.process();
+    void this.process();
   }
 
   private async process(): Promise<void> {
@@ -159,7 +159,7 @@ export class AnnouncementPriorityQueue {
     await new Promise(resolve => setTimeout(resolve, this.processingDelay));
 
     this.isProcessing = false;
-    this.process();
+    void this.process();
   }
 
   clear(): void {

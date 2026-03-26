@@ -21,7 +21,7 @@ export const preloadMapLibraries = (): Promise<void> => {
     return Promise.resolve();
   }
 
-  if (preloadPromise) {
+  if (preloadPromise !== null) {
     return preloadPromise;
   }
 
@@ -159,9 +159,13 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
   // Handle immediate preload
   useEffect(() => {
     if (preloadStrategy === 'immediate') {
-      preloadMapLibraries().then(() => {
-        onLibrariesLoaded?.();
-      });
+      preloadMapLibraries()
+        .then(() => {
+          onLibrariesLoaded?.();
+        })
+        .catch(error => {
+          console.error('Failed to preload map libraries:', error);
+        });
     }
   }, [preloadStrategy, onLibrariesLoaded]);
 
@@ -170,10 +174,14 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
     if (preloadStrategy === 'idle' && 'requestIdleCallback' in window) {
       const idleCallback = window.requestIdleCallback(
         () => {
-          preloadMapLibraries().then(() => {
-            setShouldLoad(true);
-            onLibrariesLoaded?.();
-          });
+          preloadMapLibraries()
+            .then(() => {
+              setShouldLoad(true);
+              onLibrariesLoaded?.();
+            })
+            .catch(error => {
+              console.error('Failed to preload map libraries:', error);
+            });
         },
         { timeout: 2000 }
       );
@@ -184,10 +192,14 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
     } else if (preloadStrategy === 'idle') {
       // Fallback for browsers without requestIdleCallback
       const timeout = setTimeout(() => {
-        preloadMapLibraries().then(() => {
-          setShouldLoad(true);
-          onLibrariesLoaded?.();
-        });
+        preloadMapLibraries()
+          .then(() => {
+            setShouldLoad(true);
+            onLibrariesLoaded?.();
+          })
+          .catch(error => {
+            console.error('Failed to preload map libraries:', error);
+          });
       }, 1000);
 
       return () => clearTimeout(timeout);
@@ -201,10 +213,14 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
         entries => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              preloadMapLibraries().then(() => {
-                setShouldLoad(true);
-                onLibrariesLoaded?.();
-              });
+              preloadMapLibraries()
+                .then(() => {
+                  setShouldLoad(true);
+                  onLibrariesLoaded?.();
+                })
+                .catch(error => {
+                  console.error('Failed to preload map libraries:', error);
+                });
               observer.disconnect();
             }
           });
@@ -227,10 +243,14 @@ export const LazyMapWrapper: React.FC<LazyMapWrapperProps> = ({
   const handleMouseEnter = () => {
     if (preloadStrategy === 'hover' && !isHovered) {
       setIsHovered(true);
-      preloadMapLibraries().then(() => {
-        setShouldLoad(true);
-        onLibrariesLoaded?.();
-      });
+      preloadMapLibraries()
+        .then(() => {
+          setShouldLoad(true);
+          onLibrariesLoaded?.();
+        })
+        .catch(error => {
+          console.error('Failed to preload map libraries:', error);
+        });
     }
   };
 
