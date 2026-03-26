@@ -313,7 +313,7 @@ export class ObjectImmutabilityAnalyzer {
     }
 
     // Cleanup
-    delete (Object.prototype as unknown).polluted;
+    delete (Object.prototype as Record<string, unknown>).polluted;
 
     return {
       method: 'Object.freeze(Object.prototype)',
@@ -374,7 +374,7 @@ export class EffectivePrototypeProtection {
   /**
    * Safe object creation with controlled prototype
    */
-  static createControlledObject(prototype: unknown = null): unknown {
+  static createControlledObject(prototype: object | null = null): unknown {
     return Object.create(prototype);
   }
 
