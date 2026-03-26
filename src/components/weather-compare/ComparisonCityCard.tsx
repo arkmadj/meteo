@@ -46,7 +46,12 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Fetch weather data for this city
-  const { data, isLoading, isError, error } = useCompleteWeatherQuery(query, 7, {
+  const {
+    data,
+    isLoading,
+    isError,
+    error: _error,
+  } = useCompleteWeatherQuery(query, 7, {
     enabled: !!query,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,

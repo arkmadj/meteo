@@ -143,6 +143,7 @@ export const createLazyComponent = <T extends ComponentType<unknown>>(
         onError={setError}
       >
         <Suspense fallback={<LoadingFallback />}>
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <LazyComponent key={retryKey} {...({ ...props, ref } as any)} />
         </Suspense>
       </ErrorBoundary>

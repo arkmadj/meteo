@@ -117,7 +117,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       testId,
     });
 
-    const { theme } = useTheme();
+    const { theme: _theme } = useTheme();
 
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
     const [isFocused, setIsFocused] = useState(false);

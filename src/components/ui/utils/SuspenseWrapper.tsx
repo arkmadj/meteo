@@ -251,7 +251,7 @@ export const withSuspense = <P extends object>(
   } = {}
 ) => {
   const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => {
-    const componentProps = { ...props, ref } as any;
+    const componentProps = { ...props, ref } as P & { ref: unknown };
     return (
       <SuspenseWrapper {...options}>
         <Component {...componentProps} />

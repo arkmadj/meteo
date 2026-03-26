@@ -65,7 +65,7 @@ export function useAdaptiveWeatherUpdates({
     'excellent' | 'good' | 'fair' | 'poor'
   >('good');
 
-  const { preferences } = useUserPreferencesContext();
+  const { preferences: _preferences } = useUserPreferencesContext();
   const locationRef = useRef(location);
   const enabledRef = useRef(enabled);
 

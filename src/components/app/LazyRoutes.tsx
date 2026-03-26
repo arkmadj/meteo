@@ -142,7 +142,7 @@ export const withLazyRoute = <P extends object>(
   minHeight = '400px'
 ) => {
   const LazyRoute = React.forwardRef<unknown, P>((props, ref) => {
-    const componentProps = { ...props, ref } as any;
+    const componentProps = { ...props, ref } as P & { ref: unknown };
     return (
       <LazyRouteWrapper routeName={routeName} minHeight={minHeight}>
         <Component {...componentProps} />
@@ -198,7 +198,7 @@ export const preloadRoutes = {};
  */
 export const useRoutePreloader = () => {
   const preloadRoute = React.useCallback((routeName: keyof typeof preloadRoutes) => {
-    const preloader = preloadRoutes[routeName] as (() => Promise<any>) | undefined;
+    const preloader = preloadRoutes[routeName] as (() => Promise<unknown>) | undefined;
     if (preloader) {
       preloader().catch(() => {
         // Silently fail preloading

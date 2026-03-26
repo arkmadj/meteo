@@ -66,7 +66,7 @@ const WeatherMarkers: React.FC<WeatherMarkersProps> = ({
   colorByTemperature = true,
   showLabels = false,
   opacity = 0.7,
-  zIndex = 500,
+  zIndex: _zIndex = 500,
   renderMarker,
 }) => {
   const { theme } = useTheme();

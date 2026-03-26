@@ -246,7 +246,7 @@ export function useOptimisticWeatherUpdate() {
 
   return useMutation({
     mutationFn: async ({
-      location,
+      location: _location,
       updates,
     }: {
       location: string;

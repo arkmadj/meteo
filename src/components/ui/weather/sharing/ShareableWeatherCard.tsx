@@ -85,7 +85,7 @@ const ShareableWeatherCard = forwardRef<HTMLDivElement, ShareableWeatherCardProp
     const { theme } = useTheme();
     const config: ShareCardConfig = { ...DEFAULT_SHARE_CARD_CONFIG, ...userConfig };
 
-    const { current, forecast } = data;
+    const { current, forecast: _forecast } = data;
     const weatherCode = current.condition.code;
 
     const background = useMemo(

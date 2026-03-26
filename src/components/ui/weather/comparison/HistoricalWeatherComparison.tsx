@@ -151,7 +151,12 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
   const { theme } = useTheme();
   const [activePeriod, setActivePeriod] = useState<HistoricalPeriod>('last-week');
 
-  const { lastWeek, lastMonth, isLoading, isError } = useHistoricalWeatherComparison(location, {
+  const {
+    lastWeek,
+    lastMonth,
+    isLoading: _isLoading,
+    isError: _isError,
+  } = useHistoricalWeatherComparison(location, {
     temperatureUnit: temperatureUnit === 'C' ? 'celsius' : 'fahrenheit',
     enabled: Boolean(location),
   });

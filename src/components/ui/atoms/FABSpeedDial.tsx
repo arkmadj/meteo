@@ -74,7 +74,7 @@ const FABSpeedDial = forwardRef<HTMLDivElement, FABSpeedDialProps>(
     _ref
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { theme } = useTheme();
+    const { theme: _theme } = useTheme();
     const prefersReducedMotion = usePrefersReducedMotion();
     const containerRef = useRef<HTMLDivElement>(null);
 

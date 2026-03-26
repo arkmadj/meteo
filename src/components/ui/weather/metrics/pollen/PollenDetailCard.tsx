@@ -39,9 +39,9 @@ const PollenDetailCard: React.FC<PollenDetailCardProps> = ({
     category,
     color,
     description,
-    healthAdvice,
+    healthAdvice: _healthAdvice,
     pollens,
-    dominantPollen,
+    dominantPollen: _dominantPollen,
     isPollenSeason,
     availableInRegion,
   } = pollenData;

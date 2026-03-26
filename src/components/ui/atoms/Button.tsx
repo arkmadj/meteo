@@ -59,7 +59,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const {
-      theme,
+      theme: _theme,
       isDisabled,
       isLoading,
       testId: defaultTestId,

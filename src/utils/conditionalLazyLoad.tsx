@@ -356,6 +356,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
 
       return (
         <Suspense fallback={<LoadingFallback />}>
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           <Component key={retryKey} {...({ ...props, ref } as any)} />
         </Suspense>
       );
@@ -520,7 +521,7 @@ export const createPreferenceAwareLazyComponent = <T extends ComponentType<unkno
  */
 const PreferenceAwareWrapper = <T extends ComponentType<unknown>>({
   importFn,
-  componentName,
+  componentName: _componentName,
   fallbackStrategy,
   props,
   forwardedRef,

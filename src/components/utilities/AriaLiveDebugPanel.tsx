@@ -79,7 +79,7 @@ const AriaLiveDebugPanel: React.FC = () => {
       minute: '2-digit',
       second: '2-digit',
       fractionalSecondDigits: 3,
-    } as any);
+    } as Intl.DateTimeFormatOptions);
   };
 
   const getConflictColor = (type: AnnouncementConflict['type']) => {
