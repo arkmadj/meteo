@@ -155,7 +155,7 @@ export const generateRadarFrames = async (
     frameCount = 10,
     intervalMinutes = 10,
     startTime = new Date(),
-    _includeForecast = false,
+    includeForecast: _includeForecast = false,
   } = options;
 
   try {

@@ -2,7 +2,8 @@
  * Type definitions for the retry mechanism
  */
 
-import type { AppError, ErrorType } from '@/types/error';
+import type { AppError } from '@/types/error';
+import { ErrorType } from '@/types/error';
 
 // ============================================================================
 // CONFIGURATION TYPES
