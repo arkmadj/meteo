@@ -202,13 +202,9 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
     }
   };
 
-  const getButtonStyles = (
-    isActive: boolean,
-    isHovered: boolean,
-    isFocused: boolean
-  ): React.CSSProperties => {
+  const getButtonStyles = (isActive: boolean, isHovered: boolean, isFocused: boolean) => {
     const buttonStyle = styles.button as Record<string, unknown>;
-    const baseStyles: React.CSSProperties = {
+    const baseStyles = {
       ...styles.button,
       display: buttonStyle.flexDirection === 'column' ? 'flex' : 'inline-flex',
       alignItems: (buttonStyle.alignItems as string) || 'center',
