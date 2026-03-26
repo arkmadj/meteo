@@ -146,7 +146,7 @@ export class SafeObjectOperations {
       }
     }
 
-    let current: Record<string, unknown> = obj;
+    let current: Record<string, unknown> = obj as Record<string, unknown>;
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
 
@@ -154,7 +154,7 @@ export class SafeObjectOperations {
         current[key] = {};
       }
 
-      current = current[key];
+      current = current[key] as Record<string, unknown>;
     }
 
     const finalKey = keys[keys.length - 1];
@@ -171,10 +171,10 @@ export class SafeObjectOperations {
     let current = obj;
 
     for (const key of keys) {
-      if (!this.isKeySafe(key) || !this.isValidObject(current) || !(key in current)) {
+      if (!this.isKeySafe(key) || !this.isValidObject(current) || !(key in (current as object))) {
         return defaultValue;
       }
-      current = current?.[key];
+      current = (current as Record<string, unknown>)?.[key];
     }
 
     return current;
