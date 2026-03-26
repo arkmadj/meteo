@@ -60,7 +60,8 @@ export const getUserConnectionInfo = (): UserConnectionInfo => {
 
   return {
     saveData: connection.saveData || false,
-    effectiveType: connection.effectiveType || 'unknown',
+    effectiveType:
+      (connection.effectiveType as 'slow-2g' | '2g' | '3g' | '4g' | 'unknown') || 'unknown',
     downlink: connection.downlink || 0,
     rtt: connection.rtt || 0,
   };
