@@ -141,11 +141,14 @@ export const withLazyRoute = <P extends object>(
   routeName: string,
   minHeight = '400px'
 ) => {
-  const LazyRoute = React.forwardRef<unknown, P>((props, ref) => (
-    <LazyRouteWrapper routeName={routeName} minHeight={minHeight}>
-      <Component {...props} ref={ref as any} />
-    </LazyRouteWrapper>
-  ));
+  const LazyRoute = React.forwardRef<unknown, P>((props, ref) => {
+    const componentProps = { ...props, ref } as any;
+    return (
+      <LazyRouteWrapper routeName={routeName} minHeight={minHeight}>
+        <Component {...componentProps} />
+      </LazyRouteWrapper>
+    );
+  });
 
   LazyRoute.displayName = `LazyRoute(${Component.displayName || Component.name || 'Component'})`;
 

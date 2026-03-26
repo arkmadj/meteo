@@ -250,11 +250,14 @@ export const withSuspense = <P extends object>(
     className?: string;
   } = {}
 ) => {
-  const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => (
-    <SuspenseWrapper {...options}>
-      <Component {...props} ref={ref as any} />
-    </SuspenseWrapper>
-  ));
+  const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => {
+    const componentProps = { ...props, ref } as any;
+    return (
+      <SuspenseWrapper {...options}>
+        <Component {...componentProps} />
+      </SuspenseWrapper>
+    );
+  });
 
   WrappedComponent.displayName = `withSuspense(${Component.displayName || Component.name})`;
 
