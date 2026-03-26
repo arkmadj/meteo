@@ -174,7 +174,9 @@ export function useElementEventListener<
     if (!enabled) return;
 
     // Get the actual element
-    const targetElement = element && 'current' in element ? element.current : element;
+    const targetElement = (
+      element && 'current' in element ? element.current : element
+    ) as HTMLElement | null;
 
     if (!targetElement) return;
 
@@ -232,13 +234,9 @@ export function useEventListener<T extends EventTarget, K extends string>(
     if (!enabled) return;
 
     // Get the actual target
-    let targetElement: EventTarget | null = null;
-
-    if (target && 'current' in target) {
-      targetElement = target.current;
-    } else {
-      targetElement = target;
-    }
+    const targetElement = (
+      target && 'current' in target ? target.current : target
+    ) as EventTarget | null;
 
     if (!targetElement) return;
 

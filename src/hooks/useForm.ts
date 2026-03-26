@@ -189,10 +189,10 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
   }, [values]);
 
   // Validation functions
-  const validateField = useCallback(
+  const validateFormField = useCallback(
     <K extends keyof T>(field: K): string | null => {
       const value = values[field];
-      const rules = validationRules[field];
+      const rules = validationRules[field] as ValidationRules<T[K]> | undefined;
       return validateField(value, rules);
     },
     [values, validationRules]
@@ -204,7 +204,7 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
     // Field-level validation
     Object.keys(values).forEach(key => {
       const field = key as keyof T;
-      const error = validateField(field);
+      const error = validateFormField(field);
       if (error) {
         newErrors[field] = error;
       }
@@ -217,7 +217,7 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
     }
 
     return newErrors;
-  }, [values, validateField]);
+  }, [values, validateFormField]);
 
   // Actions
   const setValue = useCallback(
@@ -225,14 +225,14 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
       setValuesState(prev => ({ ...prev, [field]: value }));
 
       if (validateOnChange) {
-        const error = validateField(field);
+        const error = validateFormField(field);
         setErrorsState(prev => ({
           ...prev,
           [field]: error,
         }));
       }
     },
-    [validateOnChange, validateField]
+    [validateOnChange, validateFormField]
   );
 
   const setValues = useCallback(
@@ -263,14 +263,14 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
       setTouchedState(prev => ({ ...prev, [field]: isTouched }));
 
       if (validateOnBlur && isTouched) {
-        const error = validateField(field);
+        const error = validateFormField(field);
         setErrorsState(prev => ({
           ...prev,
           [field]: error,
         }));
       }
     },
-    [validateOnBlur, validateField]
+    [validateOnBlur, validateFormField]
   );
 
   const setTouchedFields = useCallback((newTouched: TouchedFields<T>) => {
