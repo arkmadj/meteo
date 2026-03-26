@@ -167,10 +167,9 @@ const PressureDetailModal: React.FC<PressureDetailModalProps> = ({
             >
               <PressureTrendChart
                 pressureHistory={pressureHistory}
-                showStatistics={true}
                 showTrendLine={true}
                 size="md"
-                trendChartTimeRange={'24h' as const}
+                timeRange="24h"
               />
             </div>
           </div>
