@@ -220,7 +220,8 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
 
     return (
       <Suspense fallback={<LoadingComponent />}>
-        <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <LazyComponent {...({ ...props, ref } as any)} />
       </Suspense>
     );
   });
@@ -243,11 +244,11 @@ function createBasicLazyComponent<T extends ComponentType<unknown>>(
 ) {
   const LazyComponent = React.lazy(importFn);
 
-  const BasicWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => (
+  const BasicWrapper: React.FC<Record<string, unknown>> = props => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
-      <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
+      <LazyComponent {...(props as any)} />
     </Suspense>
-  ));
+  );
 
   BasicWrapper.displayName = `Basic(${componentName || 'Component'})`;
   return BasicWrapper;

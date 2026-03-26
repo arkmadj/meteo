@@ -81,7 +81,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme();
+    const { theme: _theme } = useTheme();
     const { isDisabled } = useComponentState({
       disabled,
       testId,

@@ -103,7 +103,8 @@ interface PreferenceAwareCardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const PreferenceAwareCard = forwardRef<HTMLDivElement, PreferenceAwareCardProps>(
   ({ className = '', hover = false, interactive = false, children, ...props }, ref) => {
-    const { shouldUseReducedAnimations, preferences } = useUserPreferencesContext();
+    const { shouldUseReducedAnimations: _shouldUseReducedAnimations, preferences: _preferences } =
+      useUserPreferencesContext();
 
     const baseClasses = `
       bg-white rounded-lg shadow-sm border border-gray-200
@@ -232,7 +233,7 @@ export const PreferenceAwareSpinner: React.FC<PreferenceAwareSpinnerProps> = ({
   size = 'md',
   className = '',
 }) => {
-  const { shouldUseReducedAnimations, preferences } = useUserPreferencesContext();
+  const { shouldUseReducedAnimations, preferences: _preferences } = useUserPreferencesContext();
 
   const sizeClasses = {
     sm: 'h-4 w-4',

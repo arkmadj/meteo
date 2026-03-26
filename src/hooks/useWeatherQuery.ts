@@ -147,7 +147,7 @@ export const createAdaptiveWeatherRefetchInterval = (config?: {
   const minInterval = config?.minIntervalMs ?? WEATHER_AUTO_REFRESH_MIN_GAP;
   const maxInterval = config?.maxIntervalMs ?? WEATHER_AUTO_REFRESH_MAX_INTERVAL;
 
-  return (query: Query<unknown, unknown, unknown, unknown>) => {
+  return (query: Query<unknown, unknown, unknown, readonly unknown[]>) => {
     if (!isClientOnline()) {
       return false;
     }
@@ -183,7 +183,7 @@ export const createAdaptiveWeatherRefetchInterval = (config?: {
 type RefetchIntervalOption =
   | number
   | false
-  | ((query: Query<unknown, unknown, unknown, unknown>) => number | false);
+  | ((query: Query<unknown, unknown, unknown, readonly unknown[]>) => number | false);
 
 type BaseWeatherQueryOptions = {
   enabled?: boolean;

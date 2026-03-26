@@ -210,7 +210,7 @@ export function useMapResponsive(): MapResponsiveConfig {
  * ```
  */
 export function useMapHeight(defaultHeight: number = 500): string {
-  const { isMobile, isTablet, windowSize, isLandscape } = useMapResponsive();
+  const { isMobile, isTablet, windowSize: _windowSize, isLandscape } = useMapResponsive();
 
   return useMemo(() => {
     if (isMobile) {

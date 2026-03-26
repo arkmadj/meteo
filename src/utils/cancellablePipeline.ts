@@ -98,7 +98,7 @@ export interface PipelineEvents {
   /** Fired when a stage is cancelled */
   stageCancelled: (stage: TaskStage, reason: unknown, context: PipelineExecutionContext) => void;
   /** Fired when the entire pipeline completes */
-  pipelineComplete: (results: unknown[], context: PipelineExecutionContext) => void;
+  pipelineComplete: (results: unknown, context: PipelineExecutionContext) => void;
   /** Fired when the pipeline fails */
   pipelineError: (error: Error, context: PipelineExecutionContext) => void;
   /** Fired when the pipeline is cancelled */
@@ -157,7 +157,7 @@ export class CancellableTaskPipeline<TInput = unknown, TOutput = unknown> {
 
     scheduleEventDispatch(() => {
       try {
-        (handler as PipelineEvents[K])(...args);
+        (handler as (...args: unknown[]) => void)(...args);
       } catch (error) {
         console.error(`Error in pipeline event handler for ${String(event)}:`, error);
       }

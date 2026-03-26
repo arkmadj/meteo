@@ -39,7 +39,7 @@ const CustomizableDashboard: React.FC<CustomizableDashboardProps> = ({
   temperatureUnit,
   className = '',
 }) => {
-  const { theme } = useTheme();
+  const { theme: _theme } = useTheme();
   const { state, updateLayout, removeWidget, dispatch } = useDashboardLayout();
 
   // Convert widget configs to react-grid-layout format

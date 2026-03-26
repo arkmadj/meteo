@@ -250,11 +250,14 @@ export const withSuspense = <P extends object>(
     className?: string;
   } = {}
 ) => {
-  const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => (
-    <SuspenseWrapper {...options}>
-      <Component {...props} ref={ref} />
-    </SuspenseWrapper>
-  ));
+  const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => {
+    const componentProps = { ...props, ref } as P & { ref: unknown };
+    return (
+      <SuspenseWrapper {...options}>
+        <Component {...componentProps} />
+      </SuspenseWrapper>
+    );
+  });
 
   WrappedComponent.displayName = `withSuspense(${Component.displayName || Component.name})`;
 
@@ -272,7 +275,7 @@ class SuspenseErrorBoundary extends React.Component<
   },
   { hasError: boolean; error: Error | null }
 > {
-  constructor(props: unknown) {
+  constructor(props: { children: React.ReactNode; componentName: string; onRetry: () => void }) {
     super(props);
     this.state = { hasError: false, error: null };
   }

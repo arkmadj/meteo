@@ -71,8 +71,15 @@ export const useWeatherEffects = (
   const resumeRefreshRef = useRef(0);
   const isInitialLoadRef = useRef(true);
 
-  const { setWeather, setLoading, setError, setOffline, searchQuery, isCelsius, weather } =
-    weatherState;
+  const {
+    setWeather,
+    setLoading,
+    setError,
+    setOffline,
+    searchQuery,
+    isCelsius,
+    weather: _weather,
+  } = weatherState;
   const temperatureUnit = isCelsius ? 'celsius' : 'fahrenheit';
 
   const { getCachedWeather, getCachedForecast, hasCachedWeather } = useCachedWeather(

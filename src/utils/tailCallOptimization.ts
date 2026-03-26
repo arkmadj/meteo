@@ -369,8 +369,10 @@ export function createCPS<Args extends unknown[], R>(
       return k(baseCaseValue(...funcArgs));
     }
 
-    return recursiveStep(...funcArgs, recurse =>
-      cont(() => cpsFunc(...[...(recurse as unknown), k]))
+    return recursiveStep(...funcArgs, (recurse: unknown) =>
+      cont(() =>
+        cpsFunc(...(Array.from([...(recurse as unknown[]), k]) as [...Args, Continuation<R>]))
+      )
     );
   };
 

@@ -9,7 +9,12 @@ import type { IWidgetConfig } from '@/types/dashboard';
  * Allows users to pin/unpin widgets to control which appear on the dashboard
  */
 export const WidgetPinManager: React.FC = () => {
-  const { state, toggleWidgetPin, getPinnedWidgets, getUnpinnedWidgets } = useDashboardLayout();
+  const {
+    state: _state,
+    toggleWidgetPin,
+    getPinnedWidgets,
+    getUnpinnedWidgets,
+  } = useDashboardLayout();
   const [isOpen, setIsOpen] = useState(false);
 
   const pinnedWidgets = getPinnedWidgets();

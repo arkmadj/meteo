@@ -99,7 +99,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
   testId,
   ...props
 }) => {
-  const { t } = useTranslation('common');
+  const { t: _t } = useTranslation('common');
   const { isDisabled } = useComponentState({
     disabled,
     testId,

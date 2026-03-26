@@ -62,7 +62,7 @@ const quickNavItems: QuickNavItem[] = [
 
 const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme } = useTheme();
+  const { theme: _theme } = useTheme();
   const location = useLocation();
   const cardRef = useRef<HTMLDivElement>(null);
   const fabRef = useRef<HTMLButtonElement>(null);

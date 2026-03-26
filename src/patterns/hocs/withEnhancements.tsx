@@ -157,7 +157,8 @@ export function withErrorBoundary<P extends object>(
     }
   }
 
-  WithErrorBoundaryComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
+  (WithErrorBoundaryComponent as any).displayName =
+    `withErrorBoundary(${Component.displayName || Component.name})`;
 
   return WithErrorBoundaryComponent;
 }
@@ -328,12 +329,12 @@ export function HOCExample() {
       <h2>HOC Examples</h2>
 
       {/* Basic enhanced button */}
-      <EnhancedButton
-        onClick={handleClick}
-        isLoading={loading}
-        trackingId="button-click"
-        eventName="enhanced-button-clicked"
-        theme={{
+      {React.createElement(EnhancedButton as any, {
+        onClick: handleClick,
+        isLoading: loading,
+        trackingId: 'button-click',
+        eventName: 'enhanced-button-clicked',
+        theme: {
           colors: {
             primary: '#28a745',
             secondary: '#6c757d',
@@ -345,20 +346,19 @@ export function HOCExample() {
             medium: '8px',
             large: '16px',
           },
-        }}
-      >
-        Enhanced Button
-      </EnhancedButton>
+        },
+        children: 'Enhanced Button',
+      })}
 
       {/* Button with permissions */}
       {React.createElement(
-        withPermissions(Button),
+        withPermissions(Button) as any,
         {
           onClick: handleClick,
           user,
           requiredPermissions: ['write'],
           fallback: <div>You don't have permission to use this button</div>,
-        },
+        } as any,
         'Protected Button'
       )}
     </div>

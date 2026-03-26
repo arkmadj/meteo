@@ -119,7 +119,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
       selectable = false,
       selectedRows = [],
       onSelectRow,
-      onSelectAll,
+      onSelectAll: _onSelectAll,
       onRowClick,
       expandable = false,
       expandedRows = [],
@@ -218,7 +218,7 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent, rowIndex: number) => {
-        const { key, ctrlKey, metaKey, shiftKey } = event;
+        const { key, ctrlKey, metaKey, shiftKey: _shiftKey } = event;
 
         switch (key) {
           case 'ArrowUp':

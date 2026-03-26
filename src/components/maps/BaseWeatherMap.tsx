@@ -164,7 +164,7 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
   onLocationChange,
   onMapReady,
   showUserLocation = true,
-  enableLocationSearch = true,
+  enableLocationSearch: _enableLocationSearch = true,
   className = '',
   children,
   enableUrlSync = true,
@@ -208,8 +208,8 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
 
   // Geolocation hook with error handling
   const {
-    position,
-    error: geoError,
+    position: _position,
+    error: _geoError,
     loading: geoLoading,
     getCurrentPosition,
     isSupported: geoSupported,
