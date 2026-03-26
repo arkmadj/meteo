@@ -93,32 +93,19 @@ type _UnwrappedFunctionReturn<T> = T extends (...args: unknown[]) => unknown
 
 // Example: Complex nested async operations
 declare class DataService {
-  async fetchUser(_id: string): Promise<{ _id: string; name: string; email: string }> {
-    // Implementation
-    return {} as unknown;
-  }
+  fetchUser(_id: string): Promise<{ _id: string; name: string; email: string }>;
 
-  async fetchUserPreferences(_userId: string): Promise<
+  fetchUserPreferences(_userId: string): Promise<
     Promise<{
       theme: 'light' | 'dark';
       notifications: boolean;
     }>
-  > {
-    // Implementation
-    return {} as unknown;
-  }
+  >;
 
-  async fetchCompleteProfile(id: string): Promise<{
+  fetchCompleteProfile(id: string): Promise<{
     user: ReturnType<typeof this.fetchUser> extends Promise<infer U> ? U : never;
     preferences: CustomAwaited<ReturnType<typeof this.fetchUserPreferences>>;
-  }> {
-    const [user, preferences] = await Promise.all([
-      this.fetchUser(id),
-      this.fetchUserPreferences(id),
-    ]);
-
-    return { user, preferences };
-  }
+  }>;
 }
 
 // Type inference for the complex profile
@@ -231,7 +218,7 @@ type _BatchResults<T> = {
 // ============================================================================
 
 // Test function with multiple nesting levels
-async function _complexNestedOperation(): Promise<
+declare function _complexNestedOperation(): Promise<
   Promise<{
     data: Promise<{
       items: Promise<string[]>;
@@ -239,9 +226,7 @@ async function _complexNestedOperation(): Promise<
     }>;
     status: Promise<'pending' | 'complete'>;
   }>
-> {
-  return {} as unknown;
-}
+>;
 
 // Inferred types
 type _ComplexResult = DeepAsyncReturnType<typeof _complexNestedOperation>;
