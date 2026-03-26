@@ -290,9 +290,9 @@ export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
   /**
    * Build the pipeline
    */
-  build(): typeof CancellableTaskPipeline<TInput, TOutput> {
+  build(): any {
     const { CancellableTaskPipeline } = require('./cancellablePipeline');
-    const pipeline = new (CancellableTaskPipeline as any)();
+    const pipeline = new CancellableTaskPipeline();
 
     this.stages.forEach(stage => pipeline.addStage(stage));
 
