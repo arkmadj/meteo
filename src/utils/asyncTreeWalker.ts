@@ -269,7 +269,7 @@ export async function* walkFileSystemAsync(
     includeFiles?: boolean;
     includeDirectories?: boolean;
   } = {}
-): AsyncGenerator<TreeWalkResult<FileNode>, void, unknown> {
+): AsyncGenerator<TreeWalkResult, void, unknown> {
   const fs = await import('fs/promises');
   const path = await import('path');
 
@@ -323,5 +323,5 @@ export async function* walkFileSystemAsync(
 
       return true;
     },
-  }) as AsyncGenerator<TreeWalkResult<FileNode>, void, unknown>;
+  }) as AsyncGenerator<TreeWalkResult, void, unknown>;
 }
