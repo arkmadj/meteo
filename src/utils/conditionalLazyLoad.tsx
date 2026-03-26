@@ -356,7 +356,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
 
       return (
         <Suspense fallback={<LoadingFallback />}>
-          <Component key={retryKey} {...(props as Record<string, unknown>)} ref={ref} />
+          <Component key={retryKey} {...({ ...props, ref } as any)} />
         </Suspense>
       );
     };

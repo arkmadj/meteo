@@ -220,7 +220,7 @@ export function createChunkOptimizedLazyComponent<T extends ComponentType<unknow
 
     return (
       <Suspense fallback={<LoadingComponent />}>
-        <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
+        <LazyComponent {...({ ...props, ref } as any)} />
       </Suspense>
     );
   });
@@ -245,7 +245,7 @@ function createBasicLazyComponent<T extends ComponentType<unknown>>(
 
   const BasicWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
-      <LazyComponent {...(props as Record<string, unknown>)} ref={ref} />
+      <LazyComponent {...({ ...props, ref } as any)} />
     </Suspense>
   ));
 

@@ -143,7 +143,7 @@ export const createLazyComponent = <T extends ComponentType<unknown>>(
         onError={setError}
       >
         <Suspense fallback={<LoadingFallback />}>
-          <LazyComponent key={retryKey} {...(props as Record<string, unknown>)} ref={ref} />
+          <LazyComponent key={retryKey} {...({ ...props, ref } as any)} />
         </Suspense>
       </ErrorBoundary>
     );

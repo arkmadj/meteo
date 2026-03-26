@@ -275,7 +275,7 @@ class SuspenseErrorBoundary extends React.Component<
   },
   { hasError: boolean; error: Error | null }
 > {
-  constructor(props: unknown) {
+  constructor(props: { children: React.ReactNode; componentName: string; onRetry: () => void }) {
     super(props);
     this.state = { hasError: false, error: null };
   }
