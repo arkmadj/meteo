@@ -51,7 +51,9 @@ export const getUserConnectionInfo = (): UserConnectionInfo => {
     return defaultInfo;
   }
 
-  const connection = (navigator as unknown).connection;
+  const connection = (navigator as unknown as Record<string, unknown>).connection as
+    | { saveData?: boolean; effectiveType?: string; downlink?: number; rtt?: number }
+    | undefined;
   if (!connection) {
     return defaultInfo;
   }
@@ -127,7 +129,10 @@ export class PreferenceAwareHttpClient {
 
     // Listen for connection changes
     if ('connection' in navigator) {
-      (navigator as unknown).connection?.addEventListener('change', () => {
+      const connection = (navigator as unknown as Record<string, unknown>).connection as
+        | { addEventListener?: (event: string, handler: () => void) => void }
+        | undefined;
+      connection?.addEventListener?.('change', () => {
         this.connectionInfo = getUserConnectionInfo();
         this.requestQueue.setMaxConcurrent(this.getOptimalMaxRequests());
       });

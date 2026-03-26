@@ -332,7 +332,7 @@ export class SafeObjectUtils {
       });
     }
 
-    let current: Record<string, unknown> = obj;
+    let current: Record<string, unknown> = obj as Record<string, unknown>;
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
       const currentValue = current[key];
