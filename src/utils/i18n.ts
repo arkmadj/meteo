@@ -38,7 +38,7 @@ export function mapTranslationItems<T = string>(
   renderItem: (item: T, index: number) => React.ReactNode,
   fallback: T[] = []
 ): React.ReactNode[] {
-  const items = getTranslationAsArray(t, key, fallback);
+  const items = getTranslationAsArray(t, key, fallback as string[]);
   return items.map((item, index) => renderItem(item as T, index));
 }
 

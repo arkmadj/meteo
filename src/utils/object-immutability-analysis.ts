@@ -291,8 +291,8 @@ export class ObjectImmutabilityAnalyzer {
 
     try {
       // Try to add property to Object.prototype
-      (Object.prototype as unknown).polluted = 'test';
-      canPolluteThroughPrototype = ({} as unknown).polluted === 'test';
+      (Object.prototype as Record<string, unknown>).polluted = 'test';
+      canPolluteThroughPrototype = ({} as Record<string, unknown>).polluted === 'test';
 
       if (canPolluteThroughPrototype) {
         notes.push('Object.prototype pollution succeeded despite freeze');
