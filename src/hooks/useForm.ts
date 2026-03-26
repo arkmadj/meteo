@@ -192,8 +192,10 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
   const validateFormField = useCallback(
     <K extends keyof T>(field: K): string | null => {
       const value = values[field];
-      const rules = validationRules[field] as ValidationRules<T[K]> | undefined;
-      return validateField(value, rules);
+      const rules = (validationRules as Record<string, ValidationRules<unknown> | undefined>)[
+        field as string
+      ] as ValidationRules<T[K]> | undefined;
+      return validateFieldValue(value, rules);
     },
     [values, validationRules]
   );
@@ -347,7 +349,7 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
     reset,
     submit,
     validate: validateAllFields,
-    validateField,
+    validateField: validateFormField,
     getFieldProps,
   };
 }
