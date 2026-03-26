@@ -198,8 +198,8 @@ export const preloadRoutes = {};
  */
 export const useRoutePreloader = () => {
   const preloadRoute = React.useCallback((routeName: keyof typeof preloadRoutes) => {
-    const preloader = preloadRoutes[routeName];
-    if (preloader && typeof preloader === 'function') {
+    const preloader = preloadRoutes[routeName] as (() => Promise<any>) | undefined;
+    if (preloader) {
       preloader().catch(() => {
         // Silently fail preloading
       });
