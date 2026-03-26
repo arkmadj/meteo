@@ -33,7 +33,7 @@ export const withPerformanceMonitoring = <P extends object>(
 };
 
 // Performance monitoring decorator for class components
-export function PerformanceMonitoring<T extends new (...args: unknown[]) => React.Component>(
+export function PerformanceMonitoring<T extends new (...args: any[]) => React.Component>(
   componentName?: string
 ) {
   return function (constructor: T) {
@@ -46,6 +46,6 @@ export function PerformanceMonitoring<T extends new (...args: unknown[]) => Reac
       render() {
         return <PerformanceProfiler id={profilerId}>{super.render()}</PerformanceProfiler>;
       }
-    };
+    } as T;
   };
 }

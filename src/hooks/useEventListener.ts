@@ -178,18 +178,18 @@ export function useElementEventListener<
 
     if (!targetElement) return;
 
-    const eventListener = (event: HTMLElementEventMap[K]) => {
-      handlerRef.current(event);
+    const eventListener = (event: Event) => {
+      handlerRef.current(event as HTMLElementEventMap[K]);
     };
 
-    targetElement.addEventListener(eventName, eventListener as EventListener, {
+    targetElement.addEventListener(eventName, eventListener, {
       capture,
       passive,
       once,
     });
 
     return () => {
-      targetElement.removeEventListener(eventName, eventListener as EventListener, {
+      targetElement.removeEventListener(eventName, eventListener, {
         capture,
       });
     };
