@@ -143,7 +143,7 @@ export class WeatherService {
    */
   async processWeatherData(input: unknown): Promise<Result<WeatherData, AppError>> {
     return withAppError(
-      () => {
+      async () => {
         // Validate input
         if (!input || typeof input !== 'object') {
           throw new Error('Invalid weather data input');

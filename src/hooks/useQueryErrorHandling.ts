@@ -208,7 +208,7 @@ export const useQueryErrorHandling = () => {
    */
   const useClearQueryErrors = (queryKey: string[]) => {
     return useMutation({
-      mutationFn: () => {
+      mutationFn: async () => {
         const queryErrors = errors.filter(
           err =>
             err.context?.source === 'react-query' &&

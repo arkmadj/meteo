@@ -354,7 +354,7 @@ export const DashboardLayoutProvider: React.FC<{ children: React.ReactNode }> = 
     return JSON.stringify(state.currentLayout, null, 2);
   }, [state.currentLayout]);
 
-  const importLayout = useCallback((json: string): void => {
+  const importLayout = useCallback(async (json: string): Promise<void> => {
     try {
       const parsed = JSON.parse(json) as IDashboardLayout;
       // Validate the layout structure
