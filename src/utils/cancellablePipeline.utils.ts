@@ -207,7 +207,7 @@ export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
       options.cleanup
     );
     this.stages.push(stage);
-    return this as unknown;
+    return this as any;
   }
 
   /**
@@ -238,7 +238,7 @@ export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
       options.retryDelay
     );
     this.stages.push(stage);
-    return this as unknown;
+    return this as any;
   }
 
   /**
@@ -263,7 +263,7 @@ export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
       options.timeout
     );
     this.stages.push(stage);
-    return this as unknown;
+    return this as any;
   }
 
   /**
@@ -290,9 +290,9 @@ export class PipelineBuilder<TInput = unknown, TOutput = unknown> {
   /**
    * Build the pipeline
    */
-  build(): CancellableTaskPipeline<TInput, TOutput> {
+  build(): typeof CancellableTaskPipeline<TInput, TOutput> {
     const { CancellableTaskPipeline } = require('./cancellablePipeline');
-    const pipeline = new CancellableTaskPipeline<TInput, TOutput>();
+    const pipeline = new (CancellableTaskPipeline as any)();
 
     this.stages.forEach(stage => pipeline.addStage(stage));
 

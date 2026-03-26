@@ -157,7 +157,7 @@ export class CancellableTaskPipeline<TInput = unknown, TOutput = unknown> {
 
     scheduleEventDispatch(() => {
       try {
-        (handler as PipelineEvents[K])(...args);
+        (handler as any)(...args);
       } catch (error) {
         console.error(`Error in pipeline event handler for ${String(event)}:`, error);
       }
@@ -201,7 +201,7 @@ export class CancellableTaskPipeline<TInput = unknown, TOutput = unknown> {
       // Execute stages with cancellation coordination
       const result = await this.executeStages(input, context, coordinator);
 
-      this.emit('pipelineComplete', result, context);
+      this.emit('pipelineComplete', result as any, context);
       return result;
     } catch (error) {
       if (error instanceof CancellationError) {
