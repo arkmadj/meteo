@@ -274,7 +274,7 @@ export class SafeObjectOperations {
     obj: unknown,
     options: SafeObjectOptions,
     depth: number,
-    seen: WeakMap<unknown, unknown>
+    seen: WeakMap<object, unknown>
   ): unknown {
     if (depth >= (options.maxDepth || 10)) {
       return {};
@@ -374,28 +374,32 @@ export class SafeObjectOperations {
  */
 export function prototypePollutionMiddleware(options: SafeObjectOptions = {}) {
   return (req: unknown, res: unknown, next: unknown) => {
+    const reqWithProps = req as { body?: unknown; query?: unknown; params?: unknown };
+    const resWithProps = res as { status: (code: number) => { json: (data: unknown) => void } };
+    const nextFn = next as () => void;
+
     try {
       // Sanitize request body
-      if (req.body) {
-        req.body = SafeObjectOperations.sanitizeObject(req.body, options);
+      if (reqWithProps.body) {
+        reqWithProps.body = SafeObjectOperations.sanitizeObject(reqWithProps.body, options);
       }
 
       // Sanitize query parameters
-      if (req.query) {
-        req.query = SafeObjectOperations.sanitizeObject(req.query, options);
+      if (reqWithProps.query) {
+        reqWithProps.query = SafeObjectOperations.sanitizeObject(reqWithProps.query, options);
       }
 
       // Sanitize route parameters
-      if (req.params) {
-        req.params = SafeObjectOperations.sanitizeObject(req.params, options);
+      if (reqWithProps.params) {
+        reqWithProps.params = SafeObjectOperations.sanitizeObject(reqWithProps.params, options);
       }
 
-      next();
+      nextFn();
     } catch (_error) {
       if (options.strictMode) {
-        res.status(400).json({ error: 'Invalid request data' });
+        resWithProps.status(400).json({ error: 'Invalid request data' });
       } else {
-        next();
+        nextFn();
       }
     }
   };
