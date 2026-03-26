@@ -98,7 +98,7 @@ export interface PipelineEvents {
   /** Fired when a stage is cancelled */
   stageCancelled: (stage: TaskStage, reason: unknown, context: PipelineExecutionContext) => void;
   /** Fired when the entire pipeline completes */
-  pipelineComplete: (results: unknown[], context: PipelineExecutionContext) => void;
+  pipelineComplete: (results: unknown, context: PipelineExecutionContext) => void;
   /** Fired when the pipeline fails */
   pipelineError: (error: Error, context: PipelineExecutionContext) => void;
   /** Fired when the pipeline is cancelled */

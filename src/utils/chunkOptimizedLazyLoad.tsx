@@ -244,11 +244,11 @@ function createBasicLazyComponent<T extends ComponentType<unknown>>(
 ) {
   const LazyComponent = React.lazy(importFn);
 
-  const BasicWrapper = forwardRef<unknown, Record<string, unknown>>((props, ref) => (
+  const BasicWrapper: React.FC<Record<string, unknown>> = props => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
-      <LazyComponent {...({ ...props, ref } as Record<string, unknown> & { ref: unknown })} />
+      <LazyComponent {...(props as any)} />
     </Suspense>
-  ));
+  );
 
   BasicWrapper.displayName = `Basic(${componentName || 'Component'})`;
   return BasicWrapper;
