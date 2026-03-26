@@ -38,7 +38,7 @@ const KeyboardShortcutRow: React.FC<KeyboardShortcutRowProps> = ({
 }) => {
   const [recordedKeys, setRecordedKeys] = useState<KeyCombination | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const isMac = typeof navigator !== 'undefined' && /Mac/.test(navigator.platform);
+  const isMac = typeof navigator !== 'undefined' && navigator.platform.includes('Mac');
 
   useEffect(() => {
     if (isEditing && inputRef.current) {

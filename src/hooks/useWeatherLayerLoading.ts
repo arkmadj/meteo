@@ -190,7 +190,7 @@ export const useWeatherLayerLoading = <T = unknown>(
       const delay = retryDelay * Math.pow(2, prev.retryCount);
 
       retryTimeoutRef.current = setTimeout(() => {
-        fetch();
+        void fetch();
       }, delay);
 
       return {
@@ -225,7 +225,7 @@ export const useWeatherLayerLoading = <T = unknown>(
   // Auto-fetch on mount if enabled
   useEffect(() => {
     if (autoFetch) {
-      fetch();
+      void fetch();
     }
   }, [autoFetch, fetch]); // Only run on mount
 

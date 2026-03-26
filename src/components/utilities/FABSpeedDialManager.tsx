@@ -147,7 +147,7 @@ const FABSpeedDialManager: React.FC<FABSpeedDialManagerProps> = ({
       ),
       label: 'Component Showcase',
       onClick: () => {
-        navigate('/showcase');
+        void navigate('/showcase');
         showInfo('Navigating to Showcase', 2000);
       },
       variant: 'secondary',
@@ -171,7 +171,7 @@ const FABSpeedDialManager: React.FC<FABSpeedDialManagerProps> = ({
       ),
       label: 'Demo Components',
       onClick: () => {
-        navigate('/demo');
+        void navigate('/demo');
         showInfo('Navigating to Demo', 2000);
       },
       variant: 'secondary',

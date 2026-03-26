@@ -246,6 +246,7 @@ function createBasicLazyComponent<T extends ComponentType<unknown>>(
 
   const BasicWrapper: React.FC<Record<string, unknown>> = props => (
     <Suspense fallback={<Loading text={`Loading ${componentName || 'component'}...`} />}>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <LazyComponent {...(props as any)} />
     </Suspense>
   );

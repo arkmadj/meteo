@@ -277,7 +277,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
   const createLazyComponent = () => {
     if (!LazyComponent) {
       LazyComponent = React.lazy(() => {
-        if (!importPromise) {
+        if (importPromise === null) {
           importPromise = Promise.race([
             importFn(),
             new Promise<never>((_, reject) =>
@@ -292,7 +292,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
   };
 
   const preloadComponent = () => {
-    if (!importPromise) {
+    if (importPromise === null) {
       importPromise = importFn();
     }
     return importPromise;
@@ -337,7 +337,7 @@ export function createConditionalLazyComponent<T extends ComponentType<unknown>>
 
     // Preloading logic
     const handlePreload = useCallback(() => {
-      preloadComponent();
+      void preloadComponent();
     }, []);
 
     const renderContent = () => {

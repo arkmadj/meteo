@@ -92,7 +92,7 @@ export function usePushNotifications(
       setSubscription(state.subscription);
     };
 
-    initialize();
+    void initialize();
   }, [isSupported, autoRegister]);
 
   // Setup notification callbacks

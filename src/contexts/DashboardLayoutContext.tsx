@@ -1,5 +1,5 @@
-import type { Layout } from 'react-grid-layout';
 import React, { createContext, useCallback, useContext, useEffect, useReducer } from 'react';
+import type { Layout } from 'react-grid-layout';
 
 import {
   DASHBOARD_PRESETS,

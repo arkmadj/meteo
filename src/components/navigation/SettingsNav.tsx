@@ -57,7 +57,7 @@ const SettingsNav: React.FC<SettingsNavProps> = ({ items, className = '', onNavi
       });
 
       // Update URL hash without triggering a page reload
-      navigate(`${location.pathname}#${id}`, { replace: true });
+      void navigate(`${location.pathname}#${id}`, { replace: true });
 
       setActiveSection(id);
       onNavigate?.(id);
@@ -95,7 +95,7 @@ const SettingsNav: React.FC<SettingsNavProps> = ({ items, className = '', onNavi
               // Update URL hash without triggering a page reload
               const currentHash = location.hash.replace('#', '');
               if (currentHash !== newActiveSection) {
-                navigate(`${location.pathname}#${newActiveSection}`, { replace: true });
+                void navigate(`${location.pathname}#${newActiveSection}`, { replace: true });
               }
             }
             break;

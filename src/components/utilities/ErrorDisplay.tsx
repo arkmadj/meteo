@@ -106,7 +106,14 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = React.memo(
     const actions = (
       <div className="flex gap-2 mt-3">
         {error.retryable && onRetry && (
-          <Button disabled={isRetrying} size="sm" variant="outline" onClick={handleRetry}>
+          <Button
+            disabled={isRetrying}
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              void handleRetry();
+            }}
+          >
             {isRetrying ? (
               <i className="fas fa-spinner fa-spin mr-2"></i>
             ) : (

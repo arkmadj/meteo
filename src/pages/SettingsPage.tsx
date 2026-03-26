@@ -854,7 +854,14 @@ const SettingsPage: React.FC = () => {
 
               {/* Save Button */}
               <div className="mt-8 flex justify-center">
-                <Button variant="primary" size="lg" loading={isSaving} onClick={handleSaveSettings}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  loading={isSaving}
+                  onClick={() => {
+                    void handleSaveSettings();
+                  }}
+                >
                   {t('settings.save')}
                 </Button>
               </div>
@@ -882,10 +889,18 @@ const SettingsPage: React.FC = () => {
       {/* Push Notification Consent Modal */}
       <PushNotificationConsentModal
         isOpen={shouldShowPrompt}
-        onAccept={notificationActions.acceptConsent}
-        onDecline={notificationActions.declineConsent}
-        onLater={notificationActions.postponeConsent}
-        onNever={notificationActions.neverAskAgain}
+        onAccept={() => {
+          void notificationActions.acceptConsent();
+        }}
+        onDecline={() => {
+          void notificationActions.declineConsent();
+        }}
+        onLater={() => {
+          void notificationActions.postponeConsent();
+        }}
+        onNever={() => {
+          void notificationActions.neverAskAgain();
+        }}
         onClose={notificationActions.hidePrompt}
         isLoading={notificationState.isRequesting}
         permissionStatus={notificationState.browserPermission}

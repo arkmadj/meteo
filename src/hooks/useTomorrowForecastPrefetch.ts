@@ -208,7 +208,7 @@ export const useTomorrowForecastPrefetch = (
     prefetchScheduledRef.current = true;
 
     const executePrefetch = () => {
-      prefetchTomorrow();
+      void prefetchTomorrow();
       prefetchScheduledRef.current = false;
     };
 
@@ -354,7 +354,7 @@ export const useForecastDayPrefetch = (
 
       // Prefetch after a short delay (300ms) to avoid fetching on quick passes
       hoverTimeoutRef.current = setTimeout(() => {
-        prefetchForDay(dayIndex);
+        void prefetchForDay(dayIndex);
       }, 300);
     },
     [prefetchForDay]
@@ -376,7 +376,7 @@ export const useForecastDayPrefetch = (
   const onForecastDayFocus = useCallback(
     (dayIndex: number) => {
       // Immediately prefetch on focus for better keyboard navigation experience
-      prefetchForDay(dayIndex);
+      void prefetchForDay(dayIndex);
     },
     [prefetchForDay]
   );

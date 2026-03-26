@@ -288,7 +288,7 @@ export function useWeatherAlertMonitoring(
   // Auto-initialize on mount
   useEffect(() => {
     if (autoInitialize && !isInitialized) {
-      initialize();
+      void initialize();
     }
   }, [autoInitialize, isInitialized, initialize]);
 

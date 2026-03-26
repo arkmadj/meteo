@@ -72,7 +72,7 @@ class SubscriptionIndexedDB {
       return true;
     }
 
-    if (this.initPromise) {
+    if (this.initPromise !== null) {
       return this.initPromise;
     }
 

@@ -611,7 +611,7 @@ export const useWeatherMutation = () => {
         }
       );
 
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: queryKeys.weather.all,
         predicate: query => {
           const key = query.queryKey;

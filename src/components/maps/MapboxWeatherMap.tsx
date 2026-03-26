@@ -49,7 +49,7 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
     if (!mapContainerRef.current || isLoaded) return;
 
     // In a real implementation:
-    const initializeMap = async () => {
+    const initializeMap = () => {
       try {
         console.log('Initializing Mapbox GL JS map...');
 

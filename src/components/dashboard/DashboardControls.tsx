@@ -286,7 +286,14 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ className = '' })
                 "
               >
                 <div className="font-medium text-[var(--theme-text)]">📥 Import Layout</div>
-                <input accept=".json" className="hidden" onChange={handleImport} type="file" />
+                <input
+                  accept=".json"
+                  className="hidden"
+                  onChange={e => {
+                    void handleImport(e);
+                  }}
+                  type="file"
+                />
               </label>
             </div>
           </>

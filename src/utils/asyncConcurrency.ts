@@ -63,7 +63,9 @@ export class TaskQueue<T = unknown> {
           reject(error);
         }
       }) as () => Promise<T>);
-      this.processQueue();
+      this.processQueue().catch(err => {
+        console.error('Error processing queue:', err);
+      });
     });
   }
 
@@ -81,13 +83,17 @@ export class TaskQueue<T = unknown> {
       await taskFn();
     } finally {
       this.activeTasks--;
-      this.processQueue();
+      this.processQueue().catch(err => {
+        console.error('Error processing queue:', err);
+      });
     }
   }
 
   setMaxConcurrent(max: number): void {
     this.maxConcurrent = max;
-    this.processQueue();
+    this.processQueue().catch(err => {
+      console.error('Error processing queue:', err);
+    });
   }
 
   getStats(): { active: number; queued: number; maxConcurrent: number } {
@@ -330,7 +336,11 @@ export class PriorityTaskQueue {
       this.queue.push({ task, priority, resolve, reject });
 
       // Use setTimeout to ensure all tasks are added before processing starts
-      setTimeout(() => this.processQueue(), 0);
+      setTimeout(() => {
+        this.processQueue().catch(err => {
+          console.error('Error processing priority queue:', err);
+        });
+      }, 0);
     });
   }
 
@@ -353,7 +363,9 @@ export class PriorityTaskQueue {
       priorityTask.reject(error as Error);
     } finally {
       this.activeTasks--;
-      this.processQueue();
+      this.processQueue().catch(err => {
+        console.error('Error processing priority queue:', err);
+      });
     }
   }
 }
@@ -389,7 +401,7 @@ export async function exampleUsage() {
   console.log('Queue results:', results2);
 
   // Example 3: Batch processing
-  const batchTasks = Array.from({ length: 20 }, (_, i) => async () => `Item ${i}`);
+  const batchTasks = Array.from({ length: 20 }, (_, i) => () => Promise.resolve(`Item ${i}`));
 
   const batchResults = await processBatch(
     batchTasks,

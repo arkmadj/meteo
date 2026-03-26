@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Forecast from '@/components/weather/Forecast';
 import MainHeader from '@/components/headers/MainHeader';
 import { Button } from '@/components/ui/atoms';
 import { Container } from '@/components/ui/layout';
+import Forecast from '@/components/weather/Forecast';
 
 /**
  * Weather page component - focused weather interface
@@ -35,7 +35,9 @@ const WeatherPage: React.FC = () => {
       <div className="fixed bottom-6 right-6">
         <div className="flex flex-col space-y-2">
           <Button
-            onClick={() => navigate('/weather/dashboard')}
+            onClick={() => {
+              void navigate('/weather/dashboard');
+            }}
             variant="primary"
             size="sm"
             className="shadow-lg"
@@ -43,7 +45,9 @@ const WeatherPage: React.FC = () => {
             📊 Dashboard
           </Button>
           <Button
-            onClick={() => navigate('/settings')}
+            onClick={() => {
+              void navigate('/settings');
+            }}
             variant="secondary"
             size="sm"
             className="shadow-lg"

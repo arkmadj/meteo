@@ -47,7 +47,7 @@ const LeafletWeatherMap: React.FC<LeafletWeatherMapProps> = ({
     if (!mapRef.current || isLoaded) return;
 
     // In a real implementation, this would use actual Leaflet
-    const initializeMap = async () => {
+    const initializeMap = () => {
       try {
         // Simulated Leaflet initialization
         console.log('Initializing Leaflet map...');

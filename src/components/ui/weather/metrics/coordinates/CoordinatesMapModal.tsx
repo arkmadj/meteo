@@ -344,7 +344,9 @@ const CoordinatesMapModal: React.FC<CoordinatesMapModalProps> = ({
             )}
             <button
               type="button"
-              onClick={handleShare}
+              onClick={() => {
+                void handleShare();
+              }}
               className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border ${borderColor} ${isDark ? 'bg-gray-700 hover:bg-gray-600 text-gray-100' : 'bg-white hover:bg-gray-50 text-gray-900'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               aria-label="Share location"
               title="Share via device or copy link"

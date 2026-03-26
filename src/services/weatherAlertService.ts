@@ -327,7 +327,7 @@ class WeatherAlertService {
             this.alertHistory.unshift(alert);
             this.lastAlertTimes.set(condition.id, Date.now());
             this.emitEvent('alert:created', { alert });
-            this.deliverAlertNotification(alert);
+            void this.deliverAlertNotification(alert);
           }
         }
       } catch (error) {

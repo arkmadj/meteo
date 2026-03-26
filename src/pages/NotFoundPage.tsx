@@ -21,9 +21,9 @@ const NotFoundPage: React.FC = () => {
 
   const goBack = () => {
     if (window.history.length > 1) {
-      navigate(-1);
+      void navigate(-1);
     } else {
-      navigate('/');
+      void navigate('/');
     }
   };
 

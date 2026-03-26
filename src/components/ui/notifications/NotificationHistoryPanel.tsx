@@ -518,7 +518,13 @@ const NotificationHistoryPanel: React.FC<NotificationHistoryPanelProps> = ({
       {/* Footer Actions */}
       {!isEmpty && (
         <div className="flex items-center justify-end px-4 py-3 border-t border-[var(--theme-border)]">
-          <button type="button" onClick={clearAll} className="text-sm text-red-500 hover:underline">
+          <button
+            type="button"
+            onClick={() => {
+              void clearAll();
+            }}
+            className="text-sm text-red-500 hover:underline"
+          >
             {t('notifications.history.clearAll', { defaultValue: 'Clear all notifications' })}
           </button>
         </div>

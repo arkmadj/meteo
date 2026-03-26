@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 
 import Modal from '@/components/ui/navigation/Modal';
-import ShareableWeatherCard from './ShareableWeatherCard';
 import { useTheme } from '@/design-system/theme';
 import { useWeatherShare } from '@/hooks/useWeatherShare';
 import type {
@@ -17,6 +16,7 @@ import type {
   SocialPlatform,
 } from '@/types/socialShare';
 import { DEFAULT_SHARE_CARD_CONFIG, SOCIAL_PLATFORMS } from '@/types/socialShare';
+import ShareableWeatherCard from './ShareableWeatherCard';
 
 export interface ShareWeatherModalProps {
   /** Whether the modal is open */
@@ -155,7 +155,9 @@ const ShareWeatherModal: React.FC<ShareWeatherModalProps> = ({
         {/* Native Share (if supported) */}
         {supportsNative && (
           <button
-            onClick={handleNativeShare}
+            onClick={() => {
+              void handleNativeShare();
+            }}
             disabled={isSharing}
             className="w-full py-3 px-4 mb-4 rounded-lg font-medium text-white transition-all duration-200 disabled:opacity-50"
             style={{ backgroundColor: theme.accentColor }}
@@ -173,7 +175,9 @@ const ShareWeatherModal: React.FC<ShareWeatherModalProps> = ({
               return (
                 <button
                   key={platform}
-                  onClick={() => handleShare(platform)}
+                  onClick={() => {
+                    void handleShare(platform);
+                  }}
                   disabled={isSharing}
                   className={`flex flex-col items-center justify-center p-3 rounded-lg border ${borderColor} transition-all duration-200 hover:scale-105 disabled:opacity-50`}
                   style={{
@@ -196,7 +200,9 @@ const ShareWeatherModal: React.FC<ShareWeatherModalProps> = ({
 
         {/* Copy URL Button */}
         <button
-          onClick={copyUrl}
+          onClick={() => {
+            void copyUrl();
+          }}
           disabled={isSharing}
           className={`w-full mt-4 py-2 px-4 rounded-lg border ${borderColor} ${subTextColor} text-sm transition-all duration-200 hover:bg-opacity-10 disabled:opacity-50`}
         >

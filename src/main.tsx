@@ -35,13 +35,18 @@ preloadCriticalChunks();
 // Register service worker for push notifications
 // Registration happens asynchronously and doesn't block app startup
 if ('serviceWorker' in navigator) {
-  pushNotificationService.registerServiceWorker().then(result => {
-    if (result.success) {
-      console.log('[App] Service worker registered for push notifications');
-    } else {
-      console.warn('[App] Service worker registration failed:', result.error?.message);
-    }
-  });
+  pushNotificationService
+    .registerServiceWorker()
+    .then(result => {
+      if (result.success) {
+        console.log('[App] Service worker registered for push notifications');
+      } else {
+        console.warn('[App] Service worker registration failed:', result.error?.message);
+      }
+    })
+    .catch(err => {
+      console.error('[App] Service worker registration error:', err);
+    });
 }
 
 const container = document.getElementById('root');

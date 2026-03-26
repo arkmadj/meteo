@@ -288,7 +288,7 @@ export function useOptimisticWeatherUpdate() {
 
     onSettled: (data, error, { location }) => {
       // Always refetch after mutation
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: weatherKeys.currentByLocation(location),
       });
     },

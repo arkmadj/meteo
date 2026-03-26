@@ -281,11 +281,11 @@ class AdaptiveWeatherUpdatesService {
       }
 
       if (this.isActive) {
-        this.pollingInterval = setTimeout(poll, config.interval);
+        this.pollingInterval = setTimeout(() => void poll(), config.interval);
       }
     };
 
-    poll();
+    void poll();
   }
 
   /**

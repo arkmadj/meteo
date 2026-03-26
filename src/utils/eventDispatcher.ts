@@ -30,7 +30,7 @@ export function scheduleEventDispatch(callback: () => void): void {
   }
 
   if (typeof Promise !== 'undefined') {
-    Promise.resolve().then(callback);
+    void Promise.resolve().then(callback);
     return;
   }
 

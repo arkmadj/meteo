@@ -323,11 +323,11 @@ class WeatherAlertMonitoringService {
     this.stopLocationMonitoring(locationId);
 
     // Perform initial refresh
-    this.refreshLocation(locationId);
+    void this.refreshLocation(locationId);
 
     // Set up interval for subsequent refreshes
     const interval = setInterval(() => {
-      this.refreshLocation(locationId);
+      void this.refreshLocation(locationId);
     }, location.refreshIntervalMs);
 
     this.refreshIntervals.set(locationId, interval);
@@ -468,7 +468,7 @@ class WeatherAlertMonitoringService {
       if (this.config.retryOnFailure && location.consecutiveErrors < this.config.maxRetries) {
         setTimeout(() => {
           if (this.isRunning && location.enabled) {
-            this.refreshLocation(locationId);
+            void this.refreshLocation(locationId);
           }
         }, this.config.retryDelayMs);
       }
