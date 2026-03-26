@@ -195,7 +195,7 @@ export function useForm<T extends Record<string, unknown>>(options: FormOptions<
       const rules = (validationRules as Record<string, ValidationRules<unknown> | undefined>)[
         field as string
       ] as ValidationRules<T[K]> | undefined;
-      return validateFieldValue(value, rules);
+      return _validateField(value, rules);
     },
     [values, validationRules]
   );

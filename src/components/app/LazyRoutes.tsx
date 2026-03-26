@@ -143,7 +143,7 @@ export const withLazyRoute = <P extends object>(
 ) => {
   const LazyRoute = React.forwardRef<unknown, P>((props, ref) => (
     <LazyRouteWrapper routeName={routeName} minHeight={minHeight}>
-      <Component {...props} ref={ref} />
+      <Component {...props} ref={ref as any} />
     </LazyRouteWrapper>
   ));
 
