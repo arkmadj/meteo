@@ -294,7 +294,9 @@ class PushNotificationService {
 
       if (vapidKey) {
         console.log('[PushService] Using VAPID key for subscription');
-        subscribeOptions.applicationServerKey = this.urlBase64ToUint8Array(vapidKey);
+        subscribeOptions.applicationServerKey = this.urlBase64ToUint8Array(
+          vapidKey
+        ) as BufferSource;
       } else {
         console.warn(
           '[PushService] No VAPID key configured - subscription may fail with some push services'
@@ -425,7 +427,7 @@ class PushNotificationService {
     if (!stored) {
       return {
         success: false,
-        errorCode: 'SUBSCRIPTION_NOT_FOUND',
+        errorCode: 'UNKNOWN' as const,
         error: new Error('No stored subscription found'),
       };
     }
@@ -434,7 +436,13 @@ class PushNotificationService {
     return {
       success: result.success,
       error: result.error,
-      errorCode: result.errorCode,
+      errorCode:
+        (result.errorCode as
+          | 'UNSUPPORTED'
+          | 'PERMISSION_DENIED'
+          | 'SUBSCRIPTION_FAILED'
+          | 'REGISTRATION_FAILED'
+          | 'UNKNOWN') || 'UNKNOWN',
     };
   }
 
@@ -463,7 +471,7 @@ class PushNotificationService {
     if (!this.registration) {
       const regResult = await this.registerServiceWorker();
       if (!regResult.success) {
-        return regResult;
+        return regResult as unknown as PushNotificationResult<void>;
       }
     }
 

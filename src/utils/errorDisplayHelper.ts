@@ -266,8 +266,9 @@ export const getUserFriendlyMessage = (error: unknown): string => {
 
   if (error instanceof Error) {
     // Check if it's an AppError with userMessage
-    if ('userMessage' in error && typeof (error as unknown).userMessage === 'string') {
-      return (error as unknown).userMessage;
+    const errorWithUserMessage = error as { userMessage?: string };
+    if ('userMessage' in error && typeof errorWithUserMessage.userMessage === 'string') {
+      return errorWithUserMessage.userMessage;
     }
 
     // Map common error messages to user-friendly versions

@@ -3,7 +3,8 @@
  * Utilities for setting up global error handling in different environments
  */
 
-import type { AppError } from './errorHandler';
+import type { AppError } from '../types/error';
+import { ErrorCategory, ErrorSeverity, ErrorType } from '../types/error';
 
 /**
  * Setup global error handlers for Node.js environment
@@ -24,9 +25,9 @@ export function setupNodeGlobalHandlers(
 
     const appError: AppError = {
       id: `uncaught-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNCAUGHT_EXCEPTION' as unknown,
-      category: 'SYSTEM' as unknown,
-      severity: 'CRITICAL' as unknown,
+      type: ErrorType.UNKNOWN_ERROR,
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.CRITICAL,
       message: error.message,
       userMessage: 'A critical system error occurred',
       timestamp: Date.now(),
@@ -55,10 +56,10 @@ export function setupNodeGlobalHandlers(
 
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNHANDLED_REJECTION' as unknown,
-      category: 'SYSTEM' as unknown,
-      severity: 'HIGH' as unknown,
-      message: reason?.message || 'Unhandled promise rejection',
+      type: ErrorType.UNKNOWN_ERROR,
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
+      message: (reason as { message?: string })?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
       retryable: false,
@@ -107,9 +108,9 @@ export function setupBrowserGlobalHandlers(
 
     const appError: AppError = {
       id: `unhandled-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'UNHANDLED_REJECTION' as unknown,
-      category: 'SYSTEM' as unknown,
-      severity: 'HIGH' as unknown,
+      type: ErrorType.UNKNOWN_ERROR,
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
       message: event.reason?.message || 'Unhandled promise rejection',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
@@ -133,9 +134,9 @@ export function setupBrowserGlobalHandlers(
 
     const appError: AppError = {
       id: `global-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: 'GLOBAL_ERROR' as unknown,
-      category: 'SYSTEM' as unknown,
-      severity: 'HIGH' as unknown,
+      type: ErrorType.UNKNOWN_ERROR,
+      category: ErrorCategory.UNKNOWN,
+      severity: ErrorSeverity.HIGH,
       message: event.error?.message || 'An unexpected error occurred',
       userMessage: 'An unexpected error occurred',
       timestamp: Date.now(),
@@ -169,12 +170,13 @@ export function setupBrowserGlobalHandlers(
 /**
  * Safe async wrapper that prevents unhandled rejections
  */
-export function safeAsync<T>(
+export async function safeAsync<T>(
   asyncFn: () => Promise<T>,
   onError?: (error: Error) => void
 ): Promise<T | null> {
   try {
-    return await asyncFn();
+    const result = await asyncFn();
+    return result;
   } catch (error) {
     if (onError) {
       onError(error as Error);

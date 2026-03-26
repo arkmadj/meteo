@@ -6,10 +6,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import VisibilityMeter from './VisibilityMeter';
 import AccessibleModal from '@/components/ui/molecules/AccessibleModal';
 import { useTheme } from '@/design-system/theme';
 import { useVisibilityUnit } from '@/hooks/useVisibilityUnit';
+import VisibilityMeter from './VisibilityMeter';
 
 export interface VisibilityDetailModalProps {
   /** Whether the modal is open */
@@ -231,7 +231,7 @@ const VisibilityDetailModal: React.FC<VisibilityDetailModalProps> = ({
   const { formatVisibility, currentUnit } = useVisibilityUnit();
 
   const clampedVisibility = Math.max(0, Math.min(50000, visibility));
-  const details = getVisibilityDetails(clampedVisibility, t);
+  const details = getVisibilityDetails(clampedVisibility, t as unknown as TranslateFn);
   const formattedVisibility = formatVisibility(clampedVisibility);
 
   const isDark = theme.isDark;

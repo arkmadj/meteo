@@ -37,9 +37,9 @@ export function SecureCache(ttl: number) {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: unknown[]) {
-      const user = getCurrentUser();
+      const user = getCurrentUser() as { id: string; roles: string[] } | null;
       const userContext = user ? `${user.id}:${user.roles.join(',')}` : 'anonymous';
-      const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}:${userContext}`;
+      const key = `${(target as { constructor: { name: string } }).constructor.name}.${propertyKey}:${JSON.stringify(args)}:${userContext}`;
 
       const cached = cache.get(key);
       if (cached && cached.expires > Date.now() && cached.userContext === userContext) {
@@ -59,27 +59,32 @@ export function SecureRequireRole(role: string) {
     const originalMethod = descriptor.value;
 
     // Create tamper-resistant metadata
+    const targetWithConstructor = target as { constructor: { name: string } };
     const metadata: SecurityMetadata = Object.freeze({
       role,
       timestamp: Date.now(),
-      checksum: generateChecksum(role + propertyKey + target.constructor.name),
+      checksum: generateChecksum(role + propertyKey + targetWithConstructor.constructor.name),
     });
 
-    setMetadataValue(SECURITY_METADATA, metadata, target, propertyKey);
+    setMetadataValue(SECURITY_METADATA, metadata, target as object, propertyKey);
 
     descriptor.value = function (...args: unknown[]) {
       // Validate metadata integrity
-      const storedMetadata = getMetadataValue(SECURITY_METADATA, target, propertyKey);
+      const storedMetadata = getMetadataValue(SECURITY_METADATA, target as object, propertyKey);
       if (
         !storedMetadata ||
-        !validateMetadata(storedMetadata, role, propertyKey, target.constructor.name)
+        !validateMetadata(storedMetadata, role, propertyKey, targetWithConstructor.constructor.name)
       ) {
         throw new SecurityError('Security metadata has been tampered with');
       }
 
-      const user = getCurrentUser();
+      const user = getCurrentUser() as { roles: string[] } | null;
       if (!user || !user.roles.includes(role)) {
-        SecurityMonitor.logUnauthorizedAccess(user, target.constructor.name, propertyKey);
+        SecurityMonitor.logUnauthorizedAccess(
+          user,
+          targetWithConstructor.constructor.name,
+          propertyKey
+        );
         throw new UnauthorizedError(`Role '${role}' required`);
       }
 
@@ -113,8 +118,9 @@ export class SecureAuthContext {
   }
 
   setCurrentUser(user: unknown) {
+    const userWithId = user as { id: string };
     // Validate user object
-    if (!user || typeof user.id === 'undefined') {
+    if (!user || typeof userWithId.id === 'undefined') {
       throw new SecurityInvariantError('Invalid user object');
     }
 
@@ -124,8 +130,8 @@ export class SecureAuthContext {
       throw new SecurityError('Context expired');
     }
 
-    this.user = Object.freeze({ ...user }); // Immutable user object
-    SecurityMonitor.logContextChange(this.requestId, user.id);
+    this.user = Object.freeze({ ...(user as object) }); // Immutable user object
+    SecurityMonitor.logContextChange(this.requestId, userWithId.id);
   }
 
   getCurrentUser() {
@@ -194,7 +200,7 @@ export class SecureDIContainer {
       scopedInstances.set(resolveContext, instance);
     }
 
-    return scopedInstances.get(resolveContext);
+    return scopedInstances.get(resolveContext) as T;
   }
 }
 
@@ -210,11 +216,11 @@ export function SecureInject(token: string) {
       throw new DependencyInjectionError('Invalid injection token');
     }
 
-    const existingTokens = getMetadataValue(INJECTION_METADATA, target) ?? [];
+    const existingTokens = getMetadataValue(INJECTION_METADATA, target as object) ?? [];
     const tokens: InjectionMetadata = [...existingTokens];
 
     tokens[parameterIndex] = { token, validated: true };
-    setMetadataValue(INJECTION_METADATA, tokens, target);
+    setMetadataValue(INJECTION_METADATA, tokens, target as object);
   };
 }
 
@@ -238,7 +244,8 @@ export function SecureRequireAuth(options: AuthOptions = {}) {
           throw new SecurityError('Invalid user session');
         }
 
-        if (options.requireEmailVerified && !user.emailVerified) {
+        const userWithEmail = user as { emailVerified?: boolean };
+        if (options.requireEmailVerified && !userWithEmail.emailVerified) {
           throw new UnauthorizedError('Email verification required');
         }
       }
@@ -258,7 +265,7 @@ export function SecureAsyncAuth() {
       await checkAuthAsync();
 
       // Double-check auth state hasn't changed
-      const user = getCurrentUser();
+      const user = getCurrentUser() as { isAdmin?: boolean } | null;
       if (!user || !user.isAdmin) {
         throw new UnauthorizedError('Authorization check failed');
       }
@@ -276,9 +283,10 @@ export function SecureMemoize() {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: unknown[]) {
-      const user = getCurrentUser();
+      const user = getCurrentUser() as { id: string; roles: string[] } | null;
       const userContext = user ? `${user.id}:${user.roles.join(',')}` : 'anonymous';
-      const key = `${target.constructor.name}.${propertyKey}:${JSON.stringify(args)}`;
+      const targetWithConstructor = target as { constructor: { name: string } };
+      const key = `${targetWithConstructor.constructor.name}.${propertyKey}:${JSON.stringify(args)}`;
 
       const cached = cache.get(key);
       if (cached && cached.userContext === userContext && cached.expires > Date.now()) {
@@ -316,7 +324,8 @@ export class SecurityMonitor {
   }
 
   private static logAccess(user: unknown, className: string, method: string, type: string) {
-    const key = `${user?.id || 'anonymous'}:${className}:${method}`;
+    const userWithId = user as { id?: string };
+    const key = `${userWithId?.id || 'anonymous'}:${className}:${method}`;
     const records = this.accessLog.get(key) || [];
 
     records.push({
@@ -332,7 +341,8 @@ export class SecurityMonitor {
   }
 
   private static detectSuspiciousActivity(user: unknown, className: string, method: string) {
-    const key = `${user?.id || 'anonymous'}:${className}:${method}`;
+    const userWithId = user as { id?: string };
+    const key = `${userWithId?.id || 'anonymous'}:${className}:${method}`;
     const records = this.accessLog.get(key) || [];
     const recentUnauthorized = records.filter(
       r => r.type === 'unauthorized' && Date.now() - r.timestamp < 300000 // 5 minutes
@@ -359,10 +369,11 @@ function validateMetadata(
   propertyKey: string,
   className: string
 ): boolean {
-  if (!metadata || metadata.role !== role) return false;
+  const metadataWithProps = metadata as { role?: string; checksum?: string };
+  if (!metadata || metadataWithProps.role !== role) return false;
 
   const expectedChecksum = generateChecksum(role + propertyKey + className);
-  return metadata.checksum === expectedChecksum;
+  return metadataWithProps.checksum === expectedChecksum;
 }
 
 function generateRequestId(): string {
@@ -389,7 +400,7 @@ function validateUserSession(_user: unknown): boolean {
 
 async function checkAuthAsync(): Promise<void> {
   // Async authentication check
-  const user = getCurrentUser();
+  const user = getCurrentUser() as { isAdmin?: boolean } | null;
   if (!user || !user.isAdmin) {
     throw new UnauthorizedError('Authentication failed');
   }

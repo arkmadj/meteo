@@ -4,7 +4,7 @@
  */
 
 import type { AppError } from '../types/error';
-import { ErrorType } from '../types/error';
+import { ErrorCategory, ErrorSeverity, ErrorType } from '../types/error';
 import type { AsyncResult, Result } from '../types/result';
 import { Err, fromAsync, Ok } from '../types/result';
 import { createErrorHandler } from '../utils/errorHandler';

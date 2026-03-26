@@ -7,8 +7,14 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
+import { ErrorType } from '../types/error';
 import { Semaphore } from './asyncConcurrency';
-import { anyToken, CancellationTokenSource, withTimeout } from './cancellationToken';
+import {
+  anyToken,
+  CancellationTokenSource,
+  withTimeout,
+  type CancellationToken,
+} from './cancellationToken';
 import { safeRetry } from './retry';
 
 // ============================================================================
@@ -102,7 +108,11 @@ export class EnhancedWeatherService {
         maxRetries: 2,
         baseDelay: 1000,
         timeout: 15000, // Per-attempt timeout
-        retryableErrors: ['network_error', 'timeout_error', 'rate_limit_error'],
+        retryableErrors: [
+          ErrorType.NETWORK_ERROR,
+          ErrorType.TIMEOUT_ERROR,
+          ErrorType.RATE_LIMIT_ERROR,
+        ],
       });
     } else {
       return fetchFunction();

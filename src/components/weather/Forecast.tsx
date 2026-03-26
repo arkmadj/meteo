@@ -5,20 +5,20 @@ import EnhancedForecast from '@/components/weather/EnhancedForecast';
 // Lazy-loaded dashboard components for better performance
 import { CustomizableDashboard, DashboardControls } from '@/components/lazy';
 import { DashboardSuspense, HourlyForecastTimeline } from '@/components/ui';
-import HistoricalWeatherComparison from '@/components/ui/weather/comparison/HistoricalWeatherComparison';
 import { Stack } from '@/components/ui/layout';
+import HistoricalWeatherComparison from '@/components/ui/weather/comparison/HistoricalWeatherComparison';
 import WeatherCard from '@/components/weather/WeatherCard';
 import { FORECAST_DAYS_LIMIT } from '@/constants/dates';
 import { generateHourlyForecast } from '@/services/weatherService';
 import type { WeatherState } from '@/types';
 
 interface ForecastProps {
-  weather: WeatherState;
-  formatWeekday: (_date: string, _format?: 'short' | 'long') => string;
-  getLocalizedWeatherDescription: (_code: number) => string;
-  getLocalizedTemperature: (_temp: number) => string;
-  temperatureUnit: 'C' | 'F';
-  toggleTemperatureUnit: () => void;
+  weather?: WeatherState;
+  formatWeekday?: (_date: string, _format?: 'short' | 'long') => string;
+  getLocalizedWeatherDescription?: (_code: number) => string;
+  getLocalizedTemperature?: (_temp: number) => string;
+  temperatureUnit?: 'C' | 'F';
+  toggleTemperatureUnit?: () => void;
 }
 
 const Forecast = React.memo(

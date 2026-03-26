@@ -281,7 +281,7 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
         return (
           <button
             key={unit}
-            style={getButtonStyles(isActive, isHovered, isFocused)}
+            style={getButtonStyles(isActive, isHovered, isFocused) as React.CSSProperties}
             onClick={() => handleUnitChange(unit)}
             onKeyDown={e => handleKeyDown(e, unit)}
             onMouseEnter={() => setHoveredUnit(unit)}

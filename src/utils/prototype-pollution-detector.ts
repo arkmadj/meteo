@@ -332,7 +332,7 @@ export class SafeObjectUtils {
       });
     }
 
-    let current: Record<string, unknown> = obj;
+    let current: Record<string, unknown> = obj as Record<string, unknown>;
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
       const currentValue = current[key];
@@ -341,7 +341,7 @@ export class SafeObjectUtils {
         current[key] = {};
       }
 
-      current = current[key];
+      current = current[key] as Record<string, unknown>;
     }
 
     const finalKey = keys[keys.length - 1];
@@ -369,7 +369,7 @@ export class SafeObjectUtils {
     const checkRecursive = (current: unknown, depth = 0): boolean => {
       if (depth > 10) return true; // Prevent infinite recursion
 
-      for (const key in current) {
+      for (const key in current as Record<string, unknown>) {
         if (this.dangerousKeys.includes(key)) {
           return false;
         }

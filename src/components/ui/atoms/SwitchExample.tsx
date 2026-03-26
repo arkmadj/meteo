@@ -263,7 +263,7 @@ const SwitchExample: React.FC = () => {
                 label={`Dynamic ${selectedVariant} Switch (${selectedSize})`}
                 showIcons={true}
                 size={selectedSize as 'sm' | 'md' | 'lg'}
-                variant={selectedVariant as 'default' | 'ios' | 'material'}
+                variant={selectedVariant as 'default' | 'filled' | 'outlined'}
               />
             </div>
           </div>

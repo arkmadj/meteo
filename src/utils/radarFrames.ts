@@ -102,10 +102,11 @@ const generateRainViewerFrames = async (frameCount: number): Promise<RadarFrame[
     const radarTimestamps = data.radar.past.slice(-frameCount);
 
     const frames: RadarFrame[] = radarTimestamps.map((item: unknown) => {
-      const timestamp = item.time * 1000; // Convert to milliseconds
+      const itemWithProps = item as { time: number; path: string };
+      const timestamp = itemWithProps.time * 1000; // Convert to milliseconds
       return {
         timestamp,
-        tileUrl: `https://tilecache.rainviewer.com${item.path}/256/{z}/{x}/{y}/2/1_1.png`,
+        tileUrl: `https://tilecache.rainviewer.com${itemWithProps.path}/256/{z}/{x}/{y}/2/1_1.png`,
         label: formatFrameLabel(timestamp),
       };
     });
@@ -154,7 +155,7 @@ export const generateRadarFrames = async (
     frameCount = 10,
     intervalMinutes = 10,
     startTime = new Date(),
-    _includeForecast = false,
+    includeForecast: _includeForecast = false,
   } = options;
 
   try {

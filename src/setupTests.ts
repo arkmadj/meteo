@@ -10,8 +10,8 @@ import { TextDecoder, TextEncoder } from 'util';
 expect.extend(toHaveNoViolations);
 
 // Polyfill TextEncoder/TextDecoder for Node environment
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder as unknown;
+global.TextEncoder = TextEncoder as unknown as typeof global.TextEncoder;
+global.TextDecoder = TextDecoder as unknown as typeof global.TextDecoder;
 
 // Mock matchMedia for Embla Carousel
 Object.defineProperty(window, 'matchMedia', {
@@ -81,7 +81,7 @@ HTMLCanvasElement.prototype.getContext = jest.fn(() => ({
   transform: jest.fn(),
   rect: jest.fn(),
   clip: jest.fn(),
-})) as unknown;
+})) as unknown as typeof HTMLCanvasElement.prototype.getContext;
 
 // Mock canvas dimensions for ReactAnimatedWeather
 Object.defineProperty(HTMLCanvasElement.prototype, 'width', {

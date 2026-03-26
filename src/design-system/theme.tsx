@@ -485,7 +485,7 @@ export const themeUtils = {
       value = value?.[part];
     }
 
-    return value || colorPath;
+    return (value as string) || colorPath;
   },
 
   // Get spacing value

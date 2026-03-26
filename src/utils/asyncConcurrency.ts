@@ -55,14 +55,14 @@ export class TaskQueue<T = unknown> {
 
   async add<R>(taskFn: () => Promise<R>): Promise<R> {
     return new Promise<R>((resolve, reject) => {
-      this.queue.push(async () => {
+      this.queue.push((async () => {
         try {
           const result = await taskFn();
           resolve(result);
         } catch (error) {
           reject(error);
         }
-      });
+      }) as () => Promise<T>);
       this.processQueue();
     });
   }

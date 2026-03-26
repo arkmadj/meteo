@@ -36,7 +36,7 @@ class ChunkPreloadingService {
   private preloadQueue: string[] = [];
   private activePreloads = new Set<string>();
   private userBehavior: UserBehaviorData;
-  private connectionInfo: unknown;
+  private connectionInfo: { effectiveType: string; saveData: boolean };
 
   constructor(config: Partial<PreloadingConfig> = {}) {
     this.config = {
@@ -87,7 +87,9 @@ class ChunkPreloadingService {
       return { effectiveType: '4g', saveData: false };
     }
 
-    const connection = (navigator as unknown).connection;
+    const connection = (navigator as unknown as Record<string, unknown>).connection as
+      | { effectiveType?: string; saveData?: boolean; downlink?: number; rtt?: number }
+      | undefined;
     return {
       effectiveType: connection?.effectiveType || '4g',
       saveData: connection?.saveData || false,
@@ -123,7 +125,10 @@ class ChunkPreloadingService {
    */
   private setupConnectionMonitoring() {
     if ('connection' in navigator) {
-      (navigator as unknown).connection?.addEventListener('change', () => {
+      const connection = (navigator as unknown as Record<string, unknown>).connection as
+        | { addEventListener?: (event: string, handler: () => void) => void }
+        | undefined;
+      connection?.addEventListener?.('change', () => {
         this.connectionInfo = this.getConnectionInfo();
         this.adjustPreloadingStrategy();
       });

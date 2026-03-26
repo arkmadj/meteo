@@ -270,10 +270,18 @@ export const useUserPreferences = (config: Partial<PreferenceConfig> = {}) => {
         | undefined;
 
       if (connection) {
-        updates.saveData = connection.saveData || false;
-        updates.connectionType = connection.type || 'unknown';
-        updates.effectiveType = connection.effectiveType || 'unknown';
-        updates.downlink = connection.downlink || 0;
+        const connWithProps = connection as {
+          saveData?: boolean;
+          type?: string;
+          effectiveType?: string;
+          downlink?: number;
+        };
+        updates.saveData = connWithProps.saveData || false;
+        updates.connectionType =
+          (connWithProps.type as 'slow-2g' | '2g' | '3g' | '4g' | 'unknown') || 'unknown';
+        updates.effectiveType =
+          (connWithProps.effectiveType as 'slow-2g' | '2g' | '3g' | '4g' | 'unknown') || 'unknown';
+        updates.downlink = connWithProps.downlink || 0;
       }
     }
 

@@ -205,7 +205,7 @@ function withPerformanceMonitoring<P extends object>(
 
 // Easy to apply to any component
 const _MonitoredDashboard = withPerformanceMonitoring(Dashboard, 'Dashboard');
-const _MonitoredProfile = withPerformanceMonitoring(Profile, 'Profile');
+const _MonitoredProfile = withPerformanceMonitoring(ProfileExample, 'Profile');
 
 /**
  * ❌ COMPOSITION APPROACH (Repetitive)
@@ -228,7 +228,7 @@ function _CompositionMonitoringExample() {
         <Dashboard />
       </PerformanceMonitor>
       <PerformanceMonitor componentName="Profile">
-        <Profile />
+        <ProfileExample />
       </PerformanceMonitor>
     </>
   );
@@ -307,8 +307,8 @@ function _HybridApproachExample() {
   return (
     <div>
       {/* Composition approach - explicit and clear */}
-      <FeatureGate flagName="new-dashboard" fallback={<OldDashboard />}>
-        <NewDashboard />
+      <FeatureGate flagName="new-dashboard" fallback={<OldDashboardExample />}>
+        <NewDashboardExample />
       </FeatureGate>
 
       {/* HOC approach - for third-party components */}
@@ -352,16 +352,16 @@ function _LoadingWrapper({ children, loading }) {
 function Dashboard() {
   return <div>Dashboard</div>;
 }
-function Profile() {
+function ProfileExample() {
   return <div>Profile</div>;
 }
-function LoginForm() {
+function LoginFormExample() {
   return <div>Login Form</div>;
 }
-function NewDashboard() {
+function NewDashboardExample() {
   return <div>New Dashboard</div>;
 }
-function OldDashboard() {
+function OldDashboardExample() {
   return <div>Old Dashboard</div>;
 }
 function ThirdPartyWidget() {

@@ -7,12 +7,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import PressureGauge from './PressureGauge';
-import PressureHistoryComparison from '@/components/ui/weather/comparison/PressureHistoryComparison';
-import PressureTrendChart from '@/components/ui/weather/charts/PressureTrendChart';
 import { AccessibleModal } from '@/components/ui/molecules';
+import PressureTrendChart from '@/components/ui/weather/charts/PressureTrendChart';
+import PressureHistoryComparison from '@/components/ui/weather/comparison/PressureHistoryComparison';
 import { useTheme } from '@/design-system/theme';
 import type { PressureHistory } from '@/types/weather';
+import PressureGauge from './PressureGauge';
 
 export interface PressureDetailModalProps {
   /** Whether the modal is open */
@@ -170,7 +170,7 @@ const PressureDetailModal: React.FC<PressureDetailModalProps> = ({
                 showStatistics={true}
                 showTrendLine={true}
                 size="md"
-                trendChartTimeRange="24h"
+                trendChartTimeRange={'24h' as const}
               />
             </div>
           </div>

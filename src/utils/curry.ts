@@ -58,11 +58,11 @@ export function curry<T extends (...args: unknown[]) => unknown>(
   return function curried(...args: unknown[]): ReturnType<T> | CurriedFunction<T> {
     // If we have enough arguments, call the original function
     if (args.length >= arity) {
-      return fn(...args.slice(0, arity));
+      return fn(...args.slice(0, arity)) as ReturnType<T>;
     }
 
     // Otherwise, return a new curried function waiting for more arguments
-    return (...nextArgs: unknown[]) => curried(...args, ...nextArgs);
+    return ((...nextArgs: unknown[]) => curried(...args, ...nextArgs)) as CurriedFunction<T>;
   };
 }
 
@@ -87,7 +87,7 @@ export function partial<T extends (...args: unknown[]) => unknown>(
   fn: T,
   ...args: unknown[]
 ): (...remainingArgs: unknown[]) => ReturnType<T> {
-  return (...nextArgs: unknown[]) => fn(...args, ...nextArgs);
+  return (...nextArgs: unknown[]) => fn(...args, ...nextArgs) as ReturnType<T>;
 }
 
 /**
@@ -167,7 +167,7 @@ export function uncurry<T extends (...args: unknown[]) => unknown>(
   return ((...args: unknown[]) => {
     let result: unknown = fn;
     for (const arg of args.slice(0, arity)) {
-      result = result(arg);
+      result = (result as (arg: unknown) => unknown)(arg);
     }
     return result;
   }) as T;
