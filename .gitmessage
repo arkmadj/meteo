@@ -1,0 +1,36 @@
+# <type>: <subject> (max 50 characters)
+
+# Body: Explain what and why (wrap at 72 characters)
+
+
+# Footer: Reference issues, breaking changes, etc.
+
+
+# --- COMMIT TYPES ---
+# feat:     A new feature
+# fix:      A bug fix
+# docs:     Documentation only changes
+# style:    Changes that don't affect code meaning (formatting, etc.)
+# refactor: Code change that neither fixes a bug nor adds a feature
+# perf:     Performance improvements
+# test:     Adding or updating tests
+# chore:    Changes to build process, dependencies, or tooling
+# ci:       Changes to CI configuration files and scripts
+# revert:   Reverts a previous commit
+#
+# --- EXAMPLE ---
+# feat: add user authentication
+#
+# Implement JWT-based authentication system with login and logout
+# functionality. This allows users to securely access protected routes.
+#
+# Fixes #123
+#
+# --- GUIDELINES ---
+# - Use imperative mood in subject ("add" not "added" or "adds")
+# - Don't end subject line with a period
+# - Separate subject from body with a blank line
+# - Wrap body at 72 characters
+# - Use body to explain what and why, not how
+# - Reference issues and PRs in footer
+
