@@ -283,14 +283,15 @@ export class SafeObjectOperations {
     if (!this.isValidObject(obj)) return obj;
 
     // Handle circular references
-    if (seen.has(obj)) {
-      return seen.get(obj);
+    const objAsObject = obj as object;
+    if (seen.has(objAsObject)) {
+      return seen.get(objAsObject);
     }
 
     const cloned = Array.isArray(obj) ? [] : {};
     const clonedRecord = cloned as Record<string, unknown>;
     const sourceRecord = obj as Record<string, unknown>;
-    seen.set(obj, cloned);
+    seen.set(objAsObject, cloned);
 
     for (const key of Object.keys(obj)) {
       if (!this.isKeySafe(key, options)) {

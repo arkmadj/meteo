@@ -5,6 +5,8 @@
  * inner resolved types from deeply nested async functions using conditional types.
  */
 
+export {}; // Make this file a module
+
 // ============================================================================
 // BASIC AWAITED TYPE INFERENCE
 // ============================================================================
