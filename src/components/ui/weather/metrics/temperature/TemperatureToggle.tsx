@@ -1,7 +1,7 @@
 /**
  * Enhanced Temperature Toggle Component
  * Provides smooth switching between Celsius and Fahrenheit with improved UI clarity
- * and consistent styling across the React Weather App
+ * and consistent styling across Meteo
  */
 
 import React from 'react';

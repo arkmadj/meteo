@@ -1,12 +1,12 @@
 /**
  * Wind Speed Unit Selector Component
  * Provides smooth switching between wind speed units with improved UI clarity
- * and consistent styling across the React Weather App
+ * and consistent styling across Meteo
  */
 
+import { useTheme } from '@/design-system/theme';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@/design-system/theme';
 
 export interface WindSpeedUnitSelectorProps {
   /** Current wind speed unit */

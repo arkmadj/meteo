@@ -18,8 +18,8 @@ const SECTIONS: SectionMetadata[] = [
   {
     id: 'app-info',
     icon: '🌤️',
-    title: 'Weather App',
-    subtitle: 'Modern React weather application',
+    title: 'Meteo',
+    subtitle: 'Modern weather application',
   },
   {
     id: 'tech-stack',
@@ -156,7 +156,7 @@ const AboutPage: React.FC = () => {
     <div className={pageClasses} data-theme={isDark ? 'dark' : 'light'}>
       {/* Header */}
       <MainHeader
-        title="About Weather App"
+        title="About Meteo"
         subtitle="Learn more about this application"
         navigationButtons={[
           { label: 'Home', to: '/', variant: 'secondary' },
@@ -219,9 +219,7 @@ const AboutPage: React.FC = () => {
                           🌤️
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-[var(--theme-text)] mb-2">
-                        React Weather App
-                      </h3>
+                      <h3 className="text-2xl font-bold text-[var(--theme-text)] mb-2">Meteo</h3>
                       <p className="text-base text-[var(--theme-text-secondary)] max-w-2xl mx-auto">
                         A modern, accessible weather application built with React, TypeScript, and
                         cutting-edge web technologies. Experience real-time weather data with an

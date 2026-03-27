@@ -1,5 +1,5 @@
 /**
- * API-related constants for the React Weather App
+ * API-related constants for Meteo
  */
 
 // Open-Meteo API endpoints

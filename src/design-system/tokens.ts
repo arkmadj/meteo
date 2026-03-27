@@ -1,7 +1,7 @@
 /**
  * 🎨 Design System Tokens
  *
- * Centralized design tokens for the React Weather App.
+ * Centralized design tokens for Meteo.
  * This file serves as the single source of truth for all design-related values,
  * ensuring consistency across components, themes, and user experiences.
  *

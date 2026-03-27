@@ -1,5 +1,5 @@
 /**
- * Main i18n configuration for React Weather App
+ * Main i18n configuration for Meteo
  */
 
 import i18n from 'i18next';

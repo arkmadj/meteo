@@ -1,5 +1,5 @@
 /**
- * Weather-related constants for the React Weather App
+ * Weather-related constants for Meteo
  */
 
 // Temperature conversion constants

@@ -1,5 +1,5 @@
 /**
- * Date and time constants for the React Weather App
+ * Date and time constants for Meteo
  */
 
 // Locale for date formatting

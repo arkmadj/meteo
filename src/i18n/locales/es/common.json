@@ -1,12 +1,12 @@
 {
   "app": {
-    "title": "App del Clima React",
+    "title": "Meteo",
     "loading": "Cargando...",
     "error": "Error"
   },
-  "title": "App del Clima React",
+  "title": "Meteo",
   "subtitle": "Obtén la información más reciente del clima para cualquier ciudad",
-  "footer": "© 2024 App del Clima React. Todos los derechos reservados.",
+  "footer": "© 2024 Meteo. Todos los derechos reservados.",
   "search": {
     "placeholder": "Ingrese nombre de ciudad",
     "button": "Buscar",

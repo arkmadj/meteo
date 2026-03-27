@@ -1,5 +1,5 @@
 /**
- * Error Context for managing global error state in the React Weather App
+ * Error Context for managing global error state in Meteo
  */
 
 import type { ReactNode } from 'react';

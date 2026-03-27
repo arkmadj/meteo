@@ -1,6 +1,6 @@
 /**
  * Service Worker for Push Notification Handling
- * React Weather App
+ * Meteo
  */
 
 // Service Worker version for cache management

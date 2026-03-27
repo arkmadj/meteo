@@ -1,5 +1,5 @@
 /**
- * Error handling types for the React Weather App
+ * Error handling types for Meteo
  */
 
 // Error severity levels
