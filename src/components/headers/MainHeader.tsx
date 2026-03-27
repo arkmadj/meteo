@@ -216,10 +216,14 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   const renderLogo = () => {
     if (!showLogo) return null;
 
+    const handleLogoClick = () => {
+      void navigate('/');
+    };
+
     return (
       <div className="flex items-center mr-4">
         <button
-          onClick={() => navigate('/')}
+          onClick={handleLogoClick}
           className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200 cursor-pointer"
           aria-label="Go to home page"
         >
