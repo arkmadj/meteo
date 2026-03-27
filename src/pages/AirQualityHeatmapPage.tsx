@@ -8,22 +8,36 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Demo component removed
+import { MainHeader } from '@/components/headers';
 import { useTheme } from '@/design-system/theme';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 
 const AirQualityHeatmapPage: React.FC = () => {
-  const { t: _t } = useTranslation(['common']);
+  const { t } = useTranslation(['common']);
   const { theme } = useTheme();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
 
   const isDark = theme.isDark;
-  const bgColor = isDark ? 'bg-gray-900' : 'bg-gray-50';
   const textColor = isDark ? 'text-gray-100' : 'text-gray-900';
   const secondaryTextColor = isDark ? 'text-gray-300' : 'text-gray-600';
   const cardBg = isDark ? 'bg-gray-800' : 'bg-white';
   const borderColor = isDark ? 'border-gray-700' : 'border-gray-200';
 
   return (
-    <div className={`min-h-screen ${bgColor} py-8`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen">
+      {/* Header */}
+      <MainHeader
+        title={t('navigation.airQuality', 'Air Quality Heatmap')}
+        subtitle={t('navigation.airQualitySubtitle', 'Advanced air quality visualization')}
+        showSubtitle={true}
+        sticky={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
         <div className={`${cardBg} rounded-lg shadow-lg p-8 mb-8 border ${borderColor}`}>
           <h1 className={`text-4xl font-bold ${textColor} mb-4`}>

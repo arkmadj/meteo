@@ -12,6 +12,7 @@ import { Container, Grid } from '@/components/ui/layout';
 import ComparisonCityCard from '@/components/weather-compare/ComparisonCityCard';
 import ComparisonEmptySlot from '@/components/weather-compare/ComparisonEmptySlot';
 import { useWeatherFormatting } from '@/hooks/app';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 
 // Types for comparison cities
 interface ComparisonCity {
@@ -32,6 +33,7 @@ const generateId = () => Math.random().toString(36).substring(2, 9);
 const CompareWeatherPage: React.FC = () => {
   const { t } = useTranslation(['common', 'weather']);
   const weatherFormatting = useWeatherFormatting();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
 
   // Temperature unit state
   const [isCelsius, setIsCelsius] = useState(true);
@@ -95,16 +97,17 @@ const CompareWeatherPage: React.FC = () => {
           'weather:compare.subtitle',
           'Compare weather conditions across multiple cities'
         )}
-        navigationButtons={[
-          { label: t('common:navigation.home', 'Home'), to: '/', variant: 'secondary' },
-          { label: t('common:navigation.weather', 'Weather'), to: '/weather', variant: 'primary' },
-        ]}
+        showSubtitle={true}
         sticky={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
       />
 
       {/* Main Content */}
       <main className="py-6">
-        <Container size="xl">
+        <Container size="lg">
           {/* Action Bar */}
           <div className="flex items-center justify-between mb-6 px-4">
             <div className="flex items-center gap-4">

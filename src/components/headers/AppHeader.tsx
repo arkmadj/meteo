@@ -7,6 +7,7 @@
 import type { CSSProperties } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { useTheme } from '@/design-system/theme';
 import { ANIMATION_DURATION, ANIMATION_EASING, usePrefersReducedMotion } from '@/hooks/useMotion';
@@ -28,13 +29,14 @@ export interface AppHeaderProps {
   logoUrl?: string;
 
   // Search functionality
-  query: string;
-  setQuery: (query: string) => void;
-  search: () => void;
+  query?: string;
+  setQuery?: (query: string) => void;
+  search?: () => void;
   searchLoading?: boolean;
   searchPlaceholder?: string;
   onSearchChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   weather?: WeatherState;
+  showSearch?: boolean;
 
   // Language selection
   currentLanguage: string;
@@ -43,6 +45,7 @@ export interface AppHeaderProps {
 
   // Favorites drawer integration
   onSelectFavoriteLocation?: (location: string) => void;
+  showFavorites?: boolean;
 
   // Notifications
   notifications?: NotificationItem[];
@@ -65,13 +68,14 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   title = 'Meteo',
   subtitle,
   showLogo = true,
-  query,
+  query = '',
   setQuery,
   search,
   searchLoading = false,
   searchPlaceholder,
   onSearchChange,
   weather,
+  showSearch = true,
   currentLanguage,
   supportedLanguages,
   changeLanguage,
@@ -81,6 +85,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   showThemeToggle = true,
   className = '',
   onSelectFavoriteLocation,
+  showFavorites = true,
   // Notification props
   notifications = [],
   unreadNotificationCount = 0,
@@ -92,6 +97,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   const { t } = useTranslation('common');
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -251,9 +257,17 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   const renderLogo = () => {
     if (!showLogo) return null;
 
+    const handleLogoClick = () => {
+      void navigate('/');
+    };
+
     return (
       <div className="flex items-center mr-4">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+        <button
+          onClick={handleLogoClick}
+          className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200 cursor-pointer"
+          aria-label="Go to home page"
+        >
           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
@@ -262,7 +276,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
               strokeWidth={2}
             />
           </svg>
-        </div>
+        </button>
       </div>
     );
   };
@@ -307,7 +321,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   // Render search section
   const renderSearch = () => {
-    if (!config.showSearch) return null;
+    if (!config.showSearch || !showSearch) return null;
+    if (!setQuery || !search) return null;
 
     return (
       <div className="w-full">
@@ -354,7 +369,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   // Render favorites trigger (opens the FavoriteLocationsDrawer)
   const renderFavoritesTrigger = () => {
-    if (!onSelectFavoriteLocation) return null;
+    if (!onSelectFavoriteLocation || !showFavorites) return null;
 
     return (
       <div className="flex-shrink-0">

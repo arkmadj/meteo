@@ -5,6 +5,7 @@ import MainHeader from '@/components/headers/MainHeader';
 import { DashboardSuspense } from '@/components/ui';
 import { Button } from '@/components/ui/atoms';
 import { Container } from '@/components/ui/layout';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 
 // Chunk-optimized lazy-loaded dashboard components
 import { CustomizableDashboard, DashboardControls } from '@/components/lazy/chunkOptimizedIndex';
@@ -13,6 +14,7 @@ import { CustomizableDashboard, DashboardControls } from '@/components/lazy/chun
  * Dashboard page component - comprehensive weather dashboard
  */
 const DashboardPage: React.FC = () => {
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
   // Mock weather data for dashboard
   const mockWeatherData = {
     temperature: 22,
@@ -43,15 +45,16 @@ const DashboardPage: React.FC = () => {
       <MainHeader
         title="Weather Dashboard"
         subtitle="Comprehensive weather analytics and controls"
-        navigationButtons={[
-          { label: 'Home', to: '/', variant: 'secondary' },
-          { label: 'Weather', to: '/weather', variant: 'secondary' },
-        ]}
+        showSubtitle={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
       />
 
       {/* Main Content */}
       <main className="py-6">
-        <Container size="xl">
+        <Container size="lg">
           <div className="space-y-6">
             {/* Dashboard Controls */}
             <DashboardSuspense>

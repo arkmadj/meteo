@@ -5,12 +5,14 @@ import MainHeader from '@/components/headers/MainHeader';
 import { Button } from '@/components/ui/atoms';
 import { Container } from '@/components/ui/layout';
 import Forecast from '@/components/weather/Forecast';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 
 /**
  * Weather page component - focused weather interface
  */
 const WeatherPage: React.FC = () => {
   const navigate = useNavigate();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -18,15 +20,16 @@ const WeatherPage: React.FC = () => {
       <MainHeader
         title="Meteo"
         subtitle="Current weather and forecast"
-        navigationButtons={[
-          { label: 'Home', to: '/', variant: 'secondary' },
-          { label: 'Dashboard', to: '/weather/dashboard', variant: 'primary' },
-        ]}
+        showSubtitle={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
       />
 
       {/* Main Content */}
       <main className="py-6">
-        <Container size="xl">
+        <Container size="lg">
           <Forecast />
         </Container>
       </main>

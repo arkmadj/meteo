@@ -8,6 +8,7 @@ import { Card, CardBody, CardHeader, FloatingActionButton } from '@/components/u
 import { Container, Flex, Grid, Stack } from '@/components/ui/layout';
 import { useSnackbar } from '@/contexts/SnackbarContext';
 import { useTheme } from '@/design-system/theme';
+import { useLanguage } from '@/i18n/hooks/useLanguage';
 import { getSectionById, sectionsToNavItems, type SectionMetadata } from '@/utils/sectionUtils';
 
 /**
@@ -58,6 +59,7 @@ const AboutPage: React.FC = () => {
   const location = useLocation();
   const { theme } = useTheme();
   const { showSuccess, showError } = useSnackbar();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   /**
@@ -68,8 +70,7 @@ const AboutPage: React.FC = () => {
 
   // Theme-aware classes
   const isDark = theme.isDark;
-  const bgColor = isDark ? 'bg-gray-900' : 'bg-gray-50';
-  const pageClasses = `min-h-screen ${bgColor} transition-colors duration-200`;
+  const pageClasses = `min-h-screen transition-colors duration-200`;
 
   /**
    * Handle URL hash navigation on mount and hash change
@@ -158,16 +159,17 @@ const AboutPage: React.FC = () => {
       <MainHeader
         title="About Meteo"
         subtitle="Learn more about this application"
-        navigationButtons={[
-          { label: 'Home', to: '/', variant: 'secondary' },
-          { label: 'Settings', to: '/settings', variant: 'secondary' },
-        ]}
+        showSubtitle={true}
         sticky={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
       />
 
       {/* Main Content */}
       <main className="py-6">
-        <Container size="xl">
+        <Container size="lg">
           {/* Mobile Navigation Toggle */}
           <button
             onClick={() => setShowMobileNav(!showMobileNav)}
