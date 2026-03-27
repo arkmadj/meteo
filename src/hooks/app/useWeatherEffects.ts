@@ -4,7 +4,7 @@
  * and ARIA live region announcements for accessibility
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCachedWeather, usePrefetchWeather, useRefreshWeather } from '@/hooks/useWeatherQuery';
@@ -49,6 +49,20 @@ export const useWeatherEffects = (
   const { prefetchWeather } = usePrefetchWeather();
   const { refreshWeather } = useRefreshWeather();
 
+  // Memoize the announcement config to prevent infinite loops
+  const announcementConfig = useMemo(
+    () => ({
+      // Prevent rapid-fire announcements during background refreshes
+      minAnnouncementInterval: 5000,
+      debounceDelay: 2000,
+      dedupeWindow: 60000, // Don't repeat same announcement within 1 minute
+      temperatureChangeThreshold: 3, // Only announce if temp changes by 3+ degrees
+      announceBackgroundRefresh: false, // Don't announce background refreshes
+      announceInitialLoad: true,
+    }),
+    []
+  );
+
   // ARIA announcement hook for accessible weather updates
   const {
     currentAnnouncement,
@@ -56,15 +70,7 @@ export const useWeatherEffects = (
     announceError,
     announceOfflineStatus,
     clearAnnouncement,
-  } = useWeatherAnnouncement({
-    // Prevent rapid-fire announcements during background refreshes
-    minAnnouncementInterval: 5000,
-    debounceDelay: 2000,
-    dedupeWindow: 60000, // Don't repeat same announcement within 1 minute
-    temperatureChangeThreshold: 3, // Only announce if temp changes by 3+ degrees
-    announceBackgroundRefresh: false, // Don't announce background refreshes
-    announceInitialLoad: true,
-  });
+  } = useWeatherAnnouncement(announcementConfig);
 
   const searchInitializedRef = useRef(false);
   const previousSearchRef = useRef<string | null>(null);

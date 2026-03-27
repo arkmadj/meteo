@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient, type Query } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 import { queryKeys } from '@/config/queryClient';
 import { CityNotFoundError, GeocodingError, WeatherServiceError } from '@/errors/domainErrors';
@@ -653,24 +654,27 @@ export const useCachedWeather = (
 ) => {
   const queryClient = useQueryClient();
 
-  const getCachedWeather = () => {
+  const getCachedWeather = useCallback(() => {
     return queryClient.getQueryData<CurrentWeatherData>(
       queryKeys.weather.current(location, temperatureUnit)
     );
-  };
+  }, [queryClient, location, temperatureUnit]);
 
-  const getCachedForecast = (days: number = 7) => {
-    return queryClient.getQueryData<ForecastDay[]>(
-      queryKeys.weather.forecast(location, days, temperatureUnit)
-    );
-  };
+  const getCachedForecast = useCallback(
+    (days: number = 7) => {
+      return queryClient.getQueryData<ForecastDay[]>(
+        queryKeys.weather.forecast(location, days, temperatureUnit)
+      );
+    },
+    [queryClient, location, temperatureUnit]
+  );
 
-  const hasCachedWeather = () => {
+  const hasCachedWeather = useCallback(() => {
     return (
       queryClient.getQueryState(queryKeys.weather.current(location, temperatureUnit))?.status ===
       'success'
     );
-  };
+  }, [queryClient, location, temperatureUnit]);
 
   return { getCachedWeather, getCachedForecast, hasCachedWeather };
 };
