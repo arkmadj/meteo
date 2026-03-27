@@ -41,7 +41,7 @@ const SettingsPage: React.FC = () => {
   const { t } = useTranslation('common');
   const { theme, setThemeMode, isHighContrast, setHighContrast, accentColor, setAccentColor } =
     useTheme();
-  const { currentLanguage, changeLanguage } = useLanguage();
+  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
   const { preferences: motionPreferences, setManualReducedMotion } = useMotionPreferences();
   const {
     preferences: userPreferences,
@@ -381,16 +381,17 @@ const SettingsPage: React.FC = () => {
       <MainHeader
         title={t('settings.title')}
         subtitle={t('settings.subtitle')}
-        navigationButtons={[
-          { label: t('settings.quickActions.home'), to: '/', variant: 'secondary' },
-          { label: t('settings.quickActions.weather'), to: '/weather', variant: 'primary' },
-        ]}
+        showSubtitle={true}
         sticky={true}
+        variant="compact"
+        currentLanguage={currentLanguage}
+        supportedLanguages={supportedLanguages}
+        changeLanguage={changeLanguage}
       />
 
       {/* Main Content */}
       <main className="py-6">
-        <Container size="xl">
+        <Container size="lg">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Side Navigation - Hidden on mobile, visible on desktop */}
             <aside className="hidden lg:block lg:w-64 flex-shrink-0">
