@@ -16,7 +16,7 @@ const WeatherPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <MainHeader
-        title="Weather App"
+        title="Meteo"
         subtitle="Current weather and forecast"
         navigationButtons={[
           { label: 'Home', to: '/', variant: 'secondary' },

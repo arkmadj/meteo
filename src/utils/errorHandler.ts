@@ -1,5 +1,5 @@
 /**
- * Error handling utilities for the React Weather App
+ * Error handling utilities for Meteo
  */
 
 import type { AppError, ErrorHandler, ErrorLogger } from '@/types/error';

@@ -1,12 +1,12 @@
 {
   "app": {
-    "title": "React Wetter App",
+    "title": "Meteo",
     "loading": "Laden...",
     "error": "Fehler"
   },
-  "title": "React Wetter App",
+  "title": "Meteo",
   "subtitle": "Erhalten Sie die neuesten Wetterinformationen für jede Stadt",
-  "footer": "© 2024 React Wetter App. Alle Rechte vorbehalten.",
+  "footer": "© 2024 Meteo. Alle Rechte vorbehalten.",
   "search": {
     "placeholder": "Stadt suchen...",
     "button": "Suchen",

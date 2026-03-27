@@ -62,7 +62,7 @@ export interface AppHeaderProps {
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({
-  title = 'RWAP - Y',
+  title = 'Meteo',
   subtitle,
   showLogo = true,
   query,

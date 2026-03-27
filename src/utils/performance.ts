@@ -1,5 +1,5 @@
 /**
- * Performance monitoring utilities for React Weather App
+ * Performance monitoring utilities for Meteo
  */
 
 import type { ProfilerOnRenderCallback } from 'react';

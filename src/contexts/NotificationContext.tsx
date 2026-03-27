@@ -1,5 +1,5 @@
 /**
- * Notification Context for managing global notification state in the React Weather App
+ * Notification Context for managing global notification state in Meteo
  *
  * Wraps the NotificationService singleton and provides a React-friendly API
  * for managing notifications, preferences, subscriptions, and history.

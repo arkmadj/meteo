@@ -1,5 +1,5 @@
 /**
- * UI-related constants for the React Weather App
+ * UI-related constants for Meteo
  */
 
 // Icon sizes

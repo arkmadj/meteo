@@ -1,12 +1,12 @@
 {
   "app": {
-    "title": "Application Météo React",
+    "title": "Meteo",
     "loading": "Chargement...",
     "error": "Erreur"
   },
-  "title": "Application Météo React",
+  "title": "Meteo",
   "subtitle": "Obtenez les dernières informations météo pour n'importe quelle ville",
-  "footer": "© 2024 Application Météo React. Tous droits réservés.",
+  "footer": "© 2024 Meteo. Tous droits réservés.",
   "search": {
     "placeholder": "Entrez le nom de la ville",
     "button": "Rechercher",

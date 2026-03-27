@@ -1,5 +1,5 @@
 /**
- * Snackbar Context for managing global snackbar state in the React Weather App
+ * Snackbar Context for managing global snackbar state in Meteo
  *
  * Provides a centralized way to show temporary notifications/messages to users.
  * Supports multiple snackbars, auto-dismiss, manual dismiss, and different variants.
