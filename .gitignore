@@ -38,6 +38,9 @@ coverage/
 *.tmp
 *.temp
 
+# Backup files
+*.backup
+
 # Favicon/Icons (optional, if generated dynamically)
 favicon.ico
 favicon-*.png
