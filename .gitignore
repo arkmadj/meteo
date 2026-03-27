@@ -26,6 +26,10 @@ Thumbs.db
 # Cache files
 .cache/
 .parcel-cache/
+.eslintcache
+
+# Lint/format reports
+eslint-report.json
 
 # Coverage reports
 coverage/
@@ -33,6 +37,9 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Backup files
+*.backup
 
 # Favicon/Icons (optional, if generated dynamically)
 favicon.ico
