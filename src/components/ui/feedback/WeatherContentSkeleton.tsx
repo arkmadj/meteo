@@ -18,7 +18,7 @@ export interface WeatherCardSkeletonProps {
 
 /**
  * Skeleton loader for WeatherCard component
- * Matches WeatherCard padding: p-3 sm:p-4 (compact), p-4 sm:p-6 (detailed), p-4 sm:p-5 (default)
+ * Matches WeatherCard padding: p-3 xs:p-4 sm:p-5 (compact), p-4 xs:p-5 sm:p-7 (detailed), p-4 xs:p-5 sm:p-6 (default)
  */
 export const WeatherCardSkeleton: React.FC<WeatherCardSkeletonProps> = ({
   variant = 'default',
@@ -40,11 +40,11 @@ export const WeatherCardSkeleton: React.FC<WeatherCardSkeletonProps> = ({
 
     switch (variant) {
       case 'compact':
-        return [...baseClasses, 'p-3 sm:p-4'].join(' ');
+        return [...baseClasses, 'p-3 xs:p-4 sm:p-5'].join(' ');
       case 'detailed':
-        return [...baseClasses, 'p-4 sm:p-6'].join(' ');
+        return [...baseClasses, 'p-4 xs:p-5 sm:p-7'].join(' ');
       default:
-        return [...baseClasses, 'p-4 sm:p-5'].join(' ');
+        return [...baseClasses, 'p-4 xs:p-5 sm:p-6'].join(' ');
     }
   };
 
@@ -261,10 +261,10 @@ export const CurrentWeatherDetailsSkeleton: React.FC<CurrentWeatherDetailsSkelet
   const { theme } = useTheme();
 
   return (
-    <div className={`weather-details-skeleton w-full mx-auto ${className}`}>
+    <div className={`weather-details-skeleton w-full mx-auto px-2 sm:px-4 md:px-0 ${className}`}>
       {/* Main Current Weather Card - matches Card with CardHeader in CurrentWeatherDetails */}
       <div
-        className="mb-6 rounded-xl border shadow-lg overflow-hidden"
+        className="mb-4 sm:mb-6 rounded-xl border shadow-lg overflow-hidden"
         style={{
           backgroundColor: `${theme.surfaceColor}f2`, // /95 opacity
           borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
@@ -292,26 +292,30 @@ export const CurrentWeatherDetailsSkeleton: React.FC<CurrentWeatherDetailsSkelet
       </div>
 
       {/* Weather Details Grid - matches WeatherDetailsGrid structure */}
-      <div className="space-y-4 sm:space-y-6">
-        <SkeletonText width="10rem" height="1.125rem" className="mx-auto" />
+      <div className="space-y-3 sm:space-y-4 md:space-y-6">
+        <SkeletonText width="10rem" height="1.125rem" className="mx-auto px-2 sm:px-4" />
 
         {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 auto-rows-fr px-4 sm:px-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 auto-rows-fr">
           {Array.from({ length: cardCount }).map((_, i) => (
             <div
               key={i}
-              className="rounded-lg p-4 border"
+              className="rounded-lg p-3 sm:p-4 md:p-6 border"
               style={{
                 backgroundColor: theme.surfaceColor,
                 borderColor: theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
               }}
             >
-              <div className="flex items-center gap-4 mb-3">
-                <SkeletonCircle width="3rem" height="3rem" />
-                <SkeletonText width="60%" height="1rem" />
+              <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3">
+                <SkeletonCircle
+                  width="2.5rem"
+                  height="2.5rem"
+                  className="sm:w-12 sm:h-12 md:w-16 md:h-16"
+                />
+                <SkeletonText width="60%" height="0.875rem" className="sm:h-4 md:h-5" />
               </div>
-              <SkeletonText width="80%" height="1.75rem" />
-              <SkeletonText width="50%" height="0.875rem" className="mt-2" />
+              <SkeletonText width="80%" height="1.5rem" className="sm:h-7 md:h-8" />
+              <SkeletonText width="50%" height="0.75rem" className="mt-1 sm:mt-2 sm:h-3.5" />
             </div>
           ))}
         </div>

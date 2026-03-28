@@ -72,9 +72,9 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
       type="button"
       onClick={onClick}
       className={`
-        relative flex flex-col items-center px-3 py-4 rounded-xl transition-all duration-300
+        relative flex flex-col items-center px-2 sm:px-3 py-3 sm:py-4 rounded-xl transition-all duration-300
         focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)] focus:ring-offset-2 h-full
-        ${compact ? 'min-w-[70px]' : 'min-w-[90px]'}
+        ${compact ? 'min-w-[60px] sm:min-w-[70px]' : 'min-w-[70px] sm:min-w-[90px]'}
         ${
           isSelected
             ? 'bg-[var(--theme-accent,#3b82f6)]/10 border-2 border-[var(--theme-accent,#3b82f6)] shadow-lg scale-105'
@@ -90,7 +90,7 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
     >
       {/* Current hour indicator */}
       {isCurrentHour && (
-        <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[var(--theme-semantic-success,#10b981)] text-white text-[10px] font-semibold rounded-full">
+        <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1.5 sm:px-2 py-0.5 bg-[var(--theme-semantic-success,#10b981)] text-white text-[9px] sm:text-[10px] font-semibold rounded-full">
           Now
         </div>
       )}
@@ -98,8 +98,8 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
       {/* Time */}
       <span
         className={`
-          font-medium mb-2
-          ${compact ? 'text-xs' : 'text-sm'}
+          font-medium mb-1 sm:mb-2
+          ${compact ? 'text-[10px] sm:text-xs' : 'text-xs sm:text-sm'}
           ${isSelected ? 'text-[var(--theme-accent,#3b82f6)]' : 'text-[var(--theme-text-secondary)]'}
         `}
       >
@@ -119,7 +119,7 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
           <div
             className={`
               absolute -bottom-1 -right-1 bg-blue-500 text-white rounded-full
-              ${compact ? 'text-[8px] px-1' : 'text-[10px] px-1.5 py-0.5'}
+              ${compact ? 'text-[7px] sm:text-[8px] px-0.5 sm:px-1' : 'text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5'}
               font-bold
             `}
           >
@@ -131,8 +131,8 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
       {/* Temperature */}
       <span
         className={`
-          font-bold mt-1
-          ${compact ? 'text-base' : 'text-lg'}
+          font-bold mt-0.5 sm:mt-1
+          ${compact ? 'text-sm sm:text-base' : 'text-base sm:text-lg'}
           ${isSelected ? 'text-[var(--theme-accent,#3b82f6)]' : 'text-[var(--theme-text)]'}
         `}
       >
@@ -141,14 +141,14 @@ const HourlyTimelineItem: React.FC<HourlyTimelineItemProps> = ({
 
       {/* Precipitation probability (if any) */}
       {getPrecipitationDisplay() && (
-        <span className="text-xs text-blue-500 font-medium mt-1">
+        <span className="text-[10px] sm:text-xs text-blue-500 font-medium mt-0.5 sm:mt-1">
           💧 {getPrecipitationDisplay()}
         </span>
       )}
 
       {/* Day/Night indicator */}
       {!compact && (
-        <div className="mt-2 text-xs text-[var(--theme-text-secondary)]">
+        <div className="mt-1 sm:mt-2 text-[10px] sm:text-xs text-[var(--theme-text-secondary)]">
           {hour.isDay ? '☀️' : '🌙'}
         </div>
       )}

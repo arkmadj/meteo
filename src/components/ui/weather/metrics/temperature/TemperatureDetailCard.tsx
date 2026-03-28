@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import TemperatureDetailModal from './TemperatureDetailModal';
-import TemperatureGauge from './TemperatureGauge';
 import WeatherDetailCard from '@/components/ui/weather/display/WeatherDetailCard';
 import type { TemperatureData } from '@/types/weather';
+import TemperatureDetailModal from './TemperatureDetailModal';
+import TemperatureGauge from './TemperatureGauge';
 
 export interface TemperatureDetailCardProps {
   temperature: TemperatureData;

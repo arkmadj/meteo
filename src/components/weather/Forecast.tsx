@@ -4,9 +4,12 @@ import CurrentWeatherDetails from '@/components/weather/CurrentWeatherDetails';
 import EnhancedForecast from '@/components/weather/EnhancedForecast';
 // Lazy-loaded dashboard components for better performance
 import { CustomizableDashboard, DashboardControls } from '@/components/lazy';
-import { DashboardSuspense, HourlyForecastTimeline } from '@/components/ui';
+import {
+  DashboardSuspense,
+  HistoricalWeatherComparison,
+  HourlyForecastTimeline,
+} from '@/components/ui';
 import { Stack } from '@/components/ui/layout';
-import HistoricalWeatherComparison from '@/components/ui/weather/comparison/HistoricalWeatherComparison';
 import WeatherCard from '@/components/weather/WeatherCard';
 import { FORECAST_DAYS_LIMIT } from '@/constants/dates';
 import { generateHourlyForecast } from '@/services/weatherService';
@@ -100,7 +103,7 @@ const Forecast = React.memo(
         </div>
 
         {/* Historical Weather Comparison */}
-        <div className="w-full px-4">
+        <div className="w-full">
           <HistoricalWeatherComparison
             currentWeather={data}
             location={data.city}
@@ -111,7 +114,7 @@ const Forecast = React.memo(
 
         {/* Hourly Forecast Timeline */}
         {hourlyForecast.length > 0 && (
-          <div className="w-full px-4">
+          <div className="w-full">
             <HourlyForecastTimeline
               hours={hourlyForecast}
               temperatureUnit={temperatureUnit}

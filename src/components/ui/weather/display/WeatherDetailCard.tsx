@@ -213,25 +213,25 @@ const WeatherDetailCard: React.FC<WeatherDetailCardProps> = ({
         duration={animationDuration}
         variant="outlined"
       >
-        <CardBody className="p-4 sm:p-6 h-full">
-          <div className="space-y-3 sm:space-y-4 h-full flex flex-col">
+        <CardBody className="p-3 sm:p-4 md:p-6 h-full">
+          <div className="space-y-2 sm:space-y-3 md:space-y-4 h-full flex flex-col">
             {/* Header with Icon and Title */}
-            <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
               <div className="flex-shrink-0">
                 <div
-                  className={`w-12 h-12 sm:w-16 sm:h-16 ${colors.iconColor} rounded-full flex items-center justify-center text-white text-xl sm:text-2xl`}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 ${colors.iconColor} rounded-full flex items-center justify-center text-white text-lg sm:text-xl md:text-2xl`}
                 >
                   {icon}
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 <h4
-                  className={`text-sm sm:text-lg font-semibold ${themeAware ? 'text-[var(--theme-text)]' : 'text-gray-900'} mb-1 truncate`}
+                  className={`text-xs sm:text-sm md:text-lg font-semibold ${themeAware ? 'text-[var(--theme-text)]' : 'text-gray-900'} mb-0.5 sm:mb-1 truncate`}
                 >
                   {title}
                 </h4>
                 <p
-                  className={`text-2xl sm:text-3xl font-bold ${colors.textColor} truncate ${valueClassName}`}
+                  className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.textColor} truncate ${valueClassName}`}
                 >
                   {value}
                 </p>
@@ -246,7 +246,7 @@ const WeatherDetailCard: React.FC<WeatherDetailCardProps> = ({
             </div>
 
             {/* Content Area */}
-            {children && <div className="mt-3 sm:mt-4 flex-1">{children}</div>}
+            {children && <div className="mt-2 sm:mt-3 md:mt-4 flex-1 min-h-0">{children}</div>}
           </div>
         </CardBody>
       </AnimatedCard>

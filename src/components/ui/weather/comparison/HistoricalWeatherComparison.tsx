@@ -43,14 +43,14 @@ const PeriodTabs: React.FC<{
   const periods: HistoricalPeriod[] = ['last-week', 'last-month'];
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-full sm:w-auto">
       {periods.map(period => (
         <Button
           key={period}
           variant={activePeriod === period ? 'primary' : 'secondary'}
           size="sm"
           onClick={() => onPeriodChange(period)}
-          className={`transition-all duration-200 ${
+          className={`transition-all duration-200 flex-1 sm:flex-none ${
             activePeriod === period ? 'ring-2 ring-[var(--theme-accent)] ring-opacity-50' : ''
           }`}
         >
@@ -93,19 +93,21 @@ const ComparisonMetric: React.FC<{
   };
 
   return (
-    <div className="flex items-center justify-between py-3 border-b border-[var(--theme-border)] last:border-b-0">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 max-md:px-0 sm:px-0 border-b border-[var(--theme-border)] last:border-b-0 gap-2 sm:gap-0">
       <span className="text-sm font-medium text-[var(--theme-text-secondary)]">{label}</span>
-      <div className="flex items-center gap-4">
-        <div className="text-right">
+      <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+        <div className="text-left sm:text-right flex-1 sm:flex-none">
           <div className="text-xs text-[var(--theme-text-secondary)]">Now</div>
           <div className="font-semibold text-[var(--theme-text)]">{currentValue}</div>
         </div>
-        <div className="text-right">
+        <div className="text-left sm:text-right flex-1 sm:flex-none">
           <div className="text-xs text-[var(--theme-text-secondary)]">Avg</div>
           <div className="font-semibold text-[var(--theme-text-secondary)]">{historicalValue}</div>
         </div>
         {showTrend && difference !== undefined && (
-          <div className={`text-right min-w-16 ${getTrendColor()}`}>
+          <div
+            className={`text-left sm:text-right min-w-16 flex-1 sm:flex-none ${getTrendColor()}`}
+          >
             <div className="text-xs">Change</div>
             <div className="font-semibold flex items-center gap-1">
               {getTrendIcon()}
@@ -125,9 +127,12 @@ const ComparisonMetric: React.FC<{
 const ComparisonSkeleton: React.FC = () => (
   <div className="space-y-4 animate-pulse">
     {[1, 2, 3, 4].map(i => (
-      <div key={i} className="flex items-center justify-between py-3">
+      <div
+        key={i}
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 px-4 sm:px-0 gap-2 sm:gap-0"
+      >
         <div className="h-4 w-24 bg-[var(--theme-border)] rounded" />
-        <div className="flex gap-4">
+        <div className="flex gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-end">
           <div className="h-6 w-16 bg-[var(--theme-border)] rounded" />
           <div className="h-6 w-16 bg-[var(--theme-border)] rounded" />
           <div className="h-6 w-16 bg-[var(--theme-border)] rounded" />
@@ -175,11 +180,11 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
   return (
     <AnimatedCard
       animationType="fadeInUp"
-      className={`bg-[var(--theme-surface)] border-[var(--theme-border)] ${className}`}
+      className={`bg-[var(--theme-surface)] border-[var(--theme-border)] ${className} max-md:p-0`}
       duration={600}
       variant="outlined"
     >
-      <CardHeader className="border-b border-[var(--theme-border)]">
+      <CardHeader className="border-b border-[var(--theme-border)] max-md:px-0 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-2xl" role="img" aria-label="History">
@@ -198,11 +203,13 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
         </div>
       </CardHeader>
 
-      <CardBody className="p-4 sm:p-6">
+      <CardBody className="max-md:p-0">
         {activeLoading ? (
-          <ComparisonSkeleton />
+          <div className="py-4">
+            <ComparisonSkeleton />
+          </div>
         ) : activeError ? (
-          <div className="text-center py-8">
+          <div className="text-center py-8 px-4">
             <span className="text-4xl mb-4 block">⚠️</span>
             <p className="text-[var(--theme-text-secondary)]">
               {t('weather:historical.error', 'Unable to load historical data')}
@@ -255,7 +262,7 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
             />
 
             {/* Period info */}
-            <div className="mt-4 pt-4 border-t border-[var(--theme-border)]">
+            <div className="mt-4 pt-4 max-md:px-0 sm:px-0 border-t border-[var(--theme-border)]">
               <p className="text-xs text-[var(--theme-text-secondary)] text-center">
                 {t('weather:historical.periodInfo', 'Data from {{startDate}} to {{endDate}}', {
                   startDate: new Date(activeData.period.startDate).toLocaleDateString(),
@@ -267,7 +274,7 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
             {/* Trend summary */}
             {tempChange && (
               <div
-                className={`mt-4 p-4 rounded-lg text-center ${
+                className={`mt-4 max-md:mx-0 sm:mx-0 p-4 max-md:px-0 rounded-lg text-center ${
                   theme.isDark ? 'bg-[var(--theme-background)]' : 'bg-gray-50'
                 }`}
               >
@@ -315,7 +322,7 @@ const HistoricalWeatherComparison: React.FC<HistoricalWeatherComparisonProps> = 
             )}
           </div>
         ) : (
-          <div className="text-center py-8">
+          <div className="text-center py-8 px-4">
             <span className="text-4xl mb-4 block">📭</span>
             <p className="text-[var(--theme-text-secondary)]">
               {t('weather:historical.noData', 'No historical data available')}
