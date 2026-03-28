@@ -43,7 +43,7 @@ const CurrentWeatherDetails: React.FC<CurrentWeatherDetailsProps> = ({
   });
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full">
       {/* Enhanced Weather Details - Reusable Components */}
       <WeatherDetailsGrid title={t('weather:labels.weatherDetails', 'Weather Details')}>
         <TemperatureDetailCard

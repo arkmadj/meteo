@@ -156,22 +156,22 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
   };
 
   return (
-    <Card className={`${className} overflow-hidden`} shadow="lg">
-      <CardHeader className="border-[var(--theme-border)]">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl" role="img" aria-label="Clock">
+    <Card className={`${className} w-full max-md:!p-0`} shadow="lg">
+      <CardHeader className="border-[var(--theme-border)] max-md:px-0 sm:px-6">
+        <div className="flex items-center justify-between flex-wrap gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-xl sm:text-2xl" role="img" aria-label="Clock">
               🕐
             </span>
-            <h2 className="text-xl font-bold text-[var(--theme-text)]">
+            <h2 className="text-lg sm:text-xl font-bold text-[var(--theme-text)]">
               {t('weather:hourly.title', 'Hourly Forecast')}
             </h2>
-            <span className="text-sm text-[var(--theme-text-secondary)] bg-[var(--theme-surface)] px-2 py-1 rounded-full border border-[var(--theme-border)]">
+            <span className="text-xs sm:text-sm text-[var(--theme-text-secondary)] bg-[var(--theme-surface)] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full border border-[var(--theme-border)]">
               {displayHours.length} {t('weather:hourly.hours', 'hours')}
             </span>
           </div>
           {/* Temperature range indicator */}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             <span className="text-blue-500">❄️ {getLocalizedTemperature(minTemp)}</span>
             <span className="text-[var(--theme-text-secondary)]">—</span>
             <span className="text-red-500">🔥 {getLocalizedTemperature(maxTemp)}</span>
@@ -179,15 +179,15 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
         </div>
       </CardHeader>
 
-      <CardBody className="p-0">
+      <CardBody className="!px-0">
         {/* Timeline Scroll Container */}
-        <div className="relative">
-          {/* Left scroll button */}
+        <div className="relative max-md:max-w-[calc(100vw-4rem)] overflow-hidden">
+          {/* Left scroll button - hidden on mobile */}
           {canScrollLeft && (
             <button
               type="button"
               onClick={() => handleScroll('left')}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg flex items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
+              className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
               aria-label="Scroll left"
             >
               ←
@@ -197,11 +197,11 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
           {/* Scrollable timeline */}
           <div
             ref={scrollContainerRef}
-            className="flex gap-3 overflow-x-auto py-4 px-4 scrollbar-thin scrollbar-thumb-[var(--theme-border)] scrollbar-track-transparent"
-            style={{ scrollSnapType: 'x mandatory' }}
+            className="flex gap-2 sm:gap-3 overflow-x-scroll overflow-y-hidden py-3 sm:py-4 px-3 sm:px-4 scrollbar-thin scrollbar-thumb-[var(--theme-border)] scrollbar-track-transparent"
+            style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
           >
             {displayHours.map((hour, index) => (
-              <div key={hour.time} style={{ scrollSnapAlign: 'center' }}>
+              <div key={hour.time} className="flex-shrink-0" style={{ scrollSnapAlign: 'center' }}>
                 <HourlyTimelineItem
                   hour={hour}
                   isSelected={selectedIndex === index}
@@ -216,12 +216,12 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
             ))}
           </div>
 
-          {/* Right scroll button */}
+          {/* Right scroll button - hidden on mobile */}
           {canScrollRight && (
             <button
               type="button"
               onClick={() => handleScroll('right')}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg flex items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
+              className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
               aria-label="Scroll right"
             >
               →
@@ -230,8 +230,8 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
         </div>
 
         {/* Temperature Trend Mini Chart */}
-        <div className="px-4 py-3 border-t border-[var(--theme-border)] bg-[var(--theme-surface)]/50">
-          <div className="flex items-end justify-between h-16 gap-0.5">
+        <div className="px-3 sm:px-4 py-2 sm:py-3 border-t border-[var(--theme-border)] bg-[var(--theme-surface)]/50">
+          <div className="flex items-end justify-between h-12 sm:h-16 gap-0.5">
             {displayHours.map((hour, index) => {
               const heightPercent =
                 maxTemp !== minTemp
@@ -243,7 +243,7 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
                   key={`bar-${hour.time}`}
                   type="button"
                   onClick={() => setSelectedIndex(index)}
-                  className={`flex-1 min-w-[4px] max-w-[12px] rounded-t transition-all duration-200 ${
+                  className={`flex-1 min-w-[3px] sm:min-w-[4px] max-w-[8px] sm:max-w-[12px] rounded-t transition-all duration-200 ${
                     isSelectedBar
                       ? 'bg-[var(--theme-accent,#3b82f6)]'
                       : hour.isDay
@@ -260,97 +260,107 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
 
         {/* Selected Hour Detail Panel */}
         {selectedHour && (
-          <div className="p-4 border-t border-[var(--theme-border)] bg-gradient-to-br from-[var(--theme-surface)] to-[var(--theme-background)]">
-            <div className="flex flex-col md:flex-row gap-4">
+          <div className="p-3 sm:p-4 border-t border-[var(--theme-border)] bg-gradient-to-br from-[var(--theme-surface)] to-[var(--theme-background)]">
+            <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
               {/* Main weather info */}
-              <div className="flex items-center gap-4 flex-1">
+              <div className="flex items-center gap-3 sm:gap-4 flex-1">
                 <ReactAnimatedWeather
                   animate={!prefersReducedMotion}
                   color={theme.isDark ? '#9CA3AF' : '#374151'}
                   icon={selectedHour.condition.icon}
-                  size={64}
+                  size={56}
                 />
                 <div>
-                  <p className="text-sm text-[var(--theme-text-secondary)]">
+                  <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)]">
                     {formatDetailTime(selectedHour.time)}
                   </p>
-                  <p className="text-3xl font-bold text-[var(--theme-text)]">
+                  <p className="text-2xl sm:text-3xl font-bold text-[var(--theme-text)]">
                     {getLocalizedTemperature(selectedHour.temperature)}
                   </p>
-                  <p className="text-lg text-[var(--theme-text-secondary)] capitalize">
+                  <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] capitalize">
                     {getLocalizedWeatherDescription(selectedHour.condition.code)}
                   </p>
                 </div>
               </div>
 
               {/* Weather metrics grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 flex-1">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 flex-1">
                 {/* Feels Like */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
                     🌡️ Feels Like
                   </div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {getLocalizedTemperature(selectedHour.feelsLike)}
                   </div>
                 </div>
 
                 {/* Humidity */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">💧 Humidity</div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
+                    💧 Humidity
+                  </div>
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.humidity}%
                   </div>
                 </div>
 
                 {/* Wind */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">💨 Wind</div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
+                    💨 Wind
+                  </div>
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.windSpeed} m/s {getWindDirection(selectedHour.windDirection)}
                   </div>
                 </div>
 
                 {/* Precipitation */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
                     🌧️ Precipitation
                   </div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.precipitationProbability}%
                   </div>
                 </div>
 
                 {/* UV Index */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">☀️ UV Index</div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
+                    ☀️ UV Index
+                  </div>
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.uvIndex.toFixed(1)}
                   </div>
                 </div>
 
                 {/* Visibility */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
                     👁️ Visibility
                   </div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {(selectedHour.visibility / 1000).toFixed(1)} km
                   </div>
                 </div>
 
                 {/* Cloud Cover */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">☁️ Clouds</div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
+                    ☁️ Clouds
+                  </div>
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.cloudCover}%
                   </div>
                 </div>
 
                 {/* Pressure */}
-                <div className="bg-[var(--theme-surface)] rounded-lg p-3 border border-[var(--theme-border)]">
-                  <div className="text-xs text-[var(--theme-text-secondary)] mb-1">📊 Pressure</div>
-                  <div className="text-lg font-semibold text-[var(--theme-text)]">
+                <div className="bg-[var(--theme-surface)] rounded-lg p-2 sm:p-3 border border-[var(--theme-border)]">
+                  <div className="text-[10px] sm:text-xs text-[var(--theme-text-secondary)] mb-0.5 sm:mb-1">
+                    📊 Pressure
+                  </div>
+                  <div className="text-sm sm:text-lg font-semibold text-[var(--theme-text)]">
                     {selectedHour.pressure} hPa
                   </div>
                 </div>

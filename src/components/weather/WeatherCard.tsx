@@ -71,11 +71,11 @@ const FavoriteLocationButton: React.FC<FavoriteLocationButtonProps> = ({
   const baseClasses = [
     'inline-flex items-center justify-center',
     'rounded-full border-2',
-    'w-9 h-9 sm:w-10 sm:h-10',
+    'w-10 h-10 sm:w-10 sm:h-10', // Ensure min 44px tap target on mobile
     'text-xs sm:text-sm',
     'transition-all duration-300 ease-out',
     'focus:outline-none focus:ring-2 focus:ring-offset-2',
-    'shadow-sm hover:shadow-md',
+    'shadow-sm hover:shadow-md active:shadow-sm', // Better touch feedback
     'backdrop-blur-sm',
   ].join(' ');
 
@@ -199,11 +199,15 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
 
     switch (activeVariant) {
       case 'compact':
-        return [...baseStyles, 'p-4 sm:p-5'].join(' ');
+        return [...baseStyles, 'p-3 xs:p-4 sm:p-5'].join(' ');
       case 'detailed':
-        return [...baseStyles, 'p-5 sm:p-7', 'space-y-4 sm:space-y-5'].join(' ');
+        return [...baseStyles, 'p-4 xs:p-5 sm:p-7', 'space-y-3 xs:space-y-4 sm:space-y-5'].join(
+          ' '
+        );
       default:
-        return [...baseStyles, 'p-5 sm:p-6', 'space-y-4 sm:space-y-5'].join(' ');
+        return [...baseStyles, 'p-4 xs:p-5 sm:p-6', 'space-y-3 xs:space-y-4 sm:space-y-5'].join(
+          ' '
+        );
     }
   };
 
@@ -236,8 +240,8 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
     return (
       <button
         className={`
-          absolute bottom-3 right-3 z-10
-          w-9 h-9 sm:w-11 sm:h-11
+          absolute bottom-2 right-2 xs:bottom-3 xs:right-3 z-10
+          min-w-[44px] min-h-[44px] w-11 h-11 sm:w-11 sm:h-11
           bg-gradient-to-br from-[var(--theme-surface)]/95 to-[var(--theme-surface)]/90
           backdrop-blur-md
           border border-[var(--theme-border)]/60
@@ -245,14 +249,19 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
           flex items-center justify-center
           text-[var(--theme-text-secondary)]
           hover:text-[var(--theme-accent)]
+          active:text-[var(--theme-accent)]
           hover:bg-gradient-to-br hover:from-[var(--theme-accent)]/10 hover:to-[var(--theme-accent)]/5
+          active:bg-gradient-to-br active:from-[var(--theme-accent)]/15 active:to-[var(--theme-accent)]/8
           hover:border-[var(--theme-accent)]/60
+          active:border-[var(--theme-accent)]/70
           hover:scale-110
           active:scale-95
           transition-all duration-300 ease-out
           focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent)]/50 focus:ring-offset-2
           shadow-[0_2px_8px_var(--theme-shadow)]
           hover:shadow-[0_4px_16px_var(--theme-accent)]/20
+          active:shadow-[0_2px_8px_var(--theme-shadow)]
+          touch-manipulation
         `}
         title={`${t('common:switchTo', 'Switch to')} ${getVariantLabel(
           ['default', 'compact', 'detailed'][
@@ -328,18 +337,18 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
 
   // Render compact variant with mobile-first approach
   const renderCompact = () => (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 xs:gap-4">
       {/* Location and Date */}
-      <div className="flex items-center flex-1 min-w-0">
+      <div className="flex items-center flex-1 min-w-0 w-full sm:w-auto">
         {renderLocationIcon()}
-        <div className="min-w-0 flex-1">
-          <h2 className="text-base sm:text-lg font-bold text-[var(--theme-text)] leading-tight truncate tracking-tight">
+        <div className="min-w-0 flex-1 max-w-[calc(100%-7rem)]">
+          <h2 className="text-sm xs:text-base sm:text-lg font-bold text-[var(--theme-text)] leading-tight truncate tracking-tight">
             {weather.city}
-            <span className="text-[var(--theme-text-secondary)] font-medium ml-1.5">
+            <span className="text-[var(--theme-text-secondary)] font-medium ml-1 xs:ml-1.5">
               {weather.country && `, ${weather.country}`}
             </span>
           </h2>
-          <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-[var(--theme-text-secondary)] mt-1.5 gap-1 sm:gap-0 font-medium">
+          <div className="flex flex-col sm:flex-row sm:items-center text-[11px] xs:text-xs sm:text-sm text-[var(--theme-text-secondary)] mt-1 xs:mt-1.5 gap-1 sm:gap-0 font-medium">
             <span className="truncate">{getFormattedDate()}</span>
             {showTime && (
               <>
@@ -352,11 +361,14 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
             )}
           </div>
         </div>
-        <FavoriteLocationButton locationLabel={locationLabel} className="ml-3" />
+        <FavoriteLocationButton
+          locationLabel={locationLabel}
+          className="ml-2 xs:ml-3 flex-shrink-0"
+        />
       </div>
 
       {/* Temperature and Weather */}
-      <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0 bg-gradient-to-br from-[var(--theme-accent)]/5 to-transparent rounded-xl px-3 py-2 sm:px-4 sm:py-2.5">
+      <div className="flex items-center space-x-2 xs:space-x-3 sm:space-x-4 flex-shrink-0 w-full sm:w-auto bg-gradient-to-br from-[var(--theme-accent)]/5 to-transparent rounded-xl px-2.5 xs:px-3 py-1.5 xs:py-2 sm:px-4 sm:py-2.5">
         <div className="relative">
           <ReactAnimatedWeather
             animate={!prefersReducedMotion}
@@ -366,13 +378,13 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
           />
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-[var(--theme-accent)] rounded-full border-2 border-[var(--theme-surface)] shadow-sm" />
         </div>
-        <div className="text-right">
-          <div className="flex items-center">
-            <span className="text-2xl sm:text-3xl font-bold text-[var(--theme-text)] tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text">
+        <div className="flex-1 text-right">
+          <div className="flex items-center justify-end">
+            <span className="text-xl xs:text-2xl sm:text-3xl font-bold text-[var(--theme-text)] tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text">
               {renderTemperature(weather.temperature.current)}
             </span>
             <TemperatureToggle
-              className="ml-1.5"
+              className="ml-1 xs:ml-1.5"
               previewTemperature={weather.temperature.current}
               showLabels={false}
               showPreview={true}
@@ -382,7 +394,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
             />
           </div>
           {showWeatherDescription && (
-            <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] capitalize mt-1.5 max-w-[120px] sm:max-w-none truncate font-medium">
+            <p className="text-[11px] xs:text-xs sm:text-sm text-[var(--theme-text-secondary)] capitalize mt-1 xs:mt-1.5 max-w-[100px] xs:max-w-[120px] sm:max-w-none truncate font-medium">
               {getLocalizedWeatherDescription(weather.condition.code)}
             </p>
           )}
@@ -393,29 +405,29 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
 
   // Render default variant
   const renderDefault = () => (
-    <div className="text-center space-y-4 sm:space-y-5">
+    <div className="text-center space-y-3 xs:space-y-4 sm:space-y-5">
       {/* Location and Date Header */}
-      <div className="space-y-2 sm:space-y-3">
+      <div className="space-y-1.5 xs:space-y-2 sm:space-y-3">
         <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-1">
             {renderLocationIcon()}
-            <h2 className="text-xl sm:text-2xl font-bold text-[var(--theme-text)] tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text">
+            <h2 className="text-lg xs:text-xl sm:text-2xl font-bold text-[var(--theme-text)] tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text break-words max-w-full px-1">
               {weather.city}
               {weather.country && (
-                <span className="text-[var(--theme-text-secondary)] font-semibold ml-2">
+                <span className="text-[var(--theme-text-secondary)] font-semibold ml-1.5 xs:ml-2">
                   , {weather.country}
                 </span>
               )}
             </h2>
-            <FavoriteLocationButton locationLabel={locationLabel} className="ml-3" />
+            <FavoriteLocationButton locationLabel={locationLabel} className="ml-2 xs:ml-3" />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-center text-[var(--theme-text-secondary)] gap-2 sm:gap-0 font-medium">
-          <span className="text-sm sm:text-base">{getFormattedDate()}</span>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-center text-[var(--theme-text-secondary)] gap-1.5 xs:gap-2 sm:gap-0 font-medium px-2">
+          <span className="text-xs xs:text-sm sm:text-base">{getFormattedDate()}</span>
           {showTime && (
             <div className="flex items-center justify-center sm:ml-4">
               {renderTimeIcon()}
-              <span className="text-sm sm:text-base flex items-center gap-2">
+              <span className="text-xs xs:text-sm sm:text-base flex items-center gap-2">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
                 {getFormattedTime()}
               </span>
@@ -429,7 +441,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
         {/* Decorative gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-accent)]/10 via-transparent to-[var(--theme-accent)]/5 rounded-2xl blur-2xl" />
 
-        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 py-4">
+        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-3 xs:gap-4 sm:gap-6 py-3 xs:py-4">
           <div className="relative">
             <ReactAnimatedWeather
               animate={!prefersReducedMotion}
@@ -443,9 +455,9 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
               style={{ margin: '-8px' }}
             />
           </div>
-          <div className="text-center sm:text-left">
-            <div className="flex flex-col sm:flex-row sm:items-baseline items-center justify-center gap-2 sm:gap-0">
-              <span className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-br from-[var(--theme-text)] via-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text text-transparent">
+          <div className="text-center sm:text-left max-w-full px-2">
+            <div className="flex flex-col sm:flex-row sm:items-baseline items-center justify-center gap-1.5 xs:gap-2 sm:gap-0">
+              <span className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-br from-[var(--theme-text)] via-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text text-transparent">
                 {renderTemperature(weather.temperature.current)}
               </span>
               <TemperatureToggle
@@ -459,14 +471,14 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
               />
             </div>
             {showWeatherDescription && (
-              <p className="text-base sm:text-xl text-[var(--theme-text-secondary)] capitalize mt-2 sm:mt-3 font-semibold">
+              <p className="text-sm xs:text-base sm:text-xl text-[var(--theme-text-secondary)] capitalize mt-1.5 xs:mt-2 sm:mt-3 font-semibold break-words">
                 {getLocalizedWeatherDescription(weather.condition.code)}
               </p>
             )}
             {showFeelsLike && weather.temperature.feels_like && (
-              <div className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 bg-[var(--theme-surface)]/60 backdrop-blur-sm rounded-full border border-[var(--theme-border)]/40">
+              <div className="inline-flex items-center gap-1.5 xs:gap-2 mt-1.5 xs:mt-2 px-2.5 xs:px-3 py-1 xs:py-1.5 bg-[var(--theme-surface)]/60 backdrop-blur-sm rounded-full border border-[var(--theme-border)]/40">
                 <svg
-                  className="w-3.5 h-3.5 text-[var(--theme-accent)]"
+                  className="w-3 xs:w-3.5 h-3 xs:h-3.5 text-[var(--theme-accent)] flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={2}
@@ -474,7 +486,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
                 >
                   <path d="M12 2v10m0 0L8 8m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] font-medium">
+                <p className="text-[11px] xs:text-xs sm:text-sm text-[var(--theme-text-secondary)] font-medium whitespace-nowrap">
                   {t('weather:labels.feelsLike')}{' '}
                   {renderTemperature(weather.temperature.feels_like)}°{temperatureUnit}
                 </p>
@@ -488,21 +500,24 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
 
   // Render detailed variant
   const renderDetailed = () => (
-    <div className="space-y-5 sm:space-y-7">
+    <div className="space-y-4 xs:space-y-5 sm:space-y-7">
       {/* Location Header */}
-      <div className="flex items-start">
+      <div className="flex items-start gap-2">
         {renderLocationIcon()}
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--theme-text)] leading-tight truncate tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text">
+        <div className="flex-1 min-w-0 max-w-[calc(100%-6rem)]">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold text-[var(--theme-text)] leading-tight truncate tracking-tight bg-gradient-to-br from-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text break-words">
             {weather.city}
           </h2>
           {weather.country && (
-            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] mt-2 font-semibold">
+            <p className="text-sm xs:text-base sm:text-lg text-[var(--theme-text-secondary)] mt-1.5 xs:mt-2 font-semibold truncate">
               {weather.country}
             </p>
           )}
         </div>
-        <FavoriteLocationButton locationLabel={locationLabel} className="ml-3" />
+        <FavoriteLocationButton
+          locationLabel={locationLabel}
+          className="ml-2 xs:ml-3 flex-shrink-0"
+        />
       </div>
 
       {/* Main Weather Display */}
@@ -510,9 +525,9 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
         {/* Decorative gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-accent)]/10 via-transparent to-[var(--theme-accent)]/5 rounded-2xl blur-xl" />
 
-        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 p-4 sm:p-5 bg-gradient-to-br from-[var(--theme-surface)]/40 to-transparent rounded-2xl border border-[var(--theme-border)]/30 backdrop-blur-sm">
-          <div className="flex items-center space-x-4 sm:space-x-5">
-            <div className="relative">
+        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 xs:gap-5 sm:gap-6 p-3 xs:p-4 sm:p-5 bg-gradient-to-br from-[var(--theme-surface)]/40 to-transparent rounded-2xl border border-[var(--theme-border)]/30 backdrop-blur-sm">
+          <div className="flex items-center space-x-3 xs:space-x-4 sm:space-x-5 w-full sm:w-auto">
+            <div className="relative flex-shrink-0">
               <ReactAnimatedWeather
                 animate={!prefersReducedMotion}
                 color={theme.isDark ? '#9CA3AF' : '#374151'}
@@ -525,16 +540,16 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
                 style={{ margin: '-10px' }}
               />
             </div>
-            <div className="text-center sm:text-left">
+            <div className="text-center sm:text-left flex-1 min-w-0">
               {showWeatherDescription && (
-                <p className="text-xl sm:text-2xl text-[var(--theme-text)] capitalize font-bold tracking-tight">
+                <p className="text-lg xs:text-xl sm:text-2xl text-[var(--theme-text)] capitalize font-bold tracking-tight truncate">
                   {getLocalizedWeatherDescription(weather.condition.code)}
                 </p>
               )}
               {showFeelsLike && weather.temperature.feels_like && (
-                <div className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 bg-[var(--theme-surface)]/60 backdrop-blur-sm rounded-full border border-[var(--theme-border)]/40">
+                <div className="inline-flex items-center gap-1.5 xs:gap-2 mt-1.5 xs:mt-2 px-2.5 xs:px-3 py-1 xs:py-1.5 bg-[var(--theme-surface)]/60 backdrop-blur-sm rounded-full border border-[var(--theme-border)]/40">
                   <svg
-                    className="w-3.5 h-3.5 text-[var(--theme-accent)]"
+                    className="w-3 xs:w-3.5 h-3 xs:h-3.5 text-[var(--theme-accent)] flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth={2}
@@ -546,7 +561,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] font-medium">
+                  <p className="text-[11px] xs:text-xs sm:text-sm text-[var(--theme-text-secondary)] font-medium whitespace-nowrap">
                     {t('weather:labels.feelsLike')}{' '}
                     {renderTemperature(weather.temperature.feels_like)}°{temperatureUnit}
                   </p>
@@ -554,9 +569,9 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
               )}
             </div>
           </div>
-          <div className="text-center sm:text-right">
-            <div className="flex flex-col sm:flex-row sm:items-baseline items-center justify-center gap-2 sm:gap-0">
-              <span className="text-5xl sm:text-6xl md:text-7xl font-light tracking-tighter bg-gradient-to-br from-[var(--theme-text)] via-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text text-transparent">
+          <div className="text-center sm:text-right w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row sm:items-baseline items-center justify-center gap-1.5 xs:gap-2 sm:gap-0">
+              <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-light tracking-tighter bg-gradient-to-br from-[var(--theme-text)] via-[var(--theme-text)] to-[var(--theme-text-secondary)] bg-clip-text text-transparent">
                 {renderTemperature(weather.temperature.current)}
               </span>
               <TemperatureToggle
@@ -574,11 +589,11 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
       </div>
 
       {/* Date and Time Info */}
-      <div className="relative border-t border-[var(--theme-border)]/50 pt-4 sm:pt-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex items-center gap-3 p-3 bg-gradient-to-br from-[var(--theme-surface)]/60 to-transparent rounded-xl border border-[var(--theme-border)]/30 backdrop-blur-sm transition-all duration-300 hover:border-[var(--theme-accent)]/40 hover:shadow-md">
+      <div className="relative border-t border-[var(--theme-border)]/50 pt-3 xs:pt-4 sm:pt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
+          <div className="flex items-center gap-2.5 xs:gap-3 p-2.5 xs:p-3 bg-gradient-to-br from-[var(--theme-surface)]/60 to-transparent rounded-xl border border-[var(--theme-border)]/30 backdrop-blur-sm transition-all duration-300 hover:border-[var(--theme-accent)]/40 hover:shadow-md touch-manipulation">
             <div
-              className="inline-flex items-center justify-center w-9 h-9 rounded-xl shadow-sm"
+              className="inline-flex items-center justify-center w-8 h-8 xs:w-9 xs:h-9 rounded-xl shadow-sm flex-shrink-0"
               style={{
                 background: theme.isDark
                   ? 'linear-gradient(135deg, rgba(var(--theme-accent-rgb), 0.2) 0%, rgba(var(--theme-accent-rgb), 0.1) 100%)'
@@ -586,7 +601,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
               }}
             >
               <svg
-                className="w-4 h-4"
+                className="w-3.5 xs:w-4 h-3.5 xs:h-4"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2.5}
@@ -599,16 +614,16 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
                 <line x1="3" x2="21" y1="10" y2="10" />
               </svg>
             </div>
-            <span className="text-sm sm:text-base text-[var(--theme-text)] truncate font-medium">
+            <span className="text-xs xs:text-sm sm:text-base text-[var(--theme-text)] truncate font-medium flex-1 min-w-0">
               {getFormattedDate()}
             </span>
           </div>
           {showTime && (
-            <div className="flex items-center gap-3 p-3 bg-gradient-to-br from-[var(--theme-surface)]/60 to-transparent rounded-xl border border-[var(--theme-border)]/30 backdrop-blur-sm transition-all duration-300 hover:border-[var(--theme-accent)]/40 hover:shadow-md">
+            <div className="flex items-center gap-2.5 xs:gap-3 p-2.5 xs:p-3 bg-gradient-to-br from-[var(--theme-surface)]/60 to-transparent rounded-xl border border-[var(--theme-border)]/30 backdrop-blur-sm transition-all duration-300 hover:border-[var(--theme-accent)]/40 hover:shadow-md touch-manipulation">
               {renderTimeIcon()}
-              <span className="text-sm sm:text-base text-[var(--theme-text)] truncate font-medium flex items-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
-                {getFormattedTime()}
+              <span className="text-xs xs:text-sm sm:text-base text-[var(--theme-text)] truncate font-medium flex items-center gap-1.5 xs:gap-2 flex-1 min-w-0">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse flex-shrink-0" />
+                <span className="truncate">{getFormattedTime()}</span>
               </span>
             </div>
           )}

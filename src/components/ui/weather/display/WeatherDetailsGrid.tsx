@@ -17,6 +17,7 @@ const WeatherDetailsGrid: React.FC<WeatherDetailsGridProps> = ({
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   // Keep all Weather Detail cards at a uniform height based on the tallest card
+  // Only sync heights on larger screens (sm and up), let mobile cards be natural height
   const syncCardHeights = React.useCallback(() => {
     const container = containerRef.current;
     if (!container) {
@@ -31,10 +32,18 @@ const WeatherDetailsGrid: React.FC<WeatherDetailsGridProps> = ({
       return;
     }
 
+    // Check if we're on mobile (less than 640px)
+    const isMobile = window.innerWidth < 640;
+
     // Reset heights so we measure each card's natural height first
     cardElements.forEach(card => {
       card.style.height = 'auto';
     });
+
+    // On mobile, keep natural heights for better readability
+    if (isMobile) {
+      return;
+    }
 
     let maxHeight = 0;
     cardElements.forEach(card => {
@@ -76,15 +85,15 @@ const WeatherDetailsGrid: React.FC<WeatherDetailsGridProps> = ({
   }, [syncCardHeights]);
 
   return (
-    <div className={`space-y-4 sm:space-y-6 ${className}`}>
-      <h3 className="text-base sm:text-lg font-semibold text-[var(--theme-text)] mb-4 sm:mb-6 text-center px-4">
+    <div className={`space-y-3 sm:space-y-4 md:space-y-6 ${className}`}>
+      <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[var(--theme-text)] mb-3 sm:mb-4 md:mb-6 text-center px-2 sm:px-4">
         {title}
       </h3>
 
       {/* Responsive Grid with Consistent Height */}
       <div
         ref={containerRef}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 auto-rows px-4 sm:px-0"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 auto-rows"
       >
         {children}
       </div>
