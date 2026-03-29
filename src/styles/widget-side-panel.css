@@ -15,17 +15,20 @@
 }
 
 .widget-side-panel-content::-webkit-scrollbar-track {
-  background: var(--theme-surface);
+  background: transparent;
   border-radius: 4px;
 }
 
 .widget-side-panel-content::-webkit-scrollbar-thumb {
-  background: var(--theme-border);
+  background: var(--theme-accent, #f06789);
   border-radius: 4px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .widget-side-panel-content::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-text-secondary);
+  background: var(--theme-accent-hover, var(--theme-accent, #f06789));
+  opacity: 0.8;
 }
 
 /* Drag and drop styles */

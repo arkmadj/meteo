@@ -3,6 +3,7 @@
  * Displays weather data for a selected city in the comparison view.
  */
 
+import { ArrowPathIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import ReactAnimatedWeather from 'react-animated-weather';
 import { useTranslation } from 'react-i18next';
@@ -88,12 +89,18 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
         <CardHeader className="flex items-center justify-between">
           <span className="font-semibold text-[var(--theme-text)]">{cityName}</span>
           <div className="flex gap-2">
-            <Button variant="ghost" size="xs" onClick={() => onClear(cityId)}>
+            <Button variant="ghost" size="sm" onClick={() => onClear(cityId)}>
               {t('common:actions.retry', 'Retry')}
             </Button>
             {canRemove && (
-              <Button variant="ghost" size="xs" onClick={() => onRemove(cityId)}>
-                ✕
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onRemove(cityId)}
+                aria-label="Remove"
+                title="Remove"
+              >
+                <XMarkIcon className="w-5 h-5" />
               </Button>
             )}
           </div>
@@ -123,12 +130,24 @@ const ComparisonCityCard: React.FC<ComparisonCityCardProps> = ({
           )}
         </div>
         <div className="flex gap-1 flex-shrink-0">
-          <Button variant="ghost" size="xs" onClick={() => onClear(cityId)} title="Change city">
-            ↻
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onClear(cityId)}
+            title="Change city"
+            aria-label="Change city"
+          >
+            <ArrowPathIcon className="w-5 h-5" />
           </Button>
           {canRemove && (
-            <Button variant="ghost" size="xs" onClick={() => onRemove(cityId)} title="Remove">
-              ✕
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemove(cityId)}
+              title="Remove"
+              aria-label="Remove"
+            >
+              <XMarkIcon className="w-5 h-5" />
             </Button>
           )}
         </div>
