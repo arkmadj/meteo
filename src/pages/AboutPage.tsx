@@ -157,9 +157,6 @@ const AboutPage: React.FC = () => {
     <div className={pageClasses} data-theme={isDark ? 'dark' : 'light'}>
       {/* Header */}
       <MainHeader
-        title="About Meteo"
-        subtitle="Learn more about this application"
-        showSubtitle={true}
         sticky={true}
         variant="compact"
         currentLanguage={currentLanguage}
@@ -170,6 +167,16 @@ const AboutPage: React.FC = () => {
       {/* Main Content */}
       <main className="py-6">
         <Container size="lg">
+          {/* Page Title and Description */}
+          <div className="mb-6 px-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+              About Meteo
+            </h1>
+            <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+              Learn more about this application
+            </p>
+          </div>
+
           {/* Mobile Navigation Toggle */}
           <button
             onClick={() => setShowMobileNav(!showMobileNav)}

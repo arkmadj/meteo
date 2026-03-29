@@ -17,9 +17,6 @@ const MapPage: React.FC = () => {
     <div className="min-h-screen">
       {/* Header */}
       <MainHeader
-        title={t('navigation.map', 'Map')}
-        subtitle={t('navigation.mapSubtitle', 'Interactive weather map')}
-        showSubtitle={true}
         sticky={true}
         variant="compact"
         currentLanguage={currentLanguage}
@@ -27,8 +24,20 @@ const MapPage: React.FC = () => {
         changeLanguage={changeLanguage}
       />
 
+      {/* Page Title and Description */}
+      <div className="py-6">
+        <div className="w-[min(100%-2rem,72rem)] mx-auto px-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+            {t('navigation.map', 'Map')}
+          </h1>
+          <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+            {t('navigation.mapSubtitle', 'Interactive weather map')}
+          </p>
+        </div>
+      </div>
+
       {/* Map Content */}
-      <div className="h-[calc(100vh-80px)]">
+      <div className="h-[calc(100vh-250px)]">
         <LazyBaseWeatherMap
           preloadStrategy="immediate"
           height="100%"

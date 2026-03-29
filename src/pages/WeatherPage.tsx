@@ -18,9 +18,6 @@ const WeatherPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <MainHeader
-        title="Meteo"
-        subtitle="Current weather and forecast"
-        showSubtitle={true}
         variant="compact"
         currentLanguage={currentLanguage}
         supportedLanguages={supportedLanguages}
@@ -30,6 +27,14 @@ const WeatherPage: React.FC = () => {
       {/* Main Content */}
       <main className="py-6">
         <Container size="lg">
+          {/* Page Title and Description */}
+          <div className="mb-6 px-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">Meteo</h1>
+            <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+              Current weather and forecast
+            </p>
+          </div>
+
           <Forecast />
         </Container>
       </main>

@@ -43,9 +43,6 @@ const DashboardPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <MainHeader
-        title="Weather Dashboard"
-        subtitle="Comprehensive weather analytics and controls"
-        showSubtitle={true}
         variant="compact"
         currentLanguage={currentLanguage}
         supportedLanguages={supportedLanguages}
@@ -55,6 +52,16 @@ const DashboardPage: React.FC = () => {
       {/* Main Content */}
       <main className="py-6">
         <Container size="lg">
+          {/* Page Title and Description */}
+          <div className="mb-6 px-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+              Weather Dashboard
+            </h1>
+            <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+              Comprehensive weather analytics and controls
+            </p>
+          </div>
+
           <div className="space-y-6">
             {/* Dashboard Controls */}
             <DashboardSuspense>

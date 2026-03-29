@@ -12,6 +12,7 @@ import { Container, Grid } from '@/components/ui/layout';
 import ComparisonCityCard from '@/components/weather-compare/ComparisonCityCard';
 import ComparisonEmptySlot from '@/components/weather-compare/ComparisonEmptySlot';
 import { useWeatherFormatting } from '@/hooks/app';
+import { useBreakpoint } from '@/hooks/useBreakpoint';
 import { useLanguage } from '@/i18n/hooks/useLanguage';
 
 // Types for comparison cities
@@ -34,10 +35,15 @@ const CompareWeatherPage: React.FC = () => {
   const { t } = useTranslation(['common', 'weather']);
   const weatherFormatting = useWeatherFormatting();
   const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
+  const breakpoint = useBreakpoint();
 
   // Temperature unit state
   const [isCelsius, setIsCelsius] = useState(true);
   const temperatureUnit = isCelsius ? 'C' : 'F';
+
+  // Determine if we're on mobile or tablet
+  const isMobile = breakpoint === 'mobile';
+  const isTablet = breakpoint === 'tablet';
 
   const toggleTemperatureUnit = useCallback(() => {
     setIsCelsius(prev => !prev);
@@ -92,12 +98,6 @@ const CompareWeatherPage: React.FC = () => {
     >
       {/* Header */}
       <MainHeader
-        title={t('common:navigation.compare', 'Compare Weather')}
-        subtitle={t(
-          'weather:compare.subtitle',
-          'Compare weather conditions across multiple cities'
-        )}
-        showSubtitle={true}
         sticky={true}
         variant="compact"
         currentLanguage={currentLanguage}
@@ -108,10 +108,32 @@ const CompareWeatherPage: React.FC = () => {
       {/* Main Content */}
       <main className="py-6">
         <Container size="lg">
+          {/* Page Title and Description */}
+          <div className="mb-6 px-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+              {t('common:navigation.compare', 'Compare Weather')}
+            </h1>
+            <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+              {t('weather:compare.subtitle', 'Compare weather conditions across multiple cities')}
+            </p>
+          </div>
+
           {/* Action Bar */}
-          <div className="flex items-center justify-between mb-6 px-4">
+          <div
+            className={`flex mb-6 px-4 ${
+              isMobile
+                ? 'flex-col gap-4'
+                : isTablet
+                  ? 'flex-col gap-3'
+                  : 'items-center justify-between'
+            }`}
+          >
             <div className="flex items-center gap-4">
-              <h2 className="text-lg font-semibold text-[var(--theme-text)]">
+              <h2
+                className={`${
+                  isMobile ? 'text-base' : 'text-lg'
+                } font-semibold text-[var(--theme-text)]`}
+              >
                 {activeCitiesCount > 0
                   ? t('weather:compare.comparing', 'Comparing {{count}} cities', {
                       count: activeCitiesCount,
@@ -121,14 +143,18 @@ const CompareWeatherPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-3">
               {/* Temperature Unit Toggle */}
-              <Button variant="outline" size="sm" onClick={toggleTemperatureUnit}>
+              <Button
+                variant="outline"
+                size={isMobile ? 'xs' : 'sm'}
+                onClick={toggleTemperatureUnit}
+              >
                 °{temperatureUnit}
               </Button>
 
               {/* Add City Button */}
               {canAddMoreCities && (
-                <Button variant="primary" size="sm" onClick={handleAddCity}>
-                  + {t('weather:compare.addCity', 'Add City')}
+                <Button variant="primary" size={isMobile ? 'xs' : 'sm'} onClick={handleAddCity}>
+                  {isMobile ? '+' : '+'} {!isMobile && t('weather:compare.addCity', 'Add City')}
                 </Button>
               )}
             </div>
@@ -136,9 +162,14 @@ const CompareWeatherPage: React.FC = () => {
 
           {/* Comparison Grid */}
           <Grid
-            gap="md"
-            className="px-4"
-            templateColumns={`repeat(${Math.min(cities.length, 4)}, minmax(280px, 1fr))`}
+            className={`gap-4 ${isMobile ? 'px-2' : 'px-4'}`}
+            templateColumns={
+              isMobile
+                ? '1fr'
+                : isTablet
+                  ? 'repeat(auto-fit, minmax(280px, 1fr))'
+                  : `repeat(${Math.min(cities.length, 2)}, minmax(280px, 1fr))`
+            }
           >
             {cities.map(city =>
               city.query ? (

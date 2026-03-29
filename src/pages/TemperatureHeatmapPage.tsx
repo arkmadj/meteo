@@ -27,9 +27,6 @@ const TemperatureHeatmapPage: React.FC = () => {
     <div className="min-h-screen">
       {/* Header */}
       <MainHeader
-        title={t('navigation.heatmap', 'Temperature Heatmap')}
-        subtitle={t('navigation.heatmapSubtitle', 'Advanced temperature visualization')}
-        showSubtitle={true}
         sticky={true}
         variant="compact"
         currentLanguage={currentLanguage}
@@ -38,11 +35,21 @@ const TemperatureHeatmapPage: React.FC = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title and Description */}
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+            {t('navigation.heatmap', 'Temperature Heatmap')}
+          </h1>
+          <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+            {t('navigation.heatmapSubtitle', 'Advanced temperature visualization')}
+          </p>
+        </div>
+
         {/* Page Header */}
         <div className={`${cardBg} rounded-lg shadow-lg p-8 mb-8 border ${borderColor}`}>
-          <h1 className={`text-4xl font-bold ${textColor} mb-4`}>
+          <h2 className={`text-4xl font-bold ${textColor} mb-4`}>
             🌡️ Temperature Heatmap Visualization
-          </h1>
+          </h2>
           <p className={`text-lg ${secondaryTextColor} mb-6`}>
             Advanced temperature visualization using custom canvas-based heatmap rendering with
             real-time controls and interactive features.

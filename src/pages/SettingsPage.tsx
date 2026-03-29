@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 import MainHeader from '@/components/headers/MainHeader';
 import SettingsNav, { type SettingsNavItem } from '@/components/navigation/SettingsNav';
@@ -379,9 +378,6 @@ const SettingsPage: React.FC = () => {
     >
       {/* Header */}
       <MainHeader
-        title={t('settings.title')}
-        subtitle={t('settings.subtitle')}
-        showSubtitle={true}
         sticky={true}
         variant="compact"
         currentLanguage={currentLanguage}
@@ -392,6 +388,16 @@ const SettingsPage: React.FC = () => {
       {/* Main Content */}
       <main className="py-6">
         <Container size="lg">
+          {/* Page Title and Description */}
+          <div className="mb-6 px-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
+              {t('settings.title')}
+            </h1>
+            <p className="text-sm md:text-base text-[var(--theme-text-secondary)]">
+              {t('settings.subtitle')}
+            </p>
+          </div>
+
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Side Navigation - Hidden on mobile, visible on desktop */}
             <aside className="hidden lg:block lg:w-64 flex-shrink-0">
@@ -870,22 +876,6 @@ const SettingsPage: React.FC = () => {
           </div>
         </Container>
       </main>
-
-      {/* Quick Actions */}
-      <div className="fixed bottom-6 right-6">
-        <div className="flex flex-col space-y-2">
-          <Link to="/weather">
-            <Button variant="primary" size="sm" className="shadow-lg">
-              🌤️ {t('settings.quickActions.weather')}
-            </Button>
-          </Link>
-          <Link to="/about">
-            <Button variant="secondary" size="sm" className="shadow-lg">
-              ℹ️ {t('settings.quickActions.about')}
-            </Button>
-          </Link>
-        </div>
-      </div>
 
       {/* Push Notification Consent Modal */}
       <PushNotificationConsentModal
