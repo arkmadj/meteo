@@ -207,7 +207,6 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
     isHovered: boolean,
     isFocused: boolean
   ): React.CSSProperties => {
-    const buttonStyle = styles.button as Record<string, unknown>;
     const baseStyles = {
       ...(styles.button as React.CSSProperties),
       display: 'flex',
