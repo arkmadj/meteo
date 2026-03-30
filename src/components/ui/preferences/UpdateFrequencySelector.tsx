@@ -105,7 +105,7 @@ const UpdateFrequencySelector: React.FC<UpdateFrequencySelectorProps> = ({
 
       {showDescription && (
         <div
-          className="mt-2 text-sm transition-colors duration-200"
+          className="mt-2 text-sm max-md:text-xs transition-colors duration-200"
           style={{ color: 'var(--theme-text-secondary)' }}
         >
           <p>{getCurrentIntervalDisplay()}</p>

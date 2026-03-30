@@ -124,7 +124,7 @@ const WindSpeedUnitSelector: React.FC<WindSpeedUnitSelectorProps> = ({
   return (
     <div
       className={`
-        inline-flex rounded-lg transition-all duration-200 border
+        grid grid-cols-2 sm:flex rounded-lg transition-all duration-200 border
         ${styles.container}
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         ${loading ? 'animate-pulse' : ''}
@@ -151,6 +151,7 @@ const WindSpeedUnitSelector: React.FC<WindSpeedUnitSelectorProps> = ({
             className={`
               flex-1 flex flex-col items-center justify-center rounded-md
               transition-all duration-200 ease-in-out
+              min-w-0
               ${styles.option}
               ${!disabled && !loading ? 'cursor-pointer' : 'cursor-not-allowed'}
             `}
@@ -176,7 +177,7 @@ const WindSpeedUnitSelector: React.FC<WindSpeedUnitSelectorProps> = ({
 
             {showLabels && (
               <span
-                className={`mt-1 ${styles.labelText}`}
+                className={`mt-1 ${styles.labelText} text-center truncate w-full px-1`}
                 style={{
                   color: isActive ? 'rgba(255, 255, 255, 0.9)' : theme.textSecondaryColor,
                 }}
