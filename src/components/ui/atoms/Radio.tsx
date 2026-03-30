@@ -84,7 +84,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const containerClasses = [
       'inline-flex',
       'items-start',
-      'gap-3',
+      'gap-2 sm:gap-3',
       'cursor-pointer',
       'select-none',
     ].join(' ');
@@ -103,11 +103,11 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
     ].join(' ');
 
     const sizeClasses: Record<RadioSize, string> = {
-      xs: 'w-4 h-4',
-      sm: 'w-5 h-5',
-      md: 'w-6 h-6',
-      lg: 'w-7 h-7',
-      xl: 'w-8 h-8',
+      xs: 'w-3 h-3 sm:w-4 sm:h-4',
+      sm: 'w-3.5 h-3.5 sm:w-5 sm:h-5',
+      md: 'w-5 h-5 sm:w-6 sm:h-6',
+      lg: 'w-6 h-6 sm:w-7 sm:h-7',
+      xl: 'w-7 h-7 sm:w-8 sm:h-8',
     };
 
     const stateClasses = {
@@ -204,7 +204,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
           style={{
             backgroundColor: theme.isDark ? 'var(--theme-surface)' : 'white',
             borderColor: currentChecked
-              ? 'var(--theme-primary)'
+              ? 'var(--theme-accent)'
               : theme.isDark
                 ? 'var(--theme-border)'
                 : 'rgb(209 213 219)', // gray-300
@@ -234,26 +234,26 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
             <div
               className={`rounded-full transition-all duration-200 ${
                 size === 'xs'
-                  ? 'w-2 h-2'
+                  ? 'w-1.5 h-1.5 sm:w-2 sm:h-2'
                   : size === 'sm'
-                    ? 'w-2.5 h-2.5'
+                    ? 'w-2 h-2 sm:w-2.5 sm:h-2.5'
                     : size === 'md'
-                      ? 'w-3 h-3'
+                      ? 'w-2.5 h-2.5 sm:w-3 sm:h-3'
                       : size === 'lg'
-                        ? 'w-3.5 h-3.5'
-                        : 'w-4 h-4'
+                        ? 'w-3 h-3 sm:w-3.5 sm:h-3.5'
+                        : 'w-3.5 h-3.5 sm:w-4 sm:h-4'
               }`}
-              style={{ backgroundColor: 'var(--theme-primary)' }}
+              style={{ backgroundColor: 'var(--theme-accent)' }}
             />
           )}
         </div>
 
         {/* Label and Description */}
         {(label || description) && (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0.5 sm:gap-1">
             {label && (
               <label
-                className={`font-medium cursor-pointer transition-colors duration-200 ${
+                className={`text-sm sm:text-base font-medium cursor-pointer transition-colors duration-200 ${
                   hiddenLabel ? 'sr-only' : ''
                 } ${isDisabled ? 'cursor-not-allowed' : ''}`}
                 style={
@@ -281,7 +281,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
 
             {description && (
               <p
-                className="text-sm transition-colors duration-200"
+                className="text-xs sm:text-sm transition-colors duration-200"
                 style={{ color: 'var(--theme-text-secondary)' }}
                 id={`${radioId}-description`}
               >

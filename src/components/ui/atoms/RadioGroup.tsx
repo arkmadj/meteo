@@ -110,11 +110,11 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
     // STYLES
     // ============================================================================
 
-    const containerClasses = ['space-y-4'].join(' ');
+    const containerClasses = ['space-y-3 sm:space-y-4'].join(' ');
 
     const groupClasses = [
-      'space-y-3',
-      direction === 'horizontal' ? 'flex flex-wrap gap-4' : '',
+      'space-y-2 sm:space-y-3',
+      direction === 'horizontal' ? 'flex flex-wrap gap-3 sm:gap-4' : '',
     ].join(' ');
 
     // ============================================================================
@@ -192,7 +192,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
         {/* Helper Text */}
         {helperText && (
           <p
-            className="text-sm transition-colors duration-200"
+            className="text-sm max-md:text-xs transition-colors duration-200"
             style={{ color: 'var(--theme-text-secondary)' }}
             id={`${groupId}-helper`}
           >
