@@ -71,7 +71,7 @@ const getThemeColors = (theme: Record<string, unknown>) => {
   const borderColors = {
     default: isDark ? COLORS.neutral[700] : COLORS.neutral[200],
     hover: isDark ? COLORS.neutral[600] : COLORS.neutral[300],
-    active: theme.primaryColor as string,
+    active: theme.accentColor as string,
   };
 
   // Text colors
@@ -86,7 +86,7 @@ const getThemeColors = (theme: Record<string, unknown>) => {
     surfaceColors,
     borderColors,
     textColors,
-    primaryColor: theme.primaryColor as string,
+    primaryColor: theme.accentColor as string,
     accentColor: theme.accentColor as string,
     isDark,
     isHighContrast,
@@ -207,18 +207,16 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
     isHovered: boolean,
     isFocused: boolean
   ): React.CSSProperties => {
-    const buttonStyle = styles.button as Record<string, unknown>;
     const baseStyles = {
       ...(styles.button as React.CSSProperties),
-      display: (buttonStyle.flexDirection === 'column'
-        ? 'flex'
-        : 'inline-flex') as React.CSSProperties['display'],
-      alignItems: ((buttonStyle.alignItems as string) ||
-        'center') as React.CSSProperties['alignItems'],
+      display: 'flex',
+      flexDirection: 'column' as React.CSSProperties['flexDirection'],
+      alignItems: 'center' as React.CSSProperties['alignItems'],
       justifyContent: 'center' as React.CSSProperties['justifyContent'],
       border: '1px solid transparent',
       outline: 'none',
       position: 'relative' as const,
+      flex: '1 1 0%',
     } as React.CSSProperties;
 
     if (disabled || loading) {
@@ -263,7 +261,7 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
 
   return (
     <div
-      className={`inline-flex rounded-lg transition-all duration-200 ${className}`}
+      className={`grid grid-cols-2 sm:flex rounded-lg transition-all duration-200 border ${className}`}
       style={{
         backgroundColor: (styles.container as Record<string, unknown>).backgroundColor as string,
         borderColor: (styles.container as Record<string, unknown>).borderColor as string,
@@ -284,6 +282,7 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
         return (
           <button
             key={unit}
+            className="min-w-0"
             style={getButtonStyles(isActive, isHovered, isFocused)}
             onClick={() => handleUnitChange(unit)}
             onKeyDown={e => handleKeyDown(e, unit)}
@@ -300,6 +299,7 @@ const VisibilityUnitSelector: React.FC<VisibilityUnitSelectorProps> = ({
 
             {showLabels && (
               <span
+                className="text-center truncate w-full px-1"
                 style={{
                   ...styles.labelText,
                   marginTop:

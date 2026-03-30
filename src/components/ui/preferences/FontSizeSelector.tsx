@@ -1,6 +1,6 @@
+import { useTheme } from '@/design-system/theme';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@/design-system/theme';
 
 export interface FontSizeSelectorProps {
   /** Current font size */
@@ -117,7 +117,7 @@ const FontSizeSelector: React.FC<FontSizeSelectorProps> = ({
   return (
     <div
       className={`
-        inline-flex rounded-lg transition-all duration-200
+        grid grid-cols-3 sm:flex rounded-lg transition-all duration-200
         ${styles.container}
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         ${loading ? 'animate-pulse' : ''}
@@ -135,6 +135,8 @@ const FontSizeSelector: React.FC<FontSizeSelectorProps> = ({
           <button
             key={size}
             className={`
+              flex flex-col items-center justify-center
+              min-w-0
               ${styles.button}
               ${
                 isActive

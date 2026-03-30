@@ -66,7 +66,11 @@ const CardHeader: React.FC<CardHeaderProps> = ({
   className,
   ...props
 }) => {
-  const classes = ['px-4 py-3', bordered ? 'border-b border-[var(--theme-border)]' : '', className]
+  const classes = [
+    'px-3 py-2.5 sm:px-4 sm:py-3',
+    bordered ? 'border-b border-[var(--theme-border)]' : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -82,7 +86,7 @@ interface CardBodyProps extends BaseComponentProps {
 }
 
 const CardBody: React.FC<CardBodyProps> = ({ children, className, ...props }) => {
-  const classes = ['px-4 py-4', className].filter(Boolean).join(' ');
+  const classes = ['px-3 py-3 sm:px-4 sm:py-4', className].filter(Boolean).join(' ');
 
   return (
     <div className={classes} {...props}>
@@ -103,7 +107,11 @@ const CardFooter: React.FC<CardFooterProps> = ({
   className,
   ...props
 }) => {
-  const classes = ['px-4 py-3', bordered ? 'border-t border-[var(--theme-border)]' : '', className]
+  const classes = [
+    'px-3 py-2.5 sm:px-4 sm:py-3',
+    bordered ? 'border-t border-[var(--theme-border)]' : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -158,24 +166,22 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     const variantClasses = {
       default: [
         'border border-[var(--theme-border)]',
-        selected ? 'ring-2 ring-blue-500 border-blue-500' : '',
+        selected ? 'ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)]' : '',
       ],
       primary: [
         `bg-[${COLORS.primary[50]}]`,
         `border border-[${COLORS.primary[200]}]`,
-        selected ? `ring-2 ring-[${COLORS.primary[500]}] border-[${COLORS.primary[500]}]` : '',
+        selected ? `ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)]` : '',
       ],
       secondary: [
         `bg-[${COLORS.neutral[50]}]`,
         `border border-[${COLORS.neutral[200]}]`,
-        selected ? `ring-2 ring-[${COLORS.neutral[500]}] border-[${COLORS.neutral[500]}]` : '',
+        selected ? `ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)]` : '',
       ],
       success: [
         `bg-[${COLORS.semantic.success[50]}]`,
         `border border-[${COLORS.semantic.success[500]}]`,
-        selected
-          ? `ring-2 ring-[${COLORS.semantic.success[500]}] border-[${COLORS.semantic.success[500]}]`
-          : '',
+        selected ? `ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)]` : '',
       ],
       warning: [
         `bg-[${COLORS.semantic.warning[50]}]`,
@@ -200,11 +206,13 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       ],
       outlined: [
         'border-2 border-[var(--theme-border)] bg-transparent',
-        selected ? 'ring-2 ring-blue-500 border-blue-500' : '',
+        selected ? 'ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)]' : '',
       ],
       filled: [
         'bg-[var(--theme-hover)] border border-[var(--theme-border)]',
-        selected ? 'ring-2 ring-blue-500 border-blue-500 bg-blue-50' : '',
+        selected
+          ? 'ring-2 ring-[var(--theme-accent)] border-[var(--theme-accent)] bg-[var(--theme-accent)]/10'
+          : '',
       ],
     };
 
@@ -226,13 +234,13 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       xl: 'text-xl',
     };
 
-    // Padding styles (only applied when no header/footer)
+    // Padding styles (only applied when no header/footer) - responsive
     const paddingClasses = {
       none: '',
-      sm: 'p-3',
-      md: 'p-4',
-      lg: 'p-6',
-      xl: 'p-8',
+      sm: 'p-2 sm:p-3',
+      md: 'p-3 sm:p-4',
+      lg: 'p-4 sm:p-6',
+      xl: 'p-6 sm:p-8',
     };
 
     // Interactive styles

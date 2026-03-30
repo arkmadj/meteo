@@ -106,7 +106,7 @@
 
 .color-swatch:hover:not(:disabled) {
   transform: scale(1.1);
-  border-color: var(--theme-primary, #3b82f6);
+  border-color: var(--theme-accent, #3b82f6);
 }
 
 .color-swatch:disabled {
@@ -115,7 +115,7 @@
 }
 
 .color-swatch-selected {
-  border-color: var(--theme-primary, #3b82f6);
+  border-color: var(--theme-accent, #3b82f6);
   border-width: 3px;
 }
 

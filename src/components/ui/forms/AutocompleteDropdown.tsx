@@ -78,7 +78,7 @@ const HighlightedText: React.FC<{
         part.highlight ? (
           <mark
             key={index}
-            className="bg-[var(--theme-primary)]/20 text-[var(--theme-primary)] px-1 py-0.5 rounded-md font-semibold shadow-sm"
+            className="bg-[var(--theme-accent)]/20 text-[var(--theme-accent)] px-1 py-0.5 rounded-md font-semibold shadow-sm"
           >
             {part.text}
           </mark>
@@ -166,8 +166,8 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
             px-4 py-3 cursor-pointer transition-all duration-200 ease-in-out border-l-4 rounded-none
             ${
               index === selectedIndex
-                ? 'bg-[var(--theme-primary)]/10 border-l-[var(--theme-primary)] shadow-sm'
-                : 'border-l-transparent hover:bg-[var(--theme-hover)] hover:border-l-[var(--theme-primary)]/30'
+                ? 'bg-[var(--theme-accent)]/10 border-l-[var(--theme-accent)] shadow-sm'
+                : 'border-l-transparent hover:bg-[var(--theme-hover)] hover:border-l-[var(--theme-accent)]/30'
             }
             ${index === 0 ? 'rounded-t-xl' : ''}
             ${index === suggestions.length - 1 ? 'rounded-b-none' : ''}
@@ -186,7 +186,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <svg
-                    className="w-4 h-4 flex-shrink-0 text-[var(--theme-primary)]"
+                    className="w-4 h-4 flex-shrink-0 text-[var(--theme-accent)]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
