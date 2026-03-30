@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import '@/styles/settings-responsive.css';
+
 import MainHeader from '@/components/headers/MainHeader';
 import SettingsNav, { type SettingsNavItem } from '@/components/navigation/SettingsNav';
 import {
@@ -72,6 +74,7 @@ const SettingsPage: React.FC = () => {
   });
 
   const [isSaving, setIsSaving] = React.useState(false);
+  const [showMobileNav, setShowMobileNav] = React.useState(false);
 
   // Push notification permission flow
   const {
@@ -386,10 +389,10 @@ const SettingsPage: React.FC = () => {
       />
 
       {/* Main Content */}
-      <main className="py-6">
+      <main className="py-4 md:py-6">
         <Container size="lg">
           {/* Page Title and Description */}
-          <div className="mb-6 px-4">
+          <div className="mb-4 md:mb-6 px-4">
             <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
               {t('settings.title')}
             </h1>
@@ -398,14 +401,99 @@ const SettingsPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-6">
+          {/* Mobile Navigation Menu Button */}
+          <div className="lg:hidden px-4 mb-4">
+            <button
+              onClick={() => setShowMobileNav(!showMobileNav)}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-lg border transition-all duration-200"
+              style={{
+                backgroundColor: 'var(--theme-surface)',
+                borderColor: 'var(--theme-border)',
+                color: 'var(--theme-text)',
+              }}
+              aria-expanded={showMobileNav}
+              aria-controls="mobile-settings-nav"
+            >
+              <span className="flex items-center gap-2">
+                <span className="text-lg">📑</span>
+                <span className="font-medium">
+                  {t('settings.navigation.title', 'On This Page')}
+                </span>
+              </span>
+              <svg
+                className={`w-5 h-5 transition-transform duration-200 ${showMobileNav ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Mobile Navigation Dropdown */}
+            {showMobileNav && (
+              <div
+                id="mobile-settings-nav"
+                className="mt-2 p-3 rounded-lg border"
+                style={{
+                  backgroundColor: 'var(--theme-surface)',
+                  borderColor: 'var(--theme-border)',
+                }}
+              >
+                <ul className="space-y-1" role="list">
+                  {navigationItems.map(item => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => {
+                          const element = document.getElementById(item.id);
+                          if (element) {
+                            const headerOffset = 120;
+                            const elementPosition = element.getBoundingClientRect().top;
+                            const offsetPosition =
+                              elementPosition + window.pageYOffset - headerOffset;
+                            window.scrollTo({
+                              top: offsetPosition,
+                              behavior: 'smooth',
+                            });
+                            setShowMobileNav(false);
+                          }
+                        }}
+                        className="w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-200 flex items-center gap-2"
+                        style={{
+                          color: 'var(--theme-text)',
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.backgroundColor = 'var(--theme-hover)';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
+                      >
+                        <span className="text-base" aria-hidden="true">
+                          {item.icon}
+                        </span>
+                        <span className="flex-1">{item.label}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
             {/* Side Navigation - Hidden on mobile, visible on desktop */}
             <aside className="hidden lg:block lg:w-64 flex-shrink-0">
               <SettingsNav items={navigationItems} />
             </aside>
 
             {/* Main Settings Content */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 px-4 lg:px-0">
               <div className="flex flex-col gap-6">
                 {/* Localization & Language Settings */}
                 <Card id="localization">
@@ -860,11 +948,12 @@ const SettingsPage: React.FC = () => {
               </div>
 
               {/* Save Button */}
-              <div className="mt-8 flex justify-center">
+              <div className="mt-6 md:mt-8 flex justify-center pb-4">
                 <Button
                   variant="primary"
                   size="lg"
                   loading={isSaving}
+                  className="w-full sm:w-auto min-w-[200px]"
                   onClick={() => {
                     void handleSaveSettings();
                   }}
