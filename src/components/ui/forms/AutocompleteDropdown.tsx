@@ -261,7 +261,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
       <div className="px-4 py-3 bg-[var(--theme-hover)] border-t border-[var(--theme-border)] text-xs text-[var(--theme-text-secondary)] rounded-b-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-[var(--theme-primary)] rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-[var(--theme-accent)] rounded-full animate-pulse"></div>
             <span className="font-medium">
               {t(`search.resultsFound${suggestions.length !== 1 ? '_plural' : ''}`, {
                 count: suggestions.length,
@@ -272,7 +272,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 px-2 py-1 bg-[var(--theme-surface)]/60 rounded-full">
               <svg
-                className="w-3 h-3 text-[var(--theme-primary)]"
+                className="w-3 h-3 text-[var(--theme-accent)]"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -282,7 +282,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
                   fillRule="evenodd"
                 />
               </svg>
-              <span className="text-[var(--theme-primary)] font-medium">
+              <span className="text-[var(--theme-accent)] font-medium">
                 {t('search.smartSearch')}
               </span>
             </span>

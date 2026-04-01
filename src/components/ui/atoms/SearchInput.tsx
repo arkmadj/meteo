@@ -121,9 +121,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         'bg-[var(--theme-surface)]',
         'border-[var(--theme-border)]',
         'border',
-        'focus-within:border-[var(--theme-primary)]',
+        'focus-within:border-[var(--theme-accent)]',
         'focus-within:ring-2',
-        'focus-within:ring-[var(--theme-primary)]/20',
+        'focus-within:ring-[var(--theme-accent)]/20',
         'hover:border-[var(--theme-border-light)]',
         'shadow-[0_1px_2px_var(--theme-shadow)]',
         'focus-within:shadow-[0_4px_6px_var(--theme-shadow)]',
@@ -134,9 +134,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         'border',
         'border-transparent',
         'focus-within:bg-[var(--theme-surface)]',
-        'focus-within:border-[var(--theme-primary)]',
+        'focus-within:border-[var(--theme-accent)]',
         'focus-within:ring-2',
-        'focus-within:ring-[var(--theme-primary)]/20',
+        'focus-within:ring-[var(--theme-accent)]/20',
         'hover:bg-[var(--theme-active)]',
         'shadow-[0_1px_2px_var(--theme-shadow)]',
         'focus-within:shadow-[0_4px_6px_var(--theme-shadow)]',
@@ -147,9 +147,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         'bg-transparent',
         'border-2',
         'border-[var(--theme-border)]',
-        'focus-within:border-[var(--theme-primary)]',
+        'focus-within:border-[var(--theme-accent)]',
         'focus-within:ring-2',
-        'focus-within:ring-[var(--theme-primary)]/20',
+        'focus-within:ring-[var(--theme-accent)]/20',
         'hover:border-[var(--theme-border-light)]',
       ].join(' '),
     };
@@ -205,7 +205,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       variantClasses?.[variant],
       sizeClasses?.[size].container,
       isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text',
-      isFocused ? 'ring-2 ring-[var(--theme-primary)]/20' : '',
+      isFocused ? 'ring-2 ring-[var(--theme-accent)]/20' : '',
       className,
     ].join(' ');
 
@@ -345,13 +345,13 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                 title={t('search.useCurrentLocationTooltip')}
                 className={`
                   ${sizeClasses?.[size].icon}
-                  text-[var(--theme-text-secondary)]
-                  hover:text-[var(--theme-text)]
+                  text-[var(--theme-accent)]
+                  hover:text-[var(--theme-accent)]/80
                   transition-colors
                   duration-200
                   focus:outline-none
                   focus:ring-2
-                  focus:ring-[var(--theme-primary)]/30
+                  focus:ring-[var(--theme-accent)]/30
                   focus:ring-offset-1
                   rounded-sm
                   flex-shrink-0
@@ -412,12 +412,12 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                 className={`
                   ${sizeClasses?.[size].icon}
                   text-[var(--theme-text-secondary)]
-                  hover:text-[var(--theme-text)]
+                  hover:text-[var(--theme-accent)]
                   transition-colors
                   duration-200
                   focus:outline-none
                   focus:ring-2
-                  focus:ring-[var(--theme-primary)]/30
+                  focus:ring-[var(--theme-accent)]/30
                   focus:ring-offset-1
                   rounded-sm
                   flex-shrink-0
@@ -448,15 +448,15 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
               <button
                 className={`
                   px-4 py-2
-                  bg-[var(--theme-primary)]
-                  hover:bg-[var(--theme-primary)]/90
+                  bg-[var(--theme-accent)]
+                  hover:bg-[var(--theme-accent)]/90
                   text-white
                   rounded-full
                   transition-colors
                   duration-200
                   focus:outline-none
                   focus:ring-2
-                  focus:ring-[var(--theme-primary)]/30
+                  focus:ring-[var(--theme-accent)]/30
                   focus:ring-offset-2
                   disabled:opacity-50
                   disabled:cursor-not-allowed
