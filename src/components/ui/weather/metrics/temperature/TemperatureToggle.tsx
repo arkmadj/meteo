@@ -113,7 +113,7 @@ const TemperatureToggle: React.FC<TemperatureToggleProps> = ({
   const isDisabled = disabled || loading;
 
   const baseButtonClasses = [
-    'relative flex flex-1 flex-col items-center justify-center rounded-full border transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--theme-primary)]',
+    'relative flex flex-1 flex-col items-center justify-center rounded-full border transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--theme-accent)]',
     'focus-visible:ring-offset-[color:var(--theme-surface,#ffffff)]/80',
     config.option,
   ].join(' ');
@@ -162,7 +162,7 @@ const TemperatureToggle: React.FC<TemperatureToggleProps> = ({
     if (!isActive || !showLabels) return null;
     return (
       <span
-        className={`${config.statusText} mt-1 uppercase tracking-[0.12em] text-[var(--theme-primary)]`}
+        className={`${config.statusText} mt-1 uppercase tracking-[0.12em] text-[var(--theme-accent)]`}
       >
         {t('weather:labels.currentSelection', { defaultValue: 'Current' })}
       </span>
@@ -176,7 +176,7 @@ const TemperatureToggle: React.FC<TemperatureToggleProps> = ({
     return (
       <span
         className={`${config.previewText} ${
-          isActive ? 'text-[var(--theme-text-secondary)]' : 'text-[var(--theme-primary)]'
+          isActive ? 'text-[var(--theme-text-secondary)]' : 'text-[var(--theme-accent)]'
         }`}
       >
         {previewValue}
@@ -199,7 +199,7 @@ const TemperatureToggle: React.FC<TemperatureToggleProps> = ({
         data-unit={unit}
         className={`${baseButtonClasses} ${
           isActive
-            ? 'border-[var(--theme-primary)]/40 bg-[var(--theme-primary)]/20 text-[var(--theme-text)] shadow-sm'
+            ? 'border-[var(--theme-accent)]/40 bg-[var(--theme-accent)]/20 text-[var(--theme-text)] shadow-sm'
             : 'border-transparent text-[var(--theme-text-secondary)] hover:bg-[var(--theme-hover)]/60 hover:text-[var(--theme-text)]'
         } ${isDisabled ? 'cursor-not-allowed opacity-70' : ''}`}
         aria-pressed={isActive}
@@ -238,7 +238,7 @@ const TemperatureToggle: React.FC<TemperatureToggleProps> = ({
         {(['C', 'F'] as TemperatureUnit[]).map(renderButton)}
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-[var(--theme-surface)]/65">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--theme-primary)] border-t-transparent" />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--theme-accent)] border-t-transparent" />
           </div>
         )}
       </div>

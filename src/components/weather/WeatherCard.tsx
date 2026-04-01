@@ -81,7 +81,7 @@ const FavoriteLocationButton: React.FC<FavoriteLocationButtonProps> = ({
 
   const stateClasses = isActive
     ? 'bg-gradient-to-br from-[var(--theme-accent)]/20 to-[var(--theme-accent)]/10 text-[var(--theme-accent)] border-[var(--theme-accent)] focus:ring-[var(--theme-accent)] hover:scale-110 hover:shadow-[0_0_20px_var(--theme-accent)]/30'
-    : 'bg-[var(--theme-surface)]/80 text-[var(--theme-text-secondary)] border-[var(--theme-border)] hover:bg-[var(--theme-hover)] hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] hover:scale-105 focus:ring-[var(--theme-primary)]';
+    : 'bg-[var(--theme-surface)]/80 text-[var(--theme-text-secondary)] border-[var(--theme-border)] hover:bg-[var(--theme-hover)] hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] hover:scale-105 focus:ring-[var(--theme-accent)]';
 
   const disabledClasses = isDisabled ? 'opacity-60 cursor-not-allowed hover:scale-100' : '';
 
@@ -311,7 +311,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
   // Render time icon - Theme-aware with accent color and gradient
   const renderTimeIcon = () => (
     <div
-      className="inline-flex items-center justify-center w-6 h-6 rounded-full mr-2 shadow-sm transition-all duration-300"
+      className="inline-flex items-center justify-center w-6 h-6 rounded-full mr-2 shadow-sm transition-all duration-300 group-hover:scale-105"
       style={{
         background: theme.isDark
           ? 'linear-gradient(135deg, rgba(var(--theme-accent-rgb), 0.2) 0%, rgba(var(--theme-accent-rgb), 0.1) 100%)'
