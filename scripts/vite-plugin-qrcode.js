@@ -6,7 +6,7 @@ import { networkInterfaces } from 'os';
  */
 function getLocalNetworkIP() {
   const nets = networkInterfaces();
-  
+
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
       // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
@@ -17,7 +17,7 @@ function getLocalNetworkIP() {
       }
     }
   }
-  
+
   return 'localhost';
 }
 
@@ -26,14 +26,14 @@ function getLocalNetworkIP() {
  */
 export default function vitePluginQRCode() {
   let config;
-  
+
   return {
     name: 'vite-plugin-qrcode',
-    
+
     configResolved(resolvedConfig) {
       config = resolvedConfig;
     },
-    
+
     configureServer(server) {
       server.httpServer?.once('listening', () => {
         setTimeout(() => {
@@ -42,18 +42,20 @@ export default function vitePluginQRCode() {
           const localIP = getLocalNetworkIP();
           const networkUrl = `${protocol}://${localIP}:${port}`;
           const localUrl = `${protocol}://localhost:${port}`;
-          
+
           console.log('\n');
           console.log('  \x1b[1m\x1b[32m➜\x1b[0m  \x1b[1mLocal:\x1b[0m   ' + localUrl);
           console.log('  \x1b[1m\x1b[32m➜\x1b[0m  \x1b[1mNetwork:\x1b[0m ' + networkUrl);
           console.log('\n  \x1b[1m\x1b[36mScan QR code to open on mobile:\x1b[0m\n');
-          
+
           // Generate QR code with small size to fit in terminal
-          qrcode.generate(networkUrl, { small: true }, (qrcode) => {
+          qrcode.generate(networkUrl, { small: true }, qrcode => {
             console.log(qrcode);
           });
-          
-          console.log('\n  \x1b[2mTip: Make sure your mobile device is on the same network\x1b[0m\n');
+
+          console.log(
+            '\n  \x1b[2mTip: Make sure your mobile device is on the same network\x1b[0m\n'
+          );
         }, 100);
       });
     },
