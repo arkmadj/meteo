@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
-import vitePluginQRCode from './scripts/vite-plugin-qrcode.js';
+import vitePluginQRCode from './scripts/vite-plugin-qrcode';
 
 export default defineConfig({
   plugins: [
