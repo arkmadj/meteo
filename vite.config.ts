@@ -2,12 +2,15 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import vitePluginQRCode from './scripts/vite-plugin-qrcode';
 
 export default defineConfig({
   plugins: [
     react({
       include: /\.(js|jsx|ts|tsx)$/,
     }),
+    // QR code plugin for mobile access
+    vitePluginQRCode(),
     // Bundle analyzer - only in analyze mode
     process.env.ANALYZE &&
       visualizer({
@@ -25,6 +28,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: '0.0.0.0', // Listen on all network interfaces for mobile access
     open: true,
   },
   build: {

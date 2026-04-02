@@ -354,6 +354,7 @@ export default [
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
+    ignores: ['scripts/**/*'], // Ignore scripts - handled by separate config below
     languageOptions: {
       parser: tsparser,
       parserOptions: {
@@ -611,6 +612,56 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+  // Configuration for scripts directory (uses tsconfig.node.json)
+  {
+    files: ['scripts/**/*.{ts,js}'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        // Use tsconfig.node.json for scripts
+        ...(isCI && {
+          project: './tsconfig.node.json',
+          tsconfigRootDir: import.meta.dirname,
+        }),
+      },
+      globals: {
+        // Node.js globals
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        Buffer: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        setImmediate: 'readonly',
+        clearImmediate: 'readonly',
+        global: 'readonly',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      prettier,
+      'unused-imports': unusedImports,
+      import: importPlugin,
+      react: react,
+      'react-hooks': reactHooks,
+      'jsx-a11y': jsxA11y,
+    },
+    rules: {
+      ...(isCI ? ciRules : localRules),
+      // Disable React rules for scripts
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'jsx-a11y/alt-text': 'off',
+      // Allow console in scripts
+      'no-console': 'off',
+    },
+  },
   {
     // Ignore patterns
     ignores: [
@@ -648,8 +699,9 @@ export default [
       'vite.config.ts',
       // Other files
       'public/sw.js',
-      'scripts/**/*.js',
       'src/setupTests.js',
+      'scripts/fix-storybook-conflicts.js',
+      'scripts/fix-unused-vars.js',
       'eslint-report.json',
       '.eslintcache',
     ],
