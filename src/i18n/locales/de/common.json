@@ -13,7 +13,14 @@
     "clear": "Löschen",
     "useCurrentLocation": "Aktuellen Standort verwenden",
     "useCurrentLocationTooltip": "Ermitteln Sie Ihren aktuellen Standort und aktualisieren Sie die Wetteransicht",
-    "toggle": "Suche umschalten"
+    "toggle": "Suche umschalten",
+    "searching": "Suche nach Standorten...",
+    "smartMatch": "Intelligente Übereinstimmung",
+    "bestMatch": "Beste Übereinstimmung",
+    "resultsFound": "{{count}} Ergebnis{{plural}} gefunden",
+    "resultsFound_plural": "{{count}} Ergebnisse gefunden",
+    "smartSearch": "Intelligente Suche",
+    "poweredByAI": "Unterstützt von Meteo"
   },
   "status": {
     "searching": "Wetterdaten werden abgerufen...",
