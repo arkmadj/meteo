@@ -264,7 +264,7 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
       return;
     }
 
-    getCurrentPosition();
+    void getCurrentPosition();
   }, [geoSupported, getCurrentPosition, showError, handleGeolocationFallback]);
 
   /**

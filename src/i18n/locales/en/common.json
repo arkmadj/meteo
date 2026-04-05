@@ -20,7 +20,7 @@
     "resultsFound": "{{count}} result{{plural}} found",
     "resultsFound_plural": "{{count}} results found",
     "smartSearch": "Smart search",
-    "poweredByAI": "Powered by AI"
+    "poweredByAI": "Powered by Meteo"
   },
   "navigation": {
     "language": "Language",

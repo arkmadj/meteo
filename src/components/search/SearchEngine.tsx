@@ -148,7 +148,7 @@ const SearchEngine = React.memo(
       }
 
       setUsingCurrentLocation(true);
-      getCurrentPosition();
+      void getCurrentPosition();
     }, [getCurrentPosition, isGeolocationSupported]);
 
     // Handle clicks outside the component
