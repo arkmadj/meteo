@@ -28,9 +28,9 @@ const Alert: React.FC<AlertProps> = ({
 }) => {
   const { theme } = useTheme();
 
-  // Base classes with theme-aware styling
+  // Base classes with theme-aware styling, mobile responsive padding and bottom margin
   const baseClasses =
-    'p-4 rounded-md border-l-4 flex items-start gap-3 transition-colors duration-200';
+    'p-3 sm:p-4 mb-4 rounded-md border-l-4 flex items-start gap-2 sm:gap-3 transition-colors duration-200';
 
   // Theme-aware variant classes using CSS custom properties
   const variantClasses = {
@@ -51,24 +51,31 @@ const Alert: React.FC<AlertProps> = ({
   const classes = `${baseClasses} ${variantClasses?.[variant]} ${className}`;
 
   return (
-    <div className={classes} role="alert">
-      <div className="flex-1">
+    <div className={classes} role="alert" aria-live="polite" aria-atomic="true">
+      <div className="flex-1 min-w-0">
         {title && (
-          <h4 className="font-semibold mb-1" style={{ color: 'inherit' }}>
+          <h4 className="font-semibold mb-1 text-sm sm:text-base" style={{ color: 'inherit' }}>
             {title}
           </h4>
         )}
-        <div className="text-sm" style={{ color: 'inherit' }}>
+        <div className="text-xs sm:text-sm break-words" style={{ color: 'inherit' }}>
           {children}
         </div>
       </div>
       {dismissible && onClose && (
         <button
+          type="button"
           aria-label="Close alert"
-          className="text-current hover:opacity-75 transition-opacity flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-current rounded"
+          className="text-current hover:opacity-75 transition-opacity flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-current rounded p-1 -mr-1 sm:mr-0 sm:p-0"
           onClick={onClose}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="w-4 h-4 sm:w-5 sm:h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <path
               d="M6 18L18 6M6 6l12 12"
               strokeLinecap="round"
