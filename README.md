@@ -89,11 +89,38 @@ npm run preview
 # Run all quality checks (lint, format, type-check)
 npm run quality:local
 
-# Run CI quality checks
+# Run CI quality checks (with human-readable output)
 npm run quality:ci
+
+# Run CI lint check with detailed debug messages
+npm run lint:ci:text
 
 # Validate everything (type-check, lint, format, test)
 npm run validate
+```
+
+### Debugging Lint Errors
+
+The `lint:ci:text` command provides human-readable output with helpful debugging
+information:
+
+- **Configuration details**: Shows the exact settings used for linting
+- **Execution time**: Displays how long the lint process took
+- **Success/failure messages**: Clear visual indicators with colors
+- **Common fixes**: Actionable suggestions when errors are found
+- **Debugging tips**: Links to reports and commands for investigation
+
+Example output when errors are found:
+
+```
+✗ Lint failed after 2.81s
+
+✗ ESLint found errors in your code.
+
+ℹ Common fixes:
+  1. Run npm run lint:fix to auto-fix issues
+  2. Check the output above for specific file/line numbers
+  3. Review ESLint configuration in eslint.config.mjs
 ```
 
 ## 📈 Analysis Tools

@@ -35,5 +35,5 @@ export const DEBOUNCE_DELAY = 500;
 
 // Default values
 export const DEFAULT_VALUES = {
-  CITY: 'Rabat',
+  CITY: 'Lagos',
 } as const;
