@@ -47,7 +47,20 @@ const geocodingCache = new Map<
 >();
 
 // In-flight request cache to prevent duplicate simultaneous requests
-const geocodingInFlightRequests = new Map<string, Promise<any[]>>();
+const geocodingInFlightRequests = new Map<
+  string,
+  Promise<
+    Array<{
+      latitude: number;
+      longitude: number;
+      timezone?: string;
+      name?: string;
+      country?: string;
+      admin1?: string;
+      id?: number;
+    }>
+  >
+>();
 
 const GEOCODING_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const GEOCODING_MAX_RESULTS = 10; // Always fetch maximum results to avoid duplicate calls
@@ -726,7 +739,7 @@ export const searchCities = async (query: string) => {
 
     // Check if there's already an in-flight request for this query
     const inFlightRequest = geocodingInFlightRequests.get(cacheKey);
-    if (inFlightRequest) {
+    if (inFlightRequest !== undefined) {
       weatherServiceLogger.info('Reusing in-flight geocoding request', {
         query,
       });
