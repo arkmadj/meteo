@@ -88,7 +88,10 @@ export const clearLocationCache = (): void => {
  * @param maxAge Maximum age in milliseconds
  * @param maxAccuracy Maximum acceptable accuracy in meters
  */
-export const isCachedLocationValid = (maxAge: number = DEFAULT_CACHE_DURATION, maxAccuracy: number = 100): boolean => {
+export const isCachedLocationValid = (
+  maxAge: number = DEFAULT_CACHE_DURATION,
+  maxAccuracy: number = 100
+): boolean => {
   const cached = getCachedLocation();
   if (!cached) {
     return false;
