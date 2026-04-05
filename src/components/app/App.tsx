@@ -125,7 +125,7 @@ const App = () => {
                 <Grid className="w-full" gap="lg">
                   {/* Error Display */}
                   {errors.length > 0 && (
-                    <div>
+                    <div className="w-[min(100%,72rem)]">
                       <ErrorDisplay
                         error={errors?.[0]}
                         onDismiss={() => weatherState.setError(null)}
