@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useCachedWeather, usePrefetchWeather, useRefreshWeather } from '@/hooks/useWeatherQuery';
+import { useCachedWeather, useRefreshWeather } from '@/hooks/useWeatherQuery';
 import type { CurrentWeatherData, ForecastDay } from '@/types/weather';
 
 import type { WeatherAnnouncement } from './useWeatherAnnouncement';
@@ -46,7 +46,6 @@ export const useWeatherEffects = (
   weatherQuery: WeatherQuerySnapshot
 ): WeatherEffectsHook => {
   const { t } = useTranslation(['errors']);
-  const { prefetchWeather } = usePrefetchWeather();
   const { refreshWeather } = useRefreshWeather();
 
   // Memoize the announcement config to prevent infinite loops
@@ -325,18 +324,6 @@ export const useWeatherEffects = (
 
     void refreshWeather(searchQuery, temperatureUnit).catch(() => undefined);
   }, [refreshWeather, searchQuery, temperatureUnit]);
-
-  // Prefetch weather data for common locations on mount
-  useEffect(() => {
-    if (!isBrowserOnline()) {
-      return;
-    }
-
-    const commonLocations = ['London', 'New York', 'Tokyo', 'Paris', 'Sydney'];
-    commonLocations.forEach(location => {
-      void prefetchWeather(location, temperatureUnit);
-    });
-  }, [prefetchWeather, temperatureUnit]);
 
   // Return announcement state for the ARIA live region
   return {

@@ -314,15 +314,6 @@ const App = React.memo(() => {
     }
   }, [isWeatherError, weatherError, t]);
 
-  // Prefetch weather data for common locations on mount
-  useEffect(() => {
-    const commonLocations = ['London', 'New York', 'Tokyo', 'Paris', 'Sydney'];
-    commonLocations.forEach(location => {
-      void prefetchWeather(location, temperatureUnit);
-      void prefetchForecast(location, DEFAULT_FORECAST_DAYS, temperatureUnit);
-    });
-  }, [prefetchForecast, prefetchWeather, temperatureUnit]);
-
   // Memoized values
   const memoizedWeather = useMemo(() => weather, [weather]);
   const memoizedLoading = useMemo(() => loading, [loading]);
