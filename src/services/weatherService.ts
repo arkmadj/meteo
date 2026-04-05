@@ -28,6 +28,118 @@ import {
 } from '@/utils/astronomical';
 const weatherServiceLogger = getLogger('Weather:Service');
 
+// Geocoding cache to prevent duplicate API calls for the same location
+// Always cache count=10 results and use them for both count=1 and count=10 requests
+const geocodingCache = new Map<
+  string,
+  {
+    results: Array<{
+      latitude: number;
+      longitude: number;
+      timezone?: string;
+      name?: string;
+      country?: string;
+      admin1?: string;
+      id?: number;
+    }>;
+    timestamp: number;
+  }
+>();
+
+// In-flight request cache to prevent duplicate simultaneous requests
+const geocodingInFlightRequests = new Map<string, Promise<any[]>>();
+
+const GEOCODING_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+const GEOCODING_MAX_RESULTS = 10; // Always fetch maximum results to avoid duplicate calls
+
+// Historical weather cache to prevent duplicate API calls
+const historicalWeatherCache = new Map<
+  string,
+  {
+    data: import('@/types/weather').HistoricalWeatherData;
+    timestamp: number;
+  }
+>();
+
+// In-flight historical weather requests to prevent duplicate simultaneous calls
+const historicalInFlightRequests = new Map<
+  string,
+  Promise<import('@/types/weather').HistoricalWeatherData>
+>();
+
+const HISTORICAL_CACHE_TTL = 6 * 60 * 60 * 1000; // 6 hours (historical data doesn't change often)
+
+/**
+ * Clear expired geocoding cache entries
+ */
+export const clearExpiredGeocodingCache = () => {
+  const now = Date.now();
+  const keysToDelete: string[] = [];
+
+  geocodingCache.forEach((value, key) => {
+    if (now - value.timestamp >= GEOCODING_CACHE_TTL) {
+      keysToDelete.push(key);
+    }
+  });
+
+  keysToDelete.forEach(key => geocodingCache.delete(key));
+
+  if (keysToDelete.length > 0) {
+    weatherServiceLogger.info('Cleared expired geocoding cache entries', {
+      count: keysToDelete.length,
+    });
+  }
+};
+
+/**
+ * Clear all geocoding cache entries
+ */
+export const clearGeocodingCache = () => {
+  const size = geocodingCache.size;
+  geocodingCache.clear();
+  weatherServiceLogger.info('Cleared all geocoding cache entries', { count: size });
+};
+
+/**
+ * Clear expired historical weather cache entries
+ */
+export const clearExpiredHistoricalCache = () => {
+  const now = Date.now();
+  const keysToDelete: string[] = [];
+
+  historicalWeatherCache.forEach((value, key) => {
+    if (now - value.timestamp >= HISTORICAL_CACHE_TTL) {
+      keysToDelete.push(key);
+    }
+  });
+
+  keysToDelete.forEach(key => historicalWeatherCache.delete(key));
+
+  if (keysToDelete.length > 0) {
+    weatherServiceLogger.info('Cleared expired historical weather cache entries', {
+      count: keysToDelete.length,
+    });
+  }
+};
+
+/**
+ * Clear all historical weather cache entries
+ */
+export const clearHistoricalCache = () => {
+  const size = historicalWeatherCache.size;
+  historicalWeatherCache.clear();
+  weatherServiceLogger.info('Cleared all historical weather cache entries', { count: size });
+};
+
+/**
+ * Clear all caches (geocoding + historical weather)
+ */
+export const clearAllCaches = () => {
+  clearGeocodingCache();
+  clearHistoricalCache();
+  weatherServiceLogger.info('Cleared all service caches');
+};
+
 export type TemperatureUnit = 'celsius' | 'fahrenheit';
 
 // Helper function to generate realistic wind gust data
@@ -487,28 +599,17 @@ export const fetchCompleteWeatherData = async (
   }
 
   try {
-    // First, geocode the location
-    const geocodingUrl = `${API_ENDPOINTS.GEOCODING}?name=${encodeURIComponent(searchQuery)}&count=1&language=en&format=json`;
-    const geocodingResponse = await fetch(geocodingUrl);
+    // Use searchCities to leverage shared geocoding cache with autocomplete
+    // This prevents duplicate API calls when both weather and search need geocoding
+    const geocodingResults = await searchCities(searchQuery);
 
-    if (!geocodingResponse.ok) {
-      throw new GeocodingError(`Geocoding failed: ${geocodingResponse.status}`, {
-        details: {
-          status: geocodingResponse.status,
-          url: geocodingUrl,
-        },
-      });
-    }
-
-    const geocodingData = await geocodingResponse.json();
-
-    if (!geocodingData.results || geocodingData.results.length === 0) {
+    if (!geocodingResults || geocodingResults.length === 0) {
       throw new CityNotFoundError('Location not found', {
         details: { query: searchQuery },
       });
     }
 
-    const location = geocodingData.results?.[0];
+    const location = geocodingResults[0];
 
     // Then fetch weather data
     const weatherUrl = `${API_ENDPOINTS.WEATHER}?latitude=${location.latitude}&longitude=${location.longitude}&current_weather=true&daily=${WEATHER_QUERY_PARAMS.join(',')}&timezone=${location.timezone || 'auto'}&temperature_unit=${temperatureUnit}`;
@@ -597,33 +698,10 @@ export const fetchCompleteWeatherData = async (
 
 /**
  * Geocoding API function to get location data from city name
+ * Delegates to searchCities for unified caching and deduplication
  */
 export const fetchGeocodingData = async (cityName: string) => {
-  try {
-    const geocodingUrl = `${API_ENDPOINTS.GEOCODING}?name=${encodeURIComponent(cityName)}&count=10&language=en&format=json`;
-    const response = await fetch(geocodingUrl);
-
-    if (!response.ok) {
-      throw new GeocodingError(`Geocoding failed: ${response.status}`, {
-        details: {
-          status: response.status,
-          url: geocodingUrl,
-        },
-      });
-    }
-
-    const data = await response.json();
-    return data.results || [];
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : 'Unknown error';
-
-    weatherServiceLogger.error('Error fetching geocoding data', {
-      reason,
-      query: cityName,
-    });
-
-    throw error;
-  }
+  return searchCities(cityName);
 };
 
 /**
@@ -631,20 +709,71 @@ export const fetchGeocodingData = async (cityName: string) => {
  */
 export const searchCities = async (query: string) => {
   try {
-    const geocodingUrl = `${API_ENDPOINTS.GEOCODING}?name=${encodeURIComponent(query)}&count=10&language=en&format=json`;
-    const response = await fetch(geocodingUrl);
+    // Check geocoding cache first
+    const cacheKey = query.toLowerCase().trim();
+    const cachedGeocode = geocodingCache.get(cacheKey);
+    const now = Date.now();
 
-    if (!response.ok) {
-      throw new GeocodingError(`City search failed: ${response.status}`, {
-        details: {
-          status: response.status,
-          url: geocodingUrl,
-        },
+    if (cachedGeocode && now - cachedGeocode.timestamp < GEOCODING_CACHE_TTL) {
+      // Return cached results
+      weatherServiceLogger.info('Using cached city search results', {
+        query,
+        cacheAge: now - cachedGeocode.timestamp,
+        resultsCount: cachedGeocode.results.length,
       });
+      return cachedGeocode.results;
     }
 
-    const data = await response.json();
-    return data.results || [];
+    // Check if there's already an in-flight request for this query
+    const inFlightRequest = geocodingInFlightRequests.get(cacheKey);
+    if (inFlightRequest) {
+      weatherServiceLogger.info('Reusing in-flight geocoding request', {
+        query,
+      });
+      return inFlightRequest;
+    }
+
+    // Create new request
+    const requestPromise = (async () => {
+      try {
+        // Make geocoding API call with count=10
+        const geocodingUrl = `${API_ENDPOINTS.GEOCODING}?name=${encodeURIComponent(query)}&count=${GEOCODING_MAX_RESULTS}&language=en&format=json`;
+        const response = await fetch(geocodingUrl);
+
+        if (!response.ok) {
+          throw new GeocodingError(`City search failed: ${response.status}`, {
+            details: {
+              status: response.status,
+              url: geocodingUrl,
+            },
+          });
+        }
+
+        const data = await response.json();
+        const results = data.results || [];
+
+        // Cache the results
+        geocodingCache.set(cacheKey, {
+          results,
+          timestamp: now,
+        });
+
+        weatherServiceLogger.info('Cached new city search results', {
+          query,
+          resultsCount: results.length,
+        });
+
+        return results;
+      } finally {
+        // Always remove from in-flight requests when done
+        geocodingInFlightRequests.delete(cacheKey);
+      }
+    })();
+
+    // Store the in-flight request
+    geocodingInFlightRequests.set(cacheKey, requestPromise);
+
+    return requestPromise;
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'Unknown error';
 
@@ -790,94 +919,170 @@ export const fetchHistoricalWeatherData = async (
   period: 'last-week' | 'last-month' = 'last-week',
   temperatureUnit: TemperatureUnit = 'celsius'
 ): Promise<import('@/types/weather').HistoricalWeatherData> => {
+  // Create cache key from query + period + unit
+  const cacheKey = `${searchQuery.toLowerCase().trim()}_${period}_${temperatureUnit}`;
+  const now = Date.now();
+
+  console.log(`[HISTORICAL] 🔵 ENTRY: ${cacheKey} at ${now}`, {
+    query: searchQuery,
+    period,
+    temperatureUnit,
+    stackTrace: new Error().stack?.split('\n').slice(2, 5).join('\n'),
+  });
+
   weatherServiceLogger.info('Fetching historical weather data', {
     query: searchQuery,
     period,
     temperatureUnit,
   });
 
-  try {
-    // First, geocode the location
-    const geocodingUrl = `${API_ENDPOINTS.GEOCODING}?name=${encodeURIComponent(searchQuery)}&count=1&language=en&format=json`;
-    const geocodingResponse = await fetch(geocodingUrl);
+  // Check cache first
+  const cachedData = historicalWeatherCache.get(cacheKey);
+  if (cachedData && now - cachedData.timestamp < HISTORICAL_CACHE_TTL) {
+    console.log(`[HISTORICAL] ✅ CACHE HIT: ${cacheKey}`);
+    weatherServiceLogger.info('Using cached historical weather data', {
+      query: searchQuery,
+      period,
+      cacheAge: now - cachedData.timestamp,
+    });
+    return cachedData.data;
+  }
 
-    if (!geocodingResponse.ok) {
-      throw new GeocodingError(`Geocoding failed: ${geocodingResponse.status}`, {
-        details: { status: geocodingResponse.status, url: geocodingUrl },
+  // CRITICAL: Store a placeholder promise IMMEDIATELY to block concurrent calls
+  // This prevents React StrictMode double-invocation from creating duplicate requests
+  if (!historicalInFlightRequests.has(cacheKey)) {
+    // Create placeholder - other calls will wait for this
+    const placeholder = new Promise<import('@/types/weather').HistoricalWeatherData>(
+      () => {} // Empty executor - will be replaced immediately
+    );
+    historicalInFlightRequests.set(cacheKey, placeholder);
+    console.log(`[HISTORICAL] 🔒 LOCKED: ${cacheKey}`);
+  } else {
+    // Another call is already in progress
+    const existingRequest = historicalInFlightRequests.get(cacheKey)!;
+    console.log(`[HISTORICAL] ✅ IN-FLIGHT HIT: ${cacheKey}`);
+    weatherServiceLogger.info('Reusing in-flight historical weather request', {
+      query: searchQuery,
+      period,
+      cacheKey,
+    });
+    return existingRequest;
+  }
+
+  console.log(`[HISTORICAL] 🟡 CREATING new request: ${cacheKey}`);
+
+  // Create execution function
+  const executeRequest = async (): Promise<import('@/types/weather').HistoricalWeatherData> => {
+    weatherServiceLogger.info('Executing historical weather request', {
+      query: searchQuery,
+      period,
+      cacheKey,
+    });
+
+    try {
+      // Use searchCities to leverage shared geocoding cache with autocomplete
+      // This prevents duplicate API calls when both weather and search need geocoding
+      const geocodingResults = await searchCities(searchQuery);
+
+      if (!geocodingResults || geocodingResults.length === 0) {
+        throw new CityNotFoundError('Location not found', {
+          details: { query: searchQuery },
+        });
+      }
+
+      const location = geocodingResults[0];
+      const { startDate, endDate } = getHistoricalDateRange(period);
+
+      // Fetch historical weather data from Archive API
+      const historicalParams = [
+        'weather_code',
+        'temperature_2m_mean',
+        'temperature_2m_max',
+        'temperature_2m_min',
+        'relative_humidity_2m_mean',
+        'pressure_msl_mean',
+        'wind_speed_10m_max',
+        'precipitation_sum',
+        'uv_index_max',
+      ].join(',');
+
+      const historicalUrl = `${API_ENDPOINTS.HISTORICAL}?latitude=${location.latitude}&longitude=${location.longitude}&start_date=${startDate}&end_date=${endDate}&daily=${historicalParams}&timezone=${location.timezone || 'auto'}&temperature_unit=${temperatureUnit}`;
+
+      console.log(`[HISTORICAL] 🌐 MAKING API CALL: ${cacheKey}`, { url: historicalUrl });
+      weatherServiceLogger.debug('Historical API URL', { url: historicalUrl });
+
+      const historicalResponse = await fetch(historicalUrl);
+      console.log(`[HISTORICAL] 📥 API RESPONSE: ${cacheKey}`, {
+        status: historicalResponse.status,
       });
-    }
 
-    const geocodingData = await geocodingResponse.json();
+      if (!historicalResponse.ok) {
+        throw new WeatherDataFetchError(
+          `Historical weather fetch failed: ${historicalResponse.status}`,
+          {
+            details: { status: historicalResponse.status, url: historicalUrl },
+          }
+        );
+      }
 
-    if (!geocodingData.results || geocodingData.results.length === 0) {
-      throw new CityNotFoundError('Location not found', {
-        details: { query: searchQuery },
-      });
-    }
+      const historicalData: OpenMeteoHistoricalResponse = await historicalResponse.json();
 
-    const location = geocodingData.results[0];
-    const { startDate, endDate } = getHistoricalDateRange(period);
-
-    // Fetch historical weather data from Archive API
-    const historicalParams = [
-      'weather_code',
-      'temperature_2m_mean',
-      'temperature_2m_max',
-      'temperature_2m_min',
-      'relative_humidity_2m_mean',
-      'pressure_msl_mean',
-      'wind_speed_10m_max',
-      'precipitation_sum',
-      'uv_index_max',
-    ].join(',');
-
-    const historicalUrl = `${API_ENDPOINTS.HISTORICAL}?latitude=${location.latitude}&longitude=${location.longitude}&start_date=${startDate}&end_date=${endDate}&daily=${historicalParams}&timezone=${location.timezone || 'auto'}&temperature_unit=${temperatureUnit}`;
-
-    weatherServiceLogger.debug('Historical API URL', { url: historicalUrl });
-
-    const historicalResponse = await fetch(historicalUrl);
-
-    if (!historicalResponse.ok) {
-      throw new WeatherDataFetchError(
-        `Historical weather fetch failed: ${historicalResponse.status}`,
+      // Transform the data
+      const result = transformHistoricalData(
+        historicalData,
         {
-          details: { status: historicalResponse.status, url: historicalUrl },
+          name: location.name,
+          country: location.admin1 ? `${location.admin1}, ${location.country}` : location.country,
+          latitude: location.latitude,
+          longitude: location.longitude,
+        },
+        period,
+        code => {
+          const weatherInfo = WEATHER_CODES[code];
+          return weatherInfo ? weatherInfo.description : 'Unknown weather condition';
         }
       );
+
+      // Cache the result
+      historicalWeatherCache.set(cacheKey, {
+        data: result,
+        timestamp: now,
+      });
+
+      weatherServiceLogger.info('Historical weather data fetched and cached successfully', {
+        query: searchQuery,
+        period,
+        daysCount: result.days.length,
+      });
+
+      return result;
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : 'Unknown error';
+      weatherServiceLogger.error('Error fetching historical weather data', {
+        reason,
+        query: searchQuery,
+        period,
+      });
+      throw error;
+    } finally {
+      // Always remove from in-flight requests when done
+      historicalInFlightRequests.delete(cacheKey);
     }
+  };
 
-    const historicalData: OpenMeteoHistoricalResponse = await historicalResponse.json();
+  // Execute and replace the placeholder with the real promise
+  const requestPromise = executeRequest();
+  historicalInFlightRequests.set(cacheKey, requestPromise);
 
-    // Transform the data
-    const result = transformHistoricalData(
-      historicalData,
-      {
-        name: location.name,
-        country: location.admin1 ? `${location.admin1}, ${location.country}` : location.country,
-        latitude: location.latitude,
-        longitude: location.longitude,
-      },
-      period,
-      code => {
-        const weatherInfo = WEATHER_CODES[code];
-        return weatherInfo ? weatherInfo.description : 'Unknown weather condition';
-      }
-    );
+  console.log(
+    `[HISTORICAL] 🟢 REPLACED PLACEHOLDER: ${cacheKey}, Map size: ${historicalInFlightRequests.size}`
+  );
 
-    weatherServiceLogger.info('Historical weather data fetched successfully', {
-      query: searchQuery,
-      period,
-      daysCount: result.days.length,
-    });
+  weatherServiceLogger.info('Executing historical weather request', {
+    query: searchQuery,
+    period,
+    cacheKey,
+  });
 
-    return result;
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : 'Unknown error';
-    weatherServiceLogger.error('Error fetching historical weather data', {
-      reason,
-      query: searchQuery,
-      period,
-    });
-    throw error;
-  }
+  return requestPromise;
 };
