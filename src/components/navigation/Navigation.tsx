@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
+
 import { Button } from '@/components/ui/atoms';
 
 /**
@@ -301,7 +303,7 @@ export const MobileNavigation: React.FC<{
             className="p-2 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-hover)] rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary-border)]"
             aria-label="Close navigation menu"
           >
-            ✕
+            <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 

@@ -3,6 +3,7 @@
  * Provides a color picker for selecting custom accent colors
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -180,7 +181,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
       aria-label={`Select color ${color}`}
       aria-pressed={isSelected}
     >
-      {isSelected && <span className="color-swatch-check">✓</span>}
+      {isSelected && <CheckIcon className="h-4 w-4 color-swatch-check" />}
     </button>
   );
 

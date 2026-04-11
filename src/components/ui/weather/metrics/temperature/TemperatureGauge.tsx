@@ -4,6 +4,7 @@
  */
 
 import { useTheme } from '@/design-system/theme';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -359,14 +360,14 @@ const TemperatureGauge: React.FC<TemperatureGaugeProps> = ({
       {showRange && minTemp !== undefined && maxTemp !== undefined && (
         <div className="flex justify-between items-center mb-3 px-2">
           <div className="flex items-center space-x-1 text-sm">
-            <span className="text-blue-500">↓</span>
+            <ChevronDownIcon className="h-4 w-4 text-blue-500" />
             <span className="font-medium text-gray-700">
               {Math.round(minTemp)}°{unit}
             </span>
             <span className="text-xs text-gray-500">Low</span>
           </div>
           <div className="flex items-center space-x-1 text-sm">
-            <span className="text-red-500">↑</span>
+            <ChevronUpIcon className="h-4 w-4 text-red-500" />
             <span className="font-medium text-gray-700">
               {Math.round(maxTemp)}°{unit}
             </span>

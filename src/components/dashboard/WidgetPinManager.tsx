@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
+
 import { WIDGET_METADATA } from '@/constants/dashboard';
 import { useDashboardLayout } from '@/contexts/DashboardLayoutContext';
 import type { IWidgetConfig } from '@/types/dashboard';
@@ -53,7 +55,7 @@ export const WidgetPinManager: React.FC = () => {
               onClick={() => setIsOpen(false)}
               aria-label="Close pin manager"
             >
-              ✕
+              <XMarkIcon className="h-4 w-4" />
             </button>
           </div>
 

@@ -5,6 +5,7 @@
  * Supports multiple positions, sizes, and customization options.
  */
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -364,7 +365,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
               >
-                {closeButtonContent || '✕'}
+                {closeButtonContent || <XMarkIcon className="h-5 w-5" />}
               </button>
             )}
           </div>

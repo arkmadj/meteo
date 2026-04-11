@@ -4,6 +4,7 @@
  * Follows Material Design speed dial pattern with smooth animations
  */
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { useTheme } from '@/design-system/theme';
@@ -63,7 +64,7 @@ const FABSpeedDial = forwardRef<HTMLDivElement, FABSpeedDialProps>(
     {
       actions,
       icon = <span className="text-2xl">+</span>,
-      openIcon = <span className="text-2xl">✕</span>,
+      openIcon = <XMarkIcon className="h-6 w-6" />,
       position = 'bottom-left',
       variant = 'primary',
       tooltip = 'Quick Actions',

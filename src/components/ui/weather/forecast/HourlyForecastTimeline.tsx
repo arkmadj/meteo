@@ -12,6 +12,7 @@ import { Card, CardBody, CardHeader } from '@/components/ui/atoms';
 import { useTheme } from '@/design-system/theme';
 import { usePrefersReducedMotion } from '@/hooks/useMotion';
 import type { HourlyForecastItem } from '@/types/weather';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import HourlyTimelineItem from './HourlyTimelineItem';
 
 export interface HourlyForecastTimelineProps {
@@ -190,7 +191,7 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
               className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
               aria-label="Scroll left"
             >
-              ←
+              <ChevronLeftIcon className="h-6 w-6" />
             </button>
           )}
 
@@ -224,7 +225,7 @@ const HourlyForecastTimeline: React.FC<HourlyForecastTimelineProps> = ({
               className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[var(--theme-surface)]/95 border border-[var(--theme-border)] shadow-lg items-center justify-center text-[var(--theme-text)] hover:bg-[var(--theme-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent,#3b82f6)]"
               aria-label="Scroll right"
             >
-              →
+              <ChevronRightIcon className="h-6 w-6" />
             </button>
           )}
         </div>

@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -104,7 +105,7 @@ const NotFoundPage: React.FC = () => {
               size="lg"
               onClick={goBack}
               fullWidth
-              startIcon={<span className="text-lg">←</span>}
+              startIcon={<ArrowLeftIcon className="h-5 w-5" />}
               className="font-medium hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
             >
               Go Back

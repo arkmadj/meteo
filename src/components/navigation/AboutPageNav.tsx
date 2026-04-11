@@ -1,3 +1,4 @@
+import { ChevronUpIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -252,7 +253,7 @@ const AboutPageNav: React.FC<AboutPageNavProps> = ({ items, className = '', onNa
         aria-label="Scroll to top"
         type="button"
       >
-        <span aria-hidden="true">↑</span>
+        <ChevronUpIcon className="h-5 w-5" aria-hidden="true" />
         <span>Back to Top</span>
       </button>
     </nav>

@@ -14,14 +14,15 @@
  * - Portal support for z-index issues
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
   forwardRef,
+  useCallback,
+  useEffect,
   useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -538,7 +539,7 @@ export const AccessibleDropdown = forwardRef<DropdownRef, DropdownProps>(
                     )}
                     {multiple && isSelected && (
                       <span className="option-checkmark" aria-hidden="true">
-                        ✓
+                        <CheckIcon className="h-4 w-4" />
                       </span>
                     )}
                   </>

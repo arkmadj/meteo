@@ -15,6 +15,7 @@
  * - Expandable rows with focus management
  */
 
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import React, {
   forwardRef,
   useCallback,
@@ -415,8 +416,12 @@ export const VirtualizedTable = forwardRef<VirtualizedTableRef, VirtualizedTable
             >
               {column.label}
               {isSorted && (
-                <span className="sort-indicator" aria-hidden="true">
-                  {sortDir === 'asc' ? ' ↑' : ' ↓'}
+                <span className="sort-indicator ml-1" aria-hidden="true">
+                  {sortDir === 'asc' ? (
+                    <ChevronUpIcon className="inline h-4 w-4" />
+                  ) : (
+                    <ChevronDownIcon className="inline h-4 w-4" />
+                  )}
                 </span>
               )}
             </button>

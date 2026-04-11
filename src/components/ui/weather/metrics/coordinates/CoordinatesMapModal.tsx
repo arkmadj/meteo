@@ -7,6 +7,7 @@
  * temperature heatmap overlay.
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useMemo, useState } from 'react';
@@ -765,7 +766,7 @@ const CoordinatesMapModal: React.FC<CoordinatesMapModalProps> = ({
             {/* Precision Info */}
             <div className="pt-2 border-t border-gray-300 dark:border-gray-600">
               <div className="flex items-start space-x-2">
-                <span className="text-sm">✓</span>
+                <CheckIcon className="h-4 w-4" />
                 <span className={`text-xs ${secondaryTextColor}`}>
                   {t('weather:coordinates.precisionDescription', 'Accurate to ~11 meters')}
                 </span>

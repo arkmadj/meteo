@@ -4,6 +4,7 @@
  * and a compact navigation card
  */
 
+import { ArrowRightIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -159,7 +160,7 @@ const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', classNam
         position={position}
         variant="primary"
         size="md"
-        icon={<span className="text-2xl">{isOpen ? '✕' : '🧭'}</span>}
+        icon={isOpen ? <XMarkIcon className="h-6 w-6" /> : <span className="text-2xl">🧭</span>}
         tooltip={isOpen ? 'Close Quick Nav' : 'Open Quick Nav'}
         onClick={() => setIsOpen(!isOpen)}
         className={className}
@@ -242,12 +243,10 @@ const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', classNam
                   </p>
                 </div>
                 {isActive(item.path) && (
-                  <span
-                    className="text-[var(--theme-primary-text)] flex-shrink-0"
+                  <CheckIcon
+                    className="h-5 w-5 text-[var(--theme-primary-text)] flex-shrink-0"
                     aria-hidden="true"
-                  >
-                    ✓
-                  </span>
+                  />
                 )}
               </Link>
             ))}
@@ -275,7 +274,9 @@ const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', classNam
                 className="text-[var(--theme-primary-text)] hover:text-[var(--theme-primary-text-hover)] font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary-border)] rounded px-1"
                 onClick={() => setIsOpen(false)}
               >
-                Home →
+                <span className="flex items-center gap-1">
+                  Home <ArrowRightIcon className="h-4 w-4" />
+                </span>
               </Link>
             </div>
           </div>
