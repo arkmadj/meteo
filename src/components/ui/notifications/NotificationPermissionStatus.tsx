@@ -21,6 +21,7 @@
  * ```
  */
 
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -34,7 +35,7 @@ import { Button } from '@/components/ui/atoms';
 // =============================================================================
 
 interface StatusConfig {
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   description: string;
   color: string;
@@ -49,7 +50,7 @@ const getStatusConfig = (
 ): StatusConfig => {
   if (isFullyEnabled && status === 'granted') {
     return {
-      icon: '✓',
+      icon: <CheckIcon className="h-5 w-5" />,
       label: t('notifications.status.enabled', 'Enabled'),
       description: t(
         'notifications.status.enabledDescription',
@@ -64,7 +65,7 @@ const getStatusConfig = (
   switch (status) {
     case 'granted':
       return {
-        icon: '✓',
+        icon: <CheckIcon className="h-5 w-5" />,
         label: t('notifications.status.granted', 'Permission Granted'),
         description: t(
           'notifications.status.grantedDescription',
@@ -77,7 +78,7 @@ const getStatusConfig = (
 
     case 'denied':
       return {
-        icon: '✕',
+        icon: <XMarkIcon className="h-5 w-5" />,
         label: t('notifications.status.blocked', 'Blocked'),
         description: t(
           'notifications.status.blockedDescription',

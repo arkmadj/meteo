@@ -1,3 +1,4 @@
+import { ArrowRightIcon, CheckIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -508,25 +509,25 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React 18 with TypeScript for type-safe development</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Vite for fast builds and HMR</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React Router v7 for client-side routing</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Tailwind CSS v4 for utility-first styling</span>
                           </li>
@@ -553,31 +554,31 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>TanStack Query v5 for server state management</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Smart caching with configurable stale times</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Automatic background refetching</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Optimistic updates and query invalidation</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>DevTools for debugging (development only)</span>
                           </li>
@@ -604,31 +605,31 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Atomic Design: Atoms, Molecules, Organisms</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Modular layout components (Container, Grid, Stack)</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Design tokens for consistent theming</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Accessible custom components (Modals, Dropdowns)</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Storybook for component documentation</span>
                           </li>
@@ -655,31 +656,31 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Light, Dark, and Auto modes</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>System preference detection</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Persistent theme selection</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>CSS custom properties for dynamic theming</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-gray-600 dark:text-gray-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Comprehensive color palette with semantic meanings</span>
                           </li>
@@ -706,31 +707,31 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-orange-500 dark:text-orange-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Webpack chunk splitting (15 named chunks)</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-orange-500 dark:text-orange-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Intelligent prefetching with data-saver respect</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-orange-500 dark:text-orange-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Route-based code splitting with React.lazy</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-orange-500 dark:text-orange-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Suspense boundaries for smooth loading states</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-orange-500 dark:text-orange-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Bundle size optimization and tree shaking</span>
                           </li>
@@ -757,25 +758,25 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-teal-500 dark:text-teal-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Leaflet for interactive maps</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-teal-500 dark:text-teal-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Temperature and air quality heatmaps</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-teal-500 dark:text-teal-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Custom weather tooltips and overlays</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-teal-500 dark:text-teal-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Zoom and pan controls</span>
                           </li>
@@ -802,25 +803,25 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-indigo-500 dark:text-indigo-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>i18next for translation management</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-indigo-500 dark:text-indigo-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Browser language detection</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-indigo-500 dark:text-indigo-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>HTTP backend for dynamic loading</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-indigo-500 dark:text-indigo-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Multiple language support</span>
                           </li>
@@ -847,31 +848,31 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>ESLint with custom rules and dual-mode config</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Prettier for code formatting</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Husky for git hooks</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Jest and React Testing Library</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>TypeScript strict mode</span>
                           </li>
@@ -1179,9 +1180,7 @@ const AboutPage: React.FC = () => {
                             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           >
                             <span>Explore Demos</span>
-                            <span role="img" aria-label="Arrow">
-                              →
-                            </span>
+                            <ArrowRightIcon className="h-5 w-5" aria-label="Arrow" />
                           </button>
                         </div>
                       </div>
@@ -1429,13 +1428,13 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>OpenWeatherMap API</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Open-Meteo</span>
                           </li>
@@ -1462,19 +1461,19 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-yellow-500 dark:text-yellow-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React Animated Weather</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-yellow-500 dark:text-yellow-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Heroicons</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-yellow-500 dark:text-yellow-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>FontAwesome</span>
                           </li>
@@ -1501,13 +1500,13 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Leaflet</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React Leaflet</span>
                           </li>
@@ -1534,25 +1533,25 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>TanStack Query</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>i18next</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Embla Carousel</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React Grid Layout</span>
                           </li>
@@ -1579,19 +1578,19 @@ const AboutPage: React.FC = () => {
                         <ul className="space-y-2.5">
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>Jest</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>React Testing Library</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm text-[var(--theme-text-secondary)]">
                             <span className="text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0">
-                              ✓
+                              <CheckIcon className="inline h-4 w-4" />
                             </span>
                             <span>ESLint</span>
                           </li>

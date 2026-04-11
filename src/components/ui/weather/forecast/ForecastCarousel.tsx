@@ -9,6 +9,7 @@ import ReactAnimatedWeather from 'react-animated-weather';
 import { useTranslation } from 'react-i18next';
 
 import { usePrefersReducedMotion } from '@/hooks/useMotion';
+import { ArrowRightIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 import { useResponsiveItemsPerPage } from '@/hooks/useResponsiveItemsPerPage';
 import type { ForecastDay } from '@/types/weather';
@@ -98,16 +99,23 @@ const ForecastCarousel: React.FC<ForecastCarouselProps> = ({
     return formatWeekday(date, 'short');
   };
 
-  // Get temperature trend emoji
-  const getTemperatureTrend = (currentDay: ForecastDay, previousDay?: ForecastDay): string => {
-    if (!previousDay || !showTrends) return '';
+  // Get temperature trend icon
+  const getTemperatureTrend = (
+    currentDay: ForecastDay,
+    previousDay?: ForecastDay
+  ): React.ReactNode => {
+    if (!previousDay || !showTrends) return null;
 
     const currentAvg = (currentDay.temperature.maximum + currentDay.temperature.minimum) / 2;
     const previousAvg = (previousDay.temperature.maximum + previousDay.temperature.minimum) / 2;
     const diff = currentAvg - previousAvg;
 
-    if (Math.abs(diff) < 1) return '→';
-    return diff > 0 ? '↗️' : '↘️';
+    if (Math.abs(diff) < 1) return <ArrowRightIcon className="inline h-3 w-3" />;
+    return diff > 0 ? (
+      <ChevronUpIcon className="inline h-3 w-3" />
+    ) : (
+      <ChevronDownIcon className="inline h-3 w-3" />
+    );
   };
 
   // Get weather icon size based on card size

@@ -3,11 +3,12 @@
  * A versatile input component following atomic design principles
  */
 
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import React, { forwardRef, useState } from 'react';
 
-import { COLORS, COMPONENT_TOKENS, BORDER_RADIUS, TYPOGRAPHY } from '../../../design-system/tokens';
+import { BORDER_RADIUS, COLORS, COMPONENT_TOKENS, TYPOGRAPHY } from '../../../design-system/tokens';
 import type { BaseComponentProps, ComponentSize } from '../base/BaseComponent';
-import { componentUtils, useComponentState, IconWrapper } from '../base/BaseComponent';
+import { componentUtils, IconWrapper, useComponentState } from '../base/BaseComponent';
 
 // ============================================================================
 // INPUT SPECIFIC TYPES
@@ -354,7 +355,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   onClick={handleClear}
                 >
                   <IconWrapper className={`text-[${COLORS.neutral[400]}]`} size="sm">
-                    {clearIcon || '×'}
+                    {clearIcon || <XMarkIcon className="h-4 w-4" />}
                   </IconWrapper>
                 </button>
               ) : endIcon ? (

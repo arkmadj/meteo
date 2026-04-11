@@ -17,6 +17,7 @@ import {
   useHistoricalWeatherComparison,
 } from '@/hooks/useHistoricalWeather';
 import type { CurrentWeatherData, HistoricalPeriod } from '@/types/weather';
+import { ArrowRightIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 export interface HistoricalWeatherComparisonProps {
   /** Current weather data for the location */
@@ -78,11 +79,11 @@ const ComparisonMetric: React.FC<{
     if (!showTrend || difference === undefined) return null;
 
     if (difference > 0) {
-      return <span className="text-red-500">↑</span>;
+      return <ChevronUpIcon className="h-4 w-4 text-red-500" />;
     } else if (difference < 0) {
-      return <span className="text-blue-500">↓</span>;
+      return <ChevronDownIcon className="h-4 w-4 text-blue-500" />;
     }
-    return <span className="text-gray-400">→</span>;
+    return <ArrowRightIcon className="h-4 w-4 text-gray-400" />;
   };
 
   const getTrendColor = () => {

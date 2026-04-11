@@ -3,6 +3,7 @@
  * Expanded UV index details with safety guidance and contextual information.
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -237,7 +238,7 @@ const UVIndexDetailModal: React.FC<UVIndexDetailModalProps> = ({ isOpen, onClose
                 key={index}
                 className="flex items-start gap-3 text-[var(--theme-text-secondary)] text-sm"
               >
-                <span className="text-[var(--theme-accent)] mt-0.5">✓</span>
+                <CheckIcon className="h-4 w-4 text-[var(--theme-accent)] mt-0.5" />
                 <span>{tip}</span>
               </li>
             ))}

@@ -3,6 +3,7 @@
  * Demonstrates Mapbox GL JS for high-performance weather visualization
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useRef, useState } from 'react';
 
 // Note: In a real implementation, you would install and import:
@@ -287,7 +288,12 @@ const MapboxWeatherMap: React.FC<MapboxWeatherMapProps> = ({
           <div>Bundle: ~500KB gzipped</div>
           <div>Cost: $5/1K loads after 50K</div>
           <div>Points: {weatherData.length}</div>
-          <div>WebGL: ✓ Vector Tiles: ✓</div>
+          <div className="flex items-center gap-2">
+            <span>WebGL:</span>
+            <CheckIcon className="inline h-4 w-4 text-green-600" />
+            <span>Vector Tiles:</span>
+            <CheckIcon className="inline h-4 w-4 text-green-600" />
+          </div>
         </div>
       </div>
     </div>

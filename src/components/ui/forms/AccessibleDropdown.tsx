@@ -4,6 +4,7 @@
  * Supports keyboard, screen readers, and mobile devices
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { BORDER_RADIUS, COLORS, SHADOWS, SPACING } from '@/design-system/tokens';
@@ -449,7 +450,9 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                   )}
                 </div>
                 {isSelected && (
-                  <span style={{ fontSize: '16px', color: COLORS.primary[600] }}>✓</span>
+                  <span style={{ color: COLORS.primary[600] }}>
+                    <CheckIcon className="h-4 w-4" />
+                  </span>
                 )}
               </li>
             );

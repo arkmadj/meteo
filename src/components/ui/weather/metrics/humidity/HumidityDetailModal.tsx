@@ -4,12 +4,13 @@
  * Includes large gauge, comfort zones, health impacts, and recommendations
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import HumidityMeter from './HumidityMeter';
 import { AccessibleModal } from '@/components/ui/molecules';
 import { useTheme } from '@/design-system/theme';
+import HumidityMeter from './HumidityMeter';
 
 export interface HumidityDetailModalProps {
   /** Whether the modal is open */
@@ -179,7 +180,7 @@ const HumidityDetailModal: React.FC<HumidityDetailModalProps> = ({ isOpen, onClo
                 key={index}
                 className="flex items-start gap-3 text-[var(--theme-text-secondary)] text-sm"
               >
-                <span className="text-[var(--theme-accent)] mt-0.5">✓</span>
+                <CheckIcon className="h-4 w-4 text-[var(--theme-accent)] mt-0.5" />
                 <span>{recommendation}</span>
               </li>
             ))}

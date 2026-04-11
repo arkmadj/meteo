@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { CheckIcon } from '@heroicons/react/24/outline';
+
 import { DASHBOARD_PRESETS, WIDGET_METADATA } from '@/constants/dashboard';
 import { useDashboardLayout } from '@/contexts/DashboardLayoutContext';
 import { useTheme } from '@/design-system/theme';
@@ -69,7 +71,14 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({ className = '' })
         `}
         type="button"
       >
-        {state.isEditMode ? '✓ Done Editing' : '✏️ Edit Layout'}
+        {state.isEditMode ? (
+          <>
+            <CheckIcon className="inline h-4 w-4 mr-1" />
+            Done Editing
+          </>
+        ) : (
+          '✏️ Edit Layout'
+        )}
       </button>
 
       {/* Presets Dropdown */}

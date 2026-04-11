@@ -4,6 +4,7 @@
  * Includes large gauge, trends, historical comparison, and weather insights
  */
 
+import { CheckIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -226,13 +227,13 @@ const PressureDetailModal: React.FC<PressureDetailModalProps> = ({
             )}
             {pressure >= 1000 && pressure <= 1020 && (
               <div className="flex items-start gap-3 text-[var(--theme-text-secondary)] text-sm">
-                <span className="text-green-600 mt-0.5">✓</span>
+                <CheckIcon className="h-4 w-4 text-green-600 mt-0.5" />
                 <span>{t('weather:pressure.normalInfo', 'Normal atmospheric conditions')}</span>
               </div>
             )}
             {pressure > 1040 && (
               <div className="flex items-start gap-3 text-[var(--theme-text-secondary)] text-sm">
-                <span className="text-blue-600 mt-0.5">✓</span>
+                <CheckIcon className="h-4 w-4 text-blue-600 mt-0.5" />
                 <span>
                   {t('weather:pressure.highPressureInfo', 'High pressure - very stable conditions')}
                 </span>
