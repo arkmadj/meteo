@@ -1,10 +1,11 @@
 /**
  * Composition Pattern Examples
  * Modern approach using hooks + composition for sharing logic
+ * Updated to use TanStack Query for data fetching
  */
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
-import { useAsyncState } from '../../hooks/useAsyncState';
+import { useQuery } from '@tanstack/react-query';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 
 // ============================================================================
 // TYPES
@@ -21,7 +22,7 @@ interface DataContextValue<T> {
   data: T | null;
   loading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>;
+  refetch: () => void;
   update: (newData: T) => void;
 }
 
@@ -41,34 +42,68 @@ const DataContext = createContext<DataContextValue<unknown> | null>(null);
 
 interface DataProviderProps<T> {
   children: React.ReactNode;
+  queryKey: string[];
   fetcher: () => Promise<T>;
-  dependencies?: React.DependencyList;
   onSuccess?: (data: T) => void;
   onError?: (error: Error) => void;
+  enabled?: boolean;
+  staleTime?: number;
+  gcTime?: number;
 }
 
 /**
- * Generic data provider using composition
+ * Generic data provider using composition with TanStack Query
  * Provides data fetching logic to child components
+ *
+ * @example
+ * ```tsx
+ * <DataProvider
+ *   queryKey={['users']}
+ *   fetcher={fetchUsers}
+ *   onSuccess={(data) => console.log('Users loaded:', data)}
+ * >
+ *   <UserList />
+ * </DataProvider>
+ * ```
  */
 export function DataProvider<T>({
   children,
+  queryKey,
   fetcher,
-  dependencies = [],
   onSuccess,
   onError,
+  enabled = true,
+  staleTime = 5 * 60 * 1000, // 5 minutes
+  gcTime = 30 * 60 * 1000, // 30 minutes
 }: DataProviderProps<T>) {
-  const { data, loading, error, execute } = useAsyncState(fetcher, dependencies, {
-    immediate: true,
-    onSuccess,
-    onError,
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey,
+    queryFn: fetcher,
+    enabled,
+    staleTime,
+    gcTime,
   });
 
-  const [localData, setLocalData] = useState<T | null>(data);
-
-  // Update local data when async data changes
+  // Call callbacks when data changes
   React.useEffect(() => {
-    setLocalData(data);
+    if (data) {
+      onSuccess?.(data);
+    }
+  }, [data, onSuccess]);
+
+  React.useEffect(() => {
+    if (error) {
+      onError?.(error as Error);
+    }
+  }, [error, onError]);
+
+  const [localData, setLocalData] = useState<T | null>(data || null);
+
+  // Update local data when query data changes
+  React.useEffect(() => {
+    if (data) {
+      setLocalData(data);
+    }
   }, [data]);
 
   const update = useCallback((newData: T) => {
@@ -77,9 +112,9 @@ export function DataProvider<T>({
 
   const contextValue: DataContextValue<T> = {
     data: localData,
-    loading,
-    error,
-    refetch: execute,
+    loading: isLoading,
+    error: error as Error | null,
+    refetch,
     update,
   };
 
@@ -291,7 +326,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 // ============================================================================
 
 /**
- * Example showing composition in action
+ * Example showing composition in action with TanStack Query
  */
 export function CompositionExample() {
   const fetchUsers = async () => {
@@ -305,7 +340,12 @@ export function CompositionExample() {
   return (
     <AuthProvider>
       <ErrorBoundary>
-        <DataProvider fetcher={fetchUsers}>
+        {/* Now using TanStack Query with queryKey */}
+        <DataProvider
+          queryKey={['users']}
+          fetcher={fetchUsers}
+          onSuccess={users => console.log('Users loaded:', users.length)}
+        >
           <Protected requiredRole="admin">
             <UserList />
           </Protected>
