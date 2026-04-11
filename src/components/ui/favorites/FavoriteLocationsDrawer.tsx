@@ -6,6 +6,7 @@
  * change in the current tab or in other tabs.
  */
 
+import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -161,7 +162,7 @@ const FavoriteLocationsDrawer: React.FC<FavoriteLocationsDrawerProps> = ({
               onClick={() => moveFavorite(index, index - 1)}
               disabled={index === 0}
             >
-              <span aria-hidden="true"></span>
+              <ChevronUpIcon className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
               type="button"
@@ -170,7 +171,7 @@ const FavoriteLocationsDrawer: React.FC<FavoriteLocationsDrawerProps> = ({
               onClick={() => moveFavorite(index, index + 1)}
               disabled={index === favorites.length - 1}
             >
-              <span aria-hidden="true"></span>
+              <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
           <button
@@ -179,7 +180,7 @@ const FavoriteLocationsDrawer: React.FC<FavoriteLocationsDrawerProps> = ({
             className="ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-[var(--theme-text-secondary)] hover:bg-[var(--theme-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--theme-accent)]"
             onClick={() => removeFavorite(location)}
           >
-            <span aria-hidden="true">✕</span>
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
           </button>
         </li>
       ))}
