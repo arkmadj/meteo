@@ -4,10 +4,17 @@ A modern, feature-rich weather application built with React, TypeScript, and
 Vite. Meteo provides real-time weather updates, interactive dashboards, and push
 notifications with a focus on performance, accessibility, and user experience.
 
+> **✨ Powered by TanStack Query v5** - Featuring intelligent caching, automatic
+> background updates, offline-first support, and built-in performance monitoring
+> for a seamless weather experience.
+
 ## ✨ Features
 
 - **Real-time Weather Data**: Get current weather conditions and forecasts
+- **Smart Data Caching**: TanStack Query for intelligent caching and automatic
+  background updates
 - **Interactive Dashboard**: Customizable weather widgets and visualizations
+- **Offline-First**: Works without internet connection using cached data
 - **Push Notifications**: Stay updated with weather alerts via service workers
 - **Internationalization**: Multi-language support with i18next
 - **Responsive Design**: Optimized for all device sizes with Tailwind CSS
@@ -16,17 +23,33 @@ notifications with a focus on performance, accessibility, and user experience.
 - **Performance Optimized**: Code splitting, lazy loading, and chunk
   optimization
 - **PWA Support**: Progressive Web App capabilities with offline support
+- **Developer Tools**: TanStack Query DevTools for debugging and monitoring
 
 ## 🚀 Tech Stack
+
+### Core Technologies
 
 - **Framework**: React 18.2.0
 - **Language**: TypeScript
 - **Build Tool**: Vite 7.1.5
 - **Styling**: Tailwind CSS 4.x
-- **State Management**: TanStack Query (React Query)
+
+### Data Management
+
+- **Data Fetching**: TanStack Query v5 (React Query)
+  - Smart caching with 5-minute stale time
+  - Automatic background refetching
+  - Offline-first query support
+  - Built-in error handling and retry logic
+  - Performance monitoring and cache metrics
+  - DevTools for development debugging
+
+### Other Libraries
+
 - **Routing**: React Router DOM 7.x
 - **Internationalization**: i18next & react-i18next
 - **Maps**: Leaflet & React Leaflet
+- **HTTP Client**: Axios 1.4.0
 - **Icons**: Heroicons & Font Awesome
 - **Testing**: Jest & Testing Library
 - **Code Quality**: ESLint, Prettier, TypeScript
@@ -45,8 +68,11 @@ npm install
 ## 🛠️ Development
 
 ```bash
-# Start development server (runs on http://localhost:3000)
+# Start development server (runs on http://localhost:5173)
 npm run dev
+
+# Start with TanStack Query DevTools enabled
+VITE_ENABLE_QUERY_DEVTOOLS=true npm run dev
 
 # Run tests
 npm test
@@ -69,6 +95,23 @@ npm run format
 # Check formatting
 npm run format:check
 ```
+
+### TanStack Query DevTools
+
+To enable the TanStack Query DevTools in development:
+
+1. Create a `.env.development` file in the project root
+2. Add: `VITE_ENABLE_QUERY_DEVTOOLS=true`
+3. Start the dev server: `npm run dev`
+4. Look for the TanStack Query icon in the bottom-left corner of your browser
+
+The DevTools allow you to:
+
+- Inspect all active queries and their state
+- Browse cached data
+- Manually trigger refetches
+- Monitor query performance
+- Debug query lifecycle events
 
 ## 🏗️ Build
 
@@ -145,19 +188,30 @@ npm run analyze:unused
 meteo/
 ├── src/
 │   ├── api/              # API integration layer
+│   │   ├── clients/      # HTTP client configuration
+│   │   ├── services/     # API service classes (WeatherService, etc.)
+│   │   └── types/        # API-specific types
 │   ├── components/       # React components (UI, layout, features)
 │   ├── config/           # Configuration files
+│   │   └── queryClient.ts # TanStack Query configuration & cache utils
 │   ├── constants/        # Application constants
 │   ├── contexts/         # React contexts (Error, Theme, Preferences, etc.)
 │   ├── design-system/    # Design system and theme
 │   ├── errors/           # Custom error classes
 │   ├── hocs/             # Higher-order components
 │   ├── hooks/            # Custom React hooks
+│   │   ├── api/          # API-related hooks (useWeather, etc.)
+│   │   ├── app/          # App-specific hooks
+│   │   ├── useWeatherQuery.ts      # Main weather query hooks
+│   │   ├── useQueryErrorHandling.ts # Error handling wrapper
+│   │   ├── useQueryPerformance.ts   # Performance monitoring
+│   │   └── useOfflineSupport.ts     # Offline-first queries
 │   ├── i18n/             # Internationalization setup
 │   ├── optimization/     # Performance optimization utilities
 │   ├── pages/            # Page components (routes)
 │   ├── patterns/         # Design patterns and utilities
 │   ├── providers/        # Context providers
+│   │   └── QueryProvider.tsx # TanStack Query provider setup
 │   ├── router/           # Routing configuration
 │   ├── security/         # Security utilities
 │   ├── services/         # Business logic services
@@ -168,6 +222,103 @@ meteo/
 ├── dist/                 # Production build output
 └── docs/                 # Documentation
 ```
+
+## 🔄 TanStack Query Architecture
+
+Meteo uses TanStack Query (React Query) v5 for all data fetching, providing a
+robust and performant solution for managing server state.
+
+### Key Features
+
+- **Automatic Caching**: Data is cached for 5 minutes (stale time) and retained
+  for 30 minutes (garbage collection time)
+- **Background Refetching**: Stale data is automatically refetched in the
+  background
+- **Request Deduplication**: Multiple components requesting the same data
+  trigger only one network request
+- **Automatic Retries**: Failed requests are retried up to 3 times with
+  exponential backoff
+- **Offline Support**: Queries can work in offline-first mode with cached data
+- **Error Handling**: Global error handler with user-friendly notifications
+- **Performance Monitoring**: Built-in metrics for query performance and cache
+  efficiency
+
+### Available Query Hooks
+
+```typescript
+// Weather Data
+useCompleteWeatherQuery(location, days, options); // Current weather + forecast
+useCurrentWeatherQuery(location, options); // Current weather only
+useForecastQuery(location, days, options); // Forecast only
+useHistoricalWeather(location, period, options); // Historical data
+useGeocodingQuery(query, options); // City search
+
+// Cache Management
+useCachedWeather(location, unit); // Get cached weather
+useRefreshWeather(location); // Manual refresh
+usePrefetchWeather(); // Prefetch data
+useWeatherCache(); // Cache utilities
+
+// Advanced Features
+useWeatherWithAutoRefresh(params, interval); // Auto-refresh queries
+useQueryErrorHandling(); // Error handling wrapper
+useQueryPerformance(); // Performance monitoring
+useOfflineFirstQuery(key, fn, options); // Offline-first queries
+```
+
+### Usage Example
+
+```typescript
+import { useCompleteWeatherQuery } from '@/hooks/useWeatherQuery';
+
+function WeatherComponent({ city }: { city: string }) {
+  const { data, isLoading, error, refetch } = useCompleteWeatherQuery(city, 7, {
+    enabled: !!city,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h2>{data?.current.city}</h2>
+      <p>Temperature: {data?.current.temperature}°C</p>
+      <button onClick={() => refetch()}>Refresh</button>
+    </div>
+  );
+}
+```
+
+### Cache Management
+
+```typescript
+import { cacheUtils } from '@/config/queryClient';
+
+// Invalidate all weather data (marks as stale, triggers refetch)
+await cacheUtils.invalidateWeatherData();
+
+// Remove specific location from cache
+await cacheUtils.removeWeatherData('Paris');
+
+// Prefetch data for instant loading
+await cacheUtils.prefetchWeatherData('Tokyo', 'metric');
+
+// Get cache statistics
+const stats = cacheUtils.getCacheStats();
+console.log('Active queries:', stats.activeQueries);
+console.log('Cache hit rate:', stats.cacheHitRate);
+```
+
+### Configuration
+
+Query configuration is centralized in `src/config/queryClient.ts`:
+
+- **Stale Time**: 5 minutes (how long data is considered fresh)
+- **GC Time**: 30 minutes (how long inactive data stays in cache)
+- **Retry Count**: 3 attempts with exponential backoff
+- **Network Mode**: Online (queries only run when online)
+- **Refetch on Window Focus**: Disabled (for mobile data saving)
 
 ## 🌐 Browser Support
 
@@ -204,6 +355,8 @@ npm run validate
 - `prettier.config.js` - Prettier formatting rules
 - `postcss.config.js` - PostCSS configuration
 - `jest.config.js` - Jest testing configuration
+- `src/config/queryClient.ts` - TanStack Query configuration and cache utilities
+- `src/providers/QueryProvider.tsx` - Query provider with error handling
 
 ---
 
