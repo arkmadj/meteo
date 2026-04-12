@@ -452,6 +452,8 @@ export default [
         GeolocationPosition: 'readonly',
         GeolocationPositionError: 'readonly',
         GeolocationError: 'readonly',
+        PermissionState: 'readonly',
+        PermissionStatus: 'readonly',
         HTMLHeadingElement: 'readonly',
         HTMLElementEventMap: 'readonly',
         GlobalEventHandlersEventMap: 'readonly',
