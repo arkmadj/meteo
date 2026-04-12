@@ -17,8 +17,6 @@ import useEmblaCarousel from 'embla-carousel-react';
 import WheelGestures from 'embla-carousel-wheel-gestures';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { COLORS, SHADOWS } from '@/design-system/tokens';
-
 export interface EmblaCarouselPluginsProps {
   /** Carousel slides/children */
   children: React.ReactNode;
@@ -184,15 +182,15 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
     <div
       aria-label={ariaLabel}
       aria-roledescription="carousel"
-      className={`embla-enhanced relative ${className}`}
+      className={`relative bg-transparent ${className}`}
       role="region"
     >
       {/* Progress Bar */}
       {showProgress && (
-        <div className="embla__progress mb-4">
-          <div className="w-full bg-gray-200 rounded-full h-1">
+        <div className="mb-4">
+          <div className="relative w-full h-1 bg-gray-200/80 dark:bg-gray-600/80 rounded-sm overflow-hidden">
             <div
-              className="bg-blue-500 h-1 rounded-full transition-all duration-300"
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-sm transition-all duration-300"
               style={{ width: `${scrollProgress}%` }}
             />
           </div>
@@ -201,9 +199,9 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
 
       {/* Header with Counter and Autoplay Controls */}
       {(showCounter || showAutoplayControls) && (
-        <div className="embla__header flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4">
           {showCounter && (
-            <div className="embla__counter text-sm text-gray-600">
+            <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
               {selectedIndex + 1} / {slides.length}
             </div>
           )}
@@ -211,7 +209,13 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
           {showAutoplayControls && autoplay && (
             <button
               aria-label={isAutoplayActive ? 'Pause autoplay' : 'Start autoplay'}
-              className="embla__autoplay-btn flex items-center space-x-2 px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-md
+                bg-gray-100/80 dark:bg-gray-600/80
+                hover:bg-gray-200/90 dark:hover:bg-gray-600/90
+                hover:-translate-y-0.5
+                text-gray-700 dark:text-gray-50 text-sm
+                transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               onClick={toggleAutoplay}
             >
               {isAutoplayActive ? (
@@ -219,21 +223,21 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
               ) : (
                 <PlayIcon className="w-4 h-4" />
               )}
-              <span className="text-sm">{isAutoplayActive ? 'Pause' : 'Play'}</span>
+              <span>{isAutoplayActive ? 'Pause' : 'Play'}</span>
             </button>
           )}
         </div>
       )}
 
       {/* Carousel Viewport */}
-      <div ref={emblaRef} className="embla__viewport overflow-hidden rounded-lg">
-        <div className="embla__container flex">
+      <div ref={emblaRef} className="overflow-hidden rounded-2xl shadow-md">
+        <div className="flex touch-pan-y touch-pinch-zoom -ml-4">
           {slides.map((slide, index) => (
             <div
               key={index}
               aria-label={`${index + 1} of ${slides.length}`}
               aria-roledescription="slide"
-              className="embla__slide flex-shrink-0 flex-grow-0 min-w-0"
+              className="flex-shrink-0 flex-grow-0 min-w-0 pl-4 translate-z-0 transition-all duration-300 ease-out opacity-100 scale-100"
               role="group"
             >
               {slide}
@@ -248,66 +252,60 @@ const EmblaCarouselPlugins: React.FC<EmblaCarouselPluginsProps> = ({
           <button
             aria-label="Previous slide"
             className={`
-              embla__prev absolute left-2 top-1/2 -translate-y-1/2 z-10
-              w-10 h-10 rounded-full flex items-center justify-center
-              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+              absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-10
+              w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg
+              shadow-md hover:shadow-lg
               ${
                 prevBtnDisabled
-                  ? 'opacity-30 cursor-not-allowed'
+                  ? 'opacity-30 cursor-not-allowed scale-100'
                   : 'opacity-80 hover:opacity-100 cursor-pointer hover:scale-110'
               }
             `}
             disabled={prevBtnDisabled}
-            style={{
-              backgroundColor: COLORS.glass?.background || 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: SHADOWS.md,
-            }}
             onClick={scrollPrev}
           >
-            <ChevronLeftIcon className="w-5 h-5 text-gray-700" />
+            <ChevronLeftIcon className="w-5 h-5 text-gray-700 dark:text-gray-50" />
           </button>
 
           <button
             aria-label="Next slide"
             className={`
-              embla__next absolute right-2 top-1/2 -translate-y-1/2 z-10
-              w-10 h-10 rounded-full flex items-center justify-center
-              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+              absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-10
+              w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg
+              shadow-md hover:shadow-lg
               ${
                 nextBtnDisabled
-                  ? 'opacity-30 cursor-not-allowed'
+                  ? 'opacity-30 cursor-not-allowed scale-100'
                   : 'opacity-80 hover:opacity-100 cursor-pointer hover:scale-110'
               }
             `}
             disabled={nextBtnDisabled}
-            style={{
-              backgroundColor: COLORS.glass?.background || 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: SHADOWS.md,
-            }}
             onClick={scrollNext}
           >
-            <ChevronRightIcon className="w-5 h-5 text-gray-700" />
+            <ChevronRightIcon className="w-5 h-5 text-gray-700 dark:text-gray-50" />
           </button>
         </>
       )}
 
       {/* Dot Indicators */}
       {showDots && slides.length > 1 && scrollSnaps.length > 1 && (
-        <div className="embla__dots flex justify-center space-x-2 mt-4">
+        <div className="flex justify-center items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
               aria-current={index === selectedIndex ? 'true' : 'false'}
               aria-label={`Go to slide ${index + 1}`}
               className={`
-                embla__dot w-2 h-2 rounded-full transition-all duration-200
+                w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-200 cursor-pointer
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
                 ${
                   index === selectedIndex
-                    ? 'bg-blue-500 scale-125'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? 'bg-blue-500 dark:bg-blue-400 scale-125'
+                    : 'bg-gray-400/60 dark:bg-gray-400/40 hover:bg-gray-500/80 dark:hover:bg-gray-400/60 hover:scale-110'
                 }
               `}
               onClick={() => scrollTo(index)}

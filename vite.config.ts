@@ -1,8 +1,29 @@
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import vitePluginQRCode from './scripts/vite-plugin-qrcode';
+
+// Plugin to suppress benign asset warnings
+const suppressAssetWarnings = (): Plugin => ({
+  name: 'suppress-asset-warnings',
+  config() {
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]) => {
+      const message = String(args[0] || '');
+      // Suppress warnings about font files and Leaflet images that resolve at runtime
+      if (
+        message.includes('webfonts') ||
+        message.includes('images/layers') ||
+        message.includes('images/marker-icon') ||
+        message.includes("didn't resolve at build time")
+      ) {
+        return;
+      }
+      originalWarn.apply(console, args);
+    };
+  },
+});
 
 export default defineConfig({
   plugins: [
@@ -11,6 +32,8 @@ export default defineConfig({
     }),
     // QR code plugin for mobile access
     vitePluginQRCode(),
+    // Suppress benign asset warnings
+    suppressAssetWarnings(),
     // Bundle analyzer - only in analyze mode
     process.env.ANALYZE &&
       visualizer({
@@ -27,14 +50,31 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
-    host: '0.0.0.0', // Listen on all network interfaces for mobile access
+    port: 5173,
+    host: true,
     open: true,
+    strictPort: true,
   },
   build: {
     outDir: 'dist',
     sourcemap: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      // Suppress warnings for external assets that will be resolved at runtime
+      onwarn(warning, warn) {
+        // Suppress warnings about unresolved font files and Leaflet images
+        // These are resolved at runtime from node_modules
+        if (
+          warning.code === 'UNRESOLVED_IMPORT' &&
+          (warning.message?.includes('webfonts') ||
+            warning.message?.includes('images/layers') ||
+            warning.message?.includes('images/marker-icon'))
+        ) {
+          return;
+        }
+        // Show all other warnings
+        warn(warning);
+      },
       output: {
         manualChunks: id => {
           // Enhanced chunk splitting function for optimal performance

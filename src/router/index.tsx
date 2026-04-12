@@ -39,7 +39,7 @@ const RadarPlaybackPage = React.lazy(() => import('@/pages/RadarPlaybackPage'));
 const RootLayout: React.FC = () => {
   return (
     <KeyboardShortcutsProvider>
-      <div className="min-h-screen">
+      <div className="min-h-screen overscroll-none">
         <Outlet />
         <QuickNav position="bottom-right" />
       </div>

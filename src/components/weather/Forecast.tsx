@@ -34,7 +34,7 @@ const Forecast = React.memo(
     toggleTemperatureUnit,
   }: ForecastProps) => {
     const { data, forecast } = weather;
-    const [useCustomizableDashboard, setUseCustomizableDashboard] = useState(false);
+    const [useCustomizableDashboard] = useState(false);
 
     // Generate hourly forecast data
     const hourlyForecast = useMemo(() => {
@@ -63,7 +63,7 @@ const Forecast = React.memo(
         </div>
 
         {/* Dashboard Layout Toggle */}
-        <div className="w-full flex justify-between items-center mb-4 px-4">
+        {/* <div className="w-full justify-between items-center mb-4 px-4 hidden">
           <h3 className="text-lg font-semibold text-[var(--theme-text)]">Weather Details</h3>
           <button
             onClick={() => setUseCustomizableDashboard(!useCustomizableDashboard)}
@@ -79,7 +79,7 @@ const Forecast = React.memo(
           >
             {useCustomizableDashboard ? '📊 Classic View' : '🎨 Customize Layout'}
           </button>
-        </div>
+        </div> */}
 
         {/* Detailed Current Weather Information */}
         <div className="w-full">

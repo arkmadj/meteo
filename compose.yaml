@@ -1,0 +1,21 @@
+services:
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - 8080:8080
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: dev
+    ports:
+      - 5173:5173
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app

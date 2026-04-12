@@ -55,11 +55,12 @@ export const DashboardControls = createChunkOptimizedLazyComponent(
 //   'User Profile Form'
 // );
 
-export const SearchEngine = createChunkOptimizedLazyComponent(
-  () => import('@/components/search/SearchEngine'),
-  'form-controls',
-  'Search Engine'
-);
+// SearchEngine is statically imported in AppWithQuery and multiple headers, so no need for lazy loading
+// export const SearchEngine = createChunkOptimizedLazyComponent(
+//   () => import('@/components/search/SearchEngine'),
+//   'form-controls',
+//   'Search Engine'
+// );
 
 export const LanguageSelector = createChunkOptimizedLazyComponent(
   () => import('@/components/language/LanguageSelector'),
@@ -92,7 +93,7 @@ export const preloadCriticalChunks = () => {
     import('@/components/weather/Forecast').catch(() => {});
 
     // Preload form components (interactive elements)
-    import('@/components/search/SearchEngine').catch(() => {});
+    // SearchEngine is statically imported, so no need to preload
     import('@/components/language/LanguageSelector').catch(() => {});
   }
 };
@@ -120,7 +121,7 @@ export default {
   DashboardControls,
 
   // Form components
-  SearchEngine,
+  // SearchEngine is statically imported, not lazy loaded
   LanguageSelector,
 
   // Accessibility components
