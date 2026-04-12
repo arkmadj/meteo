@@ -259,7 +259,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
 
       {/* Enhanced Footer with search info */}
       <div className="px-4 py-3 bg-[var(--theme-hover)] border-t border-[var(--theme-border)] text-xs text-[var(--theme-text-secondary)] rounded-b-xl">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-[var(--theme-accent)] rounded-full animate-pulse"></div>
             <span className="font-medium">
@@ -269,7 +269,7 @@ const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
               })}
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between gap-3">
             <span className="flex items-center gap-1 px-2 py-1 bg-[var(--theme-surface)]/60 rounded-full">
               <svg
                 className="w-3 h-3 text-[var(--theme-accent)]"

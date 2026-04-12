@@ -130,6 +130,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           opacity: 1;
           transition: opacity 0.6s ease-out;
           overflow: hidden;
+          overscroll-behavior: none;
         }
 
         .splash-screen.fade-out {

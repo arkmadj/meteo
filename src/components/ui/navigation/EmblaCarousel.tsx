@@ -5,14 +5,12 @@
  */
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import type { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
+import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import ClassNames from 'embla-carousel-class-names';
 import useEmblaCarousel from 'embla-carousel-react';
 import WheelGestures from 'embla-carousel-wheel-gestures';
 import React, { useCallback, useEffect, useState } from 'react';
-
-import { COLORS, SHADOWS } from '@/design-system/tokens';
 
 export interface EmblaCarouselProps {
   /** Carousel slides/children */
@@ -162,20 +160,23 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
     <div
       aria-label={ariaLabel}
       aria-roledescription="carousel"
-      className={`embla relative ${className}`}
+      className={`relative bg-transparent ${className}`}
       role="region"
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
       {/* Carousel Viewport */}
-      <div ref={emblaRef} className={`embla__viewport overflow-hidden ${containerClassName}`}>
-        <div className="embla__container flex">
+      <div
+        ref={emblaRef}
+        className={`overflow-hidden rounded-xl p-4 max-md:p-2 ${containerClassName}`}
+      >
+        <div className="flex touch-pan-y touch-pinch-zoom -ml-4">
           {slides.map((slide, index) => (
             <div
               key={index}
               aria-label={`${index + 1} of ${slides.length}`}
               aria-roledescription="slide"
-              className={`embla__slide flex-shrink-0 flex-grow-0 ${slideClassName}`}
+              className={`flex-shrink-0 flex-grow-0 min-w-0 translate-z-0 ${slideClassName}`}
               role="group"
             >
               {slide}
@@ -190,63 +191,57 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
           <button
             aria-label="Previous slide"
             className={`
-              embla__prev absolute left-4 top-1/2 -translate-y-1/2 z-10
-              w-10 h-10 rounded-full flex items-center justify-center
-              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+              absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10
+              w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg
+              shadow-md hover:shadow-lg hover:scale-110
               ${
                 prevBtnDisabled
-                  ? 'opacity-30 cursor-not-allowed'
+                  ? 'opacity-30 cursor-not-allowed scale-100'
                   : 'opacity-80 hover:opacity-100 cursor-pointer'
               }
               ${arrowClassName}
             `}
             disabled={prevBtnDisabled}
-            style={{
-              backgroundColor: COLORS.glass?.background || 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: SHADOWS.md,
-            }}
             onClick={scrollPrev}
           >
-            <ChevronLeftIcon className="w-5 h-5 text-gray-700" />
+            <ChevronLeftIcon className="w-5 h-5 text-gray-700 dark:text-gray-50" />
           </button>
 
           <button
             aria-label="Next slide"
             className={`
-              embla__next absolute right-4 top-1/2 -translate-y-1/2 z-10
-              w-10 h-10 rounded-full flex items-center justify-center
-              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+              absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10
+              w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+              transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg
+              shadow-md hover:shadow-lg hover:scale-110
               ${
                 nextBtnDisabled
-                  ? 'opacity-30 cursor-not-allowed'
+                  ? 'opacity-30 cursor-not-allowed scale-100'
                   : 'opacity-80 hover:opacity-100 cursor-pointer'
               }
               ${arrowClassName}
             `}
             disabled={nextBtnDisabled}
-            style={{
-              backgroundColor: COLORS.glass?.background || 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: SHADOWS.md,
-            }}
             onClick={scrollNext}
           >
-            <ChevronRightIcon className="w-5 h-5 text-gray-700" />
+            <ChevronRightIcon className="w-5 h-5 text-gray-700 dark:text-gray-50" />
           </button>
         </>
       )}
 
       {/* Dot Indicators */}
       {showDots && slides.length > 1 && scrollSnaps.length > 1 && (
-        <div className="embla__dots flex justify-center space-x-2 mt-4">
+        <div className="flex justify-center space-x-2 mt-4">
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
               aria-current={index === selectedIndex ? 'true' : 'false'}
               aria-label={`Go to slide ${index + 1}`}
               className={`
-                embla__dot w-2 h-2 rounded-full transition-all duration-200
+                w-2 h-2 rounded-full transition-all duration-200
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
                 ${
                   index === selectedIndex

@@ -337,7 +337,7 @@ class ChunkPreloadingService {
       await new Promise(resolve => setTimeout(resolve, this.config.preloadDelay));
 
       // Attempt to preload the chunk
-      const _module = await this.importChunk(chunkName);
+      await this.importChunk(chunkName);
 
       metric.preloadEndTime = performance.now();
       metric.success = true;
@@ -366,10 +366,20 @@ class ChunkPreloadingService {
   private async importChunk(chunkName: string) {
     // Map chunk names to actual import paths
     const chunkImportMap: Record<string, () => Promise<unknown>> = {
+      // Core chunks - these are already loaded, so just return a resolved promise
+      'app-core': () => Promise.resolve(),
+      'layout-components': () => Promise.resolve(),
+      'navigation-components': () => Promise.resolve(),
+
+      // Feature chunks
       'weather-components': () => import('@/components/weather/CurrentWeatherDetails'),
       'dashboard-components': () => import('@/components/dashboard/CustomizableDashboard'),
       'accessibility-components': () => import('@/components/utilities/AriaLiveDebugPanel'),
-      'form-components': () => import('@/components/search/SearchEngine'),
+      'form-components': () => import('@/components/language/LanguageSelector'),
+      'chart-components': () => import('@/components/dashboard/CustomizableDashboard'),
+      'showcase-components': () => import('@/components/utilities/AriaLiveDebugPanel'),
+      'demo-components': () => Promise.resolve(),
+      'performance-utils': () => Promise.resolve(),
     };
 
     const importFn = chunkImportMap[chunkName];

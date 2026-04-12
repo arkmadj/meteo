@@ -46,7 +46,8 @@ export interface AccentColorPickerProps extends Omit<BaseComponentProps, 'size'>
 // PRESET COLORS
 // ============================================================================
 
-const DEFAULT_PRESET_COLORS = [
+// Function to get default preset colors (avoids circular dependency issues)
+const getDefaultPresetColors = () => [
   // Primary blues
   COLORS.primary[500],
   COLORS.primary[600],
@@ -90,7 +91,7 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
   size = 'md',
   showPresets = true,
   showInput = true,
-  presetColors = DEFAULT_PRESET_COLORS,
+  presetColors,
   disabled = false,
   label,
   helperText,
@@ -100,6 +101,8 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
   testId,
   ...props
 }) => {
+  // Get default preset colors if not provided
+  const effectivePresetColors = presetColors || getDefaultPresetColors();
   const { t: _t } = useTranslation('common');
   const { isDisabled } = useComponentState({
     disabled,
@@ -220,7 +223,9 @@ const AccentColorPicker: React.FC<AccentColorPickerProps> = ({
           {showPresets && (
             <div className="accent-color-presets">
               <div className="accent-color-presets-grid">
-                {presetColors.map(color => renderColorSwatch(color, color === selectedColor))}
+                {effectivePresetColors.map((color, index) => (
+                  <div key={index}>{renderColorSwatch(color, color === selectedColor)}</div>
+                ))}
               </div>
             </div>
           )}

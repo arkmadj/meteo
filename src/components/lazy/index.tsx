@@ -112,9 +112,10 @@ export const AriaLiveDebugPanel = createShowcaseLazyComponent(
   'Aria Live Debug Panel'
 );
 
-export const GlobalEventHandler = createLazyComponent(
-  () => import('@/components/utilities/GlobalEventHandler')
-);
+// GlobalEventHandler is statically imported in QueryProvider, so no need for lazy loading
+// export const GlobalEventHandler = createLazyComponent(
+//   () => import('@/components/utilities/GlobalEventHandler')
+// );
 
 // ============================================================================
 // EXPORT GROUPS FOR CONVENIENCE
