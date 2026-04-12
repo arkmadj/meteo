@@ -7,7 +7,7 @@
  * for debugging lint errors in CI environments.
  */
 
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
 
 // ANSI color codes for better visibility
 const colors = {

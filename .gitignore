@@ -27,6 +27,8 @@ Thumbs.db
 .cache/
 .parcel-cache/
 .eslintcache
+.wrangler/
+.yarn/
 
 # Lint/format reports
 eslint-report.json

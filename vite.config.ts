@@ -1,3 +1,4 @@
+import { cloudflare } from '@cloudflare/vite-plugin';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -30,6 +31,7 @@ export default defineConfig({
     react({
       include: /\.(js|jsx|ts|tsx)$/,
     }),
+    cloudflare(),
     // QR code plugin for mobile access
     vitePluginQRCode(),
     // Suppress benign asset warnings
@@ -309,7 +311,7 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: './postcss.config.js',
+    postcss: './postcss.config.cjs',
     devSourcemap: true,
     modules: {
       localsConvention: 'camelCase',
