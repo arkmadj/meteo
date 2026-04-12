@@ -34,7 +34,7 @@ const Forecast = React.memo(
     toggleTemperatureUnit,
   }: ForecastProps) => {
     const { data, forecast } = weather;
-    const [useCustomizableDashboard, setUseCustomizableDashboard] = useState(false);
+    const [useCustomizableDashboard] = useState(false);
 
     // Generate hourly forecast data
     const hourlyForecast = useMemo(() => {
