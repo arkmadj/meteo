@@ -276,8 +276,8 @@
 
   .side-drawer-top,
   .side-drawer-bottom {
-    height: 80vh !important;
-    max-height: 80vh;
+    height: 80dvh !important;
+    max-height: 80dvh;
   }
 }
 

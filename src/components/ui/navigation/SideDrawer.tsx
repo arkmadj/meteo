@@ -105,10 +105,10 @@ const getDrawerSize = (size: DrawerSize, position: DrawerPosition): string => {
   const isVertical = position === 'left' || position === 'right';
 
   const sizes = {
-    small: isVertical ? '320px' : '30vh',
-    medium: isVertical ? '480px' : '50vh',
-    large: isVertical ? '640px' : '70vh',
-    full: isVertical ? '100vw' : '100vh',
+    small: isVertical ? '320px' : '30dvh',
+    medium: isVertical ? '480px' : '50dvh',
+    large: isVertical ? '640px' : '70dvh',
+    full: isVertical ? '100vw' : '100dvh',
   };
 
   return sizes[size];

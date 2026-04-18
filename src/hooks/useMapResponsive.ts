@@ -216,9 +216,9 @@ export function useMapHeight(defaultHeight: number = 500): string {
     if (isMobile) {
       // On mobile, use viewport-based height
       if (isLandscape) {
-        return '60vh'; // Smaller in landscape to leave room for controls
+        return '60dvh'; // Smaller in landscape to leave room for controls
       }
-      return '50vh';
+      return '50dvh';
     }
 
     if (isTablet) {

@@ -37,7 +37,7 @@ const MapPage: React.FC = () => {
       </div>
 
       {/* Map Content */}
-      <div className="h-[calc(100vh-250px)]">
+      <div className="h-[calc(100dvh-250px)]">
         <LazyBaseWeatherMap
           preloadStrategy="immediate"
           height="100%"
