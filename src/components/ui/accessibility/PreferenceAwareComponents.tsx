@@ -182,7 +182,7 @@ export const PreferenceAwareModal: React.FC<PreferenceAwareModalProps> = ({
   `;
 
   const modalClasses = `
-    bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-auto
+    bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90dvh] overflow-auto
     ${shouldUseReducedAnimations() ? '' : 'animate-slideUp'}
     ${preferences.prefersHighContrast ? 'border-4 border-black' : ''}
     ${preferences.colorScheme === 'dark' ? 'bg-gray-800 text-white' : ''}

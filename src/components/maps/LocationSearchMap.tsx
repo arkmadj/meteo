@@ -118,7 +118,7 @@ const LocationSearchMap: React.FC<LocationSearchMapProps> = ({
   const responsiveHeight = useMemo(() => {
     const defaultHeight = parseInt(height) || 500;
     if (responsive.isMobile) {
-      return responsive.isLandscape ? '45vh' : '40vh';
+      return responsive.isLandscape ? '45dvh' : '40dvh';
     }
     if (responsive.isTablet) {
       return '350px';
