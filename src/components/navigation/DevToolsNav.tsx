@@ -200,7 +200,7 @@ const QuickNav: React.FC<QuickNavProps> = ({ position = 'bottom-right', classNam
           </div>
 
           {/* Navigation Items */}
-          <nav className="py-2 max-h-[60vh] overflow-y-auto" aria-label="Quick navigation menu">
+          <nav className="py-2 max-h-[60dvh] overflow-y-auto" aria-label="Quick navigation menu">
             {filteredItems.map(item => (
               <Link
                 key={item.path}

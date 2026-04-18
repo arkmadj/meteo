@@ -414,7 +414,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
             opacity: 1;
           }
           to {
-            transform: translateY(100vh) rotate(360deg);
+            transform: translateY(100dvh) rotate(360deg);
             opacity: 0;
           }
         }

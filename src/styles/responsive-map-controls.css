@@ -485,7 +485,7 @@
   }
 
   .map-search-dropdown {
-    max-height: 60vh;
+    max-height: 60dvh;
     border-radius: 0.5rem;
   }
 
@@ -730,12 +730,12 @@
 @media (max-width: 640px) and (orientation: landscape) {
   .map-legend,
   .radar-controls {
-    max-height: 40vh;
+    max-height: 40dvh;
     overflow-y: auto;
   }
 
   .map-search-dropdown {
-    max-height: 40vh;
+    max-height: 40dvh;
   }
 }
 

@@ -339,13 +339,13 @@
 }
 .modal-full {
   max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
 }
 
 .modal-header {
