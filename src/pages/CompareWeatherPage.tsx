@@ -106,10 +106,10 @@ const CompareWeatherPage: React.FC = () => {
       />
 
       {/* Main Content */}
-      <main className="py-6">
+      <main className="py-6 w-[calc(100vw-2rem)] mx-auto">
         <Container size="lg">
           {/* Page Title and Description */}
-          <div className="mb-6 px-4">
+          <div className="mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] mb-2">
               {t('common:navigation.compare', 'Compare Weather')}
             </h1>
@@ -120,7 +120,7 @@ const CompareWeatherPage: React.FC = () => {
 
           {/* Action Bar */}
           <div
-            className={`flex mb-6 px-4 ${
+            className={`flex mb-6 ${
               isMobile
                 ? 'flex-col gap-4'
                 : isTablet
@@ -162,7 +162,7 @@ const CompareWeatherPage: React.FC = () => {
 
           {/* Comparison Grid */}
           <Grid
-            className={`gap-4 ${isMobile ? 'px-2' : 'px-4'}`}
+            className={`gap-4`}
             templateColumns={
               isMobile
                 ? '1fr'
