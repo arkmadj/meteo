@@ -30,6 +30,9 @@
 /* Accent Color Picker */
 @import './styles/accent-color-picker.css';
 
+/* Configure dark mode variant for Tailwind CSS v4 */
+@variant dark (.dark &);
+
 @theme {
   /* Custom Colors */
   --color-weather-blue-50: #eff6ff;
