@@ -10,11 +10,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import AQIMeter from './AQIMeter';
-import AirQualityDetailModal from './AirQualityDetailModal';
 import WeatherDetailCard from '@/components/ui/weather/display/WeatherDetailCard';
+import { useTheme } from '@/design-system/theme';
 import { formatPollutantValue } from '@/services/airQualityService';
 import type { AirQualityData } from '@/types/airQuality';
+import AQIMeter from './AQIMeter';
+import AirQualityDetailModal from './AirQualityDetailModal';
 
 export interface AQIDetailCardProps {
   airQuality: AirQualityData;
@@ -32,19 +33,12 @@ const AQIDetailCard: React.FC<AQIDetailCardProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation(['weather']);
+  const { theme } = useTheme();
   const [showDetails, setShowDetails] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const {
-    aqi,
-    standard,
-    category,
-    color,
-    description,
-    healthAdvice,
-    pollutants,
-    dominantPollutant,
-  } = airQuality;
+  const { aqi, standard, category, description, healthAdvice, pollutants, dominantPollutant } =
+    airQuality;
 
   // Get dynamic text color based on AQI level
   const getTextColor = (): string => {
@@ -55,6 +49,17 @@ const AQIDetailCard: React.FC<AQIDetailCardProps> = ({
       return 'text-orange-600 dark:text-orange-400';
     if (aqi <= 80 || (standard === 'us' && aqi <= 200)) return 'text-red-600 dark:text-red-400';
     return 'text-purple-600 dark:text-purple-400';
+  };
+
+  // Get theme-aware pollutant level color
+  const getPollutantLevelColor = (level: string): string => {
+    if (level === 'Low' || level === 'Good') {
+      return theme.isDark ? '#10b981' : '#059669'; // green-500 / green-600
+    }
+    if (level === 'Moderate') {
+      return theme.isDark ? '#f59e0b' : '#d97706'; // amber-500 / amber-600
+    }
+    return theme.isDark ? '#ef4444' : '#dc2626'; // red-500 / red-600
   };
 
   const handleCardClick = () => {
@@ -110,16 +115,14 @@ const AQIDetailCard: React.FC<AQIDetailCardProps> = ({
 
             {/* Category and Description */}
             <div className="text-center">
-              <div className="text-sm font-semibold mb-1" style={{ color }}>
-                {category}
-              </div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">{description}</div>
+              <div className={`text-sm font-semibold mb-1 ${getTextColor()}`}>{category}</div>
+              <div className="text-xs text-gray-900 dark:text-gray-300">{description}</div>
             </div>
 
             {/* Dominant Pollutant */}
             {dominantPollutant && (
               <div className="text-center py-2 px-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Primary Pollutant
                 </div>
                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -147,64 +150,8 @@ const AQIDetailCard: React.FC<AQIDetailCardProps> = ({
               </button>
             </div>
 
-            {/* Health Advice - Collapsible */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
-              <button
-                className="w-full flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-                onClick={event => {
-                  event.stopPropagation();
-                  setShowDetails(!showDetails);
-                }}
-                type="button"
-                aria-expanded={showDetails ? 'true' : 'false'}
-              >
-                <span>Health Advice</span>
-                <svg
-                  className={`w-4 h-4 transition-transform duration-200 ${showDetails ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 9l-7 7-7-7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                  />
-                </svg>
-              </button>
-
-              {showDetails && (
-                <div className="mt-3 space-y-3 text-xs text-gray-600 dark:text-gray-400 animate-fadeIn">
-                  {/* General Population */}
-                  <div className="p-2 bg-blue-50 dark:bg-blue-950/30 rounded">
-                    <div className="font-semibold text-blue-900 dark:text-blue-300 mb-1">
-                      👥 General Population
-                    </div>
-                    <div>{healthAdvice.general}</div>
-                  </div>
-
-                  {/* Sensitive Groups */}
-                  <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded">
-                    <div className="font-semibold text-amber-900 dark:text-amber-300 mb-1">
-                      ⚠️ Sensitive Groups
-                    </div>
-                    <div>{healthAdvice.sensitive}</div>
-                  </div>
-
-                  {/* Outdoor Activities */}
-                  <div className="p-2 bg-green-50 dark:bg-green-950/30 rounded">
-                    <div className="font-semibold text-green-900 dark:text-green-300 mb-1">
-                      🏃 Outdoor Activities
-                    </div>
-                    <div>{healthAdvice.outdoor}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Pollutants Breakdown - Collapsible */}
-            {Object.keys(pollutants).length > 0 && (
+            <div className="max-h-32 overflow-y-auto pr-2 custom-scrollbar-thin">
+              {/* Health Advice - Collapsible */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
                 <button
                   className="w-full flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
@@ -215,54 +162,109 @@ const AQIDetailCard: React.FC<AQIDetailCardProps> = ({
                   type="button"
                   aria-expanded={showDetails ? 'true' : 'false'}
                 >
-                  <span>Pollutant Details</span>
-                  <span className="text-xs text-gray-500">
-                    {Object.keys(pollutants).length} pollutants
-                  </span>
+                  <span>Health Advice</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${showDetails ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 9l-7 7-7-7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                    />
+                  </svg>
                 </button>
 
                 {showDetails && (
-                  <div className="mt-3 space-y-2 animate-fadeIn">
-                    {Object.entries(pollutants).map(([key, pollutant]) => (
-                      <div
-                        key={key}
-                        className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800/50 rounded text-xs"
-                      >
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-900 dark:text-gray-100">
-                            {pollutant.name}
-                          </div>
-                          <div className="text-gray-500 dark:text-gray-400">
-                            {pollutant.description}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-semibold text-gray-900 dark:text-gray-100">
-                            {formatPollutantValue(pollutant)}
-                          </div>
-                          <div
-                            className="text-xs font-medium"
-                            style={{
-                              color:
-                                pollutant.level === 'Low' || pollutant.level === 'Good'
-                                  ? '#10b981'
-                                  : pollutant.level === 'Moderate'
-                                    ? '#f59e0b'
-                                    : '#ef4444',
-                            }}
-                          >
-                            {pollutant.level}
-                          </div>
-                        </div>
+                  <div className="mt-3 space-y-3 text-xs animate-fadeIn">
+                    {/* General Population */}
+                    <div className="p-2 bg-blue-50 dark:bg-blue-950/30 rounded">
+                      <div className="font-semibold text-blue-900 dark:text-blue-300 mb-1">
+                        👥 General Population
                       </div>
-                    ))}
+                      <div className="text-gray-700 dark:text-gray-300">{healthAdvice.general}</div>
+                    </div>
+
+                    {/* Sensitive Groups */}
+                    <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded">
+                      <div className="font-semibold text-amber-900 dark:text-amber-300 mb-1">
+                        ⚠️ Sensitive Groups
+                      </div>
+                      <div className="text-gray-700 dark:text-gray-300">
+                        {healthAdvice.sensitive}
+                      </div>
+                    </div>
+
+                    {/* Outdoor Activities */}
+                    <div className="p-2 bg-green-50 dark:bg-green-950/30 rounded">
+                      <div className="font-semibold text-green-900 dark:text-green-300 mb-1">
+                        🏃 Outdoor Activities
+                      </div>
+                      <div className="text-gray-700 dark:text-gray-300">{healthAdvice.outdoor}</div>
+                    </div>
                   </div>
                 )}
               </div>
-            )}
+
+              {/* Pollutants Breakdown - Collapsible */}
+              {Object.keys(pollutants).length > 0 && (
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+                  <button
+                    className="w-full flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                    onClick={event => {
+                      event.stopPropagation();
+                      setShowDetails(!showDetails);
+                    }}
+                    type="button"
+                    aria-expanded={showDetails ? 'true' : 'false'}
+                  >
+                    <span>Pollutant Details</span>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      {Object.keys(pollutants).length} pollutants
+                    </span>
+                  </button>
+
+                  {showDetails && (
+                    <div className="mt-3 space-y-2 animate-fadeIn">
+                      {Object.entries(pollutants).map(([key, pollutant]) => (
+                        <div
+                          key={key}
+                          className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800/50 rounded text-xs"
+                        >
+                          <div className="flex-1 flex flex-col items-start">
+                            <div className="font-medium text-gray-900 dark:text-gray-100">
+                              {pollutant.name}
+                            </div>
+                            <div className="text-gray-600 dark:text-gray-400">
+                              {pollutant.description}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-semibold text-gray-900 dark:text-gray-100">
+                              {formatPollutantValue(pollutant)}
+                            </div>
+                            <div
+                              className="text-xs font-medium"
+                              style={{
+                                color: getPollutantLevelColor(pollutant.level),
+                              }}
+                            >
+                              {pollutant.level}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Standard Indicator */}
-            <div className="text-center text-xs text-gray-400 dark:text-gray-500">
+            <div className="text-center text-xs text-gray-600 dark:text-gray-400">
               {standard === 'european' ? 'European AQI' : 'US AQI'} Standard
             </div>
           </div>
