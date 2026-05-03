@@ -35,11 +35,11 @@ const App = () => {
   const weatherFormatting = useWeatherFormatting();
   const weatherActions = useWeatherActions(weatherState);
 
-  // React Query hooks
+  // React Query hooks - no caching for reliable fresh data
   const weatherQuery = useCompleteWeatherQuery(weatherState.searchQuery, 7, {
     enabled: !!weatherState.searchQuery,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 30 * 60 * 1000, // 30 minutes
+    staleTime: 0, // Always fetch fresh data
+    gcTime: 0, // No caching
   });
 
   // Handle side effects with ARIA announcements

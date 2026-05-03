@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import FavoriteLocationsDrawer from './FavoriteLocationsDrawer';
 import useFavoriteLocations from '@/hooks/useFavoriteLocations';
+import FavoriteLocationsDrawer from './FavoriteLocationsDrawer';
 
 export interface FavoriteLocationsDrawerTriggerProps {
   /** Optional callback when a favorite location is selected from the drawer. */

@@ -47,8 +47,8 @@ const SearchEngine = React.memo(
     const { data: reverseGeocodingData, isLoading: reverseGeocodingLoading } =
       useReverseGeocodingQuery(position?.latitude ?? 0, position?.longitude ?? 0, {
         enabled: usingCurrentLocation && !!position,
-        staleTime: 24 * 60 * 60 * 1000,
-        cacheTime: 7 * 24 * 60 * 60 * 1000,
+        staleTime: 0,
+        cacheTime: 0,
         retry: 2,
       });
 

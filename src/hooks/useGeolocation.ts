@@ -1,13 +1,13 @@
 /**
  * Geolocation Hook with Snackbar Integration
  * Handles browser geolocation with automatic error notifications
- * Enhanced with permission checking, retry logic, caching, and improved error handling
+ * Enhanced with permission checking, retry logic, and improved error handling
+ * No caching - always fetch fresh location data
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useSnackbar } from '@/contexts/SnackbarContext';
-import { cacheLocation, getCachedLocation, isCachedLocationValid } from '@/utils/locationCache';
 
 export interface GeoPosition {
   latitude: number;
@@ -33,8 +33,6 @@ export interface UseGeolocationOptions {
   retryAttempts?: number;
   retryDelay?: number;
   checkPermissionFirst?: boolean;
-  useCache?: boolean;
-  cacheDuration?: number;
 }
 
 export interface UseGeolocationReturn {
@@ -68,6 +66,7 @@ const checkPermissionStatus = async (): Promise<PermissionState | null> => {
 
 /**
  * Hook for accessing browser geolocation with automatic snackbar notifications
+ * No caching - always fetch fresh location data
  */
 export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocationReturn => {
   const {
@@ -81,8 +80,6 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
     retryAttempts = 1, // 1 retry after initial = 2 total attempts
     retryDelay = 2000,
     checkPermissionFirst = true,
-    useCache = true,
-    cacheDuration = 5 * 60 * 1000, // 5 minutes
   } = options;
 
   const { showError, showWarning, showSuccess, showInfo } = useSnackbar();
@@ -114,23 +111,13 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
       setRetryCount(0);
       currentRetryCount.current = 0; // Reset retry counter
 
-      // Cache the location if caching is enabled
-      if (useCache) {
-        cacheLocation(
-          geoPosition.latitude,
-          geoPosition.longitude,
-          geoPosition.accuracy,
-          cacheDuration
-        );
-      }
-
       if (showNotifications) {
         showSuccess('Location detected successfully', 2000);
       }
 
       onSuccess?.(geoPosition);
     },
-    [onSuccess, showSuccess, showNotifications, useCache, cacheDuration]
+    [onSuccess, showSuccess, showNotifications]
   );
 
   const handleError = useCallback(
@@ -255,30 +242,6 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
       return;
     }
 
-    // Check cache first if enabled
-    if (useCache) {
-      const cached = getCachedLocation();
-      if (cached && isCachedLocationValid(cacheDuration, 100)) {
-        const cachedPosition: GeoPosition = {
-          latitude: cached.latitude,
-          longitude: cached.longitude,
-          accuracy: cached.accuracy,
-          timestamp: cached.timestamp,
-        };
-
-        setPosition(cachedPosition);
-        setError(null);
-        setLoading(false);
-
-        if (showNotifications) {
-          showSuccess('Using cached location', 2000);
-        }
-
-        onSuccess?.(cachedPosition);
-        return;
-      }
-    }
-
     // Check permission status first if enabled
     if (checkPermissionFirst) {
       const currentPermissionState = await checkPermissionStatus();
@@ -321,8 +284,6 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
     });
   }, [
     isSupported,
-    useCache,
-    cacheDuration,
     checkPermissionFirst,
     enableHighAccuracy,
     timeout,
@@ -332,9 +293,7 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
     showNotifications,
     showError,
     showInfo,
-    showSuccess,
     onError,
-    onSuccess,
   ]);
 
   const clearError = useCallback(() => {

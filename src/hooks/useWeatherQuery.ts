@@ -264,7 +264,7 @@ export const useWeatherQuery = (location: string, options: WeatherQueryOptions =
   });
 
   const lifecycle = resolveStaleWhileRevalidateConfig(options, {
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -278,8 +278,8 @@ export const useWeatherQuery = (location: string, options: WeatherQueryOptions =
       return current;
     },
     enabled: !!location && (options.enabled ?? true),
-    staleTime: lifecycle.staleTime,
-    gcTime: options.cacheTime ?? 30 * 60 * 1000, // 30 minutes
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     refetchOnMount: lifecycle.refetchOnMount,
     refetchOnWindowFocus: lifecycle.refetchOnWindowFocus,
     refetchOnReconnect: lifecycle.refetchOnReconnect,
@@ -312,7 +312,7 @@ export const useForecastQuery = (
   });
 
   const lifecycle = resolveStaleWhileRevalidateConfig(options, {
-    staleTime: 10 * 60 * 1000,
+    staleTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -326,8 +326,8 @@ export const useForecastQuery = (
       return forecast.slice(0, days);
     },
     enabled: !!location && (options.enabled ?? true),
-    staleTime: lifecycle.staleTime,
-    gcTime: options.cacheTime ?? 30 * 60 * 1000, // 30 minutes
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     refetchOnMount: lifecycle.refetchOnMount,
     refetchOnWindowFocus: lifecycle.refetchOnWindowFocus,
     refetchOnReconnect: lifecycle.refetchOnReconnect,
@@ -360,7 +360,7 @@ export const useCompleteWeatherQuery = (
   });
 
   const lifecycle = resolveStaleWhileRevalidateConfig(options, {
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -377,8 +377,8 @@ export const useCompleteWeatherQuery = (
       };
     },
     enabled: !!location && (options.enabled ?? true),
-    staleTime: lifecycle.staleTime,
-    gcTime: options.gcTime ?? 30 * 60 * 1000, // 30 minutes
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     refetchOnMount: lifecycle.refetchOnMount,
     refetchOnWindowFocus: lifecycle.refetchOnWindowFocus,
     refetchOnReconnect: lifecycle.refetchOnReconnect,
@@ -410,8 +410,8 @@ export const useGeocodingQuery = (
     queryKey: queryKeys.geocoding.search(query),
     queryFn: () => searchCities(query),
     enabled: !!query.trim() && (options.enabled ?? true),
-    staleTime: options.staleTime ?? 24 * 60 * 60 * 1000, // 24 hours
-    gcTime: options.cacheTime ?? 7 * 24 * 60 * 60 * 1000, // 7 days
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     retry: options.retry ?? 2,
     retryDelay:
       options.retryDelay ??
@@ -439,8 +439,8 @@ export const useReverseGeocodingQuery = (
     queryKey: queryKeys.geocoding.reverse(latitude, longitude),
     queryFn: () => fetchGeocodingData(`${latitude},${longitude}`),
     enabled: !!latitude && !!longitude && (options.enabled ?? true),
-    staleTime: options.staleTime ?? 24 * 60 * 60 * 1000, // 24 hours
-    gcTime: options.cacheTime ?? 7 * 24 * 60 * 60 * 1000, // 7 days
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     retry: options.retry ?? 2,
     retryDelay:
       options.retryDelay ??

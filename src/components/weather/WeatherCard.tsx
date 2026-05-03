@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import ReactAnimatedWeather from 'react-animated-weather';
 import { useTranslation } from 'react-i18next';
 
+import Tooltip from '@/components/ui/feedback/Tooltip';
 import TemperatureToggle from '@/components/ui/weather/metrics/temperature/TemperatureToggle';
 import { ICON_SIZES } from '@/constants/ui';
 import { useTheme } from '@/design-system/theme';
@@ -52,11 +53,13 @@ const FavoriteLocationButton: React.FC<FavoriteLocationButtonProps> = ({
   locationLabel,
   className = '',
 }) => {
-  const { addFavorite, removeFavorite, isFavorite } = useFavoriteLocations();
+  const { addFavorite, removeFavorite, isFavorite, favorites, maxFavorites } =
+    useFavoriteLocations();
 
   const trimmedLabel = locationLabel.trim();
-  const isDisabled = trimmedLabel.length === 0;
-  const isActive = !isDisabled && isFavorite(trimmedLabel);
+  const isActive = trimmedLabel.length > 0 && isFavorite(trimmedLabel);
+  const isMaxReached = favorites.length >= maxFavorites && !isActive;
+  const isDisabled = trimmedLabel.length === 0 || isMaxReached;
 
   const handleClick = () => {
     if (isDisabled) return;
@@ -85,7 +88,7 @@ const FavoriteLocationButton: React.FC<FavoriteLocationButtonProps> = ({
 
   const disabledClasses = isDisabled ? 'opacity-60 cursor-not-allowed hover:scale-100' : '';
 
-  return (
+  const button = (
     <button
       type="button"
       aria-label={isActive ? 'Remove location from favorites' : 'Add location to favorites'}
@@ -106,6 +109,17 @@ const FavoriteLocationButton: React.FC<FavoriteLocationButtonProps> = ({
       </svg>
     </button>
   );
+
+  // Wrap with tooltip only when max favorites is reached
+  if (isMaxReached) {
+    return (
+      <Tooltip content="Max favorites reached" position="left">
+        {button}
+      </Tooltip>
+    );
+  }
+
+  return button;
 };
 
 const WeatherCard: React.FC<WeatherCardProps> = ({
@@ -128,7 +142,8 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
   const prefersReducedMotion = usePrefersReducedMotion();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [currentVariant, setCurrentVariant] = useState<'default' | 'compact' | 'detailed'>(variant);
-  const locationLabel = weather.country ? `${weather.city}, ${weather.country}` : weather.city;
+  // Only save city name as favorite for reliable geocoding lookups
+  const locationLabel = weather.city;
 
   // Update current time every minute if showTime is enabled
   useEffect(() => {
