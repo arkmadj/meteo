@@ -453,7 +453,7 @@ export const generateHourlyForecast = (
  */
 export const fetchCompleteWeatherData = async (
   searchQuery: string,
-  days: number = 7,
+  _days: number = 7,
   temperatureUnit: TemperatureUnit = 'celsius'
 ): Promise<{
   current: CurrentWeatherData;

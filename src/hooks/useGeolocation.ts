@@ -293,9 +293,7 @@ export const useGeolocation = (options: UseGeolocationOptions = {}): UseGeolocat
     showNotifications,
     showError,
     showInfo,
-    showSuccess,
     onError,
-    onSuccess,
   ]);
 
   const clearError = useCallback(() => {
