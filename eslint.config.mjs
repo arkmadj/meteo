@@ -707,12 +707,9 @@ export default [
       '.prettier.local.cjs',
       'eslint.config.js',
       'eslint.config.mjs',
-      'eslint.config.with-custom-rules.js',
-      'eslint.multi-env.config.js',
       'vite.config.ts',
       // Other files
       'public/sw.js',
-      'src/setupTests.js',
       'scripts/fix-storybook-conflicts.js',
       'scripts/fix-unused-vars.js',
       'eslint-report.json',
