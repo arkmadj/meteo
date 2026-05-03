@@ -19,13 +19,14 @@ import { ErrorCategory } from '@/types/error';
 
 /**
  * Query behavior configuration
+ * Updated to disable caching for reliable fresh weather data
  */
 export const QUERY_CONFIG = {
-  // Cache time - how long inactive queries stay in cache
-  CACHE_TIME: 30 * 60 * 1000, // 30 minutes
+  // Cache time - disabled for fresh data
+  CACHE_TIME: 0, // No caching
 
-  // Stale time - how long data is considered fresh
-  STALE_TIME: 5 * 60 * 1000, // 5 minutes
+  // Stale time - always fetch fresh data
+  STALE_TIME: 0, // Always stale, always refetch
 
   // Retry configuration
   MAX_RETRIES: 3,

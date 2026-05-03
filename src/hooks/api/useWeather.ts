@@ -98,8 +98,8 @@ export function useLocationSearch(
     queryKey: weatherKeys.searchByQuery(params.query, params),
     queryFn: () => WeatherService.searchLocations(params),
     enabled: Boolean(params.query?.trim() && params.query.length >= 2),
-    staleTime: 10 * 60 * 1000, // 10 minutes for location data
-    gcTime: 30 * 60 * 1000, // 30 minutes
+    staleTime: 0, // No caching - always fetch fresh
+    gcTime: 0, // No caching
     ...options,
   });
 }
