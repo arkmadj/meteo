@@ -166,6 +166,14 @@ export const createErrorHandler = (logger: ErrorLogger = defaultErrorLogger): Er
     const classification = classifyError(error);
     const errorId = generateErrorId();
 
+    // Enrich context with additional debugging info
+    const enrichedContext = {
+      ...context,
+      url: typeof window !== 'undefined' ? window.location.href : undefined,
+      timestamp: new Date().toISOString(),
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+    };
+
     const appError: AppError = {
       id: errorId,
       type: classification.type,
@@ -175,7 +183,7 @@ export const createErrorHandler = (logger: ErrorLogger = defaultErrorLogger): Er
       userMessage: getErrorMessage(classification.type, error), // This will be overridden by i18n
       timestamp: Date.now(),
       retryable: isRetryable(classification.type),
-      context,
+      context: enrichedContext,
       originalError: error,
     };
 

@@ -8,6 +8,7 @@ import React, { createContext, useContext, useMemo, useReducer } from 'react';
 import { ErrorContextUnavailableError } from '@/errors/domainErrors';
 import type { AppError, ErrorAction, ErrorState } from '@/types/error';
 import { createErrorHandler } from '@/utils/errorHandler';
+import { errorMonitor } from '@/utils/errorMonitoring';
 
 // Initial error state
 const initialErrorState: ErrorState = {
@@ -84,12 +85,19 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
   const handleError = (error: unknown, context?: Record<string, unknown>): AppError => {
     const handler = createErrorHandler();
     const appError = handler(error, context);
+
+    // Record error for monitoring
+    errorMonitor.recordError(appError);
+
     dispatch({ type: 'ADD_ERROR', payload: appError });
     return appError;
   };
 
   // Add error to state
   const addError = (error: AppError) => {
+    // Record error for monitoring
+    errorMonitor.recordError(error);
+
     dispatch({ type: 'ADD_ERROR', payload: error });
   };
 
