@@ -151,11 +151,7 @@ const EnhancedErrorDisplay: React.FC<EnhancedErrorDisplayProps> = ({
 
         {/* Suggestions */}
         {showSuggestions && suggestions.length > 0 && (
-          <div
-            className={`rounded-md p-3 ${
-              theme.isDark ? 'bg-gray-800/50' : 'bg-gray-50'
-            }`}
-          >
+          <div className={`rounded-md p-3 ${theme.isDark ? 'bg-gray-800/50' : 'bg-gray-50'}`}>
             <h4 className="font-medium text-sm mb-2">💡 {t('common:suggestions')}</h4>
             <ul className="space-y-1 text-sm">
               {suggestions.map((suggestion, index) => (
