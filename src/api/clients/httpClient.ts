@@ -2,7 +2,7 @@
  * HTTP Client
  *
  * A centralized HTTP client with interceptors, error handling,
- * and request/response transformation capabilities.
+ * circuit breaker protection, and request/response transformation capabilities.
  */
 
 import type {
@@ -14,6 +14,12 @@ import type {
 } from 'axios';
 import axios from 'axios';
 
+import type { CircuitState } from '@/utils/circuitBreaker';
+import { CircuitBreaker } from '@/utils/circuitBreaker';
+import { getLogger } from '@/utils/logger';
+
+const logger = getLogger('HttpClient');
+
 /**
  * API Error interface
  */
@@ -22,6 +28,8 @@ export interface ApiError {
   code: string;
   status: number;
   details?: Record<string, unknown>;
+  retryable?: boolean;
+  circuitState?: CircuitState;
 }
 
 /**
@@ -33,6 +41,13 @@ interface HttpClientConfig {
   headers?: Record<string, string>;
   retries?: number;
   retryDelay?: number;
+  enableCircuitBreaker?: boolean;
+  circuitBreakerConfig?: {
+    failureThreshold: number;
+    minimumRequests: number;
+    resetTimeout: number;
+    windowSize: number;
+  };
 }
 
 /**
@@ -56,10 +71,12 @@ const DEFAULT_CONFIG: HttpClientConfig = {
  * - Response transformation
  * - Error handling and retries
  * - Timeout management
+ * - Circuit breaker protection
  */
 class HttpClient {
   private axiosInstance: AxiosInstance;
   private config: HttpClientConfig;
+  private circuitBreaker?: CircuitBreaker;
 
   constructor(config: HttpClientConfig = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
@@ -69,6 +86,21 @@ class HttpClient {
       timeout: this.config.timeout,
       headers: this.config.headers,
     });
+
+    // Initialize circuit breaker if enabled
+    if (this.config.enableCircuitBreaker) {
+      const cbConfig = this.config.circuitBreakerConfig || {
+        failureThreshold: 50,
+        minimumRequests: 5,
+        resetTimeout: 60000,
+        windowSize: 120000,
+      };
+      this.circuitBreaker = new CircuitBreaker({
+        ...cbConfig,
+        name: `HTTP-${this.config.baseURL || 'default'}`,
+      });
+      logger.info('Circuit breaker enabled for HTTP client', { config: cbConfig });
+    }
 
     this.setupInterceptors();
   }
@@ -161,14 +193,19 @@ class HttpClient {
    * Create standardized API error
    */
   private createApiError(error: AxiosError): ApiError {
+    const circuitState = this.circuitBreaker?.getState();
+
     if (error.response) {
       // Server responded with error status
       const data = error.response.data as Record<string, unknown>;
+      const status = error.response.status;
       return {
         message: (data?.message as string) || 'Server error occurred',
         code: (data?.code as string) || 'SERVER_ERROR',
-        status: error.response.status,
+        status,
         details: data?.details as Record<string, unknown> | undefined,
+        retryable: status >= 500 || status === 429,
+        circuitState,
       };
     } else if (error.request) {
       // Request was made but no response received
@@ -176,6 +213,8 @@ class HttpClient {
         message: 'Network error - no response received',
         code: 'NETWORK_ERROR',
         status: 0,
+        retryable: true,
+        circuitState,
       };
     } else {
       // Something else happened
@@ -183,8 +222,24 @@ class HttpClient {
         message: error.message || 'Unknown error occurred',
         code: 'UNKNOWN_ERROR',
         status: 500,
+        retryable: false,
+        circuitState,
       };
     }
+  }
+
+  /**
+   * Get circuit breaker statistics
+   */
+  getCircuitBreakerStats() {
+    return this.circuitBreaker?.getStats();
+  }
+
+  /**
+   * Reset circuit breaker
+   */
+  resetCircuitBreaker() {
+    this.circuitBreaker?.reset();
   }
 
   /**

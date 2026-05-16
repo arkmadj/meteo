@@ -68,6 +68,11 @@ export function fuzzyMatch(query: string, target: string, threshold: number = 0.
  * Find all occurrences of query characters in target string
  */
 export function findCharacterMatches(query: string, target: string): number[] {
+  // Handle undefined, null, or non-string values
+  if (!query || !target || typeof query !== 'string' || typeof target !== 'string') {
+    return [];
+  }
+
   const queryChars = query.toLowerCase().split('');
   const targetChars = target.toLowerCase().split('');
   const matches: number[] = [];
@@ -97,8 +102,10 @@ export function calculateLocationScore(
   const normalizedQuery = query.toLowerCase().trim();
   if (!normalizedQuery) return 0;
 
-  const name = location.name.toLowerCase();
-  const country = location.country.toLowerCase();
+  console.log({ location });
+
+  const name = location?.name?.toLowerCase() || '';
+  const country = location?.country?.toLowerCase() || '';
   const admin1 = location.admin1?.toLowerCase() || '';
 
   let score = 0;

@@ -492,7 +492,7 @@ export interface WeatherContentSkeletonProps {
 
 export const WeatherContentSkeleton: React.FC<WeatherContentSkeletonProps> = ({
   showCurrentWeather = true,
-  showWeatherDetails = true,
+  showWeatherDetails: _showWeatherDetails = true,
   showHistoricalComparison = true,
   showHourlyForecast = true,
   showForecast = true,
@@ -514,21 +514,21 @@ export const WeatherContentSkeleton: React.FC<WeatherContentSkeletonProps> = ({
       )}
 
       {/* Dashboard Toggle Section Skeleton */}
-      {showWeatherDetails && (
+      {/* {showWeatherDetails && (
         <div className="w-full mt-6">
           <div className="flex justify-between items-center mb-4 px-4">
             <SkeletonText width="8rem" height="1.125rem" />
             <SkeletonText width="9rem" height="2rem" className="rounded-md" />
           </div>
         </div>
-      )}
+      )} */}
 
       {/* CurrentWeatherDetails Skeleton */}
-      {showWeatherDetails && (
+      {/* {showWeatherDetails && (
         <div className="w-full mt-6">
           <CurrentWeatherDetailsSkeleton />
         </div>
-      )}
+      )} */}
 
       {/* HistoricalWeatherComparison Skeleton */}
       {showHistoricalComparison && (
@@ -569,12 +569,12 @@ export interface LoadingWithSkeletonProps {
 }
 
 export const LoadingWithSkeleton: React.FC<LoadingWithSkeletonProps> = ({
-  message = 'Loading weather data...',
+  message: _message = 'Loading weather data...',
   showSkeleton = true,
   variant = 'weather',
   className = '',
 }) => {
-  const { theme } = useTheme();
+  const { theme: _theme } = useTheme();
 
   return (
     <div
@@ -588,7 +588,7 @@ export const LoadingWithSkeleton: React.FC<LoadingWithSkeletonProps> = ({
       }}
     >
       {/* Loading Message */}
-      <div style={{ textAlign: 'center' }}>
+      {/* <div style={{ textAlign: 'center' }}>
         <div
           style={{
             width: '3rem',
@@ -609,7 +609,7 @@ export const LoadingWithSkeleton: React.FC<LoadingWithSkeletonProps> = ({
         >
           {message}
         </p>
-      </div>
+      </div> */}
 
       {/* Skeleton */}
       {showSkeleton && (
