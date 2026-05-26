@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
+import { safeToFixed } from '@/utils/safeNumberFormat';
+import { useCallback } from 'react';
 
 export type VisibilityUnit = 'm' | 'km' | 'mi' | 'nm';
 
@@ -53,10 +54,10 @@ export const useVisibilityUnit = () => {
         formattedValue =
           convertedVisibility >= 1000
             ? Math.round(convertedVisibility).toString()
-            : convertedVisibility.toFixed(0);
+            : safeToFixed(convertedVisibility, 0, '--');
       } else {
         // For other units, use decimal places
-        formattedValue = convertedVisibility.toFixed(decimals);
+        formattedValue = safeToFixed(convertedVisibility, decimals, '--');
       }
 
       if (!showUnit) return formattedValue;

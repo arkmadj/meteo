@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@/design-system/theme';
 import { useDateI18n } from '@/i18n/hooks/useDateI18n';
+import { safeFormatCoordinate } from '@/utils/safeNumberFormat';
 
 export interface CityDateInfoProps {
   /** City name */
@@ -246,7 +247,8 @@ const CityDateInfo: React.FC<CityDateInfoProps> = ({
                 <span className="font-medium">Coordinates:</span>
                 <br />
                 <span>
-                  {coordinates.latitude.toFixed(4)}°, {coordinates.longitude.toFixed(4)}°
+                  {safeFormatCoordinate(coordinates.latitude)}°,{' '}
+                  {safeFormatCoordinate(coordinates.longitude)}°
                 </span>
               </div>
             )}

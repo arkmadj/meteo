@@ -12,6 +12,7 @@ import { useSnackbar } from '@/contexts/SnackbarContext';
 import { useTheme } from '@/design-system/theme';
 import { useMapResponsive } from '@/hooks/useMapResponsive';
 import { fuzzySearchLocations } from '@/utils/fuzzySearch';
+import { safeFormatCoordinate } from '@/utils/safeNumberFormat';
 
 interface MapLocation {
   lat: number;
@@ -431,7 +432,8 @@ const LocationSearchMap: React.FC<LocationSearchMapProps> = ({
                       {marker.country}
                     </div>
                     <div className="text-xs">
-                      {marker.latitude.toFixed(4)}, {marker.longitude.toFixed(4)}
+                      {safeFormatCoordinate(marker.latitude)},{' '}
+                      {safeFormatCoordinate(marker.longitude)}
                     </div>
                   </div>
                   <div
@@ -473,8 +475,8 @@ const LocationSearchMap: React.FC<LocationSearchMapProps> = ({
                 Selected Location
               </h3>
               <p className={`text-sm ${theme.isDark ? 'text-blue-400' : 'text-blue-700'}`}>
-                {selectedLocation.name} • {selectedLocation.lat.toFixed(4)},{' '}
-                {selectedLocation.lng.toFixed(4)}
+                {selectedLocation.name} • {safeFormatCoordinate(selectedLocation.lat)},{' '}
+                {safeFormatCoordinate(selectedLocation.lng)}
               </p>
             </div>
             <div className="flex space-x-2">

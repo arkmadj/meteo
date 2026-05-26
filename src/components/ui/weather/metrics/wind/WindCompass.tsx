@@ -4,9 +4,10 @@
  */
 
 import { useTheme } from '@/design-system/theme';
+import { useWindSpeedUnit } from '@/hooks/useWindSpeedUnit';
+import { safeToFixed } from '@/utils/safeNumberFormat';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWindSpeedUnit } from '@/hooks/useWindSpeedUnit';
 
 interface WindCompassProps {
   windSpeed: number;
@@ -187,7 +188,7 @@ const WindCompass: React.FC<WindCompassProps> = ({
       {showValue && (
         <div className="text-center mb-3">
           <div className={`font-bold ${config.valueText}`} style={{ color: accentColor }}>
-            {windSpeed.toFixed(1)} m/s
+            {safeToFixed(windSpeed, 1, '--')} m/s
           </div>
           {showDirection && (
             <div className={`${config.text} font-medium`} style={{ color: secondaryTextColor }}>

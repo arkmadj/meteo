@@ -15,6 +15,7 @@ import { useTheme } from '@/design-system/theme';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useMapResponsive, useMapZoom } from '@/hooks/useMapResponsive';
 import { useMapUrlSync } from '@/hooks/useMapUrlSync';
+import { safeFormatCoordinate } from '@/utils/safeNumberFormat';
 import MapShareButton from './MapShareButton';
 
 // Fix for default markers in react-leaflet
@@ -73,7 +74,11 @@ const MapEventHandler: React.FC<{
   useMapEvents({
     click: e => {
       const { lat, lng } = e.latlng;
-      onLocationChange?.({ lat, lng, name: `${lat.toFixed(4)}, ${lng.toFixed(4)}` });
+      onLocationChange?.({
+        lat,
+        lng,
+        name: `${safeFormatCoordinate(lat)}, ${safeFormatCoordinate(lng)}`,
+      });
     },
     moveend: () => {
       if (onMapMove) {
@@ -146,7 +151,8 @@ const UserLocationMarker: React.FC<{
         <div className="text-center">
           <div className="font-semibold text-blue-600">📍 Your Location</div>
           <div className="text-sm text-gray-600 mt-1">
-            {location.name || `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`}
+            {location.name ||
+              `${safeFormatCoordinate(location.lat)}, ${safeFormatCoordinate(location.lng)}`}
           </div>
         </div>
       </Popup>
@@ -506,7 +512,7 @@ const BaseWeatherMap: React.FC<BaseWeatherMapProps> = ({
         <div className="text-sm">
           <div className="font-semibold mb-1">📍 {mapCenter.name || 'Selected Location'}</div>
           <div className="text-xs" style={{ color: theme.isDark ? '#9ca3af' : '#6b7280' }}>
-            {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
+            {safeFormatCoordinate(mapCenter.lat)}, {safeFormatCoordinate(mapCenter.lng)}
           </div>
           {userLocation && (
             <div className="text-xs mt-1" style={{ color: theme.accentColor }}>

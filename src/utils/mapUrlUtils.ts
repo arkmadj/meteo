@@ -2,6 +2,8 @@
  * Utility functions for encoding/decoding map state to/from URL parameters
  */
 
+import { safeFormatCoordinate } from './safeNumberFormat';
+
 export interface MapLocation {
   lat: number;
   lng: number;
@@ -28,10 +30,10 @@ export interface MapUrlState {
  */
 export function encodeBounds(bounds: MapBounds, precision: number = 4): string {
   return [
-    bounds.north.toFixed(precision),
-    bounds.south.toFixed(precision),
-    bounds.east.toFixed(precision),
-    bounds.west.toFixed(precision),
+    safeFormatCoordinate(bounds.north, precision),
+    safeFormatCoordinate(bounds.south, precision),
+    safeFormatCoordinate(bounds.east, precision),
+    safeFormatCoordinate(bounds.west, precision),
   ].join(',');
 }
 
@@ -60,8 +62,8 @@ export function encodeLocation(
   precision: number = 4
 ): Record<string, string> {
   const params: Record<string, string> = {
-    lat: location.lat.toFixed(precision),
-    lng: location.lng.toFixed(precision),
+    lat: safeFormatCoordinate(location.lat, precision),
+    lng: safeFormatCoordinate(location.lng, precision),
   };
 
   if (location.name) {
@@ -147,8 +149,8 @@ export function createShareableUrl(
   const url = new URL(baseUrl);
 
   if (state.center) {
-    url.searchParams.set('lat', state.center.lat.toFixed(precision));
-    url.searchParams.set('lng', state.center.lng.toFixed(precision));
+    url.searchParams.set('lat', safeFormatCoordinate(state.center.lat, precision));
+    url.searchParams.set('lng', safeFormatCoordinate(state.center.lng, precision));
     if (state.center.name) {
       url.searchParams.set('name', encodeURIComponent(state.center.name));
     }
