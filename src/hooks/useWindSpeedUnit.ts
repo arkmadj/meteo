@@ -2,8 +2,9 @@
  * Hook for managing wind speed unit preferences and conversions
  */
 
-import { useCallback } from 'react';
 import { useUserPreferencesContext } from '@/contexts/UserPreferencesContext';
+import { safeToFixed } from '@/utils/safeNumberFormat';
+import { useCallback } from 'react';
 
 export type WindSpeedUnit = 'ms' | 'kmh' | 'mph' | 'knots';
 
@@ -63,7 +64,7 @@ export const useWindSpeedUnit = () => {
       const showUnit = options?.showUnit ?? true;
 
       const convertedSpeed = convertWindSpeed(speedInMs, unit);
-      const formattedSpeed = convertedSpeed.toFixed(decimals);
+      const formattedSpeed = safeToFixed(convertedSpeed, decimals, '--');
 
       if (!showUnit) return formattedSpeed;
 

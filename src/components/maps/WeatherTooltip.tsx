@@ -5,12 +5,13 @@
  * when users hover or tap specific areas on the map.
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { useMap, useMapEvents } from 'react-leaflet';
 
 import { useTheme } from '@/design-system/theme';
+import { safeFormatCoordinate, safeFormatTemperature, safeToFixed } from '@/utils/safeNumberFormat';
 
 export interface WeatherDataPoint {
   lat: number;
@@ -92,7 +93,8 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ data, customRenderer })
   };
 
   // Temperature color indicator
-  const getTempColor = (temp: number): string => {
+  const getTempColor = (temp: number | null | undefined): string => {
+    if (temp == null || Number.isNaN(temp)) return '#6b7280'; // Gray for invalid
     if (temp >= 30) return '#ef4444'; // Hot - red
     if (temp >= 20) return '#f59e0b'; // Warm - orange
     if (temp >= 10) return '#10b981'; // Mild - green
@@ -126,7 +128,7 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ data, customRenderer })
           <div>
             <div className="text-xs text-gray-500">Temperature</div>
             <div className="text-2xl font-bold" style={{ color: getTempColor(data.temperature) }}>
-              {temperature.toFixed(1)}
+              {safeFormatTemperature(temperature)}
               {tempUnit}
             </div>
           </div>
@@ -136,7 +138,7 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ data, customRenderer })
       {/* Feels Like */}
       {feelsLike !== null && (
         <div className={`text-xs ${secondaryTextColor} mb-2`}>
-          Feels like: {feelsLike.toFixed(1)}
+          Feels like: {safeFormatTemperature(feelsLike)}
           {tempUnit}
         </div>
       )}
@@ -163,7 +165,7 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ data, customRenderer })
           <div>
             <div className={`text-xs ${secondaryTextColor}`}>Wind</div>
             <div className={`text-sm font-semibold ${textColor}`}>
-              {data.windSpeed.toFixed(1)} m/s
+              {safeToFixed(data.windSpeed, 1, '--')} m/s
             </div>
             {data.windDirection !== undefined && (
               <div className={`text-xs ${secondaryTextColor}`}>
@@ -187,7 +189,7 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ data, customRenderer })
 
       {/* Coordinates */}
       <div className={`text-xs ${secondaryTextColor} mt-2 pt-2 border-t ${borderColor}`}>
-        {data.lat.toFixed(4)}°, {data.lng.toFixed(4)}°
+        {safeFormatCoordinate(data.lat)}°, {safeFormatCoordinate(data.lng)}°
       </div>
     </div>
   );

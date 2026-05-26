@@ -9,6 +9,7 @@ export { default as debounce } from './debounce';
 export * from './errorHandler';
 export * from './fuzzySearch';
 export * from './logger';
+export * from './safeNumberFormat';
 export * from './sanitizer';
 export { default as weakMapCache } from './weakMapCache';
 

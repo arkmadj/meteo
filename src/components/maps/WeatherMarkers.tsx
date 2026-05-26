@@ -9,6 +9,7 @@ import React from 'react';
 import { CircleMarker, Tooltip } from 'react-leaflet';
 
 import { useTheme } from '@/design-system/theme';
+import { safeFormatTemperature } from '@/utils/safeNumberFormat';
 import type { WeatherDataPoint } from './WeatherTooltip';
 
 export interface WeatherMarkersProps {
@@ -128,7 +129,9 @@ const WeatherMarkers: React.FC<WeatherMarkersProps> = ({
                 className="weather-marker-label"
                 opacity={0.9}
               >
-                <div className="text-xs font-semibold">{point.temperature.toFixed(1)}°C</div>
+                <div className="text-xs font-semibold">
+                  {safeFormatTemperature(point.temperature)}°C
+                </div>
               </Tooltip>
             )}
           </CircleMarker>
