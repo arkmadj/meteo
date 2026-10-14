@@ -4,6 +4,8 @@ A modern, feature-rich weather application built with React, TypeScript, and
 Vite. Meteo provides real-time weather updates, interactive dashboards, and push
 notifications with a focus on performance, accessibility, and user experience.
 
+**🌐 Live Demo:** [meteo.ahmadjinadu.com](https://meteo.ahmadjinadu.com/)
+
 > **✨ Powered by TanStack Query v5** - Featuring intelligent caching, automatic
 > background updates, offline-first support, and built-in performance monitoring
 > for a seamless weather experience.
